@@ -340,11 +340,11 @@ int vip1_avs_init(void)
 {
 
 	scart_tv_sat	= stpio_request_pin (5, 3, "scart_tv_sat", STPIO_OUT);
-	scart_vcr_det	= stpio_request_pin (5, 6, "scart_vcr_det", STPIO_IN);
+	scart_vcr_det	= stpio_request_pin (5, 5, "scart_vcr_det", STPIO_IN);
 	scart_cvbs_rgb	= stpio_request_pin (5, 2, "scart_cvbs_rgb", STPIO_OUT);
-	scart_169_43	= stpio_request_pin (2, 6, "scart_169_43", STPIO_OUT);
+	scart_169_43	= stpio_request_pin (2, 4, "scart_169_43", STPIO_OUT);
 	scart_mute		= stpio_request_pin (2, 2, "scart_mute", STPIO_OUT);
-	scart_standby	= stpio_request_pin (2, 7, "scart_standby", STPIO_OUT);
+	scart_standby	= stpio_request_pin (2, 6, "scart_standby", STPIO_OUT);
 
 
 	if ((scart_tv_sat == NULL) || (scart_vcr_det == NULL) || (scart_cvbs_rgb == NULL)

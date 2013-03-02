@@ -1,3 +1,4 @@
+
 /*
  *   vip2_avs.c -
  *
@@ -394,9 +395,9 @@ int vip2_avs_command_kernel(unsigned int cmd, void *arg)
 
 int vip2_avs_init(void)
 {
-	srclk= stpio_request_pin (2, 5, "AVS_HC595_SRCLK", STPIO_OUT);
-	rclk = stpio_request_pin (2, 6, "AVS_HC595_RCLK", STPIO_OUT);
-	sda  = stpio_request_pin (2, 7, "AVS_HC595_SDA", STPIO_OUT);
+	srclk= stpio_request_pin (5, 2, "AVS_HC595_SRCLK", STPIO_OUT);
+	rclk = stpio_request_pin (5, 3, "AVS_HC595_RCLK", STPIO_OUT);
+	sda  = stpio_request_pin (5, 4, "AVS_HC595_SDA", STPIO_OUT);
 
 	if ((srclk == NULL) || (rclk == NULL) || (sda == NULL))
 	{
