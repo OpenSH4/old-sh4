@@ -65,6 +65,9 @@ if ((paramDebug) && (paramDebug > level)) printk(TAGDEBUG x); \
 
 static char *gmt = "+0000";
 
+short I2C_bus_num = I2C_BUS_NUM;		/* allow override of I2C Bus for Frontcontroller */
+short I2C_bus_add = I2C_BUS_ADD;		/* allow override of I2C Address for Frontcontroller */
+
 typedef struct {
 	int minor;
 	int open_count;
@@ -593,7 +596,8 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 			break;
 		}
 #endif
-#if defined(SPARK7162)
+//Use for HL101, this Aktivate Display Icons
+//#if defined(SPARK7162)
 		icon_nr = aotom_data.u.icon.icon_nr;
 		//e2 icons workarround
 		//printk("icon_nr = %d\n", icon_nr);
@@ -649,13 +653,13 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 				break;
 			}
 		}
-#endif		
+//#endif		
 		mode = 0;
 		break;
 	}
 	case VFDSTANDBY:
 	{
-#if defined(SPARK) || defined(SPARK7162)
+//#if defined(SPARK) || defined(SPARK7162)
 		u32 uTime = 0;
 		//u32 uStandByKey = 0;
 		//u32 uPowerOnTime = 0;
@@ -681,11 +685,12 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 		uStandByKey = YWPANEL_FP_GetStandByKey(4);
 		printk("uStandByKey = %d\n", uStandByKey);
 		#endif
+		VFD_clear_all_icons();
 		clear_display();
 		YWPANEL_FP_ControlTimer(true);
 		YWPANEL_FP_SetCpuStatus(YWPANEL_CPUSTATE_STANDBY);
 		res = 0;
-#endif
+//#endif
 		break;
 	}
 	case VFDSETTIME2:
@@ -704,12 +709,12 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 		break;
 	case VFDGETTIME:
 	{
-#if defined(SPARK) || defined(SPARK7162)
+//#if defined(SPARK) || defined(SPARK7162)
 		u32 uTime = 0;
 		uTime = YWPANEL_FP_GetTime();
 		//printk("uTime = %d\n", uTime);
 		res = put_user(uTime, (int *) arg);
-#endif
+//#endif
 		break;
 	}
 	case VFDGETWAKEUPMODE:
@@ -746,14 +751,6 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 		YWPANEL_STARTUPSTATE_t State;
 		if (YWPANEL_FP_GetStartUpState(&State))
 			res = put_user(State, (int *) arg);
-		break;
-	}
-	case VFDGETVERSION:
-	{
-		YWPANEL_Version_t panel_version;
-		memset(&panel_version, 0, sizeof(YWPANEL_Version_t));
-		if (YWPANEL_FP_GetVersion(&panel_version))
-			res = put_user (panel_version.DisplayInfo, (int *)arg);
 		break;
 	}
 
@@ -813,7 +810,7 @@ static void button_bad_polling(struct work_struct *work)
 		if (button_value != INVALID_KEY) {
 			dprintk(5, "got button: %X\n", button_value);
 			flashLED(LED_GREEN, 100);
-			//VFD_Show_Ico(DOT2,LOG_ON);
+			VFD_Show_Ico(DOT2,LOG_ON);
 			//YWPANEL_VFD_SetLed(1, LOG_ON);
 			if (1 == btn_pressed) {
 				if (report_key == button_value)
@@ -843,7 +840,7 @@ static void button_bad_polling(struct work_struct *work)
 			if(btn_pressed) {
 				btn_pressed = 0;
 				//msleep(80);
-				//VFD_Show_Ico(DOT2,LOG_OFF);
+				VFD_Show_Ico(DOT2,LOG_OFF);
 				//YWPANEL_VFD_SetLed(1, LOG_OFF);
 				input_report_key(button_dev, report_key, 0);
 				input_sync(button_dev);
@@ -1002,8 +999,17 @@ module_exit(aotom_cleanup_module);
 module_param(paramDebug, short, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
 MODULE_PARM_DESC(paramDebug, "Debug Output 0=disabled >0=enabled(debuglevel)");
 
+module_param(I2C_bus_num, short, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
+MODULE_PARM_DESC(I2C_bus_num, "I2C Bus for Frontcontroller (default: 1)");
+EXPORT_SYMBOL(I2C_bus_num);
+
+module_param(I2C_bus_add, short, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
+MODULE_PARM_DESC(I2C_bus_add, "I2C Address for Frontcontroller (default: 0x28)");
+EXPORT_SYMBOL(I2C_bus_add);
+
 module_param(gmt,charp,0);
 MODULE_PARM_DESC(gmt, "gmt offset (default +0000");
+
 
 MODULE_DESCRIPTION("VFD module for fulan boxes");
 MODULE_AUTHOR("Spider-Team, oSaoYa");

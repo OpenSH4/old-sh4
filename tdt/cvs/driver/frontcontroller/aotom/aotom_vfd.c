@@ -33,6 +33,7 @@
 #include <linux/i2c.h>
 #include <linux/stm/pio.h>
 
+#define __TRACE__				/* enable yw..printk */
 #include "aotom_ywdefs.h"
 #include "aotom_i2csoft.h"
 #include "aotom_trace.h"
@@ -41,11 +42,14 @@
 
 YWVFD_INFO_t YWVFD_INFO;
 
+extern short I2C_bus_num;		/* aotom_main: module_param */
+extern short I2C_bus_add;		/* aotom_main: module_param */
+
 static SegAddrVal_T VfdSegAddr[15];
 struct semaphore vfd_sem;
 struct semaphore vfd_sem_rw;
 struct rw_semaphore vfd_rws;
-static const char Revision[] = "Revision: 0.7";
+static const char Revision[] = "Revision: 0.7.1";		/* increase revision */
 static YWPANEL_FP_DispType_t	panel_disp_type = YWPANEL_FP_DISPTYPE_UNKNOWN;
 
 static u8 lbdValue = 0;
@@ -1335,8 +1339,8 @@ static int YWPANEL_FPWriteDataToI2c(	struct i2c_adapter* I2CHandle,
 										u32 readBufLen)
 {
 	int		ret	 = 0;
-	struct i2c_msg i2c_msg[] = {{ .addr = I2C_BUS_ADD, .flags = 0, .buf = writeBufer, .len = writeBufLen},
-								{ .addr = I2C_BUS_ADD, .flags = I2C_M_RD, .buf = readBuffer, .len = readBufLen}};
+	struct i2c_msg i2c_msg[] = {{ .addr = I2C_bus_add, .flags = 0, .buf = writeBufer, .len = writeBufLen},
+								{ .addr = I2C_bus_add, .flags = I2C_M_RD, .buf = readBuffer, .len = readBufLen}};
 
 	if(NULL == panel_i2c_adapter)
 	{
@@ -2650,27 +2654,29 @@ static int YWPANEL_VFD_DETECT(void)
 	int 	ret = 0;
 	u8	localBuff[2] = {0xaa, 0xaa};
 
-	struct i2c_msg i2c_msg = { .addr = I2C_BUS_ADD, .flags = 0, .buf = localBuff, .len = 2 };
+	struct i2c_msg i2c_msg = { .addr = I2C_bus_add, .flags = 0, .buf = localBuff, .len = 2 };
 
+	printk("%s: Frontcontroller I2C: %02x:%02x @%d\n", __FUNCTION__, I2C_bus_num, I2C_bus_add, __LINE__);
 	YWVFD_INFO.vfd_type = YWVFD_UNKNOWN;
-	//printk("%s:%d\n", __FUNCTION__, __LINE__);
-	panel_i2c_adapter = i2c_get_adapter(I2C_BUS_NUM);
+
+	panel_i2c_adapter = i2c_get_adapter(I2C_bus_num);
 	if(NULL == panel_i2c_adapter)
 	{
 		ywtrace_print(TRACE_ERROR,"i2c_get_adapter failed\n");
 		return -ENODEV;
 	}
 	/* use i2c write to detect */
-
-	//printk("%s:%d\n", __FUNCTION__, __LINE__);
 	ret = i2c_transfer(panel_i2c_adapter, &i2c_msg, 1);
-	if(ret == 1)
-		YWVFD_INFO.vfd_type = YWVFD_STAND_BY;
-	else
-		YWVFD_INFO.vfd_type = YWVFD_COMMON;
+	if (ret < 0 ) {
+		/* oops - no Frontcontroller at given Busnum:Addr??? */
+		printk("%s: error %d - no Frontcontroller? @%d\n", __FUNCTION__, ret, __LINE__);
+		return -ENODEV;
+	}
 
-	return 0;
-
+	YWVFD_INFO.vfd_type = (ret == 1) ? YWVFD_STAND_BY : YWVFD_COMMON;
+	ywtrace_print(TRACE_INFO,"%s: result=%d, vfd_type=%d\n", __FUNCTION__, ret, YWVFD_INFO.vfd_type );
+	
+	return 0;		/* success */
 }
 #endif
 
@@ -2725,8 +2731,6 @@ static int YWPANEL_VFD_Init_Unknown(void)
 static int YWPANEL_VFD_Init_StandBy(void)
 {
 	int ErrorCode = 0 ;
-	init_MUTEX(&vfd_sem);
-	init_MUTEX(&vfd_sem_rw);
 
 	YWPANEL_Seg_Addr_Init();
 	//YWPANEL_VFD_ShowString("welcome");
@@ -2738,15 +2742,13 @@ static int YWPANEL_VFD_Init_Common(void)
 {
 	int ErrorCode = 0 ;
 
-	init_MUTEX(&vfd_sem);
-	init_rwsem(&vfd_rws);
-
 	pio_sda = stpio_request_pin(3,2, "pio_sda", STPIO_OUT);
 	pio_scl = stpio_request_pin(3,4, "pio_scl", STPIO_OUT);
 	pio_cs  = stpio_request_pin(3,5, "pio_cs",  STPIO_OUT);
 	if (!pio_sda || !pio_scl || !pio_cs )
 	{
-	   return ErrorCode; // FIXME -- should't that return -ENODEV ?  --martii
+		ywtrace_print(TRACE_ERROR, "%s: stpio_request failed @%d\n", __FUNCTION__, __LINE__);
+		return -ENODEV;
 	}
 	stpio_set_pin(pio_scl, 1);
 	stpio_set_pin(pio_cs,  1);
@@ -2782,6 +2784,11 @@ int YWPANEL_width = 8;
 int YWPANEL_VFD_Init(void)
 {
 	int ErrorCode = -ENODEV;
+
+	/* initialize Semaphores */
+	init_MUTEX(&vfd_sem);
+	init_MUTEX(&vfd_sem_rw);
+	init_rwsem(&vfd_rws);
 
 	YWPANEL_Version_t panel_version;
 	YWPANEL_VFD_Initialize = YWPANEL_VFD_Init_Unknown;
@@ -2826,6 +2833,13 @@ int YWPANEL_VFD_Init(void)
 	}
 
 	ErrorCode = YWPANEL_VFD_Initialize();
+	printk("%s: YWPANEL_VFD_Initialize(): %d @%d\n", __FUNCTION__, ErrorCode, __LINE__);
+
+	printk("CpuType = %d\n", panel_version.CpuType);
+	printk("DisplayInfo = %d\n", panel_version.DisplayInfo);
+	printk("scankeyNum = %d\n", panel_version.scankeyNum);
+	printk("swMajorVersion = %d\n", panel_version.swMajorVersion);
+	printk("swSubVersion = %d\n", panel_version.swSubVersion);
 
 	memset(&panel_version, 0, sizeof(YWPANEL_Version_t));
 
@@ -2846,11 +2860,6 @@ int YWPANEL_VFD_Init(void)
 				break;
 		}
 
-		printk("CpuType = %d\n", panel_version.CpuType);
-		printk("DisplayInfo = %d\n", panel_version.DisplayInfo);
-		printk("scankeyNum = %d\n", panel_version.scankeyNum);
-		printk("swMajorVersion = %d\n", panel_version.swMajorVersion);
-		printk("swSubVersion = %d\n", panel_version.swSubVersion);
 	} else
 		ErrorCode = -ENODEV;
 
