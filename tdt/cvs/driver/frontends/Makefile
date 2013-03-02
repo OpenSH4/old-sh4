@@ -237,6 +237,7 @@ else
 
 # >= 2.6.30
 ifdef HL101
+###### Vip1v1 und Opticum
 fe-core-objs +=        hl101/stb0899_algo.o
 fe-core-objs +=        hl101/stb0899_drv.o
 fe-core-objs +=        hl101/stb6100.o
@@ -245,6 +246,32 @@ fe-core-objs +=        hl101/stv6110x.o
 fe-core-objs +=        hl101/ix7306.o
 fe-core-objs +=        hl101/core.o
 obj-m += fe-core.o
+
+###### VIP2 - MAKE
+#fe-core-objs += vip2/stv090x.o
+##fe-core-objs += vip2/stv6110x.o
+#fe-core-objs += vip2/ix7306.o
+#fe-core-objs += vip2/zl10353.o
+#fe-core-objs += base/sharp6465.o
+#fe-core-objs += base/tda10023.o
+#fe-core-objs += base/lg031.o
+#fe-core-objs += vip2/core.o
+#obj-m += fe-core.o
+
+##### VIP1v2 MAKE
+#fe-core-objs += vip1_v2/stb0899_algo.o
+#fe-core-objs += vip1_v2/stb0899_drv.o
+#fe-core-objs += vip1_v2/stb6100.o
+#fe-core-objs += vip1_v2/stv090x.o
+#fe-core-objs += vip1_v2/stv6110x.o
+#fe-core-objs += vip1_v2/ix7306.o
+#fe-core-objs += vip1_v2/zl10353.o
+#fe-core-objs += vip1_v2/cx24116.o
+#fe-core-objs += base/sharp6465.o
+#fe-core-objs += base/tda10023.o
+#fe-core-objs += base/lg031.o
+#fe-core-objs += vip1_v2/core.o
+#obj-m += fe-core.o 
 else ifdef VIP1_V2
 fe-core-objs +=        vip2/stv090x.o
 fe-core-objs +=        vip2/stv6110x.o

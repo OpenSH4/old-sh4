@@ -34,7 +34,10 @@ obj-y	+= tffp/
 endif
 
 ifdef HL101
-obj-y   += proton/
+#### aotom vip1v2 und vip2
+obj-y   += aotom/
+#### aotom vip1v1 und Opticum
+#obj-y   += aotom_vip1/
 endif
 
 ifdef VIP1_V2
