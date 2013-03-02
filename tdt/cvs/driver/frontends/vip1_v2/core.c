@@ -10,7 +10,7 @@
 #include "stb6100.h"
 #include "stb6100_cfg.h"
 #include "stv6110x.h"
-#include "ix7306.h"
+#include "../base/ix7306.h"
 #include "zl10353.h"
 #include "../base/sharp6465.h"
 #include "../base/tda1002x.h"
@@ -22,18 +22,19 @@
 #include <linux/dvb/dmx.h>
 #include <linux/proc_fs.h>
 #include <pvr_config.h>
+#include <linux/version.h>
 
 static int demodType;
-static char *demod = "stb0899";
+static char *demod = "stv090x";
 
 static int tunerType;
-static char *tuner = "stb6100";
+static char *tuner = "sharp7306";
 
 module_param(demod,charp,0);
-MODULE_PARM_DESC(demod, "demodelator type: stb0899, stv090x, cx24116, ce6353, tda10023(default stb0899)");
+MODULE_PARM_DESC(demod, "demodelator type: stb0899, stv090x, cx24116, ce6353, tda10023(default stv090x)");
 
 module_param(tuner,charp,0);
-MODULE_PARM_DESC(tuner, "tuner type: stb6100, stv6110x, sharp7306, sharp6465, lg031(default stb6100)");
+MODULE_PARM_DESC(tuner, "tuner type: stb6100, stv6110x, sharp7306, sharp6465, lg031(default sharp7306)");
 
 #define I2C_ADDR_STB0899 	(0xd4 >> 1)
 #define I2C_ADDR_STB6100 	(0xc0 >> 1)
@@ -46,7 +47,15 @@ MODULE_PARM_DESC(tuner, "tuner type: stb6100, stv6110x, sharp7306, sharp6465, lg
 #define I2C_ADDR_TDA10023	(0x18 >> 1)
 #define I2C_ADDR_LG031		(0xc6 >> 1)
 
-#define CLK_EXT_IX7306 		 4000000
+#if   defined(TUNER_IX7306)
+#define CLK_EXT_IX7306 		4000000
+#define CLK_EXT_STV6110 	16000000
+#elif defined(TUNER_STB6110)
+#define CLK_EXT_IX7306 		8000000
+#define CLK_EXT_STV6110 	16000000
+#else
+	#error "You must define tuner type..."
+#endif
 
 enum {
 	STV090X,
@@ -586,16 +595,20 @@ static struct stv090x_config stv090x_config = {
 	.demod_mode		= STV090x_DUAL/*STV090x_SINGLE*/,
 	.clk_mode		= STV090x_CLK_EXT,
 
-	.xtal			= 8000000,
+	.xtal			= CLK_EXT_IX7306,
 	.address		= I2C_ADDR_STV090X,
 
 	.ts1_mode		= STV090x_TSMODE_DVBCI/*STV090x_TSMODE_SERIAL_CONTINUOUS*/,
 	.ts2_mode		= STV090x_TSMODE_DVBCI/*STV090x_TSMODE_SERIAL_CONTINUOUS*/,
 	.ts1_clk		= 0,
 	.ts2_clk		= 0,
+	.fe_rst			= 0,
+	.fe_lnb_en		= 0,
+	.fe_1419		= 0,
+	.fe_1318		= 0,
 
-	.lnb_enable 	= NULL,
-	.lnb_vsel	 	= NULL,
+	.lnb_enable 	= 0,
+	.lnb_vsel	 	= 0,
 
 	.repeater_level	= STV090x_RPTLEVEL_16,
 
@@ -625,7 +638,7 @@ static struct stb6100_config stb6100_config = {
 
 static struct stv6110x_config stv6110x_config = {
 	.addr			= I2C_ADDR_STV6110X,
-	.refclk			= 16000000,
+	.refclk			= CLK_EXT_STV6110,
 	.clk_div		= 2,
 };
 
@@ -1056,5 +1069,5 @@ module_init             (fe_core_init);
 module_exit             (fe_core_exit);
 
 MODULE_DESCRIPTION      ("Tunerdriver");
-MODULE_AUTHOR           ("Spider-Team");
+MODULE_AUTHOR           ("TeamCS Modulation by Ducktrick");
 MODULE_LICENSE          ("GPL");

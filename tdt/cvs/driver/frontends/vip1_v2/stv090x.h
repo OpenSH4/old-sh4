@@ -29,8 +29,8 @@
 #  include <linux/stm/pio.h>
 #endif
 
-//#define	TUNER_IX7306
-#define	TUNER_STB6110
+#define	TUNER_IX7306
+//#define	TUNER_STB6110
 
 enum stv090x_demodulator {
 	STV090x_DEMODULATOR_0 = 1,
@@ -85,6 +85,11 @@ struct stv090x_config {
 
 	struct stpio_pin	*lnb_enable;
 	struct stpio_pin	*lnb_vsel;	// 13/18V select pin
+
+	u8 fe_rst;
+	u8 fe_lnb_en;
+	u8 fe_1318;
+	u8 fe_1419;
 
 	u8 ts1_mode;
 	u8 ts2_mode;

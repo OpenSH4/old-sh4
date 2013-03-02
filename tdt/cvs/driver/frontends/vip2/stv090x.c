@@ -24,7 +24,6 @@
 #include <linux/string.h>
 #include <linux/init.h>
 #include <linux/kernel.h>
-#include <linux/string.h>
 #include <linux/mutex.h>
 #include <linux/platform_device.h>
 

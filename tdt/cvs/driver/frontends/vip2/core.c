@@ -1,7 +1,7 @@
 #include "core.h"
 #include "stv6110x.h"
 #include "stv090x.h"
-#include "ix7306.h"
+#include "../base/ix7306.h"
 #include "zl10353.h"
 #include "../base/sharp6465.h"
 #include "../base/tda1002x.h"
@@ -39,9 +39,9 @@
 #endif
 
 static char *demod1 = "stv090x";
-static char *demod2 = "ce6353";
+static char *demod2 = "stv090x";
 static char *tuner1 = "sharp7306";
-static char *tuner2 = "sharp6465";
+static char *tuner2 = "sharp7306";
 
 static int demodType1;
 static int demodType2;
@@ -53,12 +53,12 @@ static struct core *core[MAX_DVB_ADAPTERS];
 module_param(demod1,charp,0);
 module_param(demod2,charp,0);
 MODULE_PARM_DESC(demod1, "demodelator1 stv090x, ce6353, tda10023(default stv090x");// DVB-S2
-MODULE_PARM_DESC(demod1, "demodelator2 stv090x, ce6353, tda10023(default ce6353"); // DVB-T
+MODULE_PARM_DESC(demod1, "demodelator2 stv090x, ce6353, tda10023(default stv090x"); // DVB-T
 
 module_param(tuner1,charp,0);
 module_param(tuner2,charp,0);
 MODULE_PARM_DESC(tuner1, "tuner1 sharp7306, stv6110x, sharp6465, lg031(default sharp7306"); // DVB-S2
-MODULE_PARM_DESC(tuner2, "tuner2 sharp7306, stv6110x, sharp6465, lg031(default sharp6465"); // DVB-T
+MODULE_PARM_DESC(tuner2, "tuner2 sharp7306, stv6110x, sharp6465, lg031(default sharp7306"); // DVB-T
 
 enum {
 	STV090X,
@@ -481,7 +481,7 @@ struct tuner_config tuner_resources[] = {
           	  	.fe_lnb_en  = FE0_LNB_EN,
         },
         [1] = {
-                .adapter 	= 0,
+                .adapter 	= 1,
                 .i2c_bus 	= 1,
           	  	.fe_rst 	= FE1_RST,
           	  	.fe_1318 	= FE1_1318,
