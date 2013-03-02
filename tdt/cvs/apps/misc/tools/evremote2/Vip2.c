@@ -40,63 +40,74 @@
 #include "Vip2.h"
 
 static tLongKeyPressSupport cLongKeyPressSupport = {
-  10, 120,
+  20, 120,
 };
 
 /* Edision argus-vip2 RCU */
 static tButton cButtonsEdisionVip2[] = {
-    {"STANDBY"        , "f7", KEY_POWER},
-    {"MUTE"           , "77", KEY_MUTE},
-    {"V.FORMAT"       , "e7", KEY_V},
-    {"AUX"            , "37", KEY_AUX},
+    {"STANDBY"        , "25", KEY_POWER},
+    {"MUTE"           , "85", KEY_MUTE},
+    {"V.FORMAT"       , "AD", KEY_V},
+    {"AUX"            , "C5", KEY_AUX},
 
-    {"0BUTTON"        , "ff", KEY_0},
-    {"1BUTTON"        , "7f", KEY_1},
-    {"2BUTTON"        , "bf", KEY_2},
-    {"3BUTTON"        , "3f", KEY_3},
-    {"4BUTTON"        , "df", KEY_4},
-    {"5BUTTON"        , "5f", KEY_5},
-    {"6BUTTON"        , "9f", KEY_6},
-    {"7BUTTON"        , "1f", KEY_7},
-    {"8BUTTON"        , "ef", KEY_8},
-    {"9BUTTON"        , "6f", KEY_9},
+    {"0BUTTON"        , "57", KEY_0},
+    {"1BUTTON"        , "B5", KEY_1},
+    {"2BUTTON"        , "95", KEY_2},
+    {"3BUTTON"        , "BD", KEY_3},
+    {"4BUTTON"        , "F5", KEY_4},
+    {"5BUTTON"        , "D5", KEY_5},
+    {"6BUTTON"        , "FD", KEY_6},
+    {"7BUTTON"        , "35", KEY_7},
+    {"8BUTTON"        , "15", KEY_8},
+    {"9BUTTON"        , "3D", KEY_9},
 
-    {"BACK"           , "0f", KEY_BACK},
-    {"INFO"           , "25", KEY_INFO}, //THIS IS WRONG SHOULD BE KEY_INFO
-    {"AUDIO"          , "35", KEY_AUDIO},
+    {"BACK"           , "5D", KEY_BACK},
+    {"INFO"           , "A7", KEY_INFO}, //THIS IS WRONG SHOULD BE KEY_INFO
 
-    {"DOWN/P-"        , "a7", KEY_DOWN},
-    {"UP/P+"          , "67", KEY_UP},
-    {"RIGHT/V+"       , "c7", KEY_RIGHT},
-    {"LEFT/V-"        , "27", KEY_LEFT},
-    {"OK/LIST"        , "47", KEY_OK},
-    {"MENU"           , "af", KEY_MENU},
-    {"GUIDE"          , "4f", KEY_EPG},
-    {"EXIT"           , "cf", KEY_HOME},
-    {"FAV"            , "85", KEY_FAVORITES},
+    {"DOWN"        , "0F", KEY_DOWN},
+    {"UP"          , "27", KEY_UP},
+    {"RIGHT"       , "AF", KEY_RIGHT},
+    {"LEFT"        , "6D", KEY_LEFT},
+    {"v+"	      , "C7", KEY_VOLUMEUP},
+    {"v-"	      , "DD", KEY_VOLUMEDOWN},
+    {"p+"	      , "07", KEY_PAGEUP},
+    {"p-"	      , "5F", KEY_PAGEDOWN},
+    {"OK/LIST"        , "2F", KEY_OK},
+    {"MENU"           , "65", KEY_MENU},
+    {"GUIDE"          , "8F", KEY_EPG},
+    {"EXIT"           , "4D", KEY_HOME},
+    {"FAV"            , "87", KEY_FAVORITES},
 
-    {"RED"            , "3d", KEY_RED},
-    {"GREEN"          , "fd", KEY_GREEN},
-    {"YELLOW"         , "6d", KEY_YELLOW},
-    {"BLUE"           , "8d", KEY_BLUE},
+    {"RED"            , "7D", KEY_RED},
+    {"GREEN"          , "FF", KEY_GREEN},
+    {"YELLOW"         , "3F", KEY_YELLOW},
+    {"BLUE"           , "BF", KEY_BLUE},
 
-    {"REWIND"         , "65", KEY_REWIND},
-    {"PAUSE"          , "87", KEY_PAUSE},
-    {"PLAY"           , "57", KEY_PLAY},
-    {"FASTFORWARD"    , "9d", KEY_FASTFORWARD},
-    {"RECORD"         , "8f", KEY_RECORD},
-    {"STOP"           , "d5", KEY_STOP},
-    {"SLOWMOTION"     , "97", KEY_SLOW},
-    {"ARCHIVE"        , "15", KEY_ARCHIVE},
-    {"SAT"            , "b5", KEY_SAT},
-    {"STEPBACK"       , "95", KEY_PREVIOUS},
-    {"STEPFORWARD"    , "55", KEY_NEXT},
-    {"MARK"           , "4f", KEY_EPG},
-    {"TV/RADIO"       , "2f", KEY_TV2}, //WE USE TV2 AS TV/RADIO SWITCH BUTTON
-    {"USB"            , "a5", KEY_CLOSE},
-    {"TIMER"          , "b7", KEY_TIME},
+    {"REWIND"         , "17", KEY_REWIND},
+    {"PAUSE"          , "37", KEY_PAUSE},
+    {"PLAY"           , "B7", KEY_PLAY},
+    {"FASTFORWARD"    , "97", KEY_FASTFORWARD},
+    {"RECORD"         , "45", KEY_RECORD},
+    {"STOP"           , "F7", KEY_STOP},
+    {"SLOWMOTION"     , "1F", KEY_SLOW},
+    {"ARCHIVE"        , "75", KEY_ARCHIVE},
+    {"SAT"            , "1D", KEY_SAT},
+    {"STEPBACK"       , "55", KEY_PREVIOUS},
+    {"STEPFORWARD"    , "D7", KEY_NEXT},
+    {"MARK"           , "9D", KEY_EPG},
+    {"TV/RADIO"       , "77", KEY_TV2}, //WE USE TV2 AS TV/RADIO SWITCH BUTTON
+    {"USB"            , "9F", KEY_CLOSE},
+    {"TIMER"          , "8D", KEY_TIME},
+
+    {"TMS"            , "E5", KEY_TMS},
+    {"PIP"            , "ED", KEY_PIP},
+    {"F1"             , "CD", KEY_F1},
+    {"RECALL"         , "7F", KEY_RECALL},
+    {"VOR"            , "DF", KEY_VOR},
+
     {""               , ""  , KEY_NULL},
 };
+
 /* fixme: move this to a structure and
  * use the private structure of RemoteControl_t
  */
@@ -153,6 +164,7 @@ static int pRead(Context_t* context ) {
     vData[2] = '\0';
 
     printf("[RCU] key: %s -> %s\n", vData, &vBuffer[0]);
+    system("echo KEYBOARD > /tmp/autoswitch.tmp");
     vCurrentCode = getInternalCode((tButton*)((RemoteControl_t*)context->r)->RemoteControl, vData);
 
 	if(vCurrentCode != 0) {
@@ -166,7 +178,7 @@ static int pRead(Context_t* context ) {
     return vCurrentCode;
 }
 
-static int pNotification(Context_t* context, const int cOn) {
+/*static int pNotification(Context_t* context, const int cOn) {
 
     struct aotom_ioctl_data vfd_data;
     int ioctl_fd = -1;
@@ -190,10 +202,37 @@ static int pNotification(Context_t* context, const int cOn) {
     }
 
     return 0;
+}*/
+static int pNotification(Context_t* context, const int cOn) {
+
+    struct proton_ioctl_data vfd_data;
+    int ioctl_fd = -1;
+
+    if(cOn)
+    {
+       usleep(100000);
+       ioctl_fd = open("/dev/vfd", O_RDONLY);
+       vfd_data.u.icon.icon_nr = 35;
+       vfd_data.u.icon.on = 0;
+       ioctl(ioctl_fd, VFDICONDISPLAYONOFF, &vfd_data);
+       close(ioctl_fd);
+    }
+    else
+    {
+       usleep(100000);
+       ioctl_fd = open("/dev/vfd", O_RDONLY);
+       vfd_data.u.icon.icon_nr = 35;
+       vfd_data.u.icon.on = 0;
+       ioctl(ioctl_fd, VFDICONDISPLAYONOFF, &vfd_data);
+       close(ioctl_fd);
+    }
+
+    return 0;
 }
 
+
 RemoteControl_t Vip2_RC = {
-	"Vip2 RemoteControl",
+	"VIP2 Neu GStreamer MultiImages RemoteControl",
 	Vip2,
 	&pInit,
 	&pShutdown,

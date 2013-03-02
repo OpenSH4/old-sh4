@@ -78,6 +78,11 @@
 #define KEY_TEEN         0x19f
 #define KEY_TWEN         0x1a0
 #define KEY_BREAK        0x1a1
+#define KEY_TMS          0x1a2
+#define KEY_PIP          0x1a3
+#define KEY_F1           0x1a4
+#define KEY_RECALL       0x1a5
+#define KEY_VOR          0x1a6
 
 
 #endif  /* !defined(KEY_OK)  */

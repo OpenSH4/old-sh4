@@ -40,68 +40,64 @@
 #include "Hl101.h"
 
 static tLongKeyPressSupport cLongKeyPressSupport = {
-  10, 120,
+  20, 120,
 };
 
 /* Spider Box HL-101 RCU */
 static tButton cButtonsSpideroxHL101[] = {
     {"STANDBY"        , "f7", KEY_POWER},
-    {"MUTE"           , "77", KEY_MUTE},
-    {"V.FORMAT"       , "e7", KEY_V},
-    {"AUX"            , "37", KEY_AUX},
+    {"MUTE"           , "3d", KEY_MUTE},
+    {"V.FORMAT"       , "5d", KEY_V},
+    {"AUX"            , "9f", KEY_AUX},
 
-    {"0BUTTON"        , "ff", KEY_0},
-    {"1BUTTON"        , "7f", KEY_1},
-    {"2BUTTON"        , "bf", KEY_2},
-    {"3BUTTON"        , "3f", KEY_3},
-    {"4BUTTON"        , "df", KEY_4},
-    {"5BUTTON"        , "5f", KEY_5},
-    {"6BUTTON"        , "9f", KEY_6},
-    {"7BUTTON"        , "1f", KEY_7},
-    {"8BUTTON"        , "ef", KEY_8},
-    {"9BUTTON"        , "6f", KEY_9},
+    {"0BUTTON"        , "af", KEY_0},
+    {"1BUTTON"        , "2f", KEY_1},
+    {"2BUTTON"        , "cf", KEY_2},
+    {"3BUTTON"        , "4f", KEY_3},
+    {"4BUTTON"        , "8f", KEY_4},
+    {"5BUTTON"        , "0f", KEY_5},
+    {"6BUTTON"        , "7f", KEY_6},
+    {"7BUTTON"        , "77", KEY_7},
+    {"8BUTTON"        , "b7", KEY_8},
+    {"9BUTTON"        , "37", KEY_9},
 
-    {"BACK"           , "0f", KEY_BACK},
-    {"INFO"           , "25", KEY_INFO}, //THIS IS WRONG SHOULD BE KEY_INFO
-    {"AUDIO"          , "35", KEY_AUDIO},
+    {"BACK"           , "5f", KEY_BACK},
+    {"INFO"           , "1f", KEY_INFO}, //THIS IS WRONG SHOULD BE KEY_INFO
+    {"AUDIO"          , "0d", KEY_AUDIO},
 
-    {"DOWN/P-"        , "a7", KEY_DOWN},
-    {"UP/P+"          , "67", KEY_UP},
-    {"RIGHT/V+"       , "c7", KEY_RIGHT},
-    {"LEFT/V-"        , "27", KEY_LEFT},
-    {"OK/LIST"        , "47", KEY_OK},
-    {"MENU"           , "af", KEY_MENU},
-    {"GUIDE"          , "4f", KEY_EPG},
-    {"EXIT"           , "cf", KEY_HOME},
-    {"FAV"            , "85", KEY_FAVORITES},
+    {"DOWN/P-"        , "97", KEY_DOWN},
+    {"UP/P+"          , "57", KEY_UP},
+    {"RIGHT/V+"       , "e7", KEY_RIGHT},
+    {"LEFT/V-"        , "17", KEY_LEFT},
+    {"OK/LIST"        , "d7", KEY_OK},
+    {"MENU"           , "f5", KEY_MENU},
+    {"GUIDE"          , "75", KEY_EPG},
+    {"EXIT"           , "df", KEY_HOME},
+    {"FAV"            , "3f", KEY_FAVORITES},
 
-    {"RED"            , "3d", KEY_RED},
-    {"GREEN"          , "fd", KEY_GREEN},
-    {"YELLOW"         , "6d", KEY_YELLOW},
-    {"BLUE"           , "8d", KEY_BLUE},
+    {"RED"            , "07", KEY_RED},
+    {"GREEN"          , "fb", KEY_GREEN},
+    {"YELLOW"         , "7d", KEY_YELLOW},
+    {"BLUE"           , "fd", KEY_BLUE},
 
-    {"SLOW"           , "cd", KEY_SLOW},
-    {"F1"             , "07", KEY_F1},
-    {"F2"             , "2d", KEY_F2},
-    {"FIND"           , "17", KEY_FIND},
-    {"U"              , "d7", KEY_U},
-    {"REWIND"         , "65", KEY_REWIND},
-    {"PAUSE"          , "87", KEY_PAUSE},
-    {"PLAY"           , "57", KEY_PLAY},
-    {"FASTFORWARD"    , "9d", KEY_FASTFORWARD},
-    {"RECORD"         , "8f", KEY_RECORD},
-    {"STOP"           , "d5", KEY_STOP},
-    {"SLOWMOTION"     , "97", KEY_SLOW},
-    {"ARCHIVE"        , "15", KEY_ARCHIVE},
-    {"SAT"            , "b5", KEY_SAT},
-    {"STEPBACK"       , "95", KEY_PREVIOUS},
-    {"STEPFORWARD"    , "55", KEY_NEXT},
-    {"MARK"           , "4f", KEY_EPG},
-    {"TV/RADIO"       , "2f", KEY_TV2}, //WE USE TV2 AS TV/RADIO SWITCH BUTTON
-    {"USB"            , "a5", KEY_CLOSE},
-    {"TIMER"          , "b7", KEY_TIME},
+    {"REWIND"         , "c7", KEY_REWIND},
+    {"PAUSE"          , "6d", KEY_PAUSE},
+    {"PLAY"           , "47", KEY_PLAY},
+    {"FASTFORWARD"    , "27", KEY_FASTFORWARD},
+    {"RECORD"         , "1d", KEY_RECORD},
+    {"STOP"           , "87", KEY_STOP},
+    {"SLOWMOTION"     , "ed", KEY_SLOW},
+    {"ARCHIVE"        , "bd", KEY_ARCHIVE},
+    {"SAT"            , "35", KEY_SAT},
+    {"STEPBACK"       , "67", KEY_PREVIOUS},
+    {"STEPFORWARD"    , "a7", KEY_NEXT},
+    {"MARK"           , "75", KEY_EPG},
+    {"TV/RADIO"       , "9d", KEY_TV2}, //WE USE TV2 AS TV/RADIO SWITCH BUTTON
+    {"USB"            , "2d", KEY_CLOSE},
+    {"TIMER"          , "dd", KEY_TIME},
     {""               , ""  , KEY_NULL},
 };
+
 /* fixme: move this to a structure and
  * use the private structure of RemoteControl_t
  */
@@ -160,6 +156,7 @@ static int pRead(Context_t* context ) {
     vData[2] = '\0';
 
     printf("[RCU] key: %s -> %s\n", vData, &vBuffer[0]);
+    system("echo KEYBOARD > /tmp/autoswitch.tmp");
     vCurrentCode = getInternalCode((tButton*)((RemoteControl_t*)context->r)->RemoteControl, vData);
 
 	if(vCurrentCode != 0) {
@@ -180,9 +177,10 @@ static int pNotification(Context_t* context, const int cOn) {
 
     if(cOn)
     {
+       usleep(100000);
        ioctl_fd = open("/dev/vfd", O_RDONLY);
        vfd_data.u.icon.icon_nr = 35;
-       vfd_data.u.icon.on = 1;
+       vfd_data.u.icon.on = 0;
        ioctl(ioctl_fd, VFDICONDISPLAYONOFF, &vfd_data);
        close(ioctl_fd);
     }
@@ -200,7 +198,7 @@ static int pNotification(Context_t* context, const int cOn) {
 }
 
 RemoteControl_t Hl101_RC = {
-	"Hl101 RemoteControl",
+	"VIP1 Alt GStreamer MultiImages RemoteControl",
 	Hl101,
 	&pInit,
 	&pShutdown,
