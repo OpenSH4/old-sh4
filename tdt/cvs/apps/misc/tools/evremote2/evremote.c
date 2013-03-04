@@ -365,8 +365,8 @@ int getModel()
             vBoxType = Hl101;
         else if(!strncasecmp(vName,"opti", 5))
             vBoxType = Opti;
-        else if(!strncasecmp(vName,"Pingolux", 7))
-            vBoxType = Pingolux;
+        else if(!strncasecmp(vName,"Pingulux", 7))
+            vBoxType = Pingulux;
         else if(!strncasecmp(vName,"vip2", 7))
             vBoxType = Vip2;
         else if(!strncasecmp(vName,"hdbox", 5))

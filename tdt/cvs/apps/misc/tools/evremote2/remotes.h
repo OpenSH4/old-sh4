@@ -31,7 +31,7 @@ extern RemoteControl_t Tf7700_RC;
 extern RemoteControl_t Hl101_RC;
 extern RemoteControl_t Vip2_RC;
 extern RemoteControl_t Opti_RC;
-extern RemoteControl_t Pingolux_RC;
+extern RemoteControl_t Pingulux_RC;
 extern RemoteControl_t UFS922_RC;
 extern RemoteControl_t HDBOX_RC;
 extern RemoteControl_t Hs5101_RC;
@@ -48,7 +48,7 @@ static RemoteControl_t * AvailableRemoteControls[] = {
 	&Hl101_RC,
 	&Vip2_RC,
 	&Opti_RC,
-	&Pingolux_RC,
+	&Pingulux_RC,
 	&UFS922_RC,
 	&HDBOX_RC,
 	&Hs5101_RC,
