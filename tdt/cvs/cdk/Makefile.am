@@ -55,6 +55,9 @@ include make/enigma2-plugins.mk
 # Include enigma2-pli-nightly gui targets
 include make/enigma2-pli-nightly.mk
 
+# Include enigma2-pli-nightly gui targets
+include make/enigma2-nightly.mk
+
 # Include xbmc-nightly gui targets
 include make/xbmc-nightly.mk
 
