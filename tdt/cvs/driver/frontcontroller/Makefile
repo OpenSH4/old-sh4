@@ -37,7 +37,7 @@ ifdef HL101
 #### aotom vip1v2 und vip2
 obj-y   += aotom/
 #### aotom vip1v1 und Opticum
-#obj-y   += aotom_vip1/
+obj-y   += aotom_vip1/
 endif
 
 ifdef VIP1_V2
