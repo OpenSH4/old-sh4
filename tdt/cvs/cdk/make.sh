@@ -262,6 +262,10 @@ case "$REPLY" in
 			rm stmfb
 		fi
 		ln -s player2_191 player2
+		if [ ! -e player2/player/frame_parser/gnu/stubs-32.h ]; then
+			mkdir player2/player/frame_parser/gnu
+			echo "" > player2/player/frame_parser/gnu/stubs-32.h
+		fi
 		ln -s stmfb-3.1_stm24_0104 stmfb
 		cd - &>/dev/null
 
