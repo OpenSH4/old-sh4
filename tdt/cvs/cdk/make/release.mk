@@ -407,7 +407,8 @@ release_hl101: release_common_utils
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom_vip1/aotom_vip1.ko $(prefix)/release/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release/lib/modules/
-	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release/boot/video.elf
+	cp -p $(buildprefix)/root/bootscreen/video.elf $(prefix)/release/boot/video.elf
+	cp -p $(buildprefix)/root/bootscreen/audio.elf $(prefix)/release/boot/audio.elf
 	cp $(targetprefix)/lib/firmware/dvb-fe-avl2108.fw $(prefix)/release/lib/firmware/
 	cp $(targetprefix)/lib/firmware/dvb-fe-stv6306.fw $(prefix)/release/lib/firmware/
 	rm -f $(prefix)/release/lib/firmware/dvb-fe-{avl6222,cx24116,cx21143}.fw
