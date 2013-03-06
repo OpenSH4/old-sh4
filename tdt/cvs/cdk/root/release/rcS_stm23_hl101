@@ -6,7 +6,9 @@ FBOPTI=/boot/first/opti.mvi
 FBPINGOLUX=/boot/first/pingolux.mvi
 DANKE=/boot/first/danke.mvi
 echo "init frontpanel"
-
+if [ ! -e /var/config ]; then
+	mkdir /var/config
+fi
 ### An dieser Stellen wird gecheckt ob die Tuner fuer eure Box bereits gesetzt wurden im TeamCS Menue
 if [ -e /var/keys/Benutzerdaten/.system/tuner ]; then
 tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
@@ -254,9 +256,6 @@ else
 fi
 
 if [ -e /var/etc/.firstboot ]; then
-	if [ ! -e /var/config ]; then
-		mkdir /var/config
-	fi
    echo "firstboot" > /var/etc/firstboot
    echo "WARTEN" > /dev/vfd
    echo "WAIT 3 min"
@@ -476,7 +475,7 @@ fi
    echo "Kartenslots Aktivieren ..."
    insmod $MODDIR/smartcard.ko debug=100
 ##### Bootlogo file
-	#/usr/local/bin/dvbtest -4 -f l /boot/Enigma2.mp4 &
+   /usr/local/bin/dvbtest -4 -f l /boot/Enigma2.mp4 &
 
    stfbcontrol a 0
 

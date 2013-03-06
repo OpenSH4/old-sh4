@@ -418,6 +418,10 @@ release_hl101: release_common_utils
 	cp -dp $(buildprefix)/root/etc/lircd_opti.conf $(prefix)/release/etc/lircd_opti.conf
 	cp -dp $(buildprefix)/root/etc/lircd_pingolux.conf $(prefix)/release/etc/lircd_pingolux.conf
 	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release/usr/bin/
+	cp -p $(buildprefix)/root/usr/local/bin/dvbtest $(prefix)/release/usr/local/bin/
+	mkdir -p $(prefix)/release/boot/first
+	cp -p $(buildprefix)/root/bootscreen/first/* $(prefix)/release/boot/first/
+	cp -p $(buildprefix)/root/bootscreen/Enigma2.mp4 $(prefix)/release/boot/	
 	mkdir -p $(prefix)/release/var/run/lirc
 	rm -f $(prefix)/release/bin/evremote
 	rm -f $(prefix)/release/bin/vdstandby
