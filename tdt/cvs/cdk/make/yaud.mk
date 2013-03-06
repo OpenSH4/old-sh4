@@ -56,8 +56,10 @@ $(DEPDIR)/%net-utils: \
 	%portmap \
 	%$(NFSSERVER) \
 	%vsftpd \
-	%$(CIFS)
-#	%opkg
+	%$(CIFS) \
+	%ethtool \
+	%grep \
+	%opkg
 
 #
 # DISK-UTILS
