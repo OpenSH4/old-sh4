@@ -452,16 +452,3 @@
   	ret = sysdev_class_register(&stm_gpio_sysdev_class);
   	if (ret)
   		return ret;
-
-*** linux-sh4-2.6.32.28_stm24_0207_orig/drivers/usb/storage/usb.c	2013-03-07 10:33:52.975803133 +0100
---- linux-sh4/drivers/usb/storage/usb.c	2013-03-07 10:35:14.576207769 +0100
-***************
---- 812,819 ----
- static int usb_stor_scan_thread(void * __us)
- {
- 	struct us_data *us = (struct us_data *)__us;
--	unsigned char usbwait=5;
-+	unsigned char usbwait=0;
- 	char cur[9], *delim, *delim1;
- 
- 	strcpy(cur, usbwait123);
