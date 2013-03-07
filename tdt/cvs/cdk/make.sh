@@ -380,7 +380,7 @@ echo && \
 ./configure $CONFIGPARAM
 
 ##############################################
-if [ ! -e player2/player/frame_parser/gnu/stubs-32.h ]; then
+if [ ! -e ../driver/player2/player/frame_parser/gnu/stubs-32.h ]; then
 	mkdir ../driver/player2/player/frame_parser/gnu
 	echo "" > ../driver/player2/player/frame_parser/gnu/stubs-32.h
 fi
