@@ -427,6 +427,7 @@ release_hl101: release_common_utils
 	mkdir -p $(prefix)/release/var/config
 	mkdir -p $(prefix)/release/var/config/system
 	mkdir -p $(prefix)/release/var/config/shutdown
+	chmod 755 $(prefix)/release/usr/local/bin/dvbtest
 	chmod 755 $(prefix)/release/etc/init.d/rcS
 	chmod 755 $(prefix)/release/var/config/shutdown/shutdown.sh
 	chmod 755 $(prefix)/release/var/config/shutdown/gui_neustart.sh

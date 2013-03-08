@@ -476,13 +476,13 @@ fi
 
    stfbcontrol a 0
 
-if [ -e /var/keys/Benutzerdaten/.system/fernbedienung ]; then
+if [ -e /var/config/Fernbedienung ]; then
 ### Laed eure Fernbedienung
    echo "init lircd"
 if [ -e /var/etc/firstboot ]; then 
 echo "FB Switch Startet first..."
 else
-   fb=`cat /var/keys/Benutzerdaten/.system/fernbedienung`
+   fb=`cat /var/config/Fernbedienung`
 	if [ ! -e /var/run/lirc ]; then  
 	    mkdir /var/run/lirc
 	fi
@@ -498,7 +498,7 @@ fi
 if [ -e /var/etc/firstboot ]; then 
 echo "FB Switch Startet first..."
 else
-if [ -e /var/keys/Benutzerdaten/.system/fernbedienung ]; then   
+if [ -e /var/config/Fernbedienung ]; then   
 	if [ "$fb" = "neu" ]; then
 		echo "Fernbedienung NEU geladen"
   		/bin/evremote2 vip2 &
@@ -546,11 +546,6 @@ fi
 
 ### Auto Fernbedienungs Switch
 if [ -e /var/etc/firstboot ]; then
-	if [ ! -e /var/keys/Benutzerdaten ]; then
-		mkdir /var/keys/Benutzerdaten
-	elif [ ! -e /var/keys/Benutzerdaten/.system ]; then
-		mkdir /var/keys/Benutzerdaten/.system
-	fi
 	rm /tmp/check
 	if [ -e /tmp/autoswitch.tmp ]; then
 		rm /tmp/autoswitch.tmp
@@ -606,7 +601,7 @@ if [ -e /var/etc/firstboot ]; then
 				if [ -e /var/etc/firstboot ]; then
 					rm -rf /var/etc/firstboot
 				fi
-				echo "neu" > /var/keys/Benutzerdaten/.system/fernbedienung
+				echo "neu" > /var/config/Fernbedienung
 				cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml
 				rm /var/etc/.errors
 				sync
@@ -661,7 +656,7 @@ if [ -e /var/etc/firstboot ]; then
 				if [ -e /var/etc/firstboot ]; then
 					rm -rf /var/etc/firstboot
 				fi
-				echo "alt" > /var/keys/Benutzerdaten/.system/fernbedienung
+				echo "alt" > /var/config/Fernbedienung
 				cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml
 				cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf
 				rm /var/etc/.errors
@@ -707,7 +702,7 @@ if [ -e /var/etc/firstboot ]; then
 				if [ -e /var/etc/firstboot ]; then
 					rm -rf /var/etc/firstboot
 				fi
-				echo "opti" > /var/keys/Benutzerdaten/.system/fernbedienung
+				echo "opti" > /var/config/Fernbedienung
 				cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml
 				cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf
 				rm /var/etc/.errors
@@ -753,7 +748,7 @@ if [ -e /var/etc/firstboot ]; then
 				if [ -e /var/etc/firstboot ]; then
 					rm -rf /var/etc/firstboot
 				fi
-				echo "Pingolux" > /var/keys/Benutzerdaten/.system/fernbedienung
+				echo "Pingolux" > /var/config/Fernbedienung
 				cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml
 				rm /var/etc/.errors
 				sync
