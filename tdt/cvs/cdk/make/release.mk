@@ -424,9 +424,10 @@ release_hl101: release_common_utils
 	cp -p $(buildprefix)/root/bootscreen/first/* $(prefix)/release/boot/first/
 	cp -p $(buildprefix)/root/bootscreen/Enigma2.mp4 $(prefix)/release/boot/	
 	mkdir -p $(prefix)/release/var/run/lirc
-	mkdir -p $(prefix)/release/var/config
-	mkdir -p $(prefix)/release/var/config/system
-	mkdir -p $(prefix)/release/var/config/shutdown
+	mkdir $(prefix)/release/var/config
+	mkdir $(prefix)/release/var/config/system
+	mkdir $(prefix)/release/var/config/shutdown
+	cp -p $(buildprefix)/root/config/shutdown/* $(prefix)/release/var/config/shutdown/
 	chmod 755 $(prefix)/release/usr/local/bin/dvbtest
 	chmod 755 $(prefix)/release/etc/init.d/rcS
 	chmod 755 $(prefix)/release/var/config/shutdown/shutdown.sh
