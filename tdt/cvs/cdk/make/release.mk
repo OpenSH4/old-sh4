@@ -439,6 +439,17 @@ release_hl101: release_common_utils
 	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_FB1.xml $(prefix)/release/usr/local/share/enigma2/keymap_FB1.xml
 	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_FB2.xml $(prefix)/release/usr/local/share/enigma2/keymap_FB2.xml
 	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_Opti.xml $(prefix)/release/usr/local/share/enigma2/keymap_Opti.xml
+	cp -f $(buildprefix)/linux-sh4/drivers/net/wireless/rt2x00/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/drivers/net/wireless/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/drivers/net/wireless/zd1211rw/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/cachefiles/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/cifs/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/fat/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/fscache/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/isofs/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/ntfs/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/udf/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/drivers/usb/serial/*.ko $(prefix)/release/lib/modules/
 
 #
 # release_adb_box
