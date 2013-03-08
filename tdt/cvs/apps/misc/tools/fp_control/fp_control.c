@@ -574,7 +574,7 @@ int getModel()
 	int         vLen            = -1;
 	eBoxType    vBoxType        = Unknown;
 
-	vFd = open("/proc/stb/info/model", O_RDONLY);
+	vFd = open("/var/config/fp_control", O_RDONLY);
 	vLen = read (vFd, vName, cSize);
 
 	close(vFd);
@@ -602,10 +602,10 @@ int getModel()
 			vBoxType = Ufs922;
 		else if (!strncasecmp(vName,"tf7700hdpvr", 11))
 			vBoxType = Tf7700;
-		else if (!strncasecmp(vName,"hl101", 5))
-			vBoxType = Hl101;
-		else if (!strncasecmp(vName,"vip1-v2", 7))
+		else if (!strncasecmp(vName,"aotom", 5))
 			vBoxType = Vip2;
+		else if (!strncasecmp(vName,"proton", 7))
+			vBoxType = Hl101;
 		else if (!strncasecmp(vName,"vip2-v1", 7))
 			vBoxType = Vip2;
 		else if (!strncasecmp(vName,"hdbox", 5))
