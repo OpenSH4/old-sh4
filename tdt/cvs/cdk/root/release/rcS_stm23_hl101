@@ -23,10 +23,10 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	fi	
 	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
 	insmod $MODDIR/simu_button.ko
-	if [ ! -e /var/config/fbcontrol ]; then
+	if [ ! -e /var/config/fp_control ]; then
 		echo "aotom" > /var/config/fp_control
 	else
-		TESTFP=`cat /var/config/fbcontrol`
+		TESTFP=`cat /var/config/fp_control`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
@@ -50,10 +50,10 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	dual="no"
 	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
 	insmod $MODDIR/simu_button.ko
-	if [ ! -e /var/config/fbcontrol ]; then
+	if [ ! -e /var/config/fp_control ]; then
 		echo "aotom" > /var/config/fp_control
 	else
-		TESTFP=`cat /var/config/fbcontrol`
+		TESTFP=`cat /var/config/fp_control`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
@@ -76,10 +76,10 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
 	insmod $MODDIR/simu_button.ko
 	dual="yes"
-	if [ ! -e /var/config/fbcontrol ]; then
+	if [ ! -e /var/config/fp_control ]; then
 		echo "aotom" > /var/config/fp_control
 	else
-		TESTFP=`cat /var/config/fbcontrol`
+		TESTFP=`cat /var/config/fp_control`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
@@ -102,10 +102,10 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
 	insmod $MODDIR/simu_button.ko
 	dual="yes"
-	if [ ! -e /var/config/fbcontrol ]; then
-		echo "aotom" > /var/config/fbcontrol
+	if [ ! -e /var/config/fp_control ]; then
+		echo "aotom" > /var/config/fp_control
 	else
-		TESTFP=`cat /var/config/fbcontrol`
+		TESTFP=`cat /var/config/fp_control`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
@@ -128,10 +128,10 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
 	insmod $MODDIR/simu_button.ko
 	dual="yes"
-	if [ ! -e /var/config/fbcontrol ]; then
+	if [ ! -e /var/config/fp_control ]; then
 		echo "aotom" > /var/config/fp_control
 	else
-		TESTFP=`cat /var/config/fbcontrol`
+		TESTFP=`cat /var/config/fp_control`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
@@ -154,10 +154,10 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
 	insmod $MODDIR/simu_button.ko
 	dual="yes"
-	if [ ! -e /var/config/fbcontrol ]; then
+	if [ ! -e /var/config/fp_control ]; then
 		echo "aotom" > /var/config/fp_control
 	else
-		TESTFP=`cat /var/config/fbcontrol`
+		TESTFP=`cat /var/config/fp_control`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
@@ -180,10 +180,10 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	dual="no"
 	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
 	insmod $MODDIR/simu_button.ko
-	if [ ! -e /var/config/fbcontrol ]; then
+	if [ ! -e /var/config/fp_control ]; then
 		echo "aotom" > /var/config/fp_control
 	else
-		TESTFP=`cat /var/config/fbcontrol`
+		TESTFP=`cat /var/config/fp_control`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
@@ -206,10 +206,10 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	dual="no"
 	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
 	insmod $MODDIR/simu_button.ko
-	if [ ! -e /var/config/fbcontrol ]; then
+	if [ ! -e /var/config/fp_control ]; then
 		echo "aotom" > /var/config/fp_control
 	else
-		TESTFP=`cat /var/config/fbcontrol`
+		TESTFP=`cat /var/config/fp_control`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
@@ -222,10 +222,10 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	dual="no"
 	insmod $MODDIR/aotom_vip1.ko I2C_bus_num=2 I2C_bus_add=0x40
 	insmod $MODDIR/simu_button.ko
-	if [ ! -e /var/config/fbcontrol ]; then
-		echo "aotom" > /var/config/fbcontrol
+	if [ ! -e /var/config/fp_control ]; then
+		echo "aotom" > /var/config/fp_control
 	else
-		TESTFP=`cat /var/config/fbcontrol`
+		TESTFP=`cat /var/config/fp_control`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
@@ -239,10 +239,10 @@ else
 	### Hier ist das Default Display definiert
 	insmod $MODDIR/aotom_vip1.ko I2C_bus_num=2 I2C_bus_add=0x40
 	insmod $MODDIR/simu_button.ko
-	if [ ! -e /var/config/fbcontrol ]; then
+	if [ ! -e /var/config/fp_control ]; then
 		echo "aotom" > /var/config/fp_control
 	else
-		TESTFP=`cat /var/config/fbcontrol`
+		TESTFP=`cat /var/config/fp_control`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
