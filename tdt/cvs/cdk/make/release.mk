@@ -397,7 +397,7 @@ release_whitebox: release_common_utils
 	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_ufs910.xml $(prefix)/release/usr/local/share/enigma2/keymap.xml
 
 #
-# release_hl101
+# release_hl101 Opticum9500 Vip1 Vip1v2 Vip2 
 #
 release_hl101: release_common_utils
 	echo "ArgusVIP" > $(prefix)/release/etc/hostname
@@ -424,8 +424,16 @@ release_hl101: release_common_utils
 	cp -p $(buildprefix)/root/bootscreen/first/* $(prefix)/release/boot/first/
 	cp -p $(buildprefix)/root/bootscreen/Enigma2.mp4 $(prefix)/release/boot/	
 	mkdir -p $(prefix)/release/var/run/lirc
+	mkdir -p $(prefix)/release/var/config
+	mkdir -p $(prefix)/release/var/config/system
+	mkdir -p $(prefix)/release/var/config/shutdown
+	chmod 755 $(prefix)/release/etc/init.d/rcS
+	chmod 755 $(prefix)/release/var/config/shutdown/shutdown.sh
+	chmod 755 $(prefix)/release/var/config/shutdown/gui_neustart.sh
+	chmod 755 $(prefix)/release/var/config/shutdown/reboot.sh
 	rm -f $(prefix)/release/bin/evremote
 	rm -f $(prefix)/release/bin/vdstandby
+	cp -f $(buildprefix)/root/config/shutdown/* $(prefix)/release/var/config/shutdown/
 	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_FB1.xml $(prefix)/release/usr/local/share/enigma2/keymap_FB1.xml
 	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_FB2.xml $(prefix)/release/usr/local/share/enigma2/keymap_FB2.xml
 	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_Opti.xml $(prefix)/release/usr/local/share/enigma2/keymap_Opti.xml

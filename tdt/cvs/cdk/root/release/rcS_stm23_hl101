@@ -6,10 +6,8 @@ FBOPTI=/boot/first/opti.mvi
 FBPINGOLUX=/boot/first/pingolux.mvi
 DANKE=/boot/first/danke.mvi
 echo "init frontpanel"
-if [ ! -e /var/config ]; then
-	mkdir /var/config
-fi
 ### An dieser Stellen wird gecheckt ob die Tuner fuer eure Box bereits gesetzt wurden im TeamCS Menue
+### Aktuell ist das TeamCS Menu nicht im Git, es wird aber noch hinzugefuegt,default Vip1 Opticum Display
 if [ -e /var/keys/Benutzerdaten/.system/tuner ]; then
 tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	if [ "$tuner" = "vip2" ]; then
@@ -26,14 +24,14 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
 	insmod $MODDIR/simu_button.ko
 	if [ ! -e /var/config/fbcontrol ]; then
-		echo "aotom" > /var/config/fbcontrol
+		echo "aotom" > /var/config/fp_control
 	else
 		TESTFP=`cat /var/config/fbcontrol`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
 			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fbcontrol
+			echo "aotom" > /var/config/fp_control
 			echo "DONE"
 		fi
 	fi
@@ -53,14 +51,14 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
 	insmod $MODDIR/simu_button.ko
 	if [ ! -e /var/config/fbcontrol ]; then
-		echo "aotom" > /var/config/fbcontrol
+		echo "aotom" > /var/config/fp_control
 	else
 		TESTFP=`cat /var/config/fbcontrol`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
 			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fbcontrol
+			echo "aotom" > /var/config/fp_control
 			echo "DONE"
 		fi
 	fi
@@ -79,14 +77,14 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	insmod $MODDIR/simu_button.ko
 	dual="yes"
 	if [ ! -e /var/config/fbcontrol ]; then
-		echo "aotom" > /var/config/fbcontrol
+		echo "aotom" > /var/config/fp_control
 	else
 		TESTFP=`cat /var/config/fbcontrol`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
 			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fbcontrol
+			echo "aotom" > /var/config/fp_control
 			echo "DONE"
 		fi
 	fi
@@ -112,7 +110,7 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 			echo "fp_control koreckt gesetzt"
 		else
 			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fbcontrol
+			echo "aotom" > /var/config/fp_control
 			echo "DONE"
 		fi
 	fi
@@ -131,14 +129,14 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	insmod $MODDIR/simu_button.ko
 	dual="yes"
 	if [ ! -e /var/config/fbcontrol ]; then
-		echo "aotom" > /var/config/fbcontrol
+		echo "aotom" > /var/config/fp_control
 	else
 		TESTFP=`cat /var/config/fbcontrol`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
 			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fbcontrol
+			echo "aotom" > /var/config/fp_control
 			echo "DONE"
 		fi
 	fi
@@ -157,14 +155,14 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	insmod $MODDIR/simu_button.ko
 	dual="yes"
 	if [ ! -e /var/config/fbcontrol ]; then
-		echo "aotom" > /var/config/fbcontrol
+		echo "aotom" > /var/config/fp_control
 	else
 		TESTFP=`cat /var/config/fbcontrol`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
 			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fbcontrol
+			echo "aotom" > /var/config/fp_control
 			echo "DONE"
 		fi
 	fi
@@ -183,14 +181,14 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
 	insmod $MODDIR/simu_button.ko
 	if [ ! -e /var/config/fbcontrol ]; then
-		echo "aotom" > /var/config/fbcontrol
+		echo "aotom" > /var/config/fp_control
 	else
 		TESTFP=`cat /var/config/fbcontrol`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
 			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fbcontrol
+			echo "aotom" > /var/config/fp_control
 			echo "DONE"
 		fi
 	fi
@@ -209,14 +207,14 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
 	insmod $MODDIR/simu_button.ko
 	if [ ! -e /var/config/fbcontrol ]; then
-		echo "aotom" > /var/config/fbcontrol
+		echo "aotom" > /var/config/fp_control
 	else
 		TESTFP=`cat /var/config/fbcontrol`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
 			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fbcontrol
+			echo "aotom" > /var/config/fp_control
 			echo "DONE"
 		fi
 	fi
@@ -232,29 +230,31 @@ tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 			echo "fp_control koreckt gesetzt"
 		else
 			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fbcontrol
+			echo "aotom" > /var/config/fp_control
 			echo "DONE"
 		fi
 	fi
 	fi
 else
+	### Hier ist das Default Display definiert
 	insmod $MODDIR/aotom_vip1.ko I2C_bus_num=2 I2C_bus_add=0x40
 	insmod $MODDIR/simu_button.ko
 	if [ ! -e /var/config/fbcontrol ]; then
-		echo "aotom" > /var/config/fbcontrol
+		echo "aotom" > /var/config/fp_control
 	else
 		TESTFP=`cat /var/config/fbcontrol`
 		if [ "$TESTFP" = "aotom" ]; then
 			echo "fp_control koreckt gesetzt"
 		else
 			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fbcontrol
+			echo "aotom" > /var/config/fp_control
 			echo "DONE"
 		fi
 	fi
 	dual="no"
 fi
 
+### bei Firstboot /dev erstellen und FB Switch Aktivieren
 if [ -e /var/etc/.firstboot ]; then
    echo "firstboot" > /var/etc/firstboot
    echo "WARTEN" > /dev/vfd
@@ -329,6 +329,7 @@ insmod $MODDIR/autofs4.ko
    insmod $MODDIR/embxshm.ko mailbox0=shm:0:7:0x60000000:0:256:256:0:1024:0xa4000000:0x10000000 ;
    insmod $MODDIR/mme_host.ko transport0=shm
 
+### Hier definieren wir die AVS um ueberhaupt ein bild zu bekommen, default ist fake_avs die funktioniert bei allen, gesetzt wird die richtige via TeamCS Menu
    echo "init AVS"
 if [ -e /var/keys/Benutzerdaten/.system/tuner ]; then
    tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
@@ -349,7 +350,7 @@ if [ -e /var/keys/Benutzerdaten/.system/tuner ]; then
          insmod $MODDIR/avs.ko type=vip2_avs
    elif [ "$tuner" = "vip" ]; then
       echo "AVS Aktiviert -- VIP1"
-         insmod $MODDIR/avs.ko type=stv6418 #vip1_avs ist Inkompatiebel mit dem Opticum, kein Audio und Scart Out!!!
+         insmod $MODDIR/avs.ko type=stv6418 
    elif [ "$tuner" = "vip1kabel" ]; then
       echo "AVS Aktiviert -- VIP1"
          insmod $MODDIR/avs.ko type=vip1_avs
@@ -373,6 +374,7 @@ if [ -e /var/keys/Benutzerdaten/.system/tuner ]; then
          insmod $MODDIR/avs.ko type=fake_avs
    fi
 else
+      ### hier ist default definiert
       echo "AVS Aktiviert -- Kein Tuner gesetzt -- Default"
          insmod $MODDIR/avs.ko type=fake_avs
 fi
@@ -396,7 +398,7 @@ fi
    insmod $MODDIR/pseudocard.ko
    
    echo "init frontends"
-### Laed den Gesetzten Tuner Treiber
+### Laed den Gesetzten Tuner Treiber, ebenfalls in TeamCS Menu gewaelt und default steht auf ST-Tuner
 if [ -e /var/keys/Benutzerdaten/.system/tuner ]; then
    tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
 	if [ "$tuner" = "vip2" ]; then
@@ -445,21 +447,16 @@ else
 fi
    echo "init drivers"
    insmod $MODDIR/cimax.ko
-   echo "np-PTI Laden..."
+   echo "PTI Laden..."
    insmod $MODDIR/pti.ko #waitMS=20 videoMem=4096
-   echo "NP- Fertig"
+   echo "Fertig"
 
    if [ $player -gt 131 ]; then
-	echo "1"
 	insmod $MODDIR/stm_monitor.ko
-	echo "2"
 	insmod $MODDIR/stmsysfs.ko
-	echo "3"
     	insmod $MODDIR/stmdvb.ko
    else
-	echo "11"
 	insmod $MODDIR/stmdvb.ko
-	echo "22"
 	insmod $MODDIR/stm_monitor.ko
    fi	
  echo "player2"
@@ -803,7 +800,7 @@ fi
 		   echo "E2 RESTART"
 		   echo "0" > /proc/progress
 		   /usr/local/bin/dvbtest -4 -f l /boot/gui.mp4 && 
-		   /var/config/system/gui_neustart.sh;;
+		   /var/config/shutdown/gui_neustart.sh;;
 		*) echo "*"
 		   echo "ERROR"
 		   echo "Neustarten" > /dev/vfd
