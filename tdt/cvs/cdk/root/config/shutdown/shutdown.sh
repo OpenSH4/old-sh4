@@ -1,47 +1,14 @@
 #!/bin/sh
    /bin/echo "Herunterfahren" > /dev/vfd
    sleep 3
-if [ -e /var/config/subsystem ]; then
-   SYSTEM=`cat /var/config/subsystem`
-   if [ "$SYSTEM" = "Neutrino" ]; then
-      echo "killed self"
-   else
-      if [ -e /var/config/subswitch ]; then
-         echo "subswitch Aktiv"
-      else
-         echo "killed self"
-      fi
-   fi
-else
-   killall -9 enigma2
-fi
-   sleep 3
-   ##Bootlogo in HD
-if [ -e /var/config/subsystem ]; then
-   SYSTEM=`cat /var/config/subsystem`
-   if [ "$SYSTEM" = "Neutrino" ]; then
-      echo "############ Neutrino Shutdown, no Logo ################"
-   else   
-      if [ -e /var/config/subswitch ]; then
-         echo "subswitch Aktiv no Logo"
-      else
-         /usr/local/bin/dvbtest -4 -f l /boot/shutdown.mp4 &
-      fi
-   fi
-else   
-   /usr/local/bin/dvbtest -4 -f l /boot/shutdown.mp4 &
-fi
-   sleep 12
    echo "init lircd"
    killall -9 evremote2
    killall -9 lircd   
    killall -9 smbd &
-   /etc/init.d/portmap stop &
-      /usr/bin/lircd   
+   /etc/init.d/portmap stop & 
    ##FB Laden
-      stfbcontrol a 0   
-
-      mknod /dev/rc c 147 1
+   /usr/bin/lircd  
+   stfbcontrol a 0   
 fb=`cat /var/keys/Benutzerdaten/.system/fernbedienung`
    if [ "$fb" = "neu" ]; then
         /bin/evremote2 vip2 &

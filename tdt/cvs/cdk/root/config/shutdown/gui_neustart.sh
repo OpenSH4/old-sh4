@@ -1,7 +1,3 @@
-if [ ! -e /etc/profile ]; then
-	echo "erstelle Profile ..."
-	cp /etc/profile.bak /etc/profile
-fi
 ####### MAC #######################
 if [ -e /var/keys/Benutzerdaten/.system/wol ]; then
 MAC=`cat /var/keys/Benutzerdaten/.system/wol`
@@ -85,18 +81,22 @@ else
 echo "UPNP Autostart einstellungen nicht Aktiv...OFF"
 fi
 ####### Emu autostart #####################
+if [ -e /var/config/emu/autostart.sh ]; then
 echo "Emu Autostart ..."
 /var/config/emu/autostart.sh &
 echo "Emu Autostart ... FERTIG"
+fi
 ####### Ram nach dem Start frisch machen ######
+if [ -e /var/config/system/ram_free.sh ]; then
 echo "RAM Leeren ..."
 /var/config/system/ram_free.sh &
 echo "RAM Leeren ... FERTIG"
 sleep 2
+fi
 ###### emu Watchdog ######
+if [ -e emu-watchdog.sh ]; then
 echo "Emu Watchdog Stoppen ..."
 killall -9 emu-watchdog.sh &
 echo "Emu Watchdog Autostart ... FERTIG"
+fi
 ###### END OF Start Script #######################
-
-
