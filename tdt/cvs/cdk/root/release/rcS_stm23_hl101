@@ -259,7 +259,6 @@ if [ -e /var/etc/.firstboot ]; then
    echo "firstboot" > /var/etc/firstboot
    echo "WARTEN" > /dev/vfd
    echo "WAIT 3 min"
-   rm /var/etc/.update
    rm /var/etc/.firstboot
    touch /dev/.devfsd
 fi
@@ -490,10 +489,6 @@ else
 fi
 fi
 
-   mknod /dev/rc c 147 1 
-   mknod /dev/sci0 c 169 0
-   mknod /dev/sci1 c 169 1
-
 ### Laed eure Fernbedienung
 if [ -e /var/etc/firstboot ]; then 
 echo "FB Switch Startet first..."
@@ -523,8 +518,8 @@ fi
    /etc/init.d/vsftpd start
    /usr/sbin/inetd
 
-	mknod /dev/ramzswap0 b 253 0 >/dev/null 2>&1
-	swapon /dev/ramzswap0
+   mknod /dev/ramzswap0 b 253 0 >/dev/null 2>&1
+   swapon /dev/ramzswap0
 
    NFS=`grep -c nfs /proc/cmdline`
    if [ "$NFS" -eq "1" ]; then 
@@ -546,7 +541,6 @@ fi
 
 ### Auto Fernbedienungs Switch
 if [ -e /var/etc/firstboot ]; then
-	rm /tmp/check
 	if [ -e /tmp/autoswitch.tmp ]; then
 		rm /tmp/autoswitch.tmp
 	fi
@@ -603,7 +597,6 @@ if [ -e /var/etc/firstboot ]; then
 				fi
 				echo "neu" > /var/config/Fernbedienung
 				cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml
-				rm /var/etc/.errors
 				sync
 				echo "FB NEU GESETZ" > /dev/vfd
 				sleep 3
@@ -659,7 +652,6 @@ if [ -e /var/etc/firstboot ]; then
 				echo "alt" > /var/config/Fernbedienung
 				cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml
 				cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf
-				rm /var/etc/.errors
 				sync
 				echo "FB ALT GESETZ" > /dev/vfd
 				sleep 3
@@ -705,7 +697,6 @@ if [ -e /var/etc/firstboot ]; then
 				echo "opti" > /var/config/Fernbedienung
 				cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml
 				cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf
-				rm /var/etc/.errors
 				sync
 				echo "FB OPTI GESETZ" > /dev/vfd
 				sleep 3
@@ -750,7 +741,6 @@ if [ -e /var/etc/firstboot ]; then
 				fi
 				echo "Pingolux" > /var/config/Fernbedienung
 				cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml
-				rm /var/etc/.errors
 				sync
 				echo "FB Pingolux GESETZ" > /dev/vfd
 				sleep 3
