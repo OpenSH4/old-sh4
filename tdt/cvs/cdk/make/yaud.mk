@@ -61,7 +61,6 @@ $(DEPDIR)/%net-utils: \
 	%grep \
 	%samba \
 	%djmount \
-	%wakeonlan \
 	%opkg
 
 #
