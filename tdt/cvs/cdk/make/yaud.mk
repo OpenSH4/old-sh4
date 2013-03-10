@@ -59,6 +59,7 @@ $(DEPDIR)/%net-utils: \
 	%$(CIFS) \
 	%ethtool \
 	%grep \
+	%samba \
 	%opkg
 
 #
