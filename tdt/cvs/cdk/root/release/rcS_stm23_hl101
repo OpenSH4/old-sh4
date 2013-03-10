@@ -757,7 +757,7 @@ fi
    do
       echo "starting e2->"
        ###### Startcript #####
-        #/var/config/system/start_script.sh &
+        /var/config/system/start_script.sh &
 	/usr/local/bin/enigma2
       rtv=$?
       echo "e2 ended <- RTV: " $rtv
