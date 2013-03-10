@@ -140,6 +140,7 @@ minidlna_1.0.24_src.tar.gz;http://netcologne.dl.sourceforge.net/project/minidlna
 minidlna_1.0.25_src.tar.gz;http://sourceforge.net/projects/minidlna/files/minidlna/1.0.25
 vlc-1.1.13.tar.bz2;http://download.videolan.org/pub/videolan/vlc/1.1.13
 djmount-0.71.tar.gz;http://sourceforge.net/projects/djmount/files/djmount/0.71
+wakeonlan_0.41.orig.tar.gz;http://ftp.de.debian.org/debian/pool/main/w/wakeonlan
 libupnp-1.6.17.tar.bz2;http://sourceforge.net/projects/pupnp/files/latest/download
 rarfs-0.1.0.tar.gz;http://downloads.sourceforge.net/project/rarfs/rarfs/0.1.0
 sshfs-fuse-2.4.tar.bz2;http://fossies.org/linux/misc

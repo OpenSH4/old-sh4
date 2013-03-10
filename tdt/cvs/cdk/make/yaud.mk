@@ -60,6 +60,8 @@ $(DEPDIR)/%net-utils: \
 	%ethtool \
 	%grep \
 	%samba \
+	%djmount \
+	%wakeonlan \
 	%opkg
 
 #
