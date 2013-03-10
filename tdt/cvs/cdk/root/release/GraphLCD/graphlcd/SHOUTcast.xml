@@ -1,0 +1,19 @@
+<!-- Das ist das Webradio -->
+<skin>
+	<fonts>
+		<font filename="graphlcd/fonts/bogboo.ttf" name="Bogboo" scale="100" />
+	</fonts>
+	<screen name="SHOUTcast"			position="0,0" size="320,240">
+		<widget source="SHOUTcast" render="LCDPicon180" position="0,5" zPosition="0" size="301,180">
+			<convert type="ServiceName">Name</convert>
+			<convert type="TextCase">ToUpper</convert>
+		</widget>
+		
+		<widget source="SHOUTcast" 	render="Progress" 	position="305,5"  size="10,180"   borderWidth="1" orientation="orBottomToTop">
+			<convert type="EventTime">Progress</convert>
+		</widget>
+		<widget source="SHOUTcast" render="Label" 		position="0,190" zPosition="1" size="320,50" font="Bogboo;45" valign="center" noWrap="1">
+			<convert type="EventName">Name</convert>
+		</widget>
+	</screen>
+</skin>

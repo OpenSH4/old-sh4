@@ -1,0 +1,9 @@
+<!-- Wizard -->
+<skin>
+	<screen name="WizardSummary" position="0,0" size="320,120">
+		<widget source="text" render="Label" position="0,0" size="320,50" font="Regular;45" transparent="1" />
+		<widget source="parent.list" render="Label" position="0,60" size="320,170" font="Regular;45">
+			<convert type="StringListSelection" />
+		</widget>
+	</screen>
+</skin>

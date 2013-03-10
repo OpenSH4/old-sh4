@@ -1,0 +1,9 @@
+<!-- Menue -->
+<skin>
+	<screen name="MenuSummary" 						position="0,0" size="320,240">
+		<widget source="parent.title" render="Label" position="0,0" size="320,100" font="Regular;40" halign="center" valign="top" foregroundColor="yellow"/>
+		<widget source="parent.menu" render="Label" position="0,110" size="320,100" font="Regular;47" halign="center" valign="top">
+			<convert type="StringListSelection" />
+		</widget>
+	</screen>
+</skin>

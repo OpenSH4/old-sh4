@@ -1,0 +1,30 @@
+<!-- Das ist der Hauptbildschirm -->
+<skin>
+	<fonts>
+		<font filename="graphlcd/fonts/nokian.ttf" name="Nokian" scale="100" />
+	</fonts>
+	<screen name="InfoBarSummary" 					position="0,0" size="320,240">
+		    <widget source="session.CurrentService" render="LCDPicon100" position="0,0" zPosition="0" size="167,100">
+			<convert type="ServiceName">Name</convert>
+			<convert type="TextCase">ToUpper</convert>
+    </widget>
+		
+		<eLabel position="0,100" size="320,1"  backgroundColor="white" />
+		
+		<widget source="session.Event_Now"  render="Label" 		position="0,100" size="320,118" font="Regular;37" halign="center" valign="top">
+			<convert type="EventName">Name</convert>
+		</widget>
+		<widget source="session.Event_Now" render="Progress" 	position="5,220" size="310,18" borderWidth="1" borderColor="#ffffff" backgroundColor="background" >
+			<convert type="EventTime">Progress</convert>
+		</widget>
+				<widget source="global.CurrentTime" render="Label" position="170,3" size="145,50" font="Nokian;45" halign="right" valign="center" zPosition="1">
+			<convert type="ClockToText">Format:%H:%M</convert>
+		</widget>
+	<widget source="session.RecordState" render="Pixmap" pixmap="graphlcd/images/rec.png" position="230,58" zPosition="1" size="60,30" transparent="1">
+        <convert type="ConditionalShowHide"></convert>
+    </widget>
+	<widget source="session.RecordState" render="Pixmap" pixmap="graphlcd/images/norec.png" position="230,58" zPosition="1" size="60,30" transparent="1">
+        <convert type="ConditionalShowHide">Invert</convert>
+    </widget>
+	</screen>
+</skin>

@@ -1,0 +1,14 @@
+<!-- Movie Player -->
+<skin>
+	<screen name="InfoBarMoviePlayerSummary"		position="0,0" size="320,240">
+		<widget source="session.CurrentService" render="Label"      position="0,3"   size="320,100" font="Regular;50" halign="center" valign="top" >
+			<convert type="ServiceName">Name</convert>
+		</widget>
+		<widget source="session.CurrentService" render="Progress"   position="0,100" size="320,20" borderWidth="1">
+			<convert type="ServicePosition">Position</convert>
+		</widget>
+		<widget source="global.CurrentTime" render="Label" position="0,140" size="320,100" font="LCD;80" halign="center" valign="center">
+			<convert type="ClockToText">Format:%H:%M</convert>
+		</widget>
+	</screen>
+</skin>

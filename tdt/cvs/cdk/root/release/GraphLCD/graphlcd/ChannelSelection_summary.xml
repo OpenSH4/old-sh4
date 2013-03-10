@@ -1,0 +1,5 @@
+<!-- Kanalauswahl -->
+<skin>
+	<screen name="ChannelSelection_summary"			position="0,0" size="320,240">
+	</screen>
+</skin>

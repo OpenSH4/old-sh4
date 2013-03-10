@@ -1,0 +1,11 @@
+<!-- Standby -->
+<skin>
+	<screen name="StandbySummary" 					position="0,0" size="320,240">
+		<widget source="global.CurrentTime" render="Label" position="0,0" size="320,170" font="Regular;100" foregroundColor="grey" halign="center" valign="center">
+			<convert type="ClockToText">Format:%H:%M</convert>
+		</widget>
+		<widget source="global.CurrentTime" render="Label" position="0,170" size="320,50" font="Regular;50" foregroundColor="grey" halign="center" valign="center">
+			<convert type="ClockToText">Format:%d.%m.%Y</convert>
+		</widget>
+	</screen>
+</skin>

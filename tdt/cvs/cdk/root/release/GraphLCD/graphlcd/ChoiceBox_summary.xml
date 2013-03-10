@@ -1,0 +1,6 @@
+<!-- Auswahl Box -->
+<skin>
+	<screen name="ChoiceBox_summary" position="0,0" size="320,240">
+		<widget source="parent.summary_list" render="Label" position="5,5" size="310,230" font="Regular;30" />
+	</screen>
+</skin>

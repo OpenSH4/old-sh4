@@ -1,0 +1,12 @@
+<!-- Media Player  -->
+<skin>
+	<screen name="MediaPlayerLCDScreen" 			position="0,0" size="320,240">
+		<widget source="session.CurrentService" render="Label" position="6,3" size="320,50" font="Regular;50">
+			<convert type="ServiceName"></convert>
+		</widget>
+		<eLabel 			 position="6,54" size="320,1"  backgroundColor="white" />
+		<widget name="text1" position="6,55" size="320,50" font="Regular;45" valign="top" />
+		<widget name="text3" position="6,105" size="320,50" font="Regular;45" valign="top" />
+		<widget name="text4" position="0,0" size="0,0"/>
+	</screen>
+</skin>

@@ -1,0 +1,8 @@
+<!-- Konfiguration -->
+<skin>
+	<screen name="SetupSummary" position="0,0" size="320,240">
+		<widget source="SetupTitle" render="Label" position="0,0" size="320,75" halign="left" font="Regular;25" />
+		<widget source="SetupEntry" render="Label" position="0,75" size="320,75" halign="center" font="Regular;25" />
+		<widget source="SetupValue" render="Label" position="0,150" size="320,75" halign="right" font="Regular;25" />
+	</screen>
+</skin>

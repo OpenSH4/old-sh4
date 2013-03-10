@@ -1,0 +1,8 @@
+<!-- Service Suche -->
+<skin>
+	<screen name="ServiceScanSummary" position="0,0" size="320,240"> 
+		<widget name="Title" position="0,0" size="320,50" font="Regular;25" transparent="1" halign="center" valign="top" />
+		<widget name="Service" position="0,50" size="320,150" font="Regular;25" transparent="1" halign="center" valign="top" />
+		<widget name="scan_progress" position="0,210" zPosition="1" borderWidth="1" size="320,20" backgroundColor="dark" />
+	</screen>
+</skin>

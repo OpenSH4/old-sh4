@@ -1,0 +1,6 @@
+<!-- Simpleinfo -->
+<skin>
+	<screen name="SimpleSummary" position="0,0" size="320,240">
+		<widget source="parent.Title" render="Label" position="0,0" size="320,240" font="Regular;35" halign="center" valign="center" />
+	</screen>
+</skin>
