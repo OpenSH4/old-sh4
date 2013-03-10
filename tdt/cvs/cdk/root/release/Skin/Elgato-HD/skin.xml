@@ -225,244 +225,244 @@
 <screen name="MyMenu" 							position="center,center" size="520,600" title="TeamCS Menu" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/home.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="myMenu" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="EMU" 							position="center,center" size="520,600" title="Emu Menu" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/camd.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="EMU" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="SYSTEM" 							position="center,center" size="520,600" title="System Information" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/setup.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="SYSTEM" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="SWAPPART" 							position="center,center" size="520,600" title="Swap Menu" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/setup.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="SWAPPART" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="BACKUP" 							position="center,center" size="520,600" title="Backup Menu" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/file.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />menu
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />menu
 		<widget name="BACKUP" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="TIMESET" 							position="center,center" size="520,600" title="Display Uhr Einstellungen" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/setup.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="TIMESET" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="FSCKTIME" 							position="center,center" size="520,600" title="FileSystemCheck Menu" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/setup.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="FSCKTIME" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="WOLSET" 							position="center,center" size="520,600" title="WakeOnLan Menu" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/timer.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="WOLSET" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="OPENSET" 							position="center,center" size="520,600" title="OpenVPN Menu" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/net.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="OPENSET" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="UPNPSET" 							position="center,center" size="520,600" title="Upnp Menu" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/net.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="UPNPSET" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="SAMBASET" 							position="center,center" size="520,600" title="Samba Menu" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/file.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="SAMBASET" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="BENUTZER" 							position="center,center" size="520,600" title="Benutzerdaten Menu" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/camd.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="BENUTZER" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="TUNER" 							position="center,center" size="520,600" title="Tuner Menu" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/setup.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="TUNER" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="WLAN" 							position="center,center" size="520,600" title="WLan Menu" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/setup.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="WLAN" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="SYSBACKUP" 							position="center,center" size="520,600" title="SystemBackup erstellen" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/setup.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="myText" position="20,65" size="480,480" zPosition="1" font="Regular;18" transparent="1"/>
 		<widget name="myRedBtn" position="10,340" size="100,40" zPosition="1" font="Regular;16" transparent="1"/>
 		<widget name="myGreenBtn" position="120,340" size="100,40" zPosition="1" font="Regular;16" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="EMUDUAL" 							position="center,center" size="520,600" title="DualEmu Menu" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/camd.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="EMUDUAL" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="USER" 							position="center,center" size="520,600" title="Benutzer" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/camd.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="USER" position="20,65" size="480,480" zPosition="1" font="Regular;18" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="PASS" 							position="center,center" size="520,600" title="Password" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/camd.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="PASS" position="20,65" size="480,480" zPosition="1" font="Regular;18" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="DYN" 							position="center,center" size="520,600" title="IP Dyndns" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/camd.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="DYN" position="20,65" size="480,480" zPosition="1" font="Regular;18" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
-<screen name="SERVER" 							position="center,center" size="520,600" title="Client Menu" backgroundColor="transparent" flags="wfNoBorder">
+<screen name="SERVER" 							position="center,center" size="520,600" title="Server" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/camd.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
-		<widget name="SERVER" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
+		<widget name="SERVER" position="20,65" size="480,480" zPosition="1" font="Regular;18" transparent="1"/>
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="CCPORT" 							position="center,center" size="520,600" title="CCcam Port" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/camd.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="CCPORT" position="20,65" size="480,480" zPosition="1" font="Regular;18" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="MGPORT" 							position="center,center" size="520,600" title="MGcamd Port" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/camd.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="MGPORT" position="20,65" size="480,480" zPosition="1" font="Regular;18" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="MGPORT1" 							position="center,center" size="520,600" title="MGcamd Port 2" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/camd.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="MGPORT1" position="20,65" size="480,480" zPosition="1" font="Regular;18" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="CAMD3" 							position="center,center" size="520,600" title="camd3 Port" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/camd.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="CAMD3" position="20,65" size="480,480" zPosition="1" font="Regular;18" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="FERNB" 							position="center,center" size="520,600" title="Remote Menu" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/setup.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="FERNB" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="BOOTS" 							position="center,center" size="520,600" title="FSCK Boot Intervall" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/setup.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="BOOTS" position="20,65" size="480,480" zPosition="1" font="Regular;18" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="BOXOFF" 							position="center,center" size="520,600" title="Display OFF Menu" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/setup.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="BOXOFF" position="20,65" size="480,480" zPosition="1" itemHeight="35" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel32.png" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="MAC" 							position="center,center" size="520,600" title="MAC Adresse" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/timer.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="MAC" position="20,65" size="480,480" zPosition="1" font="Regular;18" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="WOLPORT" 							position="center,center" size="520,600" title="WOL Port" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/timer.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="WOLPORT" position="20,65" size="480,480" zPosition="1" font="Regular;18" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="WOLTIMESET" 							position="center,center" size="520,600" title="WOL Time" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap 								position="   0, 0" size="520,600" zPosition="-1" pixmap="Elgato-HD/menu_bg.png"/>
 		<widget source="Title" render="Label" position="20,12" size="480,33" halign="center" font="Regular;30" backgroundColor="background" shadowColor="black" shadowOffset="-3,-3" transparent="1"/>
-		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/timer.png" alphatest="on"/>
-		<eLabel 								position="20,55" size="480,  1" backgroundColor="white" />
+		<ePixmap 								position="480,10" size="  35, 35" pixmap="Elgato-HD/micon/pic.png" alphatest="on"/>
+		<eLabel 								position="  20,55" size="520,  1" backgroundColor="white" />
 		<widget name="WOLTIMESET" position="20,65" size="480,480" zPosition="1" font="Regular;18" transparent="1"/>
-		<eLabel 										position="20,555" size="480,1" backgroundColor="white" />
+		<eLabel 										position="20,555" size="520,1" backgroundColor="white" />
 	</screen>
 <screen name="MerlinDownloadBrowser" 			position="center,center" size="750,600" title="Downloadable plugins" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap position="0,0" size="750,600" zPosition="-1" pixmap="Elgato-HD/menu_bg2.png"/>
@@ -473,7 +473,7 @@
 		<widget name="list" 	position="20,80" size="710,500" zPosition="2" scrollbarMode="showOnDemand" selectionPixmap="Elgato-HD/selpic/sel50.png" backgroundPixmap="Elgato-HD/selpic/sep750.png" transparent="1"/>
 		<widget name="text" 	position="0,0" size="0,0"/>
 	</screen>
-<!-- End TeamCS menu -->
+<!-- End TeamCS menu -->Merlin
 	<screen name="RadioInfoBar" 					position="50,500" size="1180,180" title="InfoBar" backgroundColor="transparent" flags="wfNoBorder">
 		<ePixmap position="0,0" size="1180,130" zPosition="-2" pixmap="Elgato-HD/info_bg.png" />
 		<ePixmap position="0,50" size="1180,130" zPosition="-1" pixmap="Elgato-HD/info_bg.png" alphatest="on"/>
