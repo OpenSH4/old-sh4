@@ -450,9 +450,19 @@ release_hl101: release_common_utils
 	cp -f $(buildprefix)/linux-sh4/fs/ntfs/*.ko $(prefix)/release/lib/modules/
 	cp -f $(buildprefix)/linux-sh4/fs/udf/*.ko $(prefix)/release/lib/modules/
 	cp -f $(buildprefix)/linux-sh4/drivers/usb/serial/*.ko $(prefix)/release/lib/modules/
+	echo "Kopiere Plugin und Skin"
+	echo "##################################################"
 	cp -R $(buildprefix)/root/release/Plugin/* $(prefix)/release/usr/lib/enigma2/python/Plugins/Extensions/
 	cp -R $(buildprefix)/root/release/Skin/* $(prefix)/release/usr/local/share/enigma2/
 	cp -f $(buildprefix)/root/release/settings $(prefix)/release/etc/enigma2/
+	echo "erestelle noetige Ordnerstrucktur fuer TeamCS Menu"
+	echo "##################################################"
+	mkdir $(prefix)/release/var/keys
+	mkdir $(prefix)/release/var/keys/Benutzerdaten
+	mkdir $(prefix)/release/var/keys/Benutzerdaten/.emu
+	mkdir $(prefix)/release/var/keys/Benutzerdaten/.system
+	mkdir $(prefix)/release/var/keys/Benutzerdaten/.web
+	echo "##################################################"
 #
 # release_adb_box
 #
