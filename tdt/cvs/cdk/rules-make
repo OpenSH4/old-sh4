@@ -246,6 +246,8 @@ wpa_supplicant;0.7.3;wpa_supplicant-0.7.3;wpa_supplicant-0.7.3.tar.gz;extract:wp
 #wpa_supplicant;1.0;wpa_supplicant-1.0;wpa_supplicant-1.0.tar.gz;extract:wpa_supplicant-1.0.tar.gz
 ethtool;6;ethtool-6;ethtool-6.tar.gz;extract:ethtool-6.tar.gz
 #ethtool;2.6.36;ethtool-2.6.36;ethtool-2.6.36.tar.gz;extract:ethtool-2.6.36.tar.gz
+djmount;0.71;djmount-0.71;djmount-0.71.tar.gz;extract:djmount-0.71.tar.gz
+wakeonlan;0.41;wakeonlan_0.41.orig;wakeonlan_0.41.orig.tar.gz;extract:wakeonlan_0.41.orig.tar.gz
 
 
 
