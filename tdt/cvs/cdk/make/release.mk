@@ -461,6 +461,8 @@ release_hl101: release_common_utils
 	cp -R $(buildprefix)/root/release/Scripte/tools $(prefix)/release/var/config/
 	cp -f $(prefix)/cdkroot/usr/bin/djmount $(prefix)/release/usr/bin/
 	cp -f $(buildprefix)/root/release/font/* $(prefix)/release/usr/share/fonts/
+	cp -f $(buildprefix)/root/release/converter/*.py $(prefix)/release/usr/lib/enigma2/python/Components/Converter/
+	cp -f $(buildprefix)/root/release/converter/render/*.py $(prefix)/release/usr/lib/enigma2/python/Components/Renderer/
 	mkdir $(prefix)/release/var/keys
 	mkdir $(prefix)/release/var/keys/Benutzerdaten
 	mkdir $(prefix)/release/var/keys/Benutzerdaten/.emu
