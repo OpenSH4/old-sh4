@@ -135,6 +135,7 @@ obj-y += bpamem/
 
 ifdef HL101
 obj-y += smartcard/
+obj-y += dvbloopback/
 endif
 
 ifdef ADB_BOX
