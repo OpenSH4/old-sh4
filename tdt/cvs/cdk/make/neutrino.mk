@@ -329,6 +329,7 @@ neutrino-twin-distclean:
 #
 # neutrino-hd2-exp branch
 #
+#
 $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetype libjpeg libpng libgif libid3tag libcurl libmad libvorbisidec libboost libflac openssl
 	rm -rf $(appsdir)/neutrino-hd2-exp
 	rm -rf $(appsdir)/neutrino-hd2-exp.org
@@ -341,6 +342,12 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 	cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp.diff"
 	touch $@
 
+if ENABLE_HL101
+NHD2_BOXTYPE = vip
+else
+NHD2_BOXTYPE = $(BOXTYPE)
+endif
+
 $(appsdir)/neutrino-hd2-exp/config.status:
 	export PATH=$(hostprefix)/bin:$(PATH) && \
 	cd $(appsdir)/neutrino-hd2-exp && \
@@ -350,7 +357,7 @@ $(appsdir)/neutrino-hd2-exp/config.status:
 			--build=$(build) \
 			--host=$(target) \
 			$(N_CONFIG_OPTS) \
-			--with-boxtype=$(BOXTYPE) \
+			--with-boxtype=$(NHD2_BOXTYPE) \
 			--with-libdir=/usr/lib \
 			--with-datadir=/usr/share/tuxbox \
 			--with-fontdir=/usr/share/fonts \
