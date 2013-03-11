@@ -340,6 +340,7 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 	cp -ra $(archivedir)/neutrino-hd2-exp.svn $(appsdir)/neutrino-hd2-exp; \
 	cp -ra $(appsdir)/neutrino-hd2-exp $(appsdir)/neutrino-hd2-exp.org
 	cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp.diff"
+	cp -f $(buildprefix)/root/imageinfo.h $(appsdir)/neutrino-hd2-exp/src/gui/
 	touch $@
 
 if ENABLE_HL101
@@ -347,6 +348,7 @@ NHD2_BOXTYPE = vip
 else
 NHD2_BOXTYPE = $(BOXTYPE)
 endif
+
 
 $(appsdir)/neutrino-hd2-exp/config.status:
 	export PATH=$(hostprefix)/bin:$(PATH) && \
