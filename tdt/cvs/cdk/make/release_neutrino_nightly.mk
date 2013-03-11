@@ -389,20 +389,61 @@ release_neutrino_whitebox: release_neutrino_common_utils
 # release_hl101
 #
 release_neutrino_hl101: release_neutrino_common_utils
-	echo "hl101" > $(prefix)/release_neutrino/etc/hostname
+	echo "ArgusVIP" > $(prefix)/release_neutrino/etc/hostname
 	cp $(buildprefix)/root/release/halt_hl101 $(prefix)/release_neutrino/etc/init.d/halt
 	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/proton/proton.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom/aotom.ko \
+	$(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom_vip1/aotom_vip1.ko \
+	$(prefix)/release_neutrino/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release_neutrino/lib/modules/
-	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release_neutrino/boot/video.elf
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko \
+	$(prefix)/release_neutrino/lib/modules/
+	cp -p $(buildprefix)/root/bootscreen/video.elf $(prefix)/release_neutrino/boot/video.elf
+	cp -p $(buildprefix)/root/bootscreen/audio.elf $(prefix)/release_neutrino/boot/audio.elf
 	cp $(targetprefix)/lib/firmware/dvb-fe-avl2108.fw $(prefix)/release_neutrino/lib/firmware/
 	cp $(targetprefix)/lib/firmware/dvb-fe-stv6306.fw $(prefix)/release_neutrino/lib/firmware/
 	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl6222,cx24116,cx21143}.fw
-	cp -dp $(buildprefix)/root/etc/lircd_hl101.conf $(prefix)/release_neutrino/etc/lircd.conf
-	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release_neutrino/usr/bin/
 	rm -f $(prefix)/release_neutrino/bin/evremote
 	rm -f $(prefix)/release_neutrino/bin/gotosleep
+	cp -dp $(buildprefix)/root/etc/lircd_alt.conf $(prefix)/release_neutrino/etc/lircd_alt.conf
+	cp -dp $(buildprefix)/root/etc/lircd_alt_gruen.conf $(prefix)/release_neutrino/etc/lircd_alt_gruen.conf
+	cp -dp $(buildprefix)/root/etc/lircd_neu.conf $(prefix)/release_neutrino/etc/lircd_neu.conf
+	cp -dp $(buildprefix)/root/etc/lircd_neu_gruen.conf $(prefix)/release_neutrino/etc/lircd_neu_gruen.conf
+	cp -dp $(buildprefix)/root/etc/lircd_opti.conf $(prefix)/release_neutrino/etc/lircd_opti.conf
+	cp -dp $(buildprefix)/root/etc/lircd_pingolux.conf $(prefix)/release_neutrino/etc/lircd_pingolux.conf
+	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release_neutrino/usr/bin/
+	cp -p $(buildprefix)/root/usr/local/bin/dvbtest $(prefix)/release_neutrino/usr/local/bin/
+	mkdir -p $(prefix)/release_neutrino/boot/first
+	cp -p $(buildprefix)/root/bootscreen/first/* $(prefix)/release_neutrino/boot/first/
+	cp -p $(buildprefix)/root/bootscreen/NeutrinoHD.mp4 $(prefix)/release_neutrino/boot/
+	mkdir -p $(prefix)/release_neutrino/var/run/lirc
+	mkdir $(prefix)/release_neutrino/var/config
+	mkdir $(prefix)/release_neutrino/var/config/system
+	mkdir $(prefix)/release_neutrino/var/config/shutdown
+	cp -p $(buildprefix)/root/config/shutdown/* $(prefix)/release_neutrino/var/config/shutdown/
+	chmod 755 $(prefix)/release_neutrino/usr/local/bin/dvbtest
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/rcS
+	chmod 755 $(prefix)/release_neutrino/var/config/shutdown/shutdown.sh
+	chmod 755 $(prefix)/release_neutrino/var/config/shutdown/gui_neustart.sh
+	chmod 755 $(prefix)/release_neutrino/var/config/shutdown/reboot.sh
+	rm -f $(prefix)/release_neutrino/bin/evremote
+	rm -f $(prefix)/release_neutrino/bin/vdstandby
+	cp -f $(buildprefix)/root/config/shutdown/* $(prefix)/release_neutrino/var/config/shutdown/
+	cp -f $(buildprefix)/linux-sh4/drivers/net/wireless/rt2x00/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/drivers/net/wireless/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/drivers/net/wireless/zd1211rw/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/cachefiles/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/cifs/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/fat/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/fscache/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/isofs/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/ntfs/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/udf/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/drivers/usb/serial/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp -p $(buildprefix)/root/root_neutrino/var/tuxbox/config/keymap.conf $(prefix)/release_neutrino/var/tuxbox/config/
+	cp -p $(buildprefix)/root/root_neutrino/var/tuxbox/config/keymap_opti.conf $(prefix)/release_neutrino/var/tuxbox/config/
+	
 
 #
 # release_adb_box
