@@ -75,51 +75,6 @@
   
 --- 79,84 ----
 ***************
-*** 352,357 ****
---- 355,363 ----
-  
-  	port->pins[offset].direction = direction;
-  	set__PIO_PCx(port->base, offset, direction);
-+ 
-+ 	if (!port->pins[offset].stpio.pin_name)
-+ 		port->pins[offset].stpio.pin_name = "-----";
-  }
-  
-  
-***************
-*** 465,477 ****
-  
-  	gpio_pin->stpio.port_no = port_no;
-  	gpio_pin->stpio.pin_no = pin_no;
-! 
-  	return &gpio_pin->stpio;
-  }
-  EXPORT_SYMBOL(__stpio_request_pin);
-  
-  void stpio_free_pin(struct stpio_pin *pin)
-  {
-  	stm_pad_release_gpio(stm_gpio(pin->port_no, pin->pin_no));
-  }
-  EXPORT_SYMBOL(stpio_free_pin);
---- 475,491 ----
-  
-  	gpio_pin->stpio.port_no = port_no;
-  	gpio_pin->stpio.pin_no = pin_no;
-! 	gpio_pin->stpio.pin_name = (name==NULL)?"-----":name;
-  	return &gpio_pin->stpio;
-  }
-  EXPORT_SYMBOL(__stpio_request_pin);
-  
-  void stpio_free_pin(struct stpio_pin *pin)
-  {
-+ 	stpio_configure_pin(pin, STPIO_IN);
-+ 	pin->pin_name = NULL;
-+ 	pin->func = 0;
-+ 	pin->dev = 0;
-  	stm_pad_release_gpio(stm_gpio(pin->port_no, pin->pin_no));
-  }
-  EXPORT_SYMBOL(stpio_free_pin);
-***************
 *** 587,592 ****
 --- 601,687 ----
   }
@@ -144,7 +99,7 @@
 + 
 + static inline const char *stpio_get_handler_name(void *func)
 + {
-+ 	static char sym_name[KSYM_NAME_LEN];
++ 	//static char sym_name[KSYM_NAME_LEN];
 + 	char *modname;
 + 	unsigned long symbolsize, offset;
 + 	const char *symb;
@@ -152,8 +107,8 @@
 + 	if (func == NULL)
 + 		return "";
 + 
-+ 	symb = kallsyms_lookup((unsigned long)func, &symbolsize, &offset,
-+ 			&modname, sym_name);
++ 	//symb = kallsyms_lookup((unsigned long)func, &symbolsize, &offset,
++ 			//&modname, sym_name);
 + 
 + 	return symb ? symb : "???";
 + }
@@ -179,11 +134,11 @@
 + 			pin = &port->pins[pin_no];
 + 			if(!pin) continue;
 + 
-+ 			char *name = pin->stpio.pin_name ? pin->stpio.pin_name : "";
++ 			//char *name = pin->stpio.pin_name ? pin->stpio.pin_name : "";
 + 			len += sprintf(page + len,
 + 					"PIO %d.%d [%-10s] [%s] [%s]\n",
-+ 					port_no, pin_no, name,
-+ 					stpio_get_direction_name(pin->direction),
++ 					port_no, pin_no, //name,
++ 			//		stpio_get_direction_name(pin->direction),
 + 					stpio_get_handler_name(pin->stpio.func));
 + 
 + 			if (len + begin > off + count)
