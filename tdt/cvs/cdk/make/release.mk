@@ -428,11 +428,6 @@ release_hl101: release_common_utils
 	mkdir $(prefix)/release/var/config/system
 	mkdir $(prefix)/release/var/config/shutdown
 	cp -p $(buildprefix)/root/config/shutdown/* $(prefix)/release/var/config/shutdown/
-	chmod 755 $(prefix)/release/usr/local/bin/dvbtest
-	chmod 755 $(prefix)/release/etc/init.d/rcS
-	chmod 755 $(prefix)/release/var/config/shutdown/shutdown.sh
-	chmod 755 $(prefix)/release/var/config/shutdown/gui_neustart.sh
-	chmod 755 $(prefix)/release/var/config/shutdown/reboot.sh
 	rm -f $(prefix)/release/bin/evremote
 	rm -f $(prefix)/release/bin/vdstandby
 	cp -f $(buildprefix)/root/config/shutdown/* $(prefix)/release/var/config/shutdown/
@@ -459,10 +454,6 @@ release_hl101: release_common_utils
 	cp -R $(buildprefix)/root/release/Scripte/emu $(prefix)/release/var/config/
 	cp -R $(buildprefix)/root/release/Scripte/system $(prefix)/release/var/config/
 	cp -R $(buildprefix)/root/release/Scripte/tools $(prefix)/release/var/config/
-	chmod 755 $(prefix)/release/var/config/tools/*.sh
-	chmod 755 $(prefix)/release/var/config/system/*.sh
-	chmod 755 $(prefix)/release/var/config/emu/*.sh
-	chmod 755 $(prefix)/release/var/config/*.sh
 	cp -f $(prefix)/cdkroot/usr/bin/djmount $(prefix)/release/usr/bin/
 	cp -f $(buildprefix)/root/release/font/* $(prefix)/release/usr/share/fonts/
 	cp -f $(buildprefix)/root/release/converter/*.py $(prefix)/release/usr/lib/enigma2/python/Components/Converter/
