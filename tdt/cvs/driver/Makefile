@@ -134,6 +134,7 @@ obj-y += compcache/
 obj-y += bpamem/
 
 ifdef HL101
+obj-y += cec/
 obj-y += smartcard/
 obj-y += dvbloopback/
 endif
