@@ -1554,6 +1554,7 @@ int  YWPANEL_FP_GetVersion(YWPANEL_Version_t *version)
 
 	//printk("%s:%d\n", __FUNCTION__, __LINE__);
 
+	/* Deaktiviert das GetVersions ergebniss damit der Vip1v1 den treiber weiter laden kann, brauchen diese daten nicht*/
 	/*if(YWPANEL_FP_SendData(&data) != true)
 	{
 		ywtrace_print(TRACE_ERROR,"YWPANEL_FP_SendData not successfully!![%d]\n",__LINE__);
@@ -2667,6 +2668,8 @@ static int YWPANEL_VFD_DETECT(void)
 	}
 	/* use i2c write to detect */
 	ret = i2c_transfer(panel_i2c_adapter, &i2c_msg, 1);
+
+	/* Vip1v1 benötigt den BUS zwar jedoch nicht um einen String zu erzeugen, die antwort wäre Fehlerhaft und wird umgangen */
 	//if (ret < 0 ) {
 		/* oops - no Frontcontroller at given Busnum:Addr??? */
 	/*	printk("%s: error %d - no Frontcontroller? @%d\n", __FUNCTION__, ret, __LINE__);
@@ -2804,6 +2807,7 @@ int YWPANEL_VFD_Init(void)
                 ywtrace_print(TRACE_ERROR, "vfd detect failed\n");
 	/*                return ErrorCode; */
 	/* may be a VIP1V1 - should we use YWVFD_STAND_BY or YWVFD_COMMON as display type? */
+	/* hier gehts direckt weiter zum String YWVFD_COMMON */
                 YWVFD_INFO.vfd_type=YWVFD_COMMON;
     }
 

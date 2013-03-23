@@ -170,6 +170,12 @@ static int VFD_Show_Time(u8 hh, u8 mm)
 		return -1;
 	}
 
+	/* Vip1v1 benutzt hier die Alte Funktion um direckt */
+	/* die Zeit zu setzen, Vip1v2 würde hier nicht showtime */
+	/* verwenden sondern settime und die zeit via I2C zu schreiben */
+	/* was beim Vip1v1 nicht funktionieren würde */
+	/* von daher direckte Ausgabe des Zeitgebers */
+	/*return YWPANEL_FP_SetTime(hh*3600 + mm*60);*/
 	return YWPANEL_VFD_ShowTime(hh, mm);
 }
 
@@ -597,6 +603,7 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 		}
 #endif
 //#if defined(HL101) 
+/* Hier verwenden wir wie der Sparks die Icons die durchaus Funktionieren */
 		icon_nr = aotom_data.u.icon.icon_nr;
 		//e2 icons workarround
 		//printk("icon_nr = %d\n", icon_nr);
@@ -790,7 +797,7 @@ static struct file_operations vfd_fops =
 
 /*----- Button driver -------*/
 
-static char *button_driver_name = "fulan front panel buttons";
+static char *button_driver_name = "Vip1 - Opticum9500 Frontpanel Buttons";
 static struct input_dev *button_dev;
 static int bad_polling = 1;
 static struct workqueue_struct *fpwq;
@@ -1010,6 +1017,6 @@ module_param(gmt,charp,0);
 MODULE_PARM_DESC(gmt, "gmt offset (default +0000");
 
 
-MODULE_DESCRIPTION("VFD module for fulan boxes");
-MODULE_AUTHOR("Spider-Team, oSaoYa");
+MODULE_DESCRIPTION("VFD module for Vip1v1 und Opticum9500");
+MODULE_AUTHOR("Spider-Team, oSaoYa, Ducktrick");
 MODULE_LICENSE("GPL");
