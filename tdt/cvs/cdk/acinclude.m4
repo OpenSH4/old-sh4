@@ -65,7 +65,7 @@ AC_MSG_RESULT(done)
 
 AC_DEFUN([TUXBOX_BOXTYPE],[
 AC_ARG_WITH(boxtype,
-	[  --with-boxtype     valid values: ufs910,ufs912,ufs913,ufs922,ipbox55,ipbox99,ipbox9900,cuberevo,cuberevo_mini,cuberevo_mini2,cuberevo_mini_fta,cuberevo_250hd,cuberevo_2000hd,cuberevo_9500hd,tf7700,fortis_hdbox,octagon1008,atevio7500,spark,spark7162,hl101,hs7110,hs7810a,adb_box,whitebox,vip,homecast5101],
+	[  --with-boxtype     valid values: ufs910,ufs912,ufs913,ufs922,ipbox55,ipbox99,ipbox9900,classic,cuberevo_mini,cuberevo_mini2,cuberevo_mini_fta,cuberevo_250hd,cuberevo_2000hd,cuberevo_9500hd,tf7700,fortis_hdbox,octagon1008,atevio7500,spark,spark7162,hl101,hs7110,hs7810a,adb_box,whitebox,vip,homecast5101],
 	[case "${withval}" in
 dnl		To-Do: extend CPU types and kernel versions when needed
 		ufs910)
@@ -89,7 +89,7 @@ dnl		To-Do: extend CPU types and kernel versions when needed
 		ipbox9900)
 			BOXTYPE="$withval"
 			;;
-		cuberevo)
+		classic)
 			BOXTYPE="$withval"
 			;;
 		cuberevo_mini)
@@ -162,7 +162,7 @@ AM_CONDITIONAL(BOXTYPE_UFS922, test "$BOXTYPE" = "ufs922")
 AM_CONDITIONAL(BOXTYPE_IPBOX55, test "$BOXTYPE" = "ipbox55")
 AM_CONDITIONAL(BOXTYPE_IPBOX99, test "$BOXTYPE" = "ipbox99")
 AM_CONDITIONAL(BOXTYPE_IPBOX9900, test "$BOXTYPE" = "ipbox9900")
-AM_CONDITIONAL(BOXTYPE_CUBEREVO, test "$BOXTYPE" = "cuberevo")
+AM_CONDITIONAL(BOXTYPE_CLASSIC, test "$BOXTYPE" = "classic")
 AM_CONDITIONAL(BOXTYPE_CUBEREVO_MINI, test "$BOXTYPE" = "cuberevo_mini")
 AM_CONDITIONAL(BOXTYPE_CUBEREVO_MINI2, test "$BOXTYPE" = "cuberevo_mini2")
 AM_CONDITIONAL(BOXTYPE_CUBEREVO_MINI_FTA, test "$BOXTYPE" = "cuberevo_mini_fta")
@@ -198,8 +198,8 @@ elif test "$BOXTYPE" = "ipbox99"; then
 	AC_DEFINE(HAVE_IPBOX99_HARDWARE, 1, [building for a ipbox99])
 elif test "$BOXTYPE" = "ipbox9900"; then
 	AC_DEFINE(HAVE_IPBOX9900_HARDWARE, 1, [building for a ipbox9900])
-elif test "$BOXTYPE" = "cuberevo"; then
-	AC_DEFINE(HAVE_CUBEREVO_HARDWARE, 1, [building for a cuberevo])
+elif test "$BOXTYPE" = "classic"; then
+	AC_DEFINE(HAVE_CLASSIC_HARDWARE, 1, [building for a classic])
 elif test "$BOXTYPE" = "cuberevo_mini"; then
 	AC_DEFINE(HAVE_CUBEREVO_MINI_HARDWARE, 1, [building for an cuberevo_mini])
 elif test "$BOXTYPE" = "cuberevo_mini2"; then

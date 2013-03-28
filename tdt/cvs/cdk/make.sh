@@ -62,9 +62,9 @@ echo " 3) Kathrein UFS-912"
 echo " 4) Kathrein UFS-922"
 echo " 5) Topfield 7700 HDPVR"
 echo " 6) Fortis based (HDBOX)"
-echo " 7) SpiderBox HL-101"
+echo " 7) Duck-Trick MultiImage"
 echo " 8) Edision Argus vip"
-echo " 9) Cuberevo (IPBOX 9000)"
+echo " 9) Argus Classic"
 echo "10) Cuberevo mini (IPBOX 900)"
 echo "11) Cuberevo mini2 (IPBOX 910)"
 echo "12) Cuberevo 250 (IPBOX 91)"
@@ -101,7 +101,7 @@ case "$REPLY" in
 	 6) TARGET="--enable-fortis_hdbox";BOXTYPE="--with-boxtype=fortis_hdbox";;
 	 7) TARGET="--enable-hl101";BOXTYPE="--with-boxtype=hl101";;
 	 8) TARGET="--enable-vip";BOXTYPE="--with-boxtype=vip";;
-	 9) TARGET="--enable-cuberevo";BOXTYPE="--with-boxtype=cuberevo";;
+	 9) TARGET="--enable-classic";BOXTYPE="--with-boxtype=classic";;
 	10) TARGET="--enable-cuberevo_mini";BOXTYPE="--with-boxtype=cuberevo_mini";;
 	11) TARGET="--enable-cuberevo_mini2";BOXTYPE="--with-boxtype=cuberevo_mini2";;
 	12) TARGET="--enable-cuberevo_250hd";BOXTYPE="--with-boxtype=cuberevo_250hd";;

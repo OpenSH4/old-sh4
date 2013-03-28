@@ -135,7 +135,7 @@ MAKE_ARGS := \
 	LN_S="ln -s"
 
 PLATFORM_CPPFLAGS := \
-	$(if $(CUBEREVO),CPPFLAGS="$(CPPFLAGS) -DPLATFORM_CUBEREVO -I$(driverdir)/include -I $(buildprefix)/$(KERNEL_DIR)/include" --enable-cuberevo) \
+	$(if $(CLASSIC),CPPFLAGS="$(CPPFLAGS) -DPLATFORM_CLASSIC -I$(driverdir)/include -I $(buildprefix)/$(KERNEL_DIR)/include" --enable-classic) \
 	$(if $(CUBEREVO_MINI),CPPFLAGS="$(CPPFLAGS) -DPLATFORM_CUBEREVO_MINI -I$(driverdir)/include -I $(buildprefix)/$(KERNEL_DIR)/include" --enable-cuberevo) \
 	$(if $(CUBEREVO_MINI2),CPPFLAGS="$(CPPFLAGS) -DPLATFORM_CUBEREVO_MINI2 -I$(driverdir)/include -I $(buildprefix)/$(KERNEL_DIR)/include" --enable-cuberevo) \
 	$(if $(CUBEREVO_MINI_FTA),CPPFLAGS="$(CPPFLAGS) -DPLATFORM_CUBEREVO_MINI_FTA -I$(driverdir)/include -I $(buildprefix)/$(KERNEL_DIR)/include" --enable-cuberevo) \
@@ -181,7 +181,7 @@ DRIVER_PLATFORM := \
 	$(if $(SPARK),SPARK=$(SPARK)) \
 	$(if $(SPARK7162),SPARK7162=$(SPARK7162)) \
 	$(if $(ADB_BOX),ADB_BOX=$(ADB_BOX)) \
-	$(if $(CUBEREVO),CUBEREVO=$(CUBEREVO)) \
+	$(if $(CLASSIC),CLASSIC=$(CLASSIC)) \
 	$(if $(CUBEREVO_MINI),CUBEREVO_MINI=$(CUBEREVO_MINI)) \
 	$(if $(CUBEREVO_MINI2),CUBEREVO_MINI2=$(CUBEREVO_MINI2)) \
 	$(if $(CUBEREVO_MINI_FTA),CUBEREVO_MINI_FTA=$(CUBEREVO_MINI_FTA)) \

@@ -69,9 +69,9 @@ ${DIALOG} --menu "\n Select Target:\n " $height $width $listheight \
 4	"Kathrein UFS-922" \
 5	"Topfield 7700 HDPVR" \
 6	"Fortis based (HDBOX)" \
-7	"SpiderBox HL-101" \
+7	"Duck-Trick MultiImage" \
 8	"Edision Argus vip" \
-9	"Cuberevo (IPBOX 9000)" \
+9	"Argus Classic" \
 10	"Cuberevo mini (IPBOX 900)" \
 11	"Cuberevo mini2 (IPBOX 910)" \
 12	"Cuberevo 250 (IPBOX 91)" \
@@ -106,7 +106,7 @@ case "$REPLY" in
 	 6) TARGET="--enable-fortis_hdbox";BOXTYPE="--with-boxtype=fortis_hdbox";;
 	 7) TARGET="--enable-hl101";BOXTYPE="--with-boxtype=hl101";;
 	 8) TARGET="--enable-vip";BOXTYPE="--with-boxtype=vip";;
-	 9) TARGET="--enable-cuberevo";BOXTYPE="--with-boxtype=cuberevo";;
+	 9) TARGET="--enable-classic";BOXTYPE="--with-boxtype=classic";;
 	10) TARGET="--enable-cuberevo_mini";BOXTYPE="--with-boxtype=cuberevo_mini";;
 	11) TARGET="--enable-cuberevo_mini2";BOXTYPE="--with-boxtype=cuberevo_mini2";;
 	12) TARGET="--enable-cuberevo_250hd";BOXTYPE="--with-boxtype=cuberevo_250hd";;

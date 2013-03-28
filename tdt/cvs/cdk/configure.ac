@@ -341,13 +341,13 @@ AC_ARG_ENABLE(whitebox,
 AM_CONDITIONAL(ENABLE_WHITEBOX,test "$enable_whitebox" = "yes")
 AC_SUBST(WHITEBOX)
 
-AC_ARG_ENABLE(cuberevo,
-	AS_HELP_STRING(--enable-cuberevo, enable cuberevo stuff),
+AC_ARG_ENABLE(classic,
+	AS_HELP_STRING(--enable-classic, enable argus classic stuff),
 	[case "${enableval}" in
-		yes) CUBEREVO=cuberevo ;;
-	esac],[enable_cuberevo=no])
-AM_CONDITIONAL(ENABLE_CUBEREVO,test "$enable_cuberevo" = "yes")
-AC_SUBST(CUBEREVO)
+		yes) CLASSIC=classic ;;
+	esac],[enable_classic=no])
+AM_CONDITIONAL(ENABLE_CLASSIC,test "$enable_classic" = "yes")
+AC_SUBST(CLASSIC)
 
 AC_ARG_ENABLE(cuberevo_mini,
 	AS_HELP_STRING(--enable-cuberevo_mini, enable cuberevo mini stuff),
