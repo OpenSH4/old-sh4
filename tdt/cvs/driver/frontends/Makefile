@@ -272,6 +272,16 @@ fe-core-vip1v2-objs += base/tda10023.o
 fe-core-vip1v2-objs += base/lg031.o
 fe-core-vip1v2-objs += vip1_v2/core.o
 obj-m += fe-core-vip1v2.o 
+else ifdef CLASSIC
+###### Argus Classic
+fe-core-objs +=        hl101/stb0899_algo.o
+fe-core-objs +=        hl101/stb0899_drv.o
+fe-core-objs +=        hl101/stb6100.o
+fe-core-objs +=        hl101/stv090x.o
+fe-core-objs +=        hl101/stv6110x.o
+fe-core-objs +=        hl101/ix7306.o
+fe-core-objs +=        hl101/core.o
+obj-m += fe-core.o
 else ifdef VIP1_V2
 fe-core-objs +=        vip2/stv090x.o
 fe-core-objs +=        vip2/stv6110x.o

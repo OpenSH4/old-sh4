@@ -54,6 +54,9 @@ endif
 ifdef HL101
 CCFLAGSY += -DHL101
 endif
+ifdef CLASSIC
+CCFLAGSY += -DCLASSIC
+endif
 ifdef VIP1_V2
 CCFLAGSY += -DVIP1_V2
 endif
@@ -137,6 +140,10 @@ ifdef HL101
 obj-y += cec/
 obj-y += smartcard/
 obj-y += dvbloopback/
+endif
+
+ifdef CLASSIC
+obj-y += smartcard/
 endif
 
 ifdef ADB_BOX
