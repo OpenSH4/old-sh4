@@ -28,7 +28,7 @@ release_common_utils:
 	ln -s ../init.d/reboot $(prefix)/release/etc/rc.d/rc6.d/S90reboot
 
 #
-# release_cube_common
+# release_cube_common und Classic Release
 #
 release_cube_common:
 	cp $(buildprefix)/root/release/halt_cuberevo $(prefix)/release/etc/init.d/halt
@@ -38,7 +38,6 @@ release_cube_common:
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release/lib/modules/
 	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release/boot/video.elf
 	cp $(targetprefix)/bin/eeprom $(prefix)/release/bin
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/ipbox/micom.ko $(prefix)/release/lib/modules/
 	rm -f $(prefix)/release/lib/firmware/dvb-fe-{avl2108,avl6222,cx21143}.fw
 	rm -f $(prefix)/release/bin/tffpctl
 	rm -f $(prefix)/release/bin/vfdctl
@@ -46,11 +45,10 @@ release_cube_common:
 	rm -f $(prefix)/release/bin/tfd2mtd
 
 #
-# release_cube_common_tunner
+# release_cube_common_tunner und Classic Tuner Module
 #
 release_cube_common_tunner:
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/multituner/*.ko $(prefix)/release/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/kernel/drivers/media/dvb/frontends/dvb-pll.ko $(prefix)/release/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release/lib/modules/
 
 #
 # release_cuberevo_9500hd
