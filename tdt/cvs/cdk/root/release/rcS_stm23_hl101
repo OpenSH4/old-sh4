@@ -670,6 +670,7 @@ if [ -e /var/etc/firstboot ]; then
 		sync
 		sleep 1
 		cp /etc/lircd_opti.conf /etc/lircd.conf
+		cp /var/tuxbox/config/keymap_opti.conf /var/tuxbox/config/keymap.conf
 		if [ ! -e /var/run/lirc ]; then  
 		    mkdir /var/run/lirc
 		fi
