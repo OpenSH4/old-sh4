@@ -13,6 +13,9 @@ endif
 ifdef HL101
  PART1=1
 endif
+ifdef CLASSIC
+ PART1=1
+endif
 ifdef VIP1_V2
  PART1=1
 endif
