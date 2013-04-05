@@ -251,6 +251,8 @@ static int info_model_read(char *page, char **start, off_t off, int count,
   int len = sprintf(page, "tf7700hdpvr\n");
 #elif defined(HL101)
   int len = sprintf(page, "hl101\n");
+#elif defined(CLASSIC)
+  int len = sprintf(page, "classic\n");
 #elif defined(VIP1_V2)
   int len = sprintf(page, "vip1-v2\n");
 #elif defined(VIP2_V1)

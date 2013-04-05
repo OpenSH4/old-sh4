@@ -2,8 +2,7 @@
 
 MODDIR=/lib/modules
 
-insmod $MODDIR/vfd.ko
-insmod $MODDIR/aotom.ko
+#insmod $MODDIR/aotom.ko
 
 if [ -e /var/etc/.firstboot ]; then
    echo "WAIT 3 min" > /dev/vfd
@@ -26,15 +25,15 @@ if [ ! -e /var/etc/.firstboot ]; then
    /usr/sbin/telnetd -l /bin/autologin
 
    echo "init stmfb"
-   insmod $MODDIR/stmcore-display-stx7109c3.ko
-   insmod $MODDIR/stmfb.ko display0=720x576-32@60:12m:pal:yuv:yuv;# display1=720x576-16@50:1m:pal:cvbs;
+   insmod $MODDIR/stmcore-display-stx7100.ko
+   insmod $MODDIR/stmfb.ko display0=720x576-32@60:12m:pal:yuv:yuv;
 
    echo "LOADING MODULES"   
    echo "MODULES" >/dev/vfd
-
-   echo "load a/v firmware"
-   /bin/stslave -t st231.0 -R /boot/video.elf
-   /bin/stslave -t st231.1 -R /boot/audio.elf
+   echo "load a firmware"
+   /bin/ustslave /dev/st231-1 /boot/audio.elf
+   echo "load v firmware"
+   /bin/ustslave /dev/st231-0 /boot/video.elf
 
    echo "init embx"
    insmod $MODDIR/embxshell.ko
@@ -43,10 +42,12 @@ if [ ! -e /var/etc/.firstboot ]; then
    insmod $MODDIR/mme_host.ko transport0=shm
 
    echo "init AVS"
-   insmod $MODDIR/avs.ko type=vip1_avs
+   insmod $MODDIR/avs.ko type=fake_avs #stv6412
 
    player=`cat /proc/stb/player/version`
-   if [ $player == 'player179' ]; then
+   if [ $player == 'player191' ]; then
+		echo "[rcS] init player 191"
+   elif [ $player == 'player179' ]; then
 		echo "[rcS] init player 179"
    else
 		echo "[rcS] init player 131"
@@ -59,13 +60,16 @@ if [ ! -e /var/etc/.firstboot ]; then
    if [ $player == 'player179' ]; then
 		insmod $MODDIR/stmvout.ko
 		insmod $MODDIR/stmvbi.ko
+   elif [ $player == 'player191' ]; then
+		insmod $MODDIR/stmvout.ko
+		insmod $MODDIR/stmvbi.ko
    fi
    insmod $MODDIR/pseudocard.ko
    
    echo "init frontends"
    #demodelator type: stb0899, stv090x, cx24116, ce6353, tda10023(default stb0899)
    #tuner type: stb6100, stv6110x, sharp7306, sharp6465, lg031(default stb6100)
-   insmod $MODDIR/fe-core.ko demod=stv090x tuner=sharp7306;
+   insmod $MODDIR/fe-core.ko demod=stb0899 tuner=stb6100;
 
    echo "init drivers"
    insmod $MODDIR/cimax.ko
@@ -100,11 +104,6 @@ if [ ! -e /var/etc/.firstboot ]; then
    mknod /dev/sci1 c 169 1 
    
    /bin/evremote2 vip2 &
-
-   #DVD-PLAYER EXIT-TASTE LOAD OR EJECT DVD
-   #mount /dev/sr0 /media/dvd
-   #fix this later if we got to manage a marusys raw device driver
-   mount /dev/sda3 /hdd/
 
    /etc/init.d/portmap start
    /etc/init.d/vsftpd start
@@ -147,5 +146,5 @@ fi
 
 #never reached
 echo "REBOOT" > /dev/vfd
-echo "REBOOT VIP2"
+echo "REBOOT Classic"
 reboot

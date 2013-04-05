@@ -1,44 +1,45 @@
-*** linux-sh4-2.6.32.28_stm24_0207_orig/arch/sh/boards/mach-mb442/setup.c	2013-03-29 16:27:41.414157989 +0300
---- linux-sh4/arch/sh/boards/mach-mb442/setup.c	2013-03-29 17:40:27.204158605 +0300
-@@ -22,14 +22,33 @@
+*** linux-sh4-2.6.32.28_stm24_0207_orig/arch/sh/boards/mach-mb442/setup.c	2013-03-28 18:18:56.000000000 +0300
+--- linux-sh4/arch/sh/boards/mach-mb442/setup.c	2013-04-04 11:16:35.000000000 +0300
+@@ -21,15 +21,35 @@
+ #include <linux/mtd/physmap.h>
  #include <linux/stm/platform.h>
  #include <linux/stm/stx7100.h>
- #include <asm/irl.h>
-+#include <linux/dm9000.h>
 +#include <linux/bpa2.h>
+ #include <asm/irl.h>
++#include <linux/smsc911x.h>
++#include <linux/dm9000.h>
  
  
--
+ 
 -#define MB442_PIO_STE100P_RESET stm_gpio(2, 4)
 -#define MB442_PIO_SMC91X_RESET stm_gpio(2, 6)
 +#define MB442_PIO_STE100P_RESET stm_gpio(3, 6)
  #define MB442_PIO_FLASH_VPP stm_gpio(2, 7)
  
 -
-+ const char *LMI_VID_partalias[] = { "BPA2_Region1", "coredisplay-video", "gfx-memory", "v4l2-video-buffers", NULL };
-+ const char *LMI_SYS_partalias[] = { "BPA2_Region0", "bigphysarea", "v4l2-coded-video-buffers", NULL };
-+ 
-+ static struct bpa2_partition_desc bpa2_parts_table[] = {
-+       {
-+ 	      .name  = "LMI_VID",
-+ 	      .start = 0x10800000,
-+ 	      .size  = 0x03800000,
-+ 	      .flags = 0,
-+ 	      .aka   = LMI_VID_partalias
-+       },
-+       {
-+ 	      .name  = "LMI_SYS",
-+ 	      .start = 0,
-+ 	      .size  = 0x02600000,
-+ 	      .flags = 0,
-+ 	      .aka   = LMI_SYS_partalias
-+       }
-+ };
++const char *LMI_VID_partalias[] = { "BPA2_Region1", "coredisplay-video", "gfx-memory", "v4l2-video-buffers", NULL };
++const char *LMI_SYS_partalias[] = { "BPA2_Region0", "bigphysarea", "v4l2-coded-video-buffers", NULL };
 +  
++static struct bpa2_partition_desc bpa2_parts_table[] = {
++      {
++	      .name  = "LMI_VID",
++	      .start = 0x10800000,
++	      .size  = 0x03800000,
++	      .flags = 0,
++	      .aka   = LMI_VID_partalias
++      },
++      {
++	      .name  = "LMI_SYS",
++	      .start = 0,
++	      .size  = 0x02600000,
++	      .flags = 0,
++	      .aka   = LMI_SYS_partalias
++      }
++};
  
  void __init mb442_setup(char** cmdline_p)
  {
-@@ -43,26 +62,34 @@
+@@ -43,59 +63,97 @@
  	stx7100_configure_asc(3, &(struct stx7100_asc_config) {
  			.hw_flow_control = 0,
  			.is_console = 0, });
@@ -74,13 +75,7 @@
 +                .flags = IORESOURCE_IRQ | IORESOURCE_IRQ_HIGHLEVEL,
 +        }
 +
- };
- 
--static struct platform_device mb442_smc91x_device = {
--	.name		= "smc91x",
--	.id		= 0,
--	.num_resources	= ARRAY_SIZE(mb442_smc91x_resources),
--	.resource	= mb442_smc91x_resources,
++};
 +static struct platform_device dm9000 = {
 +        .name           = "dm9000",
 +        .id             = 0,
@@ -88,8 +83,15 @@
 +        .resource       = dm9000_resources,
  };
  
+-static struct platform_device mb442_smc91x_device = {
+-	.name		= "smc91x",
+-	.id		= 0,
+-	.num_resources	= ARRAY_SIZE(mb442_smc91x_resources),
+-	.resource	= mb442_smc91x_resources,
+-};
+ 
  static void mb442_set_vpp(struct map_info *info, int enable)
-@@ -70,32 +97,63 @@
+ {
  	gpio_set_value(MB442_PIO_FLASH_VPP, enable);
  }
  
@@ -100,35 +102,34 @@
 +};
 +
 +static struct mtd_partition mtd_parts_table[] =
-+ {
-+ 	{
-+ 		.name = "Boot Firmware",
-+ 		.size =   0x00040000,	//u-boot 0x00000000-0xa003ffff  256k
-+ 		.offset = 0x00000000,
-+ 		mask_flags: 0
++{
++	{
++		.name = "Boot Firmware",
++		.size =   0x00040000,	//u-boot 0x00000000-0xa003ffff  256k
++		.offset = 0x00000000,
++		mask_flags: 0
++	},
++	{
++		.name = "Boot Config",
++		.size =   0x00020000,	//boot config 0xa0040000-0xa005ffff  128k
++		.offset = 0x00040000,
 + 	},
++	{
++		.name = "Kernel",
++		.size =   0x00280000,	//kernel 0x40000-0x2dffff 2.5MB
++		.offset = 0x00060000,
++	},
++	{
++		.name = "ROOTFS (Backup)",
++		.size =   0x002E0000,
++		.offset = 0x00240000,
++	},
 + 	{
-+ 		.name = "Boot Config",
-+ 		.size =   0x00020000,	//boot config 0xa0040000-0xa005ffff  128k
-+ 		.offset = 0x00040000,
-+  	},
-+ 	{
-+ 		.name = "Kernel",
-+ 		.size =   0x00280000,	//kernel 0x40000-0x2dffff 2.5MB
-+ 		.offset = 0x00060000,
-+ 	},
-+ 	{
-+ 		.name = "ROOTFS (Backup)",
-+ 		.size =   0x002E0000,
-+ 		.offset = 0x00240000,
-+ 	},
-+  	{
-+ 		.name = "Full without bootloader",
-+ 		.size =   0x00580000,
-+ 		.offset = 0x00040000,
-+ 	},
-+ };
-+ 
++		.name = "Full without bootloader",
++		.size =   0x00580000,
++		.offset = 0x00040000,
++	},
++};
 +
  static struct platform_device mb442_physmap_flash = {
  	.name		= "physmap-flash",
@@ -163,16 +164,24 @@
  static int stmmac_phy_irqs[PHY_MAX_ADDR] = {
  	[STMMAC_PHY_ADDR] = IRL3_IRQ,
  };
-@@ -107,7 +165,7 @@
+@@ -106,9 +164,15 @@
+ 	.irqs = stmmac_phy_irqs,
  };
  
++static struct platform_device led_device = {
++       .name		= "ufs910-led",
++       .id		= -1,
++};
++
  static struct platform_device *mb442_devices[] __initdata = {
 -	&mb442_smc91x_device,
-+	&dm9000,
++        &dm9000,
  	&mb442_physmap_flash,
++	&led_device,
  };
  
-@@ -120,7 +178,7 @@
+ static int __init mb442_device_init(void)
+@@ -120,7 +184,7 @@
  			.out1_enabled = 1, });
  
  	stx7100_configure_ssc_i2c(0);
@@ -181,7 +190,7 @@
  	stx7100_configure_ssc_i2c(2);
  
  	stx7100_configure_usb();
-@@ -130,33 +188,9 @@
+@@ -130,33 +194,9 @@
  			.tx_enabled = 0,
  			.tx_od_enabled = 0, });
  

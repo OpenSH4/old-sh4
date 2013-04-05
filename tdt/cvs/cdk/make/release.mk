@@ -35,9 +35,21 @@ release_cube_common:
 	chmod 755 $(prefix)/release/etc/init.d/halt
 	cp $(buildprefix)/root/release/reboot_cuberevo $(prefix)/release/etc/init.d/reboot
 	chmod 777 $(prefix)/release/etc/init.d/reboot
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release/lib/modules/
-	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release/boot/video.elf
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7100.ko $(prefix)/release/lib/modules/
+	cp $(buildprefix)/root/firmware/classic/video.elf $(prefix)/release/boot/video.elf
+	cp $(buildprefix)/root/firmware/classic/audio.elf $(prefix)/release/boot/audio.elf
 	cp $(targetprefix)/bin/eeprom $(prefix)/release/bin
+	cp -f $(buildprefix)/linux-sh4/drivers/net/wireless/rt2x00/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/drivers/net/wireless/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/drivers/net/wireless/zd1211rw/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/cachefiles/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/cifs/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/fat/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/fscache/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/isofs/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/ntfs/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/udf/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/drivers/usb/serial/*.ko $(prefix)/release/lib/modules/
 	rm -f $(prefix)/release/lib/firmware/dvb-fe-{avl2108,avl6222,cx21143}.fw
 	rm -f $(prefix)/release/bin/tffpctl
 	rm -f $(prefix)/release/bin/vfdctl
