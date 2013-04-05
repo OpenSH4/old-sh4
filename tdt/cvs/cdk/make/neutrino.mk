@@ -346,7 +346,19 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 if ENABLE_HL101
 NHD2_BOXTYPE = vip
 else
+if ENABLE_VIP1_V2
+NHD2_BOXTYPE = vip
+else
+if ENABLE_VIP2_V1
+NHD2_BOXTYPE = vip
+else
+if ENABLE_CLASSIC
+NHD2_BOXTYPE = vip
+else
 NHD2_BOXTYPE = $(BOXTYPE)
+endif
+endif
+endif
 endif
 
 
