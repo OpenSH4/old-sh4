@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Linux kernel version: 2.6.32.28
-# Fri Apr  5 10:06:22 2013
+# Fri Apr  5 22:56:34 2013
 #
 CONFIG_SUPERH=y
 CONFIG_SUPERH32=y
@@ -1440,7 +1440,7 @@ CONFIG_SUNRPC=y
 # CONFIG_RPCSEC_GSS_KRB5 is not set
 # CONFIG_RPCSEC_GSS_SPKM3 is not set
 # CONFIG_SMB_FS is not set
-CONFIG_CIFS=y
+CONFIG_CIFS=m
 # CONFIG_CIFS_STATS is not set
 # CONFIG_CIFS_WEAK_PW_HASH is not set
 CONFIG_CIFS_XATTR=y
