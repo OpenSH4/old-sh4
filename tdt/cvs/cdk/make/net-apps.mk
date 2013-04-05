@@ -130,6 +130,8 @@ $(DEPDIR)/samba.do_prepare: bootstrap @DEPENDS_samba@
 $(DEPDIR)/samba.do_compile: $(DEPDIR)/samba.do_prepare
 	export PATH=$(hostprefix)/bin:$(PATH) && \
 	cd @DIR_samba@ && \
+	cp -f /usr/include/lber* source3/	# Etwas unsauber, aber lber*.h und ldap*.h fehlen beim
+	cp -f /usr/include/ldap* source3/	# Bauen von Samba. Hoffe das klappt bei jedem :-)
 		cd source3 && \
 		./autogen.sh && \
 		$(BUILDENV) \
