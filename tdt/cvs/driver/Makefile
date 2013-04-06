@@ -144,6 +144,7 @@ endif
 
 ifdef CLASSIC
 obj-y += smartcard/
+obj-y += qf9700/
 endif
 
 ifdef ADB_BOX

@@ -128,15 +128,14 @@ HL101_PATCHES_24 = $(COMMONPATCHES_24) \
 		$(if $(P0211),gpio_p0211.patch)
 
 CLASSIC_PATCHES_24 = $(COMMONPATCHES_24) \
-		stx7100_fdma_fix_stm24$(PATCH_STR).patch \
-		sata_32bit_fix_stm24$(PATCH_STR).patch \
-		sata_stx7100_B4Team_fix_stm24$(PATCH_STR).patch \
 		linux-sh4-classic_setup_stm24$(PATCH_STR).patch \
 		linux-usbwait123_stm24.patch \
-		linux-sh4-ufs910_reboot_stm24.patch \
-		linux-sh4-smsc911x_dma_stm24$(PATCH_STR).patch \
+		linux-sh4-stmmac_stm24$(PATCH_STR).patch \
 		linux-sh4-i2c-st40-pio_stm24$(PATCH_STR).patch \
-		linux-sh4-pcm_noise_fix_stm24$(PATCH_STR).patch
+		$(if $(P0207),linux-sh4-fortis_hdbox_i2c_st40_stm24$(PATCH_STR).patch) \
+		$(if $(P0211),mb442.patch) \
+		$(if $(P0211),stx7100_p0211.patch) \
+		$(if $(P0211),gpio_p0211.patch)
 
 VIP2_PATCHES_24  = $(COMMONPATCHES_24) \
 		linux-sh4-vip2_setup_stm24$(PATCH_STR).patch \
