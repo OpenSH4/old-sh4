@@ -363,6 +363,8 @@ int getModel()
             vBoxType = Tf7700;
         else if(!strncasecmp(vName,"vip1", 5))
             vBoxType = Hl101;
+        else if(!strncasecmp(vName,"classic", 5))
+            vBoxType = Classic;
         else if(!strncasecmp(vName,"opti", 5))
             vBoxType = Opti;
         else if(!strncasecmp(vName,"Pingulux", 7))

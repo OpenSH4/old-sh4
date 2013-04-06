@@ -50,6 +50,11 @@ release_cube_common:
 	cp -f $(buildprefix)/linux-sh4/fs/ntfs/*.ko $(prefix)/release/lib/modules/
 	cp -f $(buildprefix)/linux-sh4/fs/udf/*.ko $(prefix)/release/lib/modules/
 	cp -f $(buildprefix)/linux-sh4/drivers/usb/serial/*.ko $(prefix)/release/lib/modules/
+	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release/usr/bin/
+	mkdir -p $(prefix)/release/var/run/lirc
+	mkdir -p $(prefix)/release/var/config
+	cp -dp $(buildprefix)/root/etc/lircd_classic.conf $(prefix)/release/etc/lircd.conf
+	cp -dp $(buildprefix)/root/etc/boxtype_remote $(prefix)/release/var/config/boxtype
 	rm -f $(prefix)/release/lib/firmware/dvb-fe-{avl2108,avl6222,cx21143}.fw
 	rm -f $(prefix)/release/bin/tffpctl
 	rm -f $(prefix)/release/bin/vfdctl
