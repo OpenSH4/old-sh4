@@ -7386,3 +7386,4 @@ diff -Naur '--exclude-from=diff-ignore' enigma2-nightly.org/skin.py enigma2-nigh
  # on SD hardware, PLi-HD will not be available
  if not fileExists(resolveFilename(SCOPE_SKIN, DEFAULT_SKIN)):
  	# in that case, fallback to Magic (which is an SD skin)
+
