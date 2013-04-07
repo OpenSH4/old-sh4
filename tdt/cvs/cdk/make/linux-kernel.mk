@@ -135,7 +135,8 @@ CLASSIC_PATCHES_24 = $(COMMONPATCHES_24) \
 		$(if $(P0207),linux-sh4-fortis_hdbox_i2c_st40_stm24$(PATCH_STR).patch) \
 		$(if $(P0211),mb442.patch) \
 		$(if $(P0211),stx7100_p0211.patch) \
-		$(if $(P0211),gpio_p0211.patch)
+		$(if $(P0211),gpio_p0211.patch) \
+		$(if $(P0207),dm9000.patch)
 
 VIP2_PATCHES_24  = $(COMMONPATCHES_24) \
 		linux-sh4-vip2_setup_stm24$(PATCH_STR).patch \

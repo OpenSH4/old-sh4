@@ -1,5 +1,7 @@
 *** linux-sh4-2.6.32.28_stm24_0207_orig/arch/sh/boards/mach-mb442/setup.c	2013-03-28 18:18:56.000000000 +0300
 --- linux-sh4/arch/sh/boards/mach-mb442/setup.c	2013-04-04 11:16:35.000000000 +0300
+--- setup_orig.c	2013-04-07 15:00:16.000000000 +0200
++++ setup.c	2013-04-07 20:09:47.000000000 +0200
 @@ -21,15 +21,35 @@
  #include <linux/mtd/physmap.h>
  #include <linux/stm/platform.h>
@@ -39,13 +41,11 @@
  
  void __init mb442_setup(char** cmdline_p)
  {
-@@ -43,59 +63,97 @@
+@@ -43,26 +63,40 @@
  	stx7100_configure_asc(3, &(struct stx7100_asc_config) {
  			.hw_flow_control = 0,
  			.is_console = 0, });
-+
-+   	bpa2_init(bpa2_parts_table, ARRAY_SIZE(bpa2_parts_table));
- }
+-}
  
 -static struct resource mb442_smc91x_resources[] = {
 -	[0] = {
@@ -58,6 +58,15 @@
 -		.end	= IRL0_IRQ,
 -		.flags	= IORESOURCE_IRQ,
 -	},
+-};
++   	bpa2_init(bpa2_parts_table, ARRAY_SIZE(bpa2_parts_table));
++}
+ 
+-static struct platform_device mb442_smc91x_device = {
+-	.name		= "smc91x",
+-	.id		= 0,
+-	.num_resources	= ARRAY_SIZE(mb442_smc91x_resources),
+-	.resource	= mb442_smc91x_resources,
 +static struct resource dm9000_resources[] = {
 +        [0] = {
 +                .start = 0x01000300,
@@ -66,32 +75,32 @@
 +        },
 +        [1] = {
 +                .start = 0x01000300 + 0x4,
-+                .end   = 0x01000300 + 0x4 + 0x3f,
++                .end   = 0x01000300 + 0x4 + 0x5f,
 +                .flags = IORESOURCE_MEM,
 +        },
 +        [2] = {
 +                .start = IRL0_IRQ,
 +                .end   = IRL0_IRQ,
 +                .flags = IORESOURCE_IRQ | IORESOURCE_IRQ_HIGHLEVEL,
-+        }
-+
++        },
 +};
-+static struct platform_device dm9000 = {
-+        .name           = "dm9000",
-+        .id             = 0,
-+        .num_resources  = ARRAY_SIZE(dm9000_resources),
-+        .resource       = dm9000_resources,
++
++static struct dm9000_plat_data dm9000_platdata = {
++    .flags          = DM9000_PLATF_16BITONLY,
++};
++
++static struct platform_device dm9000_device = {
++    .name           = "dm9000",
++    .id             = -1,
++    .num_resources  = ARRAY_SIZE(dm9000_resources),
++    .resource       = dm9000_resources,
++    .dev            = {
++    .platform_data = &dm9000_platdata,
++    }
  };
  
--static struct platform_device mb442_smc91x_device = {
--	.name		= "smc91x",
--	.id		= 0,
--	.num_resources	= ARRAY_SIZE(mb442_smc91x_resources),
--	.resource	= mb442_smc91x_resources,
--};
- 
  static void mb442_set_vpp(struct map_info *info, int enable)
- {
+@@ -70,32 +104,62 @@
  	gpio_set_value(MB442_PIO_FLASH_VPP, enable);
  }
  
@@ -164,7 +173,7 @@
  static int stmmac_phy_irqs[PHY_MAX_ADDR] = {
  	[STMMAC_PHY_ADDR] = IRL3_IRQ,
  };
-@@ -106,9 +164,15 @@
+@@ -106,9 +170,15 @@
  	.irqs = stmmac_phy_irqs,
  };
  
@@ -175,13 +184,13 @@
 +
  static struct platform_device *mb442_devices[] __initdata = {
 -	&mb442_smc91x_device,
-+        &dm9000,
++        &dm9000_device,
  	&mb442_physmap_flash,
 +	&led_device,
  };
  
  static int __init mb442_device_init(void)
-@@ -120,7 +184,7 @@
+@@ -120,7 +190,7 @@
  			.out1_enabled = 1, });
  
  	stx7100_configure_ssc_i2c(0);
@@ -190,7 +199,7 @@
  	stx7100_configure_ssc_i2c(2);
  
  	stx7100_configure_usb();
-@@ -130,33 +194,9 @@
+@@ -130,33 +200,9 @@
  			.tx_enabled = 0,
  			.tx_od_enabled = 0, });
  
