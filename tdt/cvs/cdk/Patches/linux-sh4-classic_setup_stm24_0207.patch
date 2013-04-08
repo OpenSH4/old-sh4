@@ -1,7 +1,5 @@
 *** linux-sh4-2.6.32.28_stm24_0207_orig/arch/sh/boards/mach-mb442/setup.c	2013-03-28 18:18:56.000000000 +0300
 --- linux-sh4/arch/sh/boards/mach-mb442/setup.c	2013-04-04 11:16:35.000000000 +0300
---- setup_orig.c	2013-04-07 15:00:16.000000000 +0200
-+++ setup.c	2013-04-07 20:09:47.000000000 +0200
 @@ -21,15 +21,35 @@
  #include <linux/mtd/physmap.h>
  #include <linux/stm/platform.h>
@@ -19,8 +17,8 @@
  #define MB442_PIO_FLASH_VPP stm_gpio(2, 7)
  
 -
-+const char *LMI_VID_partalias[] = { "BPA2_Region1", "coredisplay-video", "gfx-memory", "v4l2-video-buffers", NULL };
-+const char *LMI_SYS_partalias[] = { "BPA2_Region0", "bigphysarea", "v4l2-coded-video-buffers", NULL };
++const char *LMI_VID_partalias[] = { "BPA2_Region1", "coredisplay-video", "gfx-memory", "v4l2-video-buffers", "v4l2-coded-video-buffers", NULL };
++const char *LMI_SYS_partalias[] = { "BPA2_Region0", "bigphysarea", NULL };
 +  
 +static struct bpa2_partition_desc bpa2_parts_table[] = {
 +      {
@@ -33,7 +31,7 @@
 +      {
 +	      .name  = "LMI_SYS",
 +	      .start = 0,
-+	      .size  = 0x02600000,
++	      .size  = 0x00F00000,
 +	      .flags = 0,
 +	      .aka   = LMI_SYS_partalias
 +      }
