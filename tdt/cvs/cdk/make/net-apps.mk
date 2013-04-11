@@ -130,8 +130,8 @@ $(DEPDIR)/samba.do_prepare: bootstrap @DEPENDS_samba@
 $(DEPDIR)/samba.do_compile: $(DEPDIR)/samba.do_prepare
 	export PATH=$(hostprefix)/bin:$(PATH) && \
 	cd @DIR_samba@ && \
-	cp -f /usr/include/lber* source3/ && \
-	cp -f /usr/include/ldap* source3/ && \
+	cp -f ../own_build/samba/lber* source3/ && \
+	cp -f ../own_build/samba/ldap* source3/ && \
 		cd source3 && \
 		./autogen.sh && \
 		$(BUILDENV) \
