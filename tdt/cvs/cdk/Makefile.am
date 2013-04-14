@@ -58,6 +58,10 @@ include make/enigma2-pli-nightly.mk
 # Include enigma2-pli-nightly gui targets
 include make/enigma2-nightly.mk
 
+# Include enigma2-pli-amiko gui targets
+include make/enigma2-pli-amiko.mk
+
+
 # Include xbmc-nightly gui targets
 include make/xbmc-nightly.mk
 
