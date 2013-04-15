@@ -464,7 +464,7 @@ release_hl101: release_common_utils
 	cp -R $(buildprefix)/root/release/Skin/* $(prefix)/release/usr/local/share/enigma2/
 	cp -f $(buildprefix)/root/release/settings $(prefix)/release/etc/enigma2/
 	cp -R $(buildprefix)/root/release/GraphLCD/graphlcd $(prefix)/release/usr/local/share/enigma2/
-	cp -f $(buildprefix)/root/release/GraphLCD/*.py $(prefix)/release/usr/lib/enigma2/python
+#	cp -f $(buildprefix)/root/release/GraphLCD/*.py $(prefix)/release/usr/lib/enigma2/python
 	cp -f $(buildprefix)/root/release/Scripte/config/* $(prefix)/release/var/config/
 	cp -R $(buildprefix)/root/release/Scripte/emu $(prefix)/release/var/config/
 	cp -R $(buildprefix)/root/release/Scripte/system $(prefix)/release/var/config/
