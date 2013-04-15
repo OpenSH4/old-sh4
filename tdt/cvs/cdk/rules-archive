@@ -149,6 +149,7 @@ mediatomb-0.12.1.tar.gz;http://downloads.sourceforge.net/mediatomb
 tinyxml_2_6_2.tar.gz;http://ignum.dl.sourceforge.net/project/tinyxml/tinyxml/2.6.2
 taglib-1.8.tar.gz;https://github.com/downloads/taglib/taglib
 libnfs.git;git://github.com/sahlberg/libnfs.git;c0ebf57b212ffefe83e2a50358499f68e7289e93
+libmms-0.6.2.tar.gz;http://sourceforge.net/projects/libmms/files/libmms/0.6.2
 
 #
 # PYTHON
@@ -163,6 +164,7 @@ lxml-2.2.8.tgz;http://launchpad.net/lxml/2.2/2.2.8/+download
 setuptools-0.6c11.tar.gz;http://pypi.python.org/packages/source/s/setuptools
 Twisted-12.1.0.tar.bz2;http://twistedmatrix.com/Releases/Twisted/12.1
 TwistedWeb2-8.1.0.tar.bz2;http://twistedmatrix.com/Releases/Web2/8.1
+TwistedMail-12.2.0.tar.bz2;http://twistedmatrix.com/Releases/Mail/12.0/TwistedMail-12.2.0.tar.bz2
 Imaging-1.1.7.tar.gz;http://effbot.org/downloads
 pycrypto-2.5.tar.gz;http://ftp.dlitz.net/pub/dlitz/crypto/pycrypto
 pyOpenSSL-0.9.tar.gz;http://sourceforge.net/projects/pyopenssl/files/pyopenssl/0.9

@@ -930,6 +930,7 @@ TUXBOX_RULES_MAKE(mediatomb)
 TUXBOX_RULES_MAKE(tinyxml)
 TUXBOX_RULES_MAKE(libnfs)
 TUXBOX_RULES_MAKE(taglib)
+TUXBOX_RULES_MAKE(libmms)
 
 #
 # python
@@ -941,6 +942,7 @@ TUXBOX_RULES_MAKE(lxml)
 TUXBOX_RULES_MAKE(setuptools)
 TUXBOX_RULES_MAKE(twisted)
 TUXBOX_RULES_MAKE(twistedweb2)
+TUXBOX_RULES_MAKE(twistedmail)
 TUXBOX_RULES_MAKE(pilimaging)
 TUXBOX_RULES_MAKE(host_python)
 TUXBOX_RULES_MAKE(python)

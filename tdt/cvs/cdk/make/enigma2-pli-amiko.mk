@@ -54,7 +54,7 @@ $(DEPDIR)/enigma2-pli-amiko.do_prepare:
 
 $(appsdir)/enigma2-nightly/config.status: bootstrap opkg ethtool fontconfig libfreetype libexpat libpng libjpeg lcms \
 		libgif libmme_host libmmeimage libfribidi libid3tag libmad libsigc libreadline libdvbsipp \
-		python libxml2 libxslt elementtree zope_interface twisted twistedweb2 pyopenssl pythonwifi \
+		python libxml2 libxslt elementtree zope_interface twisted twistedweb2 twistedmail pyopenssl pythonwifi \
 		pilimaging pyusb pycrypto lxml libxmlccwrap ncurses-dev libdreamdvd2 tuxtxt32bpp sdparm hotplug_e2 \
 		$(MEDIAFW_DEP) $(EXTERNALLCD_DEP)
 	cd $(appsdir)/enigma2-nightly && \

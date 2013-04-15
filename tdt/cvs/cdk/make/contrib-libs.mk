@@ -1577,6 +1577,30 @@ $(DEPDIR)/%twistedweb2: $(DEPDIR)/twistedweb2.do_compile
 	[ "x$*" = "x" ] && touch $@ || true
 
 #
+# twistedmail
+#
+$(DEPDIR)/twistedmail.do_prepare: bootstrap setuptools @DEPENDS_twistedmail@
+	@PREPARE_twistedmail@
+	touch $@
+
+$(DEPDIR)/twistedmail.do_compile: $(DEPDIR)/twistedmail.do_prepare
+	cd @DIR_twistedmail@ && \
+		CC='$(target)-gcc' LDSHARED='$(target)-gcc -shared' \
+		PYTHONPATH=$(targetprefix)$(PYTHON_DIR)/site-packages \
+		$(hostprefix)/bin/python -c "import setuptools; execfile('setup.py')" build
+	touch $@
+
+$(DEPDIR)/twistedmail: \
+$(DEPDIR)/%twistedmail: $(DEPDIR)/twistedmail.do_compile
+	cd @DIR_twistedmail@ && \
+		CC='$(target)-gcc' LDSHARED='$(target)-gcc -shared' \
+		PYTHONPATH=$(targetprefix)$(PYTHON_DIR)/site-packages \
+		$(hostprefix)/bin/python ./setup.py install --root=$(targetprefix) --prefix=/usr
+	@DISTCLEANUP_twistedmail@
+	[ "x$*" = "x" ] && touch $@ || true
+
+
+#
 # pilimaging
 #
 $(DEPDIR)/pilimaging.do_prepare: bootstrap python @DEPENDS_pilimaging@
@@ -1900,7 +1924,7 @@ $(DEPDIR)/%gst_plugins_good: $(DEPDIR)/gst_plugins_good.do_compile
 #
 # GST-PLUGINS-BAD
 #
-$(DEPDIR)/gst_plugins_bad.do_prepare: bootstrap gstreamer gst_plugins_base libmodplug @DEPENDS_gst_plugins_bad@
+$(DEPDIR)/gst_plugins_bad.do_prepare: bootstrap gstreamer gst_plugins_base libmodplug libmms @DEPENDS_gst_plugins_bad@
 	@PREPARE_gst_plugins_bad@
 	touch $@
 
@@ -3341,6 +3365,31 @@ $(DEPDIR)/%taglib: $(DEPDIR)/taglib.do_compile
 		@INSTALL_taglib@
 	@DISTCLEANUP_taglib@
 	[ "x$*" = "x" ] && touch $@ || true
+
+#
+# libmms
+#
+$(DEPDIR)/libmms.do_prepare: bootstrap @DEPENDS_libmms@
+	@PREPARE_libmms@
+	touch $@
+
+$(DEPDIR)/libmms.do_compile: $(DEPDIR)/libmms.do_prepare
+	cd @DIR_libmms@ && \
+	$(BUILDENV) \
+		./configure \
+		--build=$(build) \
+		--host=$(target) \
+		--prefix=/usr && \
+	$(MAKE) all
+	touch $@
+
+$(DEPDIR)/libmms: \
+$(DEPDIR)/%libmms: $(DEPDIR)/libmms.do_compile
+	cd @DIR_libmms@ && \
+		@INSTALL_libmms@
+	@DISTCLEANUP_libmms@
+	[ "x$*" = "x" ] && touch $@ || true
+
 
 #
 # LIBMME-HOST

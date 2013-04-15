@@ -134,6 +134,7 @@ mediatomb;make:install:DESTDIR=TARGETS
 tinyxml;make:install:PREFIX=TARGETS/usr
 libnfs;make:install:DESTDIR=TARGETS
 taglib;make:install:DESTDIR=TARGETS
+libmms;make:install:DESTDIR=TARGETS
 
 #
 # PYTHON
