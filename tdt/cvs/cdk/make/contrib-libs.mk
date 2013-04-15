@@ -3395,72 +3395,65 @@ $(DEPDIR)/%libmms: $(DEPDIR)/libmms.do_compile
 # LIBMME-HOST
 #
 
-DESCRIPTION_libmme_host = "libmme-host"
-SRC_URI_libmme_host = "https://code.google.com/p/tdt-amiko/"
-
-FILES_libmme_host = \
-/lib/libmme_host.*
-
 DIR_libmme_host = \
 $(appsdir)/misc/tools/libmme_host
 
-INSTALL_libmme_host = \
-make DESTDIR=$(targetprefix) -i install
-
-
-$(DEPDIR)/libmme_host.do_prepare: bootstrap $(DEPENDS_libmme_host)
-	$(PREPARE_libmme_host)
+$(DEPDIR)/libmme_host.do_prepare: bootstrap @DEPENDS_libmme_host@
+	@PREPARE_libmme_host@
 	touch $@
 
 $(DEPDIR)/libmme_host.do_compile: $(DEPDIR)/libmme_host.do_prepare
-	cd $(DIR_libmme_host)
-	libtoolize -f -c
-	CPPFLAGS+="\
-	$(if $(HL101), -DPLATFORM_HL101) \
-	$(if $(PLAYER191), -DPLAYER191)"
-	$(CONFIGURE) --prefix= \
-	$(if $(MULTICOM324), --enable-multicom324)
-	$(MAKE)
+	cd $(DIR_libmme_host) && \
+	libtoolize -f -c && \
+	$(BUILDENV) \
+		./configure \
+		--build=$(build) \
+		--host=$(target) \
+		--prefix=/ \
+		CPPFLAGS="\
+		$(if $(HL101), -DPLATFORM_HL101) \
+		$(if $(PLAYER191), -DPLAYER191)" \
+		$(if $(MULTICOM324), --enable-multicom324) && \
+	$(MAKE) all
 	touch $@
 
 $(DEPDIR)/libmme_host: \
 $(DEPDIR)/%libmme_host: $(DEPDIR)/libmme_host.do_compile
-	cd $(DIR_libmme_host)
-	$(INSTALL_libmme_host)
+	cd $(DIR_libmme_host) && \
+		@INSTALL_libmme_host@
+	@DISTCLEANUP_libmme_host@
 	[ "x$*" = "x" ] && touch $@ || true
+
 
 #
 # LIBMMEIMAGE
 #
-DESCRIPTION_libmmeimage = "libmmeimage"
-SRC_URI_libmmeimage = "https://code.google.com/p/tdt-amiko/"
-
-FILES_libmmeimage = \
-/lib/libmmeimage.*
 
 DIR_libmmeimage = \
 $(appsdir)/misc/tools/libmmeimage
 
-INSTALL_libmmeimage = \
-make DESTDIR=$(targetprefix) -i install
-
-$(DEPDIR)/libmmeimage.do_prepare: bootstrap $(DEPENDS_libmmeimage)
-	$(PREPARE_libmmeimage)
+$(DEPDIR)/libmmeimage.do_prepare: bootstrap @DEPENDS_libmmeimage@
+	@PREPARE_libmmeimage@
 	touch $@
 
 $(DEPDIR)/libmmeimage.do_compile: $(DEPDIR)/libmmeimage.do_prepare
-	cd $(DIR_libmmeimage)
-	libtoolize -f -c
-	CPPFLAGS+="\
-	$(if $(HL101), -DPLATFORM_HL101) \
-	$(if $(PLAYER191), -DPLAYER191)"
-	$(CONFIGURE) --prefix= \
-	$(if $(MULTICOM324), --enable-multicom324)
-	$(MAKE)
+	cd $(DIR_libmmeimage) && \
+	libtoolize -f -c && \
+	$(BUILDENV) \
+		./configure \
+		--build=$(build) \
+		--host=$(target) \
+		--prefix=/ \
+		CPPFLAGS="\
+		$(if $(HL101), -DPLATFORM_HL101) \
+		$(if $(PLAYER191), -DPLAYER191)" \
+		$(if $(MULTICOM324), --enable-multicom324) && \
+	$(MAKE) all
 	touch $@
 
 $(DEPDIR)/libmmeimage: \
 $(DEPDIR)/%libmmeimage: $(DEPDIR)/libmmeimage.do_compile
-	cd $(DIR_libmmeimage)
-	$(INSTALL_libmmeimage)
+	cd $(DIR_libmmeimage) && \
+		@INSTALL_libmmeimage@
+	@DISTCLEANUP_libmmeimage@
 	[ "x$*" = "x" ] && touch $@ || true

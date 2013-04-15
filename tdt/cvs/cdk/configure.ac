@@ -931,6 +931,8 @@ TUXBOX_RULES_MAKE(tinyxml)
 TUXBOX_RULES_MAKE(libnfs)
 TUXBOX_RULES_MAKE(taglib)
 TUXBOX_RULES_MAKE(libmms)
+TUXBOX_RULES_MAKE(libmme_host)
+TUXBOX_RULES_MAKE(libmmeimage)
 
 #
 # python
