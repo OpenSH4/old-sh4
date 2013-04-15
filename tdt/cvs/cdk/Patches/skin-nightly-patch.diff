@@ -1,0 +1,76 @@
+--- enigma2-nightly.org/skin.py	2013-04-15 08:03:29.905644000 +0200
++++ enigma2-nightly.patched/skin.py	2013-04-12 17:15:45.334938000 +0200
+@@ -65,6 +65,73 @@
+ 	print "defaulting to standard skin..."
+ 	config.skin.primary_skin.value = 'skin.xml'
+ 	loadSkin('skin.xml')
++	
++# Dann laden wir uns mal die display xml
++# Edit by minimag
++try:
++	loadSkin('graphlcd/windowstyle.xml')
++except:
++		None
++try:
++	loadSkin('graphlcd/fonts.xml')
++except:
++		None
++try:
++	loadSkin('graphlcd/ChannelSelection_summary.xml')
++except:
++		None
++try:
++	loadSkin('graphlcd/ChoiceBox_summary.xml')
++except:
++		None
++try:
++	loadSkin('graphlcd/InfoBarMoviePlayerSummary.xml')
++except:
++		None
++try:
++	loadSkin('graphlcd/InfoBarSummary.xml')
++except:
++		None
++try:
++	loadSkin('graphlcd/JobView_summary.xml')
++except:
++		None
++try:
++	loadSkin('graphlcd/MediaPlayerLCDScreen.xml')
++except:
++		None
++try:
++	loadSkin('graphlcd/MenuSummary.xml')
++except:
++		None
++try:
++	loadSkin('graphlcd/MessageBox_summary.xml')
++except:
++		None
++try:
++	loadSkin('graphlcd/ServiceScanSummary.xml')
++except:
++		None
++try:
++	loadSkin('graphlcd/SetupSummary.xml')
++except:
++		None
++try:
++	loadSkin('graphlcd/SimpleSummary.xml')
++except:
++		None
++try:
++	loadSkin('graphlcd/StandbySummary.xml')
++except:
++		None
++try:
++	loadSkin('graphlcd/WizardSummary.xml')
++except:
++		None
++try:
++	loadSkin('graphlcd/custom.xml')
++except:
++		None
+ 
+ profile("LoadSkinDefault")
+ loadSkin('skin_default.xml')

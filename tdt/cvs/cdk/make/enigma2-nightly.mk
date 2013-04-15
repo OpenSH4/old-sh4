@@ -55,6 +55,7 @@ $(DEPDIR)/enigma2-nightly.do_prepare:
 	$(if $(IPBOX99),cd $(appsdir)/enigma2-nightly && patch -p1 < "../../cdk/Patches/enigma2-ipbox.diff" )
 	$(if $(IPBOX55),cd $(appsdir)/enigma2-nightly && patch -p1 < "../../cdk/Patches/enigma2-ipbox.diff" )
 	$(if $(HL101),cd $(appsdir)/enigma2-nightly && patch -p1 < "../../cdk/Patches/vfd.patch" )
+	cd $(appsdir)/enigma2-nightly && patch -p1 < "../../cdk/Patches/skin-nightly-patch.diff"
 	cp -ra $(appsdir)/enigma2-nightly $(appsdir)/enigma2-nightly.patched
 	touch $@
 

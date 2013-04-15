@@ -14,10 +14,10 @@ endif
 $(DEPDIR)/enigma2-pli-amiko.do_prepare:
 	REVISION=""; \
 	DIFF="0"; \
-	rm -rf $(appsdir)/enigma2-pli-amiko; \
-	rm -rf $(appsdir)/enigma2-pli-amiko.org; \
-	rm -rf $(appsdir)/enigma2-pli-amiko.newest; \
-	rm -rf $(appsdir)/enigma2-pli-amiko.patched; \
+	rm -rf $(appsdir)/enigma2-nightly; \
+	rm -rf $(appsdir)/enigma2-nightly.org; \
+	rm -rf $(appsdir)/enigma2-nightly.newest; \
+	rm -rf $(appsdir)/enigma2-nightly.patched; \
 	clear; \
 	echo "Media Framwork: $(MEDIAFW)"; \
 	echo "Choose between the following revisions:"; \
@@ -40,23 +40,24 @@ $(DEPDIR)/enigma2-pli-amiko.do_prepare:
 	[ "$$REPLY" == "5" ] && DIFF="5" && HEAD="" && REVISION=""; \
 	[ "$$REPLY" == "6" ] && DIFF="6" && HEAD="" && REVISION=""; \
 	echo "Revision: " $$REVISION; \
-	[ -d "$(appsdir)/enigma2-pli-amiko" ] && \
-	git pull $(appsdir)/enigma2-pli-amiko $$HEAD;\
-	[ -d "$(appsdir)/enigma2-pli-amiko" ] || \
-	git clone -b $$HEAD git://github.com/technic/amiko-e2-pli.git $(appsdir)/enigma2-pli-amiko; \
-	cp -ra $(appsdir)/enigma2-pli-amiko $(appsdir)/enigma2-pli-amiko.newest; \
-	[ "$$REVISION" == "" ] || (cd $(appsdir)/enigma2-pli-amiko; git checkout "$$REVISION"; cd "$(buildprefix)";); \
-	cp -ra $(appsdir)/enigma2-pli-amiko $(appsdir)/enigma2-pli-amiko.org; \
-	cd $(appsdir)/enigma2-pli-amiko && patch -p1 < "../../cdk/Patches/enigma2-pli-amiko.$$DIFF.diff"
-	cp -ra $(appsdir)/enigma2-pli-amiko $(appsdir)/enigma2-pli-amiko.patched
+	[ -d "$(appsdir)/enigma2-nightly" ] && \
+	git pull $(appsdir)/enigma2-nightly $$HEAD;\
+	[ -d "$(appsdir)/enigma2-nightly" ] || \
+	git clone -b $$HEAD git://github.com/technic/amiko-e2-pli.git $(appsdir)/enigma2-nightly; \
+	cp -ra $(appsdir)/enigma2-nightly $(appsdir)/enigma2-nightly.newest; \
+	[ "$$REVISION" == "" ] || (cd $(appsdir)/enigma2-nightly; git checkout "$$REVISION"; cd "$(buildprefix)";); \
+	cp -ra $(appsdir)/enigma2-nightly $(appsdir)/enigma2-nightly.org; \
+	cd $(appsdir)/enigma2-nightly && patch -p1 < "../../cdk/Patches/enigma2-pli-amiko.$$DIFF.diff"
+	cd $(appsdir)/enigma2-nightly && patch -p1 < "../../cdk/Patches/skin-pli-patch.diff"
+	cp -ra $(appsdir)/enigma2-nightly $(appsdir)/enigma2-nightly.patched
 	touch $@
 
-$(appsdir)/enigma2-pli-amiko/config.status: bootstrap opkg ethtool fontconfig libfreetype libexpat libpng libjpeg lcms \
+$(appsdir)/enigma2-nightly/config.status: bootstrap opkg ethtool fontconfig libfreetype libexpat libpng libjpeg lcms \
 		libgif libmme_host libmmeimage libfribidi libid3tag libmad libsigc libreadline libdvbsipp \
 		python libxml2 libxslt elementtree zope_interface twisted twistedweb2 pyopenssl pythonwifi \
 		pilimaging pyusb pycrypto lxml libxmlccwrap ncurses-dev libdreamdvd2 tuxtxt32bpp sdparm hotplug_e2 \
 		$(MEDIAFW_DEP) $(EXTERNALLCD_DEP)
-	cd $(appsdir)/enigma2-pli-amiko && \
+	cd $(appsdir)/enigma2-nightly && \
 		./autogen.sh && \
 		sed -e 's|#!/usr/bin/python|#!$(crossprefix)/bin/python|' -i po/xml2po.py && \
 		./configure \
@@ -78,13 +79,13 @@ $(appsdir)/enigma2-pli-amiko/config.status: bootstrap opkg ethtool fontconfig li
 			$(PLATFORM_CPPFLAGS)
 
 
-$(DEPDIR)/enigma2-pli-amiko.do_compile: $(appsdir)/enigma2-pli-amiko/config.status
-	cd $(appsdir)/enigma2-pli-amiko && \
+$(DEPDIR)/enigma2-pli-amiko.do_compile: $(appsdir)/enigma2-nightly/config.status
+	cd $(appsdir)/enigma2-nightly && \
 		$(MAKE) all
 	touch $@
 
 $(DEPDIR)/enigma2-pli-amiko: enigma2-pli-amiko.do_prepare enigma2-pli-amiko.do_compile
-	$(MAKE) -C $(appsdir)/enigma2-pli-amiko install DESTDIR=$(targetprefix)
+	$(MAKE) -C $(appsdir)/enigma2-nightly install DESTDIR=$(targetprefix)
 	if [ -e $(targetprefix)/usr/bin/enigma2 ]; then \
 		$(target)-strip $(targetprefix)/usr/bin/enigma2; \
 	fi
@@ -97,10 +98,10 @@ enigma2-pli-amiko-clean enigma2-pli-amiko-distclean:
 	rm -f $(DEPDIR)/enigma2-pli-amiko
 	rm -f $(DEPDIR)/enigma2-pli-amiko.do_compile
 	rm -f $(DEPDIR)/enigma2-pli-amiko.do_prepare
-	rm -rf $(appsdir)/enigma2-pli-amiko
-	rm -rf $(appsdir)/enigma2-pli-amiko.newest
-	rm -rf $(appsdir)/enigma2-pli-amiko.org
-	rm -rf $(appsdir)/enigma2-pli-amiko.patched
+	rm -rf $(appsdir)/enigma2-nightly
+	rm -rf $(appsdir)/enigma2-nightly.newest
+	rm -rf $(appsdir)/enigma2-nightly.org
+	rm -rf $(appsdir)/enigma2-nightly.patched
 
 #
 # dvb/libdvbsi++

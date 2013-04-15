@@ -50,12 +50,14 @@ $(DEPDIR)/enigma2-pli-nightly.do_prepare:
 	[ "$$REVISION" == "" ] || (cd $(appsdir)/enigma2-nightly; git checkout "$$REVISION"; cd "$(buildprefix)";); \
 	cp -ra $(appsdir)/enigma2-nightly $(appsdir)/enigma2-nightly.org; \
 	cd $(appsdir)/enigma2-nightly && patch -p1 < "../../cdk/Patches/enigma2-pli-nightly.$$DIFF.diff"
+	cd $(appsdir)/enigma2-nightly && patch -p1 < "../../cdk/Patches/skin-pli-patch.diff"
 	cp -ra $(appsdir)/enigma2-nightly $(appsdir)/enigma2-nightly.patched
 	touch $@
 
 $(appsdir)/enigma2-pli-nightly/config.status: \
-		bootstrap opkg ethtool libfreetype libexpat libpng libjpeg libgif libfribidi libid3tag libmad libsigc libreadline \
-		libdvbsipp python libxml2 libxslt elementtree zope_interface twisted pyopenssl pythonwifi pilimaging pyusb pycrypto \
+		bootstrap opkg ethtool libfreetype libexpat libpng libjpeg libgif  \
+		libfribidi libid3tag libmad libsigc libreadline libdvbsipp python libxml2 libxslt \
+		elementtree zope_interface twisted twistedweb2 pyopenssl pythonwifi pilimaging pyusb pycrypto \
 		lxml libxmlccwrap ncurses-dev libdreamdvd2 tuxtxt32bpp sdparm hotplug_e2 \
 		$(MEDIAFW_DEP) $(EXTERNALLCD_DEP)
 	cd $(appsdir)/enigma2-nightly && \
@@ -70,6 +72,7 @@ $(appsdir)/enigma2-pli-nightly/config.status: \
 			--prefix=/usr \
 			--bindir=/usr/bin \
 			--sysconfdir=/etc \
+			--with-boxtype=none \
 			$(E_CONFIG_OPTS) \
 			STAGING_INCDIR=$(hostprefix)/usr/include \
 			STAGING_LIBDIR=$(hostprefix)/usr/lib \
