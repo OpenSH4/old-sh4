@@ -1603,7 +1603,7 @@ $(DEPDIR)/%twistedmail: $(DEPDIR)/twistedmail.do_compile
 #
 # pilimaging
 #
-$(DEPDIR)/pilimaging.do_prepare: bootstrap python @DEPENDS_pilimaging@
+$(DEPDIR)/pilimaging.do_prepare: bootstrap lcms python @DEPENDS_pilimaging@
 	@PREPARE_pilimaging@
 	touch $@
 
