@@ -3405,6 +3405,7 @@ $(DEPDIR)/libmme_host.do_prepare: bootstrap @DEPENDS_libmme_host@
 $(DEPDIR)/libmme_host.do_compile: $(DEPDIR)/libmme_host.do_prepare
 	cd $(DIR_libmme_host) && \
 	libtoolize -f -c && \
+	./autogen.sh && \
 	$(BUILDENV) \
 		./configure \
 		--build=$(build) \
@@ -3439,6 +3440,7 @@ $(DEPDIR)/libmmeimage.do_prepare: bootstrap @DEPENDS_libmmeimage@
 $(DEPDIR)/libmmeimage.do_compile: $(DEPDIR)/libmmeimage.do_prepare
 	cd $(DIR_libmmeimage) && \
 	libtoolize -f -c && \
+	./autogen.sh && \
 	$(BUILDENV) \
 		./configure \
 		--build=$(build) \
