@@ -395,6 +395,6 @@ echo "make yaud-neutrino-mp"
 echo "make yaud-neutrino-hd2-exp"
 echo "make yaud-enigma2-nightly"
 echo "make yaud-enigma2-pli-nightly"
+echo "make yaud-enigma2-pli-amiko"
 echo "make yaud-xbmc-nightly"
 echo "----------------------------------------"
-

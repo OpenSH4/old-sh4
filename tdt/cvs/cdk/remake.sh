@@ -26,13 +26,17 @@ echo "-----------------------" && \
 echo && \
 ./configure $CONFIGPARAM
 
-echo "-----------------------"
+echo " "
+echo "----------------------------------------"
 echo "Your build enivroment is ready :-)"
 echo "Your next step could be:"
+echo "----------------------------------------"
+echo "make yaud-neutrino"
+echo "make yaud-neutrino-mp"
+echo "make yaud-neutrino-hd2-exp"
 echo "make yaud-enigma2-nightly"
 echo "make yaud-enigma2-pli-nightly"
-echo "make yaud-neutrino"
-echo "make yaud-vdr"
-echo "make yaud-vdrdev2"
-echo "make yaud-enigma1-hd"
-echo "-----------------------"
+echo "make yaud-enigma2-pli-amiko"
+echo "make yaud-xbmc-nightly"
+echo "----------------------------------------"
+
