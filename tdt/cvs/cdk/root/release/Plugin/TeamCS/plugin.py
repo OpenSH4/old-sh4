@@ -1130,7 +1130,7 @@ class FERNB(Screen):
 				self.session.open(MessageBox,_("FB ArgusVIP neu Mode Gruen"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "Opticum":
-				os.system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap_opti.conf; echo opti > /var/config/boxtype")
+				os.system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; cp /var/tuxbox/config/keymap_opti.conf /var/tuxbox/config/keymap.conf; echo opti > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB Opticum"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "Pingolux":
