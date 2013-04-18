@@ -1114,27 +1114,27 @@ class FERNB(Screen):
 		selection = self["FERNB"].getCurrent()
 		if selection is not None:
 			if selection[1] == "ArgusVIPalt":
-				os.system("cp /etc/lircd_alt.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; echo vip1 > /var/config/boxtype")
+				os.system("cp /etc/lircd_alt.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf; echo vip1 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP alt Mode Rot"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "ArgusVIPaltgruen":
-				os.system("cp /etc/lircd_alt_gruen.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; echo vip1 > /var/config/boxtype")
+				os.system("cp /etc/lircd_alt_gruen.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf; echo vip1 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP alt Mode Gruen"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "ArgusVIPneu":
-				os.system("cp /etc/lircd_neu.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; echo vip2 > /var/config/boxtype")
+				os.system("cp /etc/lircd_neu.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; rm /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP neu Mode Rot"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "ArgusVIPneugruen":
-				os.system("cp /etc/lircd_neu_gruen.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; echo vip2 > /var/config/boxtype")
+				os.system("cp /etc/lircd_neu_gruen.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml;  rm /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP neu Mode Gruen"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "Opticum":
-				os.system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; echo opti > /var/config/boxtype")
+				os.system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap_opti.conf; echo opti > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB Opticum"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "Pingolux":
-				os.system("cp /etc/lircd_pingolux.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; echo Pingolux > /var/config/boxtype")
+				os.system("cp /etc/lircd_pingolux.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; rm /var/tuxbox/config/keymap.conf; echo Pingolux > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB Pingolux gesetzt"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "neustart":
