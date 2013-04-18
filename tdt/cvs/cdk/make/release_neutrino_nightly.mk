@@ -441,7 +441,12 @@ release_neutrino_hl101: release_neutrino_common_utils
 	cp -f $(buildprefix)/linux-sh4/fs/ntfs/*.ko $(prefix)/release_neutrino/lib/modules/
 	cp -f $(buildprefix)/linux-sh4/fs/udf/*.ko $(prefix)/release_neutrino/lib/modules/
 	cp -f $(buildprefix)/linux-sh4/drivers/usb/serial/*.ko $(prefix)/release_neutrino/lib/modules/
-	cp -p $(buildprefix)/root/root_neutrino/var/tuxbox/config/keymap_opti.conf $(prefix)/release_neutrino/var/tuxbox/config/
+	cp -Prf $(buildprefix)/root/root_neutrino/var/tuxbox/config/keymap_opti.conf $(prefix)/release_neutrino/var/tuxbox/config/
+	cp -Prf $(buildprefix)/root/root_neutrino/usr/share/tuxbox/neutrino/httpd \
+	$(prefix)/release_neutrino/usr/share/tuxbox/neutrino/
+	mkdir $(prefix)/release_neutrino/usr/share/neutrino
+	cd $(prefix)/release_neutrino/usr/share/neutrino/ && ln -sf ../tuxbox/neutrino/httpd .
+	cd /var && ln -sf ../usr/share/tuxbox/neutrino/httpd .
 	
 
 #

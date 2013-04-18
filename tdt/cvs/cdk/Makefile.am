@@ -49,6 +49,9 @@ include make/net-apps.mk
 # Misc tools, not essential
 include make/misc_tools.mk
 
+# Include enigma2 pli plugins targets
+include make/e2-pli-plugins.mk
+
 # Include enigma2 plugins targets
 include make/enigma2-plugins.mk
 

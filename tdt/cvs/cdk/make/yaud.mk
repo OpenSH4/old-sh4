@@ -110,7 +110,7 @@ yaud-neutrino-hd2-exp: yaud-none lirc stslave \
 	@TUXBOX_YAUD_CUSTOMIZE@
 
 yaud-enigma2-pli-nightly: yaud-none host_python lirc \
-		boot-elf remote firstboot enigma2-pli-nightly enigma2-plugins release
+		boot-elf remote firstboot enigma2-pli-nightly enigma2-plugins release e2-pli-plugins
 	@TUXBOX_YAUD_CUSTOMIZE@
 
 yaud-enigma2-nightly: yaud-none host_python lirc stslave \
@@ -118,7 +118,7 @@ yaud-enigma2-nightly: yaud-none host_python lirc stslave \
 	@TUXBOX_YAUD_CUSTOMIZE@
 
 yaud-enigma2-pli-amiko: yaud-none host_python lirc \
-		boot-elf remote firstboot enigma2-pli-amiko enigma2-plugins release
+		boot-elf remote firstboot enigma2-pli-amiko enigma2-plugins release e2-pli-plugins
 	@TUXBOX_YAUD_CUSTOMIZE@
 
 yaud-xbmc-nightly: yaud-none host_python boot-elf firstboot xbmc-nightly release_xbmc
