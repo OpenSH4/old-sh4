@@ -35,12 +35,16 @@ $(DEPDIR)/e2-pli-plugins.do_compile: $(appsdir)/e2-pli-plugins/config.status
 	touch $@
 
 $(DEPDIR)/e2-pli-plugins: e2-pli-plugins.do_prepare e2-pli-plugins.do_compile
-	rm -rf $(targetprefix)/../release_e2-pli-plugins
-	mkdir -p $(appsdir)/e2-pli-plugins.maked
-	$(MAKE) -C $(appsdir)/e2-pli-plugins install DESTDIR=$(appsdir)/e2-pli-plugins.maked
-	mkdir -p $(targetprefix)/../release_e2-pli-plugins
-	cp -rfP $(appsdir)/e2-pli-plugins.maked/* $(targetprefix)/../release_e2-pli-plugins/
-	rm -r $(appsdir)/e2-pli-plugins.maked
+	while read line; do plugin="$$line"; \
+	$(MAKE) -C $(appsdir)/e2-pli-plugins/$$plugin install DESTDIR=$(prefix)/e2-pli-plugins/$$plugin; \
+	done <$(buildprefix)/make/_Plugin-Script/plugins.list
+#	Und jetzt Mundgerecht für den Addonmanager
+	mkdir -p $(prefix)/e2-pli-plugins/_Addon-Manager_
+	while read line; do plugin="$$line"; \
+	cd $(prefix)/e2-pli-plugins/$$plugin && \
+	tar --format=oldgnu -czf $(prefix)/e2-pli-plugins/_Addon-Manager_/$$plugin.tar.gz *; \
+	echo "Erstelle Archiv fuer $$plugin"; \
+	done <$(buildprefix)/make/_Plugin-Script/plugins.list
 	touch $@
 
 e2-pli-plugins-clean:
