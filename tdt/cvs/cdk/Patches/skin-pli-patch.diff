@@ -1,76 +1,30 @@
 --- enigma2-nightly.org/skin-orig.py	2013-04-15 00:18:12.000000000 +0200
 +++ enigma2-nightly.patched/skin.py	2013-04-15 11:38:07.861502932 +0200
-@@ -112,6 +112,73 @@
- 	addSkin(skin)
- 	del skin
- 
+@@ -91,7 +91,26 @@
+ addSkin('skin_second_infobar.xml')
+ # Only one of these is present, compliments of AM_CONDITIONAL
+ display_skin_id = 1
+-addSkin('skin_display.xml')
++# nicht benoetigt da eigene Skin xmls fuer Graphlcd
++# addSkin('skin_display.xml')
 +# Dann laden wir uns mal die display xml
 +# Edit by minimag
-+try:
-+	loadSkin('graphlcd/windowstyle.xml')
-+except:
-+		None
-+try:
-+	loadSkin('graphlcd/fonts.xml')
-+except:
-+		None
-+try:
-+	loadSkin('graphlcd/ChannelSelection_summary.xml')
-+except:
-+		None
-+try:
-+	loadSkin('graphlcd/ChoiceBox_summary.xml')
-+except:
-+		None
-+try:
-+	loadSkin('graphlcd/InfoBarMoviePlayerSummary.xml')
-+except:
-+		None
-+try:
-+	loadSkin('graphlcd/InfoBarSummary.xml')
-+except:
-+		None
-+try:
-+	loadSkin('graphlcd/JobView_summary.xml')
-+except:
-+		None
-+try:
-+	loadSkin('graphlcd/MediaPlayerLCDScreen.xml')
-+except:
-+		None
-+try:
-+	loadSkin('graphlcd/MenuSummary.xml')
-+except:
-+		None
-+try:
-+	loadSkin('graphlcd/MessageBox_summary.xml')
-+except:
-+		None
-+try:
-+	loadSkin('graphlcd/ServiceScanSummary.xml')
-+except:
-+		None
-+try:
-+	loadSkin('graphlcd/SetupSummary.xml')
-+except:
-+		None
-+try:
-+	loadSkin('graphlcd/SimpleSummary.xml')
-+except:
-+		None
-+try:
-+	loadSkin('graphlcd/StandbySummary.xml')
-+except:
-+		None
-+try:
-+	loadSkin('graphlcd/WizardSummary.xml')
-+except:
-+		None
-+try:
-+	loadSkin('graphlcd/custom.xml')
-+except:
-+		None
-+
- addSkin('skin_default.xml')
- profile("LoadSkinDefaultDone")
- 
++addSkin('graphlcd/windowstyle.xml')
++addSkin('graphlcd/fonts.xml')
++addSkin('graphlcd/ChannelSelection_summary.xml')
++addSkin('graphlcd/ChoiceBox_summary.xml')
++addSkin('graphlcd/InfoBarMoviePlayerSummary.xml')
++addSkin('graphlcd/InfoBarSummary.xml')
++addSkin('graphlcd/JobView_summary.xml')
++addSkin('graphlcd/MediaPlayerLCDScreen.xml')
++addSkin('graphlcd/MenuSummary.xml')
++addSkin('graphlcd/MessageBox_summary.xml')
++addSkin('graphlcd/ServiceScanSummary.xml')
++addSkin('graphlcd/SetupSummary.xml')
++addSkin('graphlcd/SimpleSummary.xml')
++addSkin('graphlcd/StandbySummary.xml')
++addSkin('graphlcd/WizardSummary.xml')
++addSkin('graphlcd/custom.xml')
+ if addSkin('skin_display96.xml'):
+ 	# Color OLED
+ 	display_skin_id = 2
