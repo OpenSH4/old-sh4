@@ -1,0 +1,450 @@
+diff -upr neutrino-hd2-exp/data/locale/deutsch.locale neutrino-hd2-exp/data/locale/deutsch.locale
+--- neutrino-hd2-exp/data/locale/deutsch.locale	2013-04-22 15:25:39.000000000 +0200
++++ neutrino-hd2-exp/data/locale/deutsch.locale	2013-04-22 16:39:30.000000000 +0200
+@@ -1591,4 +1591,88 @@ keybinding.savekeymap_hint keymap wird g
+ 
+ audiomenu.volumebar_audiosteps Lautstärke Schrittweite
+ 
++mainmenu.teamcs TeamCS-Menü
++teamcs.head TeamCS-Menü
++helptext.teamcs Hier können Sie das TeamCS-Menü aufrufen.
++helptext.nix Keine Informationen vorhanden.
++
++teamcs.emu EMU Menu
++teamcs.addon Addon Manager
++teamcs.uhr Display Uhr Einstellen
++teamcs.wlan W-Lan Einstellungen
++teamcs.system System Information
++teamcs.tuner Tuner Waehlen
++teamcs.fernbedienung Fernbedienung waehlen
++teamcs.upnp UPNP Media-Server-Client
++teamcs.samba Samba Menu
++teamcs.swap Swap Einrichten
++teamcs.enigma Enigma2 Subsystem Switch
++	
++teamcsemu.emustop1 Stoppt laufenden Emu
++teamcsemu.mgcamd1 Start oder Restart Mg-Camd
++teamcsemu.oscam1 Start oder Restart OS-Cam
++teamcsemu.vizcam1 Start oder Restart Vizcam
++teamcsemu.mbox1 Start oder Restart MBox
++teamcsemu.incubus1 Start oder Restart Incubus
++teamcsemu.camd31 Start oder Restart Camd3
++teamcsemu.mgcamd2 DualEmu: Start/Restart Mg-Camd
++teamcsemu.mbox2 DualEmu: Start/Restart MBox
++teamcsemu.incubus2 DualEmu: Start/Restart Incubus
++teamcsemu.camd32 DualEmu: Start/Restart Camd3
++	
++teamcsuhr.displayreset Display Reset
++teamcsuhr.uhran Display Uhr Aktivieren
++teamcsuhr.uhraus Display Uhr Deaktivieren
++teamcsuhr.sommer Sommerzeit Einstellen
++teamcsuhr.winter Winterzeit Einstellen
++teamcsuhr.aust Stanby/OFF: Turn OFF
++teamcsuhr.austd Stanby/OFF: Turno OFF und Datum
++teamcsuhr.ausd Stanby/OFF: Datum
++teamcsuhr.ausoff Stanby/OFF: Deaktivieren
++	
++teamcswlan.8192cu2 W-Lan 8192cu.ko Treiber Modul
++teamcswlan.8712u W-Lan 8712u.ko Treiber Modul
++teamcswlan.rt2870sta W-Lan rt2870sta.ko Treiber Modul
++teamcswlan.rt3070sta W-Lan rt3070sta.ko Treiber Modul
++teamcswlan.rt5370sta W-Lan rt5370sta.ko Treiber Modul
++teamcswlan.rt73 W-Lan rt73.ko Treiber Modul
++teamcswlan.zydas W-Lan zydas.ko Treiber Modul
++	
++teamcssystem.netstat Netzwerk Infos
++teamcssystem.lsmod Geladen Module Anzeigen
++teamcssystem.free Freier Speicher
++teamcssystem.img Image Version Infomation
++	
++teamcstuner.sttuner ST-Tuner Opti,VIP1,VIP2
++teamcstuner.rbtuner RB-Tuner Opti,VIP1
++teamcstuner.vip1kabel VIP1 Kabel Tuner
++teamcstuner.vip1dvbt VIP1 DVB-T Tuner
++teamcstuner.vip1v2sharp Sharp Tuner VIP1v2
++teamcstuner.vip1v2lgkabel LG Kabel Tuner VIP1v2
++teamcstuner.vip1v2dvbtsharp Sharp DVB-T Tuner VIP1v2
++teamcstuner.vip2sharp Sharp Tuner VIP2
++teamcstuner.vip2sharplg Sharp DVB-S2 und Kabel LG VIP2
++teamcstuner.vip2kabellg2 2x Kabel LG VIP2
++teamcstuner.vip2lgkabeldvbt Kabel LG und DVB-T VIP2
++teamcstuner.vip2sharpdvbt Sharp DVB-S2 und DVB-T VIP2
++	
++teamcsfb.vipneu ArgusVIP neue FB Rotes Blinken
++teamcsfb.vipneugruen ArgusVIP neue FB Gruenes Blinken
++teamcsfb.vipalt ArgusVIP alte FB Rotes Blinken
++teamcsfb.vipaltgruen ArgusVIP alte FB Gruenes Blinken
++teamcsfb.opti Opticum FB
++teamcsfb.pingo Pingolux FB
++teamcsfb.neustart System Neustart
++	
++teamcsupnp.an UPNP Client Aktivieren
++teamcsupnp.aus UPNP Client Deaktivieren
++teamcsupnp.autoan UPNP Client Autostart Aktivieren
++teamcsupnp.autoaus UPNP Client Autostart Deaktivieren
++	
++teamcssamba.an Samba AN
++teamcssamba.aus Samba AUS
++	
++teamcsswap.dev Swap Partition Aktivieren -- default
++teamcsswap.ram Ramzswap Aktivieren
++
+ webtv.head WebTV
+diff -upr neutrino-hd2-exp/data/locale/english.locale neutrino-hd2-exp/data/locale/english.locale
+--- neutrino-hd2-exp/data/locale/english.locale	2013-04-22 15:25:39.000000000 +0200
++++ neutrino-hd2-exp/data/locale/english.locale	2013-04-22 16:37:30.000000000 +0200
+@@ -712,6 +712,7 @@ mainmenu.settings Settings
+ mainmenu.shutdown Shutdown
+ mainmenu.sleeptimer SleepTimer
+ mainmenu.tvmode TV-Mode
++mainmenu.teamcs TeamCS-Menu
+ mainsettings.audio Audio Setup
+ mainsettings.head Settings
+ mainsettings.keybinding Remote-Control settings
+@@ -1590,4 +1591,88 @@ keybinding.savekeymap_hint Saving keymap
+ 
+ audiomenu.volumebar_audiosteps Volume Step Size
+ 
++mainmenu.teamcs TeamCS-Menu
++teamcs.head TeamCS-Menu
++helptext.nix No information given.
++helptext.teamcs Here you can access the TeamCS-Menu.
++
++teamcs.emu EMU Menu
++teamcs.addon Addon Manager
++teamcs.uhr Adjust Display Clock
++teamcs.wlan WIFI Settings
++teamcs.system System Information
++teamcs.tuner Choose Tuner
++teamcs.fernbedienung Choose Remotecontrol
++teamcs.upnp UPNP Media-Server-Client
++teamcs.samba Samba Menu
++teamcs.swap Swap Settings
++teamcs.enigma Enigma2 Subsystem Switch
++	
++teamcsemu.emustop1 Stop all running Emu
++teamcsemu.mgcamd1 Start or Restart Mg-Camd
++teamcsemu.oscam1 Start or Restart OS-Cam
++teamcsemu.vizcam1 Start or Restart Vizcam
++teamcsemu.mbox1 Start or Restart MBox
++teamcsemu.incubus1 Start or Restart Incubus
++teamcsemu.camd31 Start or Restart Camd3
++teamcsemu.mgcamd2 DualEmu: Start/Restart Mg-Camd
++teamcsemu.mbox2 DualEmu: Start/Restart MBox
++teamcsemu.incubus2 DualEmu: Start/Restart Incubus
++teamcsemu.camd32 DualEmu: Start/Restart Camd3
++	
++teamcsuhr.displayreset Display Reset
++teamcsuhr.uhran Activate Display Clock
++teamcsuhr.uhraus Deactivate Display Clock
++teamcsuhr.sommer Set Summertime
++teamcsuhr.winter Set Wintertime
++teamcsuhr.aust Stanby/OFF: Turn OFF
++teamcsuhr.austd Stanby/OFF: Turno OFF and Date
++teamcsuhr.ausd Stanby/OFF: Date
++teamcsuhr.ausoff Stanby/OFF: Deactivate
++	
++teamcswlan.8192cu2 WIFI 8192cu.ko Driver Module
++teamcswlan.8712u WIFI 8712u.ko Driver Module
++teamcswlan.rt2870sta WIFI rt2870sta.ko Driver Module
++teamcswlan.rt3070sta WIFI rt3070sta.ko Driver Module
++teamcswlan.rt5370sta WIFI rt5370sta.ko Driver Module
++teamcswlan.rt73 WIFI rt73.ko Driver Module
++teamcswlan.zydas WIFI zydas.ko Driver Module
++	
++teamcssystem.netstat Network Info
++teamcssystem.lsmod Show loaded Modules
++teamcssystem.free Show free RAM
++teamcssystem.img Image Version Infomation
++	
++teamcstuner.sttuner ST-Tuner Opti,VIP1,VIP2
++teamcstuner.rbtuner RB-Tuner Opti,VIP1
++teamcstuner.vip1kabel VIP1 Kabel Tuner
++teamcstuner.vip1dvbt VIP1 DVB-T Tuner
++teamcstuner.vip1v2sharp Sharp Tuner VIP1v2
++teamcstuner.vip1v2lgkabel LG Cable Tuner VIP1v2
++teamcstuner.vip1v2dvbtsharp Sharp DVB-T Tuner VIP1v2
++teamcstuner.vip2sharp Sharp Tuner VIP2
++teamcstuner.vip2sharplg Sharp DVB-S2 und Cable LG VIP2
++teamcstuner.vip2kabellg2 2x Cable LG VIP2
++teamcstuner.vip2lgkabeldvbt Cable LG und DVB-T VIP2
++teamcstuner.vip2sharpdvbt Sharp DVB-S2 und DVB-T VIP2
++	
++teamcsfb.vipneu ArgusVIP new RC (red signal)
++teamcsfb.vipneugruen ArgusVIP new RC (green signal)
++teamcsfb.vipalt ArgusVIP old RC (red signal)
++teamcsfb.vipaltgruen ArgusVIP old RC (green signal)
++teamcsfb.opti Opticum
++teamcsfb.pingo Pingolux
++teamcsfb.neustart Reboot System
++	
++teamcsupnp.an Activate UPNP Client
++teamcsupnp.aus Deactivate UPNP Client
++teamcsupnp.autoan Activate UPNP Client Autostart
++teamcsupnp.autoaus Deactivate UPNP Client Autostart
++	
++teamcssamba.an Samba ON
++teamcssamba.aus Samba OFF
++	
++teamcsswap.dev Activate Swap Partition -- default
++teamcsswap.ram Activate Ramzswap
++
+ webtv.head WebTV
+diff -upr neutrino-hd2-exp/src/gui/Makefile.am neutrino-hd2-exp/src/gui/Makefile.am
+--- neutrino-hd2-exp/src/gui/Makefile.am	2013-04-22 15:25:42.000000000 +0200
++++ neutrino-hd2-exp/src/gui/Makefile.am	2013-04-22 12:35:34.000000000 +0200
+@@ -6,6 +6,8 @@ svn_version.h:
+ 	else \
+ 		rm svn_version.h; echo '#define BUILT_DATE "'`date`'"' > svn_version.h ; \
+ 	fi
++teamcs_sources =teamcs.cpp teamcsemu.cpp teamcsuhr.cpp teamcswlan.cpp teamcssystem.cpp \
++		teamcstuner.cpp teamcsfb.cpp teamcsupnp.cpp teamcssamba.cpp teamcsswap.cpp
+ 
+ noinst_HEADERS = svn_version.h
+ 
+@@ -53,7 +55,8 @@ libneutrino_gui_a_SOURCES = \
+ 
+ libneutrino_gui2_a_SOURCES = \
+ 	color.cpp motorcontrol.cpp hdd_menu.cpp \
+-	alphasetup.cpp dvbsub_select.cpp psisetup.cpp opkg_manager.cpp webtv.cpp
++	alphasetup.cpp dvbsub_select.cpp psisetup.cpp opkg_manager.cpp webtv.cpp \
++	$(teamcs_sources)
+ 
+ if ENABLE_UPNP
+ libneutrino_gui2_a_SOURCES += upnpbrowser.cpp
+diff -upr neutrino-hd2-exp/src/neutrino_menue.cpp neutrino-hd2-exp/src/neutrino_menue.cpp
+--- neutrino-hd2-exp/src/neutrino_menue.cpp	2013-04-22 15:25:38.000000000 +0200
++++ neutrino-hd2-exp/src/neutrino_menue.cpp	2013-04-20 15:17:52.000000000 +0200
+@@ -113,6 +113,7 @@
+ #if ENABLE_UPNP
+ #include "gui/upnpbrowser.h"
+ #endif
++#include "gui/teamcs.h"
+ 
+ #include <system/setting_helpers.h>
+ #include <system/settings.h>
+@@ -269,6 +270,10 @@ void CNeutrinoApp::InitMainMenu(CMenuWid
+ //#if defined (PLATFORM_CUBEREVO ) || defined (PLATFORM_CUBEREVO_9500HD)
+ 	mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_SCARTMODE, true, "", this, "scart", CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, "scart", LOCALE_HELPTEXT_SCART ));
+ //#endif
++
++	//teamcs
++	/*mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_TEAMCS, true, "", this, "teamcs", CRCInput::convertDigitToKey(shortcut++), NULL, "teamcs", LOCALE_HELPTEXT_TEAMCS ));*/
++	mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_TEAMCS, true, "", new teamcs(), NULL, CRCInput::convertDigitToKey(shortcut++), NULL, "teamcs", LOCALE_HELPTEXT_TEAMCS ));
+ 	
+ 	//Main Setting Menu
+ 	mainMenu.addItem( new CMenuSeparatorItemMenuIcon(CMenuSeparatorItemMenuIcon::LINE) );
+diff -upr neutrino-hd2-exp/src/system/locals.h neutrino-hd2-exp/src/system/locals.h
+--- neutrino-hd2-exp/src/system/locals.h	2013-04-22 15:25:36.000000000 +0200
++++ neutrino-hd2-exp/src/system/locals.h	2013-04-21 23:09:16.000000000 +0200
+@@ -554,6 +554,7 @@ typedef enum {
+ 	LOCALE_MAINMENU_SHUTDOWN,
+ 	LOCALE_MAINMENU_SLEEPTIMER,
+ 	LOCALE_MAINMENU_TVMODE,
++	LOCALE_MAINMENU_TEAMCS,
+ 	LOCALE_MAINSETTINGS_AUDIO,
+ 	LOCALE_MAINSETTINGS_OSD,
+ 	LOCALE_MAINSETTINGS_HEAD,
+@@ -1542,6 +1543,8 @@ typedef enum {
+ 	LOCALE_HELPTEXT_FEATURES,
+ 	LOCALE_HELPTEXT_DVD,
+ 	LOCALE_HELPTEXT_BLUERAY,
++	LOCALE_HELPTEXT_TEAMCS,
++	LOCALE_HELPTEXT_NIX,
+ 	
+ 	LOCALE_MISCSETTINGS_LOGOSDIR,
+ 	
+@@ -1604,6 +1607,86 @@ typedef enum {
+ 	
+ 	LOCALE_AUDIOMENU_VOLUMEBAR_AUDIOSTEPS,
+ 	
++	LOCALE_TEAMCS_HEAD,
++	LOCALE_TEAMCS_EMU,
++	LOCALE_TEAMCS_ADDON,
++	LOCALE_TEAMCS_UHR,
++	LOCALE_TEAMCS_WLAN,
++	LOCALE_TEAMCS_SYSTEM,
++	LOCALE_TEAMCS_TUNER,
++	LOCALE_TEAMCS_FERNBEDIENUNG,
++	LOCALE_TEAMCS_UPNP,
++	LOCALE_TEAMCS_SAMBA,
++	LOCALE_TEAMCS_SWAP,
++	LOCALE_TEAMCS_ENIGMA,
++
++	LOCALE_TEAMCSEMU_EMUSTOP1,
++	LOCALE_TEAMCSEMU_MGCAMD1,
++	LOCALE_TEAMCSEMU_OSCAM1,
++	LOCALE_TEAMCSEMU_VIZCAM1,
++	LOCALE_TEAMCSEMU_MBOX1,
++	LOCALE_TEAMCSEMU_INCUBUS1,
++	LOCALE_TEAMCSEMU_CAMD31,
++	LOCALE_TEAMCSEMU_MGCAMD2,
++	LOCALE_TEAMCSEMU_MBOX2,
++	LOCALE_TEAMCSEMU_INCUBUS2,
++	LOCALE_TEAMCSEMU_CAMD32,
++
++	LOCALE_TEAMCSUHR_DISPLAYRESET,
++	LOCALE_TEAMCSUHR_UHRAN,
++	LOCALE_TEAMCSUHR_UHRAUS,
++	LOCALE_TEAMCSUHR_SOMMER,
++	LOCALE_TEAMCSUHR_WINTER,
++	LOCALE_TEAMCSUHR_AUS_TURNOFF,
++	LOCALE_TEAMCSUHR_AUS_TURNOFFDATE,
++	LOCALE_TEAMCSUHR_AUS_DATE,
++	LOCALE_TEAMCSUHR_AUS_OFF,
++	
++	LOCALE_TEAMCSWLAN_MODUL1,
++	LOCALE_TEAMCSWLAN_MODUL2,
++	LOCALE_TEAMCSWLAN_MODUL3,
++	LOCALE_TEAMCSWLAN_MODUL4,
++	LOCALE_TEAMCSWLAN_MODUL5,
++	LOCALE_TEAMCSWLAN_MODUL6,
++	LOCALE_TEAMCSWLAN_MODUL7,
++	
++	LOCALE_TEAMCSSYSTEM_NETSTAT,
++	LOCALE_TEAMCSSYSTEM_LSMOD,
++	LOCALE_TEAMCSSYSTEM_FREE,
++	LOCALE_TEAMCSSYSTEM_IMG,
++	
++	LOCALE_TEAMCSTUNER_STTUNER,
++	LOCALE_TEAMCSTUNER_RBTUNER,
++	LOCALE_TEAMCSTUNER_VIP1_KABEL,
++	LOCALE_TEAMCSTUNER_VIP1_DVBT,
++	LOCALE_TEAMCSTUNER_VIP1V2_SHARP,
++	LOCALE_TEAMCSTUNER_VIP1V2_LGKABEL,
++	LOCALE_TEAMCSTUNER_VIP1V2_DVBTSHARP,
++	LOCALE_TEAMCSTUNER_VIP2_SHARP,
++	LOCALE_TEAMCSTUNER_VIP2_DVBS2SHARP_LGKABEL,
++	LOCALE_TEAMCSTUNER_VIP2_KABELLG2,
++	LOCALE_TEAMCSTUNER_VIP2_LGKABEL_DVBT,
++	LOCALE_TEAMCSTUNER_VIP2_DVBS2SHARP_DVBT,
++	
++	LOCALE_TEAMCSFB_VIPNEU,
++	LOCALE_TEAMCSFB_VIPNEUGRUEN,
++	LOCALE_TEAMCSFB_VIPALT,
++	LOCALE_TEAMCSFB_VIPALTGRUEN,
++	LOCALE_TEAMCSFB_OPTI,
++	LOCALE_TEAMCSFB_PINGO,
++	LOCALE_TEAMCSFB_NEUSTART,
++
++	LOCALE_TEAMCSUPNP_AN,
++	LOCALE_TEAMCSUPNP_AUS,
++	LOCALE_TEAMCSUPNP_AUTOAN,
++	LOCALE_TEAMCSUPNP_AUTOAUS,
++	
++	LOCALE_TEAMCSSAMBA_AN,
++	LOCALE_TEAMCSSAMBA_AUS,
++	
++	LOCALE_TEAMCSSWAP_DEV,
++	LOCALE_TEAMCSSWAP_RAM,
++
+ 	LOCALE_WEBTV_HEAD,
+ } neutrino_locale_t;
+ 
+diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/system/locals_intern.h
+--- neutrino-hd2-exp/src/system/locals_intern.h	2013-04-22 15:25:36.000000000 +0200
++++ neutrino-hd2-exp/src/system/locals_intern.h	2013-04-21 23:09:35.000000000 +0200
+@@ -554,6 +554,7 @@ const char * locale_real_names[] = {
+ 	"mainmenu.shutdown",
+ 	"mainmenu.sleeptimer",
+ 	"mainmenu.tvmode",
++	"mainmenu.teamcs",
+ 	"mainsettings.audio",
+ 	"mainsettings.osd",
+ 	"mainsettings.head",
+@@ -1542,6 +1543,8 @@ const char * locale_real_names[] = {
+ 	"helptext.features",
+ 	"helptext.dvd",
+ 	"helptext.blueray",
++	"helptext.teamcs",
++	"helptext.nix",
+ 	
+ 	"miscsettings.logosdir",
+ 	
+@@ -1604,6 +1607,86 @@ const char * locale_real_names[] = {
+ 	
+ 	"audiomenu.volumebar_audiosteps",
+ 	
++	"teamcs.head",
++	"teamcs.emu",
++	"teamcs.addon",
++	"teamcs.uhr",
++	"teamcs.wlan",
++	"teamcs.system",
++	"teamcs.tuner",
++	"teamcs.fernbedienung",
++	"teamcs.upnp",
++	"teamcs.samba",
++	"teamcs.swap",
++	"teamcs.enigma",
++	
++	"teamcsemu.emustop1",
++	"teamcsemu.mgcamd1",
++	"teamcsemu.oscam1",
++	"teamcsemu.vizcam1",
++	"teamcsemu.mbox1",
++	"teamcsemu.incubus1",
++	"teamcsemu.camd31",
++	"teamcsemu.mgcamd2",
++	"teamcsemu.mbox2",
++	"teamcsemu.incubus2",
++	"teamcsemu.camd32",
++	
++	"teamcsuhr.displayreset",
++	"teamcsuhr.uhran",
++	"teamcsuhr.uhraus",
++	"teamcsuhr.sommer",
++	"teamcsuhr.winter",
++	"teamcsuhr.aust",
++	"teamcsuhr.austd",
++	"teamcsuhr.ausd",
++	"teamcsuhr.ausoff",
++	
++	"teamcswlan.8192cu2",
++	"teamcswlan.8712u",
++	"teamcswlan.rt2870sta",
++	"teamcswlan.rt3070sta",
++	"teamcswlan.rt5370sta",
++	"teamcswlan.rt73",
++	"teamcswlan.zydas",
++	
++	"teamcssystem.netstat",
++	"teamcssystem.lsmod",
++	"teamcssystem.free",
++	"teamcssystem.img",
++	
++	"teamcstuner.sttuner",
++	"teamcstuner.rbtuner",
++	"teamcstuner.vip1kabel",
++	"teamcstuner.vip1dvbt",
++	"teamcstuner.vip1v2sharp",
++	"teamcstuner.vip1v2lgkabel",
++	"teamcstuner.vip1v2dvbtsharp",
++	"teamcstuner.vip2sharp",
++	"teamcstuner.vip2sharplg",
++	"teamcstuner.vip2kabellg2",
++	"teamcstuner.vip2lgkabeldvbt",
++	"teamcstuner.vip2sharpdvbt",
++	
++	"teamcsfb.vipneu",
++	"teamcsfb.vipneugruen",
++	"teamcsfb.vipalt",
++	"teamcsfb.vipaltgruen",
++	"teamcsfb.opti",
++	"teamcsfb.pingo",
++	"teamcsfb.neustart",
++	
++	"teamcsupnp.an",
++	"teamcsupnp.aus",
++	"teamcsupnp.autoan",
++	"teamcsupnp.autoaus",
++	
++	"teamcssamba.an",
++	"teamcssamba.aus",
++	
++	"teamcsswap.dev",
++	"teamcsswap.ram",
++	
+ 	"webtv.head",
+ };
+ #endif
