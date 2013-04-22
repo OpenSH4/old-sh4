@@ -1469,9 +1469,14 @@ static void stb0899_set_iterations(struct stb0899_state *state)
 		iter_scale = config->ldpc_max_iter;
 
 //	reg = STB0899_READ_S2REG(STB0899_S2DEMOD, MAX_ITER);
+//	reg = STB0899_READ_S2REG(STB0899_S2FEC, MAX_ITER);
 //	STB0899_SETFIELD_VAL(MAX_ITERATIONS, reg, iter_scale);
+
 //	stb0899_write_s2reg(state, STB0899_S2DEMOD, STB0899_BASE_MAX_ITER, STB0899_OFF0_MAX_ITER, reg);
-	stb0899_write_s2reg(state, STB0899_S2DEMOD, STB0899_BASE_MAX_ITER, STB0899_OFF0_MAX_ITER, iter_scale);
+//	stb0899_write_s2reg(state, STB0899_S2DEMOD, STB0899_BASE_MAX_ITER, STB0899_OFF0_MAX_ITER, iter_scale);
+/* Add by Ducktrick */
+	stb0899_write_s2reg(state, STB0899_S2FEC, STB0899_BASE_MAX_ITER, STB0899_OFF0_MAX_ITER, iter_scale);
+/* freq Bug 9500 */
 	stb0899_write_s2reg(state, STB0899_S2DEMOD, STB0899_BASE_ITER_SCALE, STB0899_OFF0_ITER_SCALE, iter_scale);
 }
 
