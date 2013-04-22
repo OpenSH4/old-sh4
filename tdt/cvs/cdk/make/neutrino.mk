@@ -24,9 +24,13 @@ N_CPPFLAGS += -I$(driverdir)/frontcontroller/aotom
 endif
 
 N_CONFIG_OPTS = --enable-silent-rules --enable-freesatepg
+N_CONFIG_SILENT = --enable-silent-rules
+N_CONFIG_FREESAT = --enable-freesatepg
+N_CONFIG_GRAPHLCD = 
 
 if ENABLE_EXTERNALLCD
 N_CONFIG_OPTS += --enable-graphlcd
+N_CONFIG_GRAPHLCD += --enable-graphlcd
 endif
 
 #
@@ -331,17 +335,66 @@ neutrino-twin-distclean:
 #
 #
 $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetype libjpeg libpng libgif libid3tag libcurl libmad libvorbisidec libboost libflac openssl
-	rm -rf $(appsdir)/neutrino-hd2-exp
-	rm -rf $(appsdir)/neutrino-hd2-exp.org
-	[ -d "$(archivedir)/neutrino-hd2-exp.svn" ] && \
-	(cd $(archivedir)/neutrino-hd2-exp.svn; svn up ; cd "$(buildprefix)";); \
-	[ -d "$(archivedir)/neutrino-hd2-exp.svn" ] || \
-	svn co http://neutrinohd2.googlecode.com/svn/branches/nhd2-exp $(archivedir)/neutrino-hd2-exp.svn; \
-	cp -ra $(archivedir)/neutrino-hd2-exp.svn $(appsdir)/neutrino-hd2-exp; \
-	cp -ra $(appsdir)/neutrino-hd2-exp $(appsdir)/neutrino-hd2-exp.org
-	cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp.diff"
-	cp -f $(buildprefix)/root/svn_version.h $(appsdir)/neutrino-hd2-exp/src/gui/
-	touch $@
+	clear; \
+	echo ""; \
+	echo "Choose between the following revisions:"; \
+	echo "========================================================================================================"; \
+	echo " 0) Newest		- NHD2 gstreamer / libplayer3    		(Can fail due to outdated patch)"; \
+	echo " 1) Newest (TeamCS)	- NHD2 gstreamer / libplayer3 + TeamCS-Menu   	(Can fail due to outdated patch)"; \
+	echo " 2) inactive"; \
+	echo " 3) Sun,  21 April 2013	- NHD2 gstreamer / libplayer3 + TeamCS-Menu	(SVN 1318)"; \
+	echo "========================================================================================================"; \
+	echo "Media Framwork : $(MEDIAFW)"; \
+	echo "External LCD   : $(EXTERNALLCD)"; \
+	read -p "Select         : "; \
+	[ "$$REPLY" == "0" ] && NHDselect=0; \
+	[ "$$REPLY" == "1" ] && NHDselect=1; \
+	[ "$$REPLY" == "2" ] && NHDselect=2; \
+	[ "$$REPLY" == "3" ] && NHDselect=3 && REVISION=1318; \
+	echo "Revision       : "$$REVISION; \
+	echo "";\
+	rm -rf $(appsdir)/neutrino-hd2-exp;\
+	rm -rf $(appsdir)/neutrino-hd2-exp.org;\ 
+	if [ $$NHDselect == 0 ]; then \
+		[ -d "$(archivedir)/neutrino-hd2-exp.svn" ] && \
+		(cd $(archivedir)/neutrino-hd2-exp.svn; svn up ; cd "$(buildprefix)";); \
+		[ -d "$(archivedir)/neutrino-hd2-exp.svn" ] || \
+		svn co http://neutrinohd2.googlecode.com/svn/branches/nhd2-exp $(archivedir)/neutrino-hd2-exp.svn; \
+		cp -ra $(archivedir)/neutrino-hd2-exp.svn $(appsdir)/neutrino-hd2-exp; \
+		cp -ra $(appsdir)/neutrino-hd2-exp $(appsdir)/neutrino-hd2-exp.org; \
+		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp.diff"; \
+		cp -f $(buildprefix)/root/svn_version.h $(appsdir)/neutrino-hd2-exp/src/gui/ ;\
+		cd $(buildprefix) && \
+		touch $@; \
+	elif [ $$NHDselect == 1 ]; then \
+		[ -d "$(archivedir)/neutrino-hd2-exp.svn" ] && \
+		(cd $(archivedir)/neutrino-hd2-exp.svn; svn up ; cd "$(buildprefix)";); \
+		[ -d "$(archivedir)/neutrino-hd2-exp.svn" ] || \
+		svn co http://neutrinohd2.googlecode.com/svn/branches/nhd2-exp $(archivedir)/neutrino-hd2-exp.svn; \
+		cp -ra $(archivedir)/neutrino-hd2-exp.svn $(appsdir)/neutrino-hd2-exp; \
+		cp -ra $(appsdir)/neutrino-hd2-exp $(appsdir)/neutrino-hd2-exp.org; \
+		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp.diff"; \
+		cp -f $(buildprefix)/root/svn_version.h $(appsdir)/neutrino-hd2-exp/src/gui/ ;\
+		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-teamcs.diff"; \
+		cp -f $(buildprefix)/Patches/TeamCS/* $(appsdir)/neutrino-hd2-exp/ ; \
+		cd $(buildprefix) && \
+		touch $@; \
+	elif [ $$NHDselect == 3 ]; then \
+		rm -rf $(archivedir)/neutrino-hd2-exp.svn; \
+		[ -d "$(archivedir)/neutrino-hd2-exp.svn" ] && \
+		(cd $(archivedir)/neutrino-hd2-exp.svn; svn up ; cd "$(buildprefix)";); \
+		[ -d "$(archivedir)/neutrino-hd2-exp.svn" ] || \
+		svn co -r$$REVISION  http://neutrinohd2.googlecode.com/svn/branches/nhd2-exp $(archivedir)/neutrino-hd2-exp.svn; \
+		cp -ra $(archivedir)/neutrino-hd2-exp.svn $(appsdir)/neutrino-hd2-exp; \
+		cp -ra $(appsdir)/neutrino-hd2-exp $(appsdir)/neutrino-hd2-exp.org; \
+		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp.diff"; \
+		cp -f $(buildprefix)/root/svn_version.h $(appsdir)/neutrino-hd2-exp/src/gui/ ;\
+		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-teamcs.diff"; \
+		cp -f $(buildprefix)/Patches/TeamCS/* $(appsdir)/neutrino-hd2-exp/ ; \
+		cd $(buildprefix) && \
+		touch $@; \
+	fi
+
 
 if ENABLE_HL101
 NHD2_BOXTYPE = vip
@@ -370,7 +423,9 @@ $(appsdir)/neutrino-hd2-exp/config.status:
 		./configure \
 			--build=$(build) \
 			--host=$(target) \
-			$(N_CONFIG_OPTS) \
+			$(N_CONFIG_SILENT) \
+			$(N_CONFIG_FREESAT) \
+			$(N_CONFIG_GRAPHLCD) \
 			--with-boxtype=$(NHD2_BOXTYPE) \
 			--with-libdir=/usr/lib \
 			--with-datadir=/usr/share/tuxbox \
