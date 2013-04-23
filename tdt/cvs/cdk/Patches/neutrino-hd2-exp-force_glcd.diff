@@ -1,5 +1,5 @@
 diff -upr neutrino-hd2-exp/src/neutrino.cpp neutrino-hd2-exp/src/neutrino.cpp
---- neutrino-hd2-exp/src/neutrino.cpp	2013-04-22 15:25:36.000000000 +0200
+--- neutrino-hd2-exp/src/neutrino.cpp	2013-04-23 13:57:39.000000000 +0200
 +++ neutrino-hd2-exp/src/neutrino.cpp	2013-04-23 10:16:15.000000000 +0200
 @@ -139,9 +139,9 @@
  
@@ -256,7 +256,7 @@ diff -upr neutrino-hd2-exp/src/neutrino.cpp neutrino-hd2-exp/src/neutrino.cpp
  	if(!show)
  		return;
 diff -upr neutrino-hd2-exp/src/neutrino_menue.cpp neutrino-hd2-exp/src/neutrino_menue.cpp
---- neutrino-hd2-exp/src/neutrino_menue.cpp	2013-04-22 21:26:48.000000000 +0200
+--- neutrino-hd2-exp/src/neutrino_menue.cpp	2013-04-23 13:57:44.000000000 +0200
 +++ neutrino-hd2-exp/src/neutrino_menue.cpp	2013-04-23 10:17:15.000000000 +0200
 @@ -147,9 +147,9 @@
  #include <client/zapitclient.h>
@@ -312,7 +312,9 @@ diff -upr neutrino-hd2-exp/src/neutrino_menue.cpp neutrino-hd2-exp/src/neutrino_
 +//#endif
  	if(tmpOPKGManager)
  		delete tmpOPKGManager;
---- neutrino-hd2-exp/src/system/setting_helpers.cpp	2013-04-22 15:25:36.000000000 +0200
+ 
+diff -upr neutrino-hd2-exp/src/system/setting_helpers.cpp neutrino-hd2-exp/src/system/setting_helpers.cpp
+--- neutrino-hd2-exp/src/system/setting_helpers.cpp	2013-04-23 13:57:39.000000000 +0200
 +++ neutrino-hd2-exp/src/system/setting_helpers.cpp	2013-04-23 10:20:20.000000000 +0200
 @@ -806,9 +806,9 @@ const CMenuOptionChooser::keyval USERMEN
          {SNeutrinoSettings::ITEM_VTXT, LOCALE_USERMENU_ITEM_VTXT},
@@ -327,7 +329,7 @@ diff -upr neutrino-hd2-exp/src/neutrino_menue.cpp neutrino-hd2-exp/src/neutrino_
  	{SNeutrinoSettings::ITEM_WEBTV, LOCALE_WEBTV_HEAD},
  };
 diff -upr neutrino-hd2-exp/src/system/settings.h neutrino-hd2-exp/src/system/settings.h
---- neutrino-hd2-exp/src/system/settings.h	2013-04-22 15:25:36.000000000 +0200
+--- neutrino-hd2-exp/src/system/settings.h	2013-04-23 13:57:39.000000000 +0200
 +++ neutrino-hd2-exp/src/system/settings.h	2013-04-23 10:19:52.000000000 +0200
 @@ -358,9 +358,9 @@ struct SNeutrinoSettings
                  ITEM_VTXT = 14,
