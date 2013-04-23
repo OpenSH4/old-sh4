@@ -9,7 +9,8 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <dlfcn.h>
-#include <sys/mount.h>
+#include <sys/mount.h>i
+#include <string.h>
 
 #include <global.h>
 #include <neutrino.h>
@@ -57,8 +58,8 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
    int res = menu_return::RETURN_REPAINT;
    int shortcutTeamCS = 1;
    FILE *cprompt;
-   char ctext [4096];
-   char cprompthint[4096]={0};
+   char ctext[8096];
+   char cprompthint[8096]={0};
    neutrino_msg_t      msg;
    neutrino_msg_data_t data;
    unsigned long long TimeoutEnd;
@@ -77,10 +78,10 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
 	teamcssystem->addItem(GenericMenuBack);
         teamcssystem->addItem( new CMenuSeparator(CMenuSeparator::LINE) );
 
-      teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_NETSTAT, true, "", this, "netstat", CRCInput::RC_green, NEUTRINO_ICON_BUTTON_GREEN, "nix", LOCALE_HELPTEXT_NIX));
-      teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_LSMOD, true, "", this, "lsmod", CRCInput::RC_yellow, NEUTRINO_ICON_BUTTON_YELLOW, "nix", LOCALE_HELPTEXT_NIX));
-      teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_FREE, true, "", this, "free", CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, "nix", LOCALE_HELPTEXT_NIX));
-      teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_IMG, true, "", this, "img", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
+      teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_NETSTAT, true, "", this, "netstat", CRCInput::RC_red, NEUTRINO_ICON_BUTTON_RED, "nix", LOCALE_HELPTEXT_NIX));
+      teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_LSMOD, true, "", this, "lsmod", CRCInput::RC_green, NEUTRINO_ICON_BUTTON_GREEN, "nix", LOCALE_HELPTEXT_NIX));
+      teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_FREE, true, "", this, "free", CRCInput::RC_yellow, NEUTRINO_ICON_BUTTON_YELLOW, "nix", LOCALE_HELPTEXT_NIX));
+      teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_IMG, true, "", this, "img", CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, "nix", LOCALE_HELPTEXT_NIX));
 
       teamcssystem->exec (NULL, "");
       teamcssystem->hide ();
@@ -99,7 +100,10 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
       		}
 	pclose(cprompt);
 
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
+       //ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
+
+      	/*CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
       	hintBox->paint();
 
 		while( msg != CRCInput::RC_ok )
@@ -109,19 +113,22 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
 		}
 
       	hintBox->hide();
-      	delete hintBox;
+      	delete hintBox;*/
    }	
    else if (actionKey == "lsmod")
    {
 
-      	cprompt = popen("/sbin/lsmod", "r");
-		while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
-      		{
-		strcat(cprompthint,ctext);
-      		}
-	pclose(cprompt);
+        cprompt = popen("/sbin/lsmod", "r");
+                while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
+                {
+                strcat(cprompthint,ctext);
+                }
+        pclose(cprompt);
 
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
+       //ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
+
+      	/*CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
       	hintBox->paint();
 
 		while( msg != CRCInput::RC_ok )
@@ -131,7 +138,7 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
 		}
 
       	hintBox->hide();
-      	delete hintBox;
+      	delete hintBox;*/
    }
    else if (actionKey == "free")
    {
@@ -143,7 +150,10 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
       		}
 	pclose(cprompt);
 
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
+       //ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
+
+      	/*CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
       	hintBox->paint();
 
 		while( msg != CRCInput::RC_ok )
@@ -153,7 +163,7 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
 		}
 
       	hintBox->hide();
-      	delete hintBox;   
+      	delete hintBox;*/   
    }
    else if (actionKey == "img")
    {
@@ -164,8 +174,11 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
 		strcat(cprompthint,ctext);
       		}
 	pclose(cprompt);
-
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
+	
+	//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+	ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
+      	
+	/*CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
       	hintBox->paint();
 
 		while( msg != CRCInput::RC_ok )
@@ -175,7 +188,7 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
 		}
 
       	hintBox->hide();
-      	delete hintBox;
+      	delete hintBox;*/
    }
 
    return res;
