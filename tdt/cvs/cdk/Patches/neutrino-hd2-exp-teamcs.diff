@@ -1,7 +1,7 @@
 diff -upr neutrino-hd2-exp/data/locale/deutsch.locale neutrino-hd2-exp/data/locale/deutsch.locale
 --- neutrino-hd2-exp/data/locale/deutsch.locale	2013-04-22 15:25:39.000000000 +0200
 +++ neutrino-hd2-exp/data/locale/deutsch.locale	2013-04-22 16:39:30.000000000 +0200
-@@ -1591,4 +1591,88 @@ keybinding.savekeymap_hint keymap wird g
+@@ -1591,4 +1591,89 @@ keybinding.savekeymap_hint keymap wird g
  
  audiomenu.volumebar_audiosteps Lautstärke Schrittweite
  
@@ -51,6 +51,7 @@ diff -upr neutrino-hd2-exp/data/locale/deutsch.locale neutrino-hd2-exp/data/loca
 +teamcswlan.rt5370sta W-Lan rt5370sta.ko Treiber Modul
 +teamcswlan.rt73 W-Lan rt73.ko Treiber Modul
 +teamcswlan.zydas W-Lan zydas.ko Treiber Modul
++teamcswlan.aus W-Lan deaktivieren
 +	
 +teamcssystem.netstat Netzwerk Infos
 +teamcssystem.lsmod Geladen Module Anzeigen
@@ -101,7 +102,7 @@ diff -upr neutrino-hd2-exp/data/locale/english.locale neutrino-hd2-exp/data/loca
  mainsettings.audio Audio Setup
  mainsettings.head Settings
  mainsettings.keybinding Remote-Control settings
-@@ -1590,4 +1591,88 @@ keybinding.savekeymap_hint Saving keymap
+@@ -1590,4 +1591,89 @@ keybinding.savekeymap_hint Saving keymap
  
  audiomenu.volumebar_audiosteps Volume Step Size
  
@@ -151,6 +152,7 @@ diff -upr neutrino-hd2-exp/data/locale/english.locale neutrino-hd2-exp/data/loca
 +teamcswlan.rt5370sta WIFI rt5370sta.ko Driver Module
 +teamcswlan.rt73 WIFI rt73.ko Driver Module
 +teamcswlan.zydas WIFI zydas.ko Driver Module
++teamcswlan.aus Deactivate WIFI
 +	
 +teamcssystem.netstat Network Info
 +teamcssystem.lsmod Show loaded Modules
@@ -254,7 +256,7 @@ diff -upr neutrino-hd2-exp/src/system/locals.h neutrino-hd2-exp/src/system/local
  	
  	LOCALE_MISCSETTINGS_LOGOSDIR,
  	
-@@ -1604,6 +1607,86 @@ typedef enum {
+@@ -1604,6 +1607,87 @@ typedef enum {
  	
  	LOCALE_AUDIOMENU_VOLUMEBAR_AUDIOSTEPS,
  	
@@ -300,6 +302,7 @@ diff -upr neutrino-hd2-exp/src/system/locals.h neutrino-hd2-exp/src/system/local
 +	LOCALE_TEAMCSWLAN_MODUL5,
 +	LOCALE_TEAMCSWLAN_MODUL6,
 +	LOCALE_TEAMCSWLAN_MODUL7,
++	LOCALE_TEAMCSWLAN_AUS,
 +	
 +	LOCALE_TEAMCSSYSTEM_NETSTAT,
 +	LOCALE_TEAMCSSYSTEM_LSMOD,
@@ -361,7 +364,7 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
  	
  	"miscsettings.logosdir",
  	
-@@ -1604,6 +1607,86 @@ const char * locale_real_names[] = {
+@@ -1604,6 +1607,87 @@ const char * locale_real_names[] = {
  	
  	"audiomenu.volumebar_audiosteps",
  	
@@ -407,6 +410,7 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
 +	"teamcswlan.rt5370sta",
 +	"teamcswlan.rt73",
 +	"teamcswlan.zydas",
++	"teamcswlan.aus",
 +	
 +	"teamcssystem.netstat",
 +	"teamcssystem.lsmod",

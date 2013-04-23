@@ -83,6 +83,7 @@ int teamcswlan::exec(CMenuTarget* parent, const std::string &actionKey)
       teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL5, true, "", this, "rt5370sta", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
       teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL6, true, "", this, "rt73", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
       teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL7, true, "", this, "zydas", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
+teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_AUS, true, "", this, "aus", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
 
       teamcswlan->exec (NULL, "");
       teamcswlan->hide ();
@@ -194,6 +195,21 @@ int teamcswlan::exec(CMenuTarget* parent, const std::string &actionKey)
 
       	hintBox->hide();
       	delete hintBox;
+   }
+   else if (actionKey == "aus")
+   {
+        system("rm -rf /var/keys/Benutzerdaten/.system/wlan");
+        CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan deaktiviert, Neustart erforderlich");
+        hintBox->paint();
+
+                while( msg != CRCInput::RC_ok )
+                {
+                g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
+                usleep(5000);
+                }
+
+        hintBox->hide();
+        delete hintBox;
    }
 
    return res;
