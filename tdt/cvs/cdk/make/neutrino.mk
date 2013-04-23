@@ -339,12 +339,12 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 	echo ""; \
 	echo "Choose between the following revisions:"; \
 	echo "========================================================================================================"; \
-	echo " 0) Newest		- NHD2 gstreamer / libplayer3    		(Can fail due to outdated patch)"; \
-	echo " 1) Newest (TeamCS)	- NHD2 gstreamer / libplayer3 + TeamCS-Menu   	(Can fail due to outdated patch)"; \
+	echo " 0) Newest		- NHD2 libplayer3    			(Can fail due to outdated patch)"; \
+	echo " 1) Newest (TeamCS)	- NHD2 libplayer3 + TeamCS-Menu   	(Can fail due to outdated patch)"; \
 	echo " 2) inactive"; \
-	echo " 3) Sun,  21 April 2013	- NHD2 gstreamer / libplayer3 + TeamCS-Menu	(SVN 1318)"; \
+	echo " 3) Sun,  21 April 2013	- NHD2 libplayer3 + TeamCS-Menu		(SVN 1318)"; \
 	echo "========================================================================================================"; \
-	echo "Media Framwork : $(MEDIAFW)"; \
+	echo "Media Framwork : $(MEDIAFW) (MediaFW will always be libeplayer3 for NHD2)"; \
 	echo "External LCD   : $(EXTERNALLCD)"; \
 	read -p "Select         : "; \
 	[ "$$REPLY" == "0" ] && NHDselect=0; \
@@ -364,7 +364,7 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 		cp -ra $(appsdir)/neutrino-hd2-exp $(appsdir)/neutrino-hd2-exp.org; \
 		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp.diff"; \
 		cp -f $(buildprefix)/root/svn_version.h $(appsdir)/neutrino-hd2-exp/src/gui/ ;\
-		cd $(buildprefix) && \
+		echo done && sleep 3 && cd $(buildprefix) && \
 		touch $@; \
 	elif [ $$NHDselect == 1 ]; then \
 		[ -d "$(archivedir)/neutrino-hd2-exp.svn" ] && \
@@ -375,9 +375,9 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 		cp -ra $(appsdir)/neutrino-hd2-exp $(appsdir)/neutrino-hd2-exp.org; \
 		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp.diff"; \
 		cp -f $(buildprefix)/root/svn_version.h $(appsdir)/neutrino-hd2-exp/src/gui/ ;\
-		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-teamcs.diff"; \
-		cp -rf $(buildprefix)/Patches/TeamCS/* $(appsdir)/neutrino-hd2-exp/ ; \
-		cd $(buildprefix) && \
+		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-teamcs.diff" && \
+		cp -rf $(buildprefix)/Patches/TeamCS/* $(appsdir)/neutrino-hd2-exp/ && \
+		echo done && sleep 3 && cd $(buildprefix) && \
 		touch $@; \
 	elif [ $$NHDselect == 3 ]; then \
 		rm -rf $(archivedir)/neutrino-hd2-exp.svn; \
@@ -389,9 +389,9 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 		cp -ra $(appsdir)/neutrino-hd2-exp $(appsdir)/neutrino-hd2-exp.org; \
 		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp.diff"; \
 		cp -f $(buildprefix)/root/svn_version.h $(appsdir)/neutrino-hd2-exp/src/gui/ ;\
-		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-teamcs.diff"; \
-		cp -rf $(buildprefix)/Patches/TeamCS/* $(appsdir)/neutrino-hd2-exp/ ; \
-		cd $(buildprefix) && \
+		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-teamcs.diff" && \
+		cp -rf $(buildprefix)/Patches/TeamCS/* $(appsdir)/neutrino-hd2-exp/ && \
+		echo done && sleep 3 && cd $(buildprefix) && \
 		touch $@; \
 	fi
 
@@ -434,6 +434,7 @@ $(appsdir)/neutrino-hd2-exp/config.status:
 			--with-gamesdir=/var/tuxbox/games \
 			--with-plugindir=/var/plugins \
 			--enable-libeplayer3 \
+			--enable-standalonepluigns \
 			PKG_CONFIG=$(hostprefix)/bin/pkg-config \
 			PKG_CONFIG_PATH=$(targetprefix)/usr/lib/pkgconfig \
 			$(PLATFORM_CPPFLAGS) \
