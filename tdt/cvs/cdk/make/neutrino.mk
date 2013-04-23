@@ -23,6 +23,10 @@ if BOXTYPE_SPARK7162
 N_CPPFLAGS += -I$(driverdir)/frontcontroller/aotom
 endif
 
+if BOXTYPE_HL101
+N_CPPFLAGS += -I$(driverdir)/frontcontroller/aotom
+endif
+
 N_CONFIG_OPTS = --enable-silent-rules --enable-freesatepg
 N_CONFIG_SILENT = --enable-silent-rules
 N_CONFIG_FREESAT = --enable-freesatepg
@@ -334,7 +338,7 @@ neutrino-twin-distclean:
 # neutrino-hd2-exp branch
 #
 #
-$(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetype libjpeg libpng libgif libid3tag libcurl libmad libvorbisidec libboost libflac openssl
+$(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetype libjpeg libpng libgif libid3tag libcurl libmad libvorbisidec libboost libflac openssl libdvbsipp openssl libusb2 libalsa
 	clear; \
 	echo ""; \
 	echo "Choose between the following revisions:"; \
@@ -353,8 +357,8 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 	[ "$$REPLY" == "3" ] && NHDselect=3 && REVISION=1318; \
 	echo "Revision       : "$$REVISION; \
 	echo "";\
-	rm -rf $(appsdir)/neutrino-hd2-exp;\
-	rm -rf $(appsdir)/neutrino-hd2-exp.org;\ 
+	rm -rf $(appsdir)/neutrino-hd2-exp; \
+	rm -rf $(appsdir)/neutrino-hd2-exp.org; \ 
 	if [ $$NHDselect == 0 ]; then \
 		[ -d "$(archivedir)/neutrino-hd2-exp.svn" ] && \
 		(cd $(archivedir)/neutrino-hd2-exp.svn; svn up ; cd "$(buildprefix)";); \
@@ -426,6 +430,7 @@ $(appsdir)/neutrino-hd2-exp/config.status:
 			$(N_CONFIG_SILENT) \
 			$(N_CONFIG_FREESAT) \
 			$(N_CONFIG_GRAPHLCD) \
+			--enable-radiotext \
 			--with-boxtype=$(NHD2_BOXTYPE) \
 			--with-libdir=/usr/lib \
 			--with-datadir=/usr/share/tuxbox \
