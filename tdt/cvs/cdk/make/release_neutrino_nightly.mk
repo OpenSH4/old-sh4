@@ -446,7 +446,8 @@ release_neutrino_hl101: release_neutrino_common_utils
 	$(prefix)/release_neutrino/usr/share/tuxbox/neutrino/
 	mkdir $(prefix)/release_neutrino/usr/share/neutrino
 	cd $(prefix)/release_neutrino/usr/share/neutrino/ && ln -sf ../tuxbox/neutrino/httpd .
-	cd $(prefix)/release_neutrino/var && ln -sf ../usr/share/tuxbox/neutrino/httpd .
+	rm -rf $(prefix)/release_neutrino/var/httpd
+	cd $(prefix)/release_neutrino/var/ && ln -sf ../usr/share/tuxbox/neutrino/httpd .
 	
 
 #
