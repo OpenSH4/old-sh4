@@ -1,0 +1,361 @@
+diff -upr neutrino-hd2-exp/src/neutrino.cpp neutrino-hd2-exp/src/neutrino.cpp
+--- neutrino-hd2-exp/src/neutrino.cpp	2013-04-22 15:25:36.000000000 +0200
++++ neutrino-hd2-exp/src/neutrino.cpp	2013-04-23 10:16:15.000000000 +0200
+@@ -139,9 +139,9 @@
+ 
+ #include "gui/scan_setup.h"
+ 
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+ #include <driver/nglcd.h>
+-#endif
++//#endif
+ 
+ // libdvbapi
+ #include <video_cs.h>
+@@ -905,7 +905,7 @@ int CNeutrinoApp::loadSetup(const char *
+ 	g_settings.lcd_ledcolor = configfile.getInt32("lcd_ledcolor", 1);
+ 	// END VFD
+ 	
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+ 	g_settings.glcd_enable = configfile.getInt32("glcd_enable", 0);
+ 	g_settings.glcd_color_fg = configfile.getInt32("glcd_color_fg", GLCD::cColor::White);
+ 	g_settings.glcd_color_bg = configfile.getInt32("glcd_color_bg", GLCD::cColor::Blue);
+@@ -917,7 +917,7 @@ int CNeutrinoApp::loadSetup(const char *
+ 	g_settings.glcd_mirror_osd = configfile.getInt32("glcd_mirror_osd", 0);
+ 	g_settings.glcd_time_in_standby = configfile.getInt32("glcd_time_in_standby", 0);
+ 	g_settings.glcd_font = configfile.getString("glcd_font", FONTDIR "/neutrino.ttf");
+-#endif	
++//#endif	
+ 	
+ 	//set OSD resolution
+ #define DEFAULT_X_OFF 35
+@@ -1339,7 +1339,7 @@ void CNeutrinoApp::saveSetup(const char
+ 	configfile.setInt32("lcd_ledcolor", g_settings.lcd_ledcolor);
+ 	// END VFD
+ 	
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+ 	configfile.setInt32("glcd_enable", g_settings.glcd_enable);
+ 	configfile.setInt32("glcd_color_fg", g_settings.glcd_color_fg);
+ 	configfile.setInt32("glcd_color_bg", g_settings.glcd_color_bg);
+@@ -1351,7 +1351,7 @@ void CNeutrinoApp::saveSetup(const char
+ 	configfile.setInt32("glcd_mirror_osd", g_settings.glcd_mirror_osd);
+ 	configfile.setInt32("glcd_time_in_standby", g_settings.glcd_time_in_standby);
+ 	configfile.setString("glcd_font", g_settings.glcd_font);
+-#endif	
++//#endif	
+ 
+ 	if(strcmp(fname, NEUTRINO_SETTINGS_FILE))
+ 		configfile.saveConfig(fname);
+@@ -2147,9 +2147,9 @@ int CNeutrinoApp::run(int argc, char **a
+ 	// volume conf
+ 	audioSetupNotifierVolPercent = new CAudioSetupNotifierVolPercent;
+ 	
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+ 	nGLCD::getInstance();
+-#endif	
++//#endif	
+ 
+ 	// timerd thread
+ 	pthread_create(&timer_thread, NULL, timerd_main_thread, (void *) NULL);
+@@ -2822,10 +2822,10 @@ void CNeutrinoApp::RealRun(CMenuWidget &
+ 			}			
+ 			else if( msg == (neutrino_msg_t)g_settings.key_inetradio ) 	// internet radio
+ 			{
+-#ifdef ENABLE_GRAPHLCD
++//#ifdef ENABLE_GRAPHLCD
+ 				std::string c = "Internet Radio";
+ 				nGLCD::lockChannel(c);
+-#endif				  
++//#endif				  
+ 				StopSubtitles();
+ 
+ 				CAudioPlayerGui tmpAudioPlayerGui(true);
+@@ -2833,16 +2833,16 @@ void CNeutrinoApp::RealRun(CMenuWidget &
+ 
+ 				StartSubtitles();
+ 				
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+ 				nGLCD::unlockChannel();
+-#endif				
++//#endif				
+ 			}			
+ 			else if( msg == (neutrino_msg_t)g_settings.key_recordsbrowser )	// recordsbrowser
+ 			{
+-#ifdef ENABLE_GRAPHLCD
++//#ifdef ENABLE_GRAPHLCD
+ 				std::string c = "MoviePlayer";
+ 				nGLCD::lockChannel(c);
+-#endif			  
++//#endif			  
+ 			  
+ 				StopSubtitles();
+ 
+@@ -2859,16 +2859,16 @@ void CNeutrinoApp::RealRun(CMenuWidget &
+ 					
+ 				StartSubtitles();
+ 				
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+ 				nGLCD::unlockChannel();
+-#endif				
++//#endif				
+ 			}
+ 			else if( msg == (neutrino_msg_t)g_settings.key_moviebrowser )	// moviebrowser
+ 			{
+-#ifdef ENABLE_GRAPHLCD
++//#ifdef ENABLE_GRAPHLCD
+ 				std::string c = "MoviePlayer";
+ 				nGLCD::lockChannel(c);
+-#endif			  
++//#endif			  
+ 			  
+ 				StopSubtitles();
+ 
+@@ -2885,16 +2885,16 @@ void CNeutrinoApp::RealRun(CMenuWidget &
+ 					
+ 				StartSubtitles();
+ 				
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+ 				nGLCD::unlockChannel();
+-#endif				
++//#endif				
+ 			}
+ 			else if( msg == (neutrino_msg_t)g_settings.key_filebrowser )	// filebrowser player
+ 			{
+-#ifdef ENABLE_GRAPHLCD
++//#ifdef ENABLE_GRAPHLCD
+ 				std::string c = "MoviePlayer";
+ 				nGLCD::lockChannel(c);
+-#endif			  
++//#endif			  
+ 			  
+ 				StopSubtitles();
+ 
+@@ -2911,16 +2911,16 @@ void CNeutrinoApp::RealRun(CMenuWidget &
+ 					
+ 				StartSubtitles();
+ 				
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+ 				nGLCD::unlockChannel();
+-#endif				
++//#endif				
+ 			}
+ 			else if( msg == (neutrino_msg_t)g_settings.key_webtv )	// webtv
+ 			{
+-#ifdef ENABLE_GRAPHLCD
++//#ifdef ENABLE_GRAPHLCD
+ 				std::string c = "WebTV";
+ 				nGLCD::lockChannel(c);
+-#endif			  
++//#endif			  
+ 			  
+ 				StopSubtitles();
+ 
+@@ -2937,9 +2937,9 @@ void CNeutrinoApp::RealRun(CMenuWidget &
+ 					
+ 				StartSubtitles();
+ 				
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+ 				nGLCD::unlockChannel();
+-#endif				
++//#endif				
+ 			}	
+ 			else if( msg == (neutrino_msg_t)g_settings.key_pictureviewer ) 	// picture viewer
+ 			{
+@@ -2980,10 +2980,10 @@ void CNeutrinoApp::RealRun(CMenuWidget &
+ 					showInfo();
+ 				}
+ 				
+-#ifdef ENABLE_GRAPHLCD
++//#ifdef ENABLE_GRAPHLCD
+ 				if (msg == NeutrinoMessages::EVT_CURRENTNEXT_EPG)
+ 					nGLCD::Update();				
+-#endif				
++//#endif				
+ 			}
+ 			else if( (msg == (neutrino_msg_t) g_settings.key_pip) || (msg == (neutrino_msg_t) g_settings.key_pip_subchannel) )
+ 			{
+@@ -3064,9 +3064,9 @@ int CNeutrinoApp::handleMsg(const neutri
+ 			g_InfoViewer->handleMsg(NeutrinoMessages::EVT_RECORDMODE, 1);
+ 		}
+ 		
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+ 		nGLCD::Update();
+-#endif		
++//#endif		
+ 
+ 		// scrambled timer
+ 		if(scrambled_timer) 
+@@ -4088,9 +4088,9 @@ void CNeutrinoApp::setVolume(const neutr
+ 
+ 			setvol(g_settings.current_volume);
+ 			
+-#ifdef ENABLE_GRAPHLCD
++//#ifdef ENABLE_GRAPHLCD
+ 			nGLCD::ShowVolume(true);
+-#endif			
++//#endif			
+ 			
+ 			//FIXME
+ 			if (current_muted && msg == CRCInput::RC_plus)
+@@ -4149,9 +4149,9 @@ void CNeutrinoApp::setVolume(const neutr
+ #endif		
+ 	} while (msg != CRCInput::RC_timeout);
+ 	
+-#ifdef ENABLE_GRAPHLCD
++//#ifdef ENABLE_GRAPHLCD
+ 	nGLCD::ShowVolume(false);
+-#endif	
++//#endif	
+ 
+ 	if( (bDoPaint) && (pixbuf != NULL) ) 
+ 	{
+@@ -4974,9 +4974,9 @@ void stop_daemons()
+ 	tuxtxt_stop();
+ 	tuxtxt_close();
+ 	
+-#ifdef ENABLE_GRAPHLCD
++//#ifdef ENABLE_GRAPHLCD
+ 	nGLCD::Exit();
+-#endif	
++//#endif	
+ 
+ 	// stop nhttpd	
+ 	dprintf(DEBUG_NORMAL, "stop_daemons: httpd shutdown\n");
+@@ -5046,9 +5046,9 @@ void CNeutrinoApp::StopSubtitles()
+ #endif
+ 	}
+ 	
+-#if ENABLE_GRAPHLCD	
++//#if ENABLE_GRAPHLCD	
+ 	nGLCD::MirrorOSD();
+-#endif
++//#endif
+ }
+ 
+ // start subtitle
+@@ -5056,9 +5056,9 @@ void CNeutrinoApp::StartSubtitles(bool s
+ {
+ 	printf("%s: %s\n", __FUNCTION__, show ? "Show" : "Not show");
+ 	
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+ 	nGLCD::MirrorOSD(false);
+-#endif	
++//#endif	
+ 	
+ 	if(!show)
+ 		return;
+diff -upr neutrino-hd2-exp/src/neutrino_menue.cpp neutrino-hd2-exp/src/neutrino_menue.cpp
+--- neutrino-hd2-exp/src/neutrino_menue.cpp	2013-04-22 21:26:48.000000000 +0200
++++ neutrino-hd2-exp/src/neutrino_menue.cpp	2013-04-23 10:17:15.000000000 +0200
+@@ -147,9 +147,9 @@
+ #include <client/zapitclient.h>
+ #include <frontend_c.h>
+ 
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+ #include "gui/glcdsetup.h"
+-#endif
++//#endif
+ 
+ #include "gui/proxyserver_setup.h"
+ #include "gui/opkg_manager.h"
+@@ -2523,9 +2523,9 @@ bool CNeutrinoApp::showUserMenu(int butt
+         CEventListHandler * tmpEventListHandler                 = NULL;
+         CEPGplusHandler * tmpEPGplusHandler                     = NULL;
+         CEPGDataHandler * tmpEPGDataHandler                     = NULL;
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+ 	GLCD_Menu * glcdMenu 					= NULL;
+-#endif
++//#endif
+ 	COPKGManager * tmpOPKGManager				= NULL;
+ 
+         std::string txt = g_settings.usermenu_text[button];
+@@ -2726,7 +2726,7 @@ bool CNeutrinoApp::showUserMenu(int butt
+ 
+                                 break;
+ 				
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+ 			case SNeutrinoSettings::ITEM_GLCD:
+                                 menu_items++;
+                                 menu_prev = SNeutrinoSettings::ITEM_GLCD;
+@@ -2737,7 +2737,7 @@ bool CNeutrinoApp::showUserMenu(int butt
+                                 menu_item = new CMenuForwarder(LOCALE_GLCD_HEAD, true, NULL, glcdMenu, "-1", key, icon);
+                                 menu->addItem(menu_item, false);
+                                 break;
+-#endif
++//#endif
+ 
+ 			case SNeutrinoSettings::ITEM_OPKG:
+                                 menu_items++;
+@@ -2798,10 +2798,10 @@ bool CNeutrinoApp::showUserMenu(int butt
+         if(tmpEPGDataHandler)
+ 		delete tmpEPGDataHandler;
+ 	
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+ 	if(glcdMenu)
+ 		delete glcdMenu;
+-#endif
++//#endif
+ 	if(tmpOPKGManager)
+ 		delete tmpOPKGManager;
+--- neutrino-hd2-exp/src/system/setting_helpers.cpp	2013-04-22 15:25:36.000000000 +0200
++++ neutrino-hd2-exp/src/system/setting_helpers.cpp	2013-04-23 10:20:20.000000000 +0200
+@@ -806,9 +806,9 @@ const CMenuOptionChooser::keyval USERMEN
+         {SNeutrinoSettings::ITEM_VTXT, LOCALE_USERMENU_ITEM_VTXT},
+         {SNeutrinoSettings::ITEM_GAME, LOCALE_MAINMENU_GAMES},
+         {SNeutrinoSettings::ITEM_OPKG, LOCALE_OPKG_MANAGER},
+-#if ENABLE_GRAPHLCD        
++//#if ENABLE_GRAPHLCD        
+         {SNeutrinoSettings::ITEM_GLCD, LOCALE_GLCD_HEAD},
+-#endif
++//#endif
+ 	{SNeutrinoSettings::ITEM_MOVIEPLAYER_TSMB, LOCALE_MOVIEPLAYER_RECORDS},
+ 	{SNeutrinoSettings::ITEM_WEBTV, LOCALE_WEBTV_HEAD},
+ };
+diff -upr neutrino-hd2-exp/src/system/settings.h neutrino-hd2-exp/src/system/settings.h
+--- neutrino-hd2-exp/src/system/settings.h	2013-04-22 15:25:36.000000000 +0200
++++ neutrino-hd2-exp/src/system/settings.h	2013-04-23 10:19:52.000000000 +0200
+@@ -358,9 +358,9 @@ struct SNeutrinoSettings
+                 ITEM_VTXT = 14,
+                 ITEM_GAME = 15,
+                 ITEM_OPKG = 16,
+-#if ENABLE_GRAPHLCD                
++//#if ENABLE_GRAPHLCD                
+                 ITEM_GLCD = 17,
+-#endif 
++//#endif 
+ 		ITEM_MOVIEPLAYER_TSMB = 18,
+ 		ITEM_WEBTV = 19,
+                 ITEM_MAX   // MUST be always the last in the list
+@@ -487,7 +487,7 @@ struct SNeutrinoSettings
+ 	int lcd_ledcolor;
+ 	// END VFD
+ 	
+-#if ENABLE_GRAPHLCD
++//#if ENABLE_GRAPHLCD
+         int		glcd_enable;
+         uint32_t	glcd_color_fg;
+         uint32_t	glcd_color_bg;
+@@ -499,7 +499,7 @@ struct SNeutrinoSettings
+         int		glcd_percent_time;
+         int		glcd_mirror_osd;
+         int		glcd_time_in_standby;
+-#endif	
++//#endif	
+ 
+ #define FILESYSTEM_ENCODING_TO_UTF8(a) (g_settings.filesystem_is_utf8 ? (a) : ZapitTools::Latin1_to_UTF8(a).c_str())
+ #define UTF8_TO_FILESYSTEM_ENCODING(a) (g_settings.filesystem_is_utf8 ? (a) : ZapitTools::UTF8_to_Latin1(a).c_str())
