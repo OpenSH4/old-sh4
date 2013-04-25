@@ -9,7 +9,7 @@ diff -Nur '--exclude=.git' '--exclude=tuxtxt' enigma2-nightly.org/lib/driver/vfd
  //light on off
  #define VFDDISPLAYWRITEONOFF  0xc0425a05
  #define VFDDISPLAYCLR		0xc0425b00
-@@ -41,12 +41,10 @@
+@@ -41,12 +42,10 @@
  	unsigned char length;
  };
  
@@ -22,10 +22,11 @@ diff -Nur '--exclude=.git' '--exclude=tuxtxt' enigma2-nightly.org/lib/driver/vfd
  
  evfd* evfd::instance = NULL;
  
-@@ -87,45 +87,8 @@
+@@ -86,46 +85,9 @@
+ {
  	evfd vfd;
  	blocked = true;
- 	//vfd.vfd_clear_icons();
+-	//vfd.vfd_clear_icons();
 -	vfd.vfd_write_string("Open AR-P ENIGMA2", true);
 -	//run 2 times through all icons 
 -	if (vfd.getVfdType() != 4)
@@ -65,12 +66,13 @@ diff -Nur '--exclude=.git' '--exclude=tuxtxt' enigma2-nightly.org/lib/driver/vfd
 -	    }
 -	    vfd.vfd_set_brightness(7);
 -	}
++	vfd.vfd_write_string("Lade...", true);
 +	vfd.vfd_set_brightness(7);
 +	vfd.vfd_on_all(1);
  	blocked = false;
  	return NULL;
  }
-@@ -193,7 +157,7 @@
+@@ -193,60 +155,40 @@
  
  void evfd::vfd_set_icon(tvfd_icon id, bool onoff)
  {
@@ -78,8 +80,6 @@ diff -Nur '--exclude=.git' '--exclude=tuxtxt' enigma2-nightly.org/lib/driver/vfd
 +	vfd_set_icon(id, onoff, false);
  	return;
  }
- 
-@@ -199,34 +197,19 @@
  
  void evfd::vfd_set_icon(tvfd_icon id, bool onoff, bool force)
  {
@@ -116,7 +116,6 @@ diff -Nur '--exclude=.git' '--exclude=tuxtxt' enigma2-nightly.org/lib/driver/vfd
      }
      return;
  }
-@@ -233,13 +182,10 @@
  
  void evfd::vfd_clear_icons()
  {
@@ -130,8 +129,6 @@ diff -Nur '--exclude=.git' '--exclude=tuxtxt' enigma2-nightly.org/lib/driver/vfd
      return;
  }
  
-@@ -235,19 +189,16 @@
- 
  void evfd::vfd_set_brightness(unsigned char setting)
  {
 -    if (getVfdType() != 4)
@@ -139,10 +136,7 @@ diff -Nur '--exclude=.git' '--exclude=tuxtxt' enigma2-nightly.org/lib/driver/vfd
  	struct vfd_ioctl_data data;
  
  	memset(&data, 0, sizeof(struct vfd_ioctl_data));
- 
- 	data.start = setting & 0x07;
- 	data.length = 0;
- 
+@@ -257,7 +199,6 @@
  	file_vfd = open (VFD_DEVICE, O_WRONLY);
  	ioctl ( file_vfd, VFDBRIGHTNESS, &data );
  	close (file_vfd);
@@ -150,7 +144,7 @@ diff -Nur '--exclude=.git' '--exclude=tuxtxt' enigma2-nightly.org/lib/driver/vfd
      return;
  }
  
-@@ -240,6 +221,25 @@
+@@ -280,6 +221,25 @@
  	return;
  }
  
@@ -199,4 +193,5 @@ diff -Nur '--exclude=.git' '--exclude=tuxtxt' enigma2-nightly.org/lib/dvb/pmt.cp
  		{
  			eDVBTSTools tstools;
  			bool b = source || !tstools.openFile(ref.path.c_str(), 1);
+
 
