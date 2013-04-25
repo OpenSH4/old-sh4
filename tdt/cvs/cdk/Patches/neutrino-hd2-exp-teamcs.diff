@@ -1,11 +1,12 @@
 diff -upr neutrino-hd2-exp/data/locale/deutsch.locale neutrino-hd2-exp/data/locale/deutsch.locale
 --- neutrino-hd2-exp/data/locale/deutsch.locale	2013-04-22 15:25:39.000000000 +0200
 +++ neutrino-hd2-exp/data/locale/deutsch.locale	2013-04-22 16:39:30.000000000 +0200
-@@ -1591,4 +1591,89 @@ keybinding.savekeymap_hint keymap wird g
+@@ -1591,4 +1591,90 @@ keybinding.savekeymap_hint keymap wird g
  
  audiomenu.volumebar_audiosteps Lautstärke Schrittweite
  
 +mainmenu.teamcs TeamCS-Menü
++mainmenu.glcd1 Graph-LCD
 +teamcs.head TeamCS-Menü
 +helptext.teamcs Hier können Sie das TeamCS-Menü aufrufen.
 +helptext.nix Keine Informationen vorhanden.
@@ -94,19 +95,12 @@ diff -upr neutrino-hd2-exp/data/locale/deutsch.locale neutrino-hd2-exp/data/loca
 diff -upr neutrino-hd2-exp/data/locale/english.locale neutrino-hd2-exp/data/locale/english.locale
 --- neutrino-hd2-exp/data/locale/english.locale	2013-04-22 15:25:39.000000000 +0200
 +++ neutrino-hd2-exp/data/locale/english.locale	2013-04-22 16:37:30.000000000 +0200
-@@ -712,6 +712,7 @@ mainmenu.settings Settings
- mainmenu.shutdown Shutdown
- mainmenu.sleeptimer SleepTimer
- mainmenu.tvmode TV-Mode
-+mainmenu.teamcs TeamCS-Menu
- mainsettings.audio Audio Setup
- mainsettings.head Settings
- mainsettings.keybinding Remote-Control settings
-@@ -1590,4 +1591,89 @@ keybinding.savekeymap_hint Saving keymap
+@@ -1590,4 +1591,90 @@ keybinding.savekeymap_hint Saving keymap
  
  audiomenu.volumebar_audiosteps Volume Step Size
  
 +mainmenu.teamcs TeamCS-Menu
++mainmenu.glcd1 Graph-LCD
 +teamcs.head TeamCS-Menu
 +helptext.nix No information given.
 +helptext.teamcs Here you can access the TeamCS-Menu.
@@ -225,7 +219,7 @@ diff -upr neutrino-hd2-exp/src/neutrino_menue.cpp neutrino-hd2-exp/src/neutrino_
  
  #include <system/setting_helpers.h>
  #include <system/settings.h>
-@@ -269,6 +270,10 @@ void CNeutrinoApp::InitMainMenu(CMenuWid
+@@ -269,6 +270,14 @@ void CNeutrinoApp::InitMainMenu(CMenuWid
  //#if defined (PLATFORM_CUBEREVO ) || defined (PLATFORM_CUBEREVO_9500HD)
  	mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_SCARTMODE, true, "", this, "scart", CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, "scart", LOCALE_HELPTEXT_SCART ));
  //#endif
@@ -233,17 +227,22 @@ diff -upr neutrino-hd2-exp/src/neutrino_menue.cpp neutrino-hd2-exp/src/neutrino_
 +	//teamcs
 +	/*mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_TEAMCS, true, "", this, "teamcs", CRCInput::convertDigitToKey(shortcut++), NULL, "teamcs", LOCALE_HELPTEXT_TEAMCS ));*/
 +	mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_TEAMCS, true, "", new teamcs(), NULL, CRCInput::convertDigitToKey(shortcut++), NULL, "teamcs", LOCALE_HELPTEXT_TEAMCS ));
++
++	#if ENABLE_GRAPHLCD
++        mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_GLCD1, true, "", new GLCD_Menu(), NULL, CRCInput::convertDigitToKey(shortcut++), NULL, "nix", LOCALE_HELPTEXT_NIX ));
++	#endif
  	
  	//Main Setting Menu
  	mainMenu.addItem( new CMenuSeparatorItemMenuIcon(CMenuSeparatorItemMenuIcon::LINE) );
 diff -upr neutrino-hd2-exp/src/system/locals.h neutrino-hd2-exp/src/system/locals.h
 --- neutrino-hd2-exp/src/system/locals.h	2013-04-22 15:25:36.000000000 +0200
 +++ neutrino-hd2-exp/src/system/locals.h	2013-04-21 23:09:16.000000000 +0200
-@@ -554,6 +554,7 @@ typedef enum {
+@@ -554,6 +554,8 @@ typedef enum {
  	LOCALE_MAINMENU_SHUTDOWN,
  	LOCALE_MAINMENU_SLEEPTIMER,
  	LOCALE_MAINMENU_TVMODE,
 +	LOCALE_MAINMENU_TEAMCS,
++	LOCALE_MAINMENU_GLCD1,
  	LOCALE_MAINSETTINGS_AUDIO,
  	LOCALE_MAINSETTINGS_OSD,
  	LOCALE_MAINSETTINGS_HEAD,
@@ -347,11 +346,12 @@ diff -upr neutrino-hd2-exp/src/system/locals.h neutrino-hd2-exp/src/system/local
 diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/system/locals_intern.h
 --- neutrino-hd2-exp/src/system/locals_intern.h	2013-04-22 15:25:36.000000000 +0200
 +++ neutrino-hd2-exp/src/system/locals_intern.h	2013-04-21 23:09:35.000000000 +0200
-@@ -554,6 +554,7 @@ const char * locale_real_names[] = {
+@@ -554,6 +554,8 @@ const char * locale_real_names[] = {
  	"mainmenu.shutdown",
  	"mainmenu.sleeptimer",
  	"mainmenu.tvmode",
 +	"mainmenu.teamcs",
++	"mainmenu.glcd1",
  	"mainsettings.audio",
  	"mainsettings.osd",
  	"mainsettings.head",
