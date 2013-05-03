@@ -12,6 +12,7 @@ dir /dev 					755 0 0
 dir /drvko 					755 0 0
 dir /install 					755 0 0
 dir /install/backup 				755 0 0
+dir /update 					755 0 0
 nod /dev/console 				644 0 0 c 5 1
 nod /dev/loop0 					644 0 0 b 7 0
 nod   /dev/null      			        644 0 0 c   1   3
