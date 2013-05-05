@@ -48,30 +48,31 @@ done
 if [ `tune2fs -l /dev/sda1 | grep -i "Filesystem state" | awk '{ print $3 }'` == "clean" ]; then
     echo "SDA1 OK"
 else
-    echo "FSCK SDA1 run"
+    echo "FSCK SDA1 run" > /fsck.log
     echo "FSCK SDA1 run" > /dev/vfd
-    fsck.ext2 -f -y "${root}" > /dev/null
-    tune2fs -l "${root}" | grep -i "Filesystem state"
+    fsck.ext2 -f -y "${root}" >> /fsck.log
+    tune2fs -l "${root}" | grep -i "Filesystem state" >> /fsck.log
 fi
 if [ `tune2fs -l /dev/sda2 | grep -i "Filesystem state" | awk '{ print $3 }'` == "clean" ]; then
     echo "SDA2 OK"
 else
-    echo "FSCK SDA2 run"
+    echo "FSCK SDA2 run" > /fsck.log
     echo "FSCK SDA2 run" > /dev/vfd
-    fsck.ext4 -f -y "${rootfs}" > /dev/null
-    tune2fs -l "${rootfs}" | grep -i "Filesystem state"
+    fsck.ext4 -f -y "${rootfs}" >> /fsck.log
+    tune2fs -l "${rootfs}" | grep -i "Filesystem state" >> /fsck.log
 fi
 if [ `tune2fs -l /dev/sda4 | grep -i "Filesystem state" | awk '{ print $3 }'` == "clean" ]; then
     echo "SDA4 OK"
 else
-    echo "FSCK SDA4 run"
+    echo "FSCK SDA4 run" > /fsck.log
     echo "FSCK SDA4 run" > /dev/vfd
-    fsck.ext4 -f -y "${record}" > /dev/null
-    tune2fs -l "${record}" | grep -i "Filesystem state"
+    fsck.ext4 -f -y "${record}" >> /fsck.log
+    tune2fs -l "${record}" | grep -i "Filesystem state" >> /fsck.log
 fi
 #Mount the root device
 echo "Mount rootfs /dev/sda1"
 mount "${root}" /rootfs
+
 # Check auf installing System Files
 if [ -e /rootfs/install ]; then
 	cd /install
@@ -89,6 +90,11 @@ fi
 echo "mount /dev/sda2"
 mount "${rootfs}" /rootfs
 
+# erst hier ist sda2 mounted
+if [ -e /fsck.log ]; then
+	cp /fsck.log /rootfs/var/config/fsck.log
+	rm /fsck.log
+fi
 #Check if $init exists and is executable
 if [[ -x "/rootfs/${init}" ]] ; then
 	#Unmount all other mounts so that the ram used by
