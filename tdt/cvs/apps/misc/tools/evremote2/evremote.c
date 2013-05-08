@@ -110,6 +110,8 @@ static unsigned int gNextKeyFlag = 0xFF;
 static sem_t keydown_sem;
 static pthread_t keydown_thread;
 
+int vRamMode = 0;
+
 #ifdef NITS_SEM_PATCH_WOULD_WORK
 // Your patch crashes the long key press detection.
 // You know there was a reason why I didn't do it this way.
@@ -497,6 +499,8 @@ int main (int argc, char* argv[])
                 printKeyMap(vButtonExtension);
             }
         }
+	//Newbiez: for write of evremote2 tmp files in /ram take -x parameter
+	if (!strncmp(argv[1], "-x", 2)) vRamMode=1;
     }
 
     if (vButtonExtensionCounter > 0)

@@ -39,6 +39,8 @@
 #include "remotes.h"
 #include "Vip2.h"
 
+extern int vRamMode;
+
 static tLongKeyPressSupport cLongKeyPressSupport = {
   20, 120,
 };
@@ -118,7 +120,12 @@ static int pInit(Context_t* context, int argc, char* argv[]) {
     int vHandle;
 
     vAddr.sun_family = AF_UNIX;
-    strcpy(vAddr.sun_path, "/var/run/lirc/lircd");
+
+    //Newbiez: for write of evremote2 tmp files in /ram take -x parameter
+    if(vRamMode==0)
+	strcpy(vAddr.sun_path, "/var/run/lirc/lircd");
+    else 
+	strcpy(vAddr.sun_path, "/ram/lircd");	
 
     vHandle = socket(AF_UNIX,SOCK_STREAM, 0);
 
@@ -164,7 +171,14 @@ static int pRead(Context_t* context ) {
     vData[2] = '\0';
 
     printf("[RCU] key: %s -> %s\n", vData, &vBuffer[0]);
-    system("echo KEYBOARD > /tmp/autoswitch.tmp");
+
+    //Newbiez: for write of evremote2 tmp files in /ram take -x parameter
+    if (vRamMode==0)
+	system("echo KEYBOARD > /tmp/autoswitch.tmp");
+    else
+	system("echo KEYBOARD > /ram/autoswitch.tmp");
+
+
     vCurrentCode = getInternalCode((tButton*)((RemoteControl_t*)context->r)->RemoteControl, vData);
 
 	if(vCurrentCode != 0) {
