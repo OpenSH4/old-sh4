@@ -79,6 +79,11 @@ int teamcsswap::exec(CMenuTarget* parent, const std::string &actionKey)
 
       teamcsswap->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSWAP_DEV, true, "", this, "dev", CRCInput::RC_red, NEUTRINO_ICON_BUTTON_RED, "nix", LOCALE_HELPTEXT_NIX));
       teamcsswap->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSWAP_RAM, true, "", this, "ram", CRCInput::RC_green, NEUTRINO_ICON_BUTTON_GREEN, "nix", LOCALE_HELPTEXT_NIX));
+      teamcsswap->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSWAP_HDD, true, "", this, "hdd", CRCInput::RC_yellow, NEUTRINO_ICON_BUTTON_YELLOW, "nix", LOCALE_HELPTEXT_NIX));
+teamcsswap->addItem( new CMenuSeparator(CMenuSeparator::LINE) );
+teamcsswap->addItem( new CMenuSeparator(CMenuSeparator::LINE) );
+      teamcsswap->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSWAP_HDDCREATE, true, "", this, "hddcreate", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
+teamcsswap->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSWAP_SDA3, true, "", this, "sda3", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
 
       teamcsswap->exec (NULL, "");
       teamcsswap->hide ();
@@ -119,10 +124,50 @@ int teamcsswap::exec(CMenuTarget* parent, const std::string &actionKey)
       	hintBox->hide();
       	delete hintBox;
    }
+   else if (actionKey == "hdd")
+   {
 
+        system("echo swapfile > /var/config/SWAP");
+        CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Swapfile auf HDD Eingeschalten");
+        hintBox->paint();
+
+                while( msg != CRCInput::RC_ok )
+                {
+                g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
+                usleep(5000);
+                }
+
+        hintBox->hide();
+        delete hintBox;
+   }
+   else if (actionKey == "hddcreate")
+   {
+
+        cprompt = popen("/var/config/swap/swapfile.sh; echo swapfile > /var/config/SWAP", "r");
+                while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
+                {
+                strcat(cprompthint,ctext);
+                }
+        pclose(cprompt);
+
+       //ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
+   }
+   else if (actionKey == "sda3")
+   {
+
+        cprompt = popen("/var/config/swap/swapdev.sh; echo swapdev > /var/config/SWAP", "r");
+                while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
+                {
+                strcat(cprompthint,ctext);
+                }
+        pclose(cprompt);
+
+       //ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
+   }
    return res;
 }
-
 
 void teamcsswap::hide()
 {

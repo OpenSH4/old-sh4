@@ -338,7 +338,7 @@ neutrino-twin-distclean:
 # neutrino-hd2-exp branch
 #
 #
-$(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetype libjpeg libpng libgif libid3tag libcurl libmad libvorbisidec libboost libflac openssl libdvbsipp openssl libusb2 libalsa
+$(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetype libjpeg libpng libgif libid3tag libcurl libmad libvorbisidec libboost libflac openssl libdvbsipp openssl libusb2 libalsa libungif
 	clear; \
 	echo ""; \
 	echo "Choose between the following revisions:"; \

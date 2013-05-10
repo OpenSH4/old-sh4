@@ -58,8 +58,8 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
    int res = menu_return::RETURN_REPAINT;
    int shortcutTeamCS = 1;
    FILE *cprompt;
-   char ctext[8096];
-   char cprompthint[8096]={0};
+   char ctext[20000];
+   char cprompthint[20000]={0};
    neutrino_msg_t      msg;
    neutrino_msg_data_t data;
    unsigned long long TimeoutEnd;
@@ -82,6 +82,8 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
       teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_LSMOD, true, "", this, "lsmod", CRCInput::RC_green, NEUTRINO_ICON_BUTTON_GREEN, "nix", LOCALE_HELPTEXT_NIX));
       teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_FREE, true, "", this, "free", CRCInput::RC_yellow, NEUTRINO_ICON_BUTTON_YELLOW, "nix", LOCALE_HELPTEXT_NIX));
       teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_IMG, true, "", this, "img", CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, "nix", LOCALE_HELPTEXT_NIX));
+      teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_UPDATE, true, "", this, "update", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
+      teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_FSCK, true, "", this, "fsck", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
 
       teamcssystem->exec (NULL, "");
       teamcssystem->hide ();
@@ -126,7 +128,7 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
         pclose(cprompt);
 
        //ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
-        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,700,1800);
 
       	/*CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
       	hintBox->paint();
@@ -189,6 +191,32 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
 
       	hintBox->hide();
       	delete hintBox;*/
+   }
+   else if (actionKey == "update")
+   {
+
+        cprompt = popen("/var/config/updatecheck.sh", "r");
+                while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
+                {
+                strcat(cprompthint,ctext);
+                }
+        pclose(cprompt);
+
+        //ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
+   }
+   else if (actionKey == "fsck")
+   {
+
+        cprompt = popen("/var/config/system/fsck.sh", "r");
+                while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
+                {
+                strcat(cprompthint,ctext);
+                }
+        pclose(cprompt);
+
+        //ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
    }
 
    return res;
