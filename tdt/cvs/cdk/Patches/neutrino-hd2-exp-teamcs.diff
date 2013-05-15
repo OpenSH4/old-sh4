@@ -1,7 +1,7 @@
 diff -upr neutrino-hd2-exp/data/locale/deutsch.locale neutrino-hd2-exp/data/locale/deutsch.locale
 --- neutrino-hd2-exp/data/locale/deutsch.locale	2013-04-22 15:25:39.000000000 +0200
 +++ neutrino-hd2-exp/data/locale/deutsch.locale	2013-04-22 16:39:30.000000000 +0200
-@@ -1591,4 +1591,90 @@ keybinding.savekeymap_hint keymap wird g
+@@ -1591,4 +1591,95 @@ keybinding.savekeymap_hint keymap wird g
  
  audiomenu.volumebar_audiosteps Lautstärke Schrittweite
  
@@ -58,6 +58,8 @@ diff -upr neutrino-hd2-exp/data/locale/deutsch.locale neutrino-hd2-exp/data/loca
 +teamcssystem.lsmod Geladen Module Anzeigen
 +teamcssystem.free Freier Speicher
 +teamcssystem.img Image Version Infomation
++teamcssystem.update Online Update
++teamcssystem.fsck Letztes FSCK Log Anzeigen
 +	
 +teamcstuner.sttuner ST-Tuner Opti,VIP1,VIP2
 +teamcstuner.rbtuner RB-Tuner Opti,VIP1
@@ -90,12 +92,15 @@ diff -upr neutrino-hd2-exp/data/locale/deutsch.locale neutrino-hd2-exp/data/loca
 +	
 +teamcsswap.dev Swap Partition Aktivieren -- default
 +teamcsswap.ram Ramzswap Aktivieren
++teamcssystem.hdd Swapfile auf HDD Aktivieren
++teamcssystem.hddcreate Swapfile auf HDD Erstellen
++teamcssystem.sda3 Swappartition /dev/sda3 Formatieren
 +
  webtv.head WebTV
 diff -upr neutrino-hd2-exp/data/locale/english.locale neutrino-hd2-exp/data/locale/english.locale
 --- neutrino-hd2-exp/data/locale/english.locale	2013-04-22 15:25:39.000000000 +0200
 +++ neutrino-hd2-exp/data/locale/english.locale	2013-04-22 16:37:30.000000000 +0200
-@@ -1590,4 +1591,90 @@ keybinding.savekeymap_hint Saving keymap
+@@ -1590,4 +1591,95 @@ keybinding.savekeymap_hint Saving keymap
  
  audiomenu.volumebar_audiosteps Volume Step Size
  
@@ -152,6 +157,8 @@ diff -upr neutrino-hd2-exp/data/locale/english.locale neutrino-hd2-exp/data/loca
 +teamcssystem.lsmod Show loaded Modules
 +teamcssystem.free Show free RAM
 +teamcssystem.img Image Version Infomation
++teamcssystem.update Online Update
++teamcssystem.fsck Show last FSCK Log
 +	
 +teamcstuner.sttuner ST-Tuner Opti,VIP1,VIP2
 +teamcstuner.rbtuner RB-Tuner Opti,VIP1
@@ -184,6 +191,9 @@ diff -upr neutrino-hd2-exp/data/locale/english.locale neutrino-hd2-exp/data/loca
 +	
 +teamcsswap.dev Activate Swap Partition -- default
 +teamcsswap.ram Activate Ramzswap
++teamcssystem.hdd Activate Swapfile on HDD
++teamcssystem.hddcreate Create Swapfile on HDD
++teamcssystem.sda3 Format Swappartition on /dev/sda3
 +
  webtv.head WebTV
 diff -upr neutrino-hd2-exp/src/gui/Makefile.am neutrino-hd2-exp/src/gui/Makefile.am
@@ -255,7 +265,7 @@ diff -upr neutrino-hd2-exp/src/system/locals.h neutrino-hd2-exp/src/system/local
  	
  	LOCALE_MISCSETTINGS_LOGOSDIR,
  	
-@@ -1604,6 +1607,87 @@ typedef enum {
+@@ -1604,6 +1607,92 @@ typedef enum {
  	
  	LOCALE_AUDIOMENU_VOLUMEBAR_AUDIOSTEPS,
  	
@@ -307,6 +317,8 @@ diff -upr neutrino-hd2-exp/src/system/locals.h neutrino-hd2-exp/src/system/local
 +	LOCALE_TEAMCSSYSTEM_LSMOD,
 +	LOCALE_TEAMCSSYSTEM_FREE,
 +	LOCALE_TEAMCSSYSTEM_IMG,
++	LOCALE_TEAMCSSYSTEM_UPDATE,
++	LOCALE_TEAMCSSYSTEM_FSCK,
 +	
 +	LOCALE_TEAMCSTUNER_STTUNER,
 +	LOCALE_TEAMCSTUNER_RBTUNER,
@@ -339,6 +351,9 @@ diff -upr neutrino-hd2-exp/src/system/locals.h neutrino-hd2-exp/src/system/local
 +	
 +	LOCALE_TEAMCSSWAP_DEV,
 +	LOCALE_TEAMCSSWAP_RAM,
++	LOCALE_TEAMCSSWAP_HDD,
++	LOCALE_TEAMCSSWAP_HDDCREATE,
++	LOCALE_TEAMCSSWAP_SDA3,
 +
  	LOCALE_WEBTV_HEAD,
  } neutrino_locale_t;
@@ -364,7 +379,7 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
  	
  	"miscsettings.logosdir",
  	
-@@ -1604,6 +1607,87 @@ const char * locale_real_names[] = {
+@@ -1604,6 +1607,92 @@ const char * locale_real_names[] = {
  	
  	"audiomenu.volumebar_audiosteps",
  	
@@ -416,6 +431,8 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
 +	"teamcssystem.lsmod",
 +	"teamcssystem.free",
 +	"teamcssystem.img",
++	"teamcssystem.update",
++	"teamcssystem.fsck",
 +	
 +	"teamcstuner.sttuner",
 +	"teamcstuner.rbtuner",
@@ -448,6 +465,9 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
 +	
 +	"teamcsswap.dev",
 +	"teamcsswap.ram",
++       "teamcssystem.hdd",
++       "teamcssystem.hddcreate",
++       "teamcssystem.sda3",
 +	
  	"webtv.head",
  };
