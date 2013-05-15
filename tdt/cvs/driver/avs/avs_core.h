@@ -21,7 +21,7 @@
  *
  */
  
-#define I2C_DRIVERID_AVS	1
+#define I2C_DRIVERID_AVS	0 /* das ist der I2C_BUS 1*/
 #define AVS_MINOR		221
  
 /* Un-/Mute */
