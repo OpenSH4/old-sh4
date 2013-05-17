@@ -97,11 +97,12 @@ static unsigned short normal_i2c[] = {
 	0x4a, /* stv6412" */
 #elif defined(FORTIS_HDBOX) || defined(TF7700) || defined(UFS912) || defined(UFS913) || defined(ATEVIO7500) || defined(IPBOX9900) || defined(IPBOX99) || defined(ADB_BOX)
 	0x4b, /* stv6412 / stv6417 / stv6418 */
-#elif defined(HL101) || defined(VIP2_1) || defined(VIP1_2) || defined(CLASSIC)
-	0x58, /* stv6418 = Vip1 Vip2 Vip1v2 Opticum9500HD use all 0x58 */
-#elif defined(CUBEREVO_MINI_FTA) || defined(CUBEREVO_250HD) || defined(IPBOX55) || defined(HS7810A) || defined(HS7110) || defined(WHITEBOX)
+#elif defined(HL101) || defined(VIP1_2) || defined(CLASSIC)
+	0x58, /* stv6418 = Vip1 Vip1v2 Opticum9500HD use all 0x58 */
+#elif defined(CUBEREVO_MINI_FTA) || defined(CUBEREVO_250HD) || defined(IPBOX55) || defined(HS7810A) || defined(HS7110) || defined(WHITEBOX) || defined(VIP2_1)
 	/* CUBEREVO_MINI_FTA does not register */
 	/* CUBEREVO_250HD seems to use fake_avs, but does not register */
+	/* VIP2 USE PIO VIP2_AVS PIO MODE */
 	0,
 #else /* default */
 	0x11, /* ak4705 */

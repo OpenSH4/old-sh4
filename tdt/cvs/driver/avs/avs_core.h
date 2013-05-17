@@ -20,8 +20,12 @@
  *   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  *
  */
- 
-#define I2C_DRIVERID_AVS	0 /* das ist der I2C_BUS 1*/
+#if defined(HL101) || defined(VIP1_2) || defined(CLASSIC) 
+#define I2C_DRIVERID_AVS	0 /* das ist der I2C_BUS 0*/
+#else
+#define I2C_DRIVERID_AVS	1 /* das ist der I2C_BUS 1*/
+#endif
+
 #define AVS_MINOR		221
  
 /* Un-/Mute */
