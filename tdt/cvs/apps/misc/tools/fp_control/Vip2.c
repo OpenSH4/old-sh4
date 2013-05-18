@@ -56,23 +56,26 @@ typedef struct
 
 /* calculate the time value which we can pass to
  * the aotom fp. its a mjd time (mjd=modified
- * julian date). mjd is relativ to gmt so theGMTTime
+ * julian date related to gregorian calendar).
+ * mjd is relativ to gmt so theGMTTime
  * must be in GMT/UTC.
  */
 void setAotomTime(time_t theGMTTime, char* destString)
 {
 	/* from u-boot aotom */
 	struct tm* now_tm;
-	now_tm = gmtime (&theGMTTime);
+	//now_tm = gmtime (&theGMTTime);
+	now_tm = localtime (&theGMTTime);
 
 	printf("Set Time (UTC): %02d:%02d:%02d %02d-%02d-%04d\n",
 		now_tm->tm_hour, now_tm->tm_min, now_tm->tm_sec, now_tm->tm_mday, now_tm->tm_mon+1, now_tm->tm_year+1900);
 
 	double mjd = modJulianDate(now_tm);
+
 	int mjd_int = mjd;
 
-	destString[0] = ( mjd_int >> 8 );
-	destString[1] = ( mjd_int & 0xff );
+	destString[0] = ( mjd_int >> 8 );   //first 8 bit from MJD as hex
+	destString[1] = ( mjd_int & 0xff ); //last 8 bit from MJD as hex
 	destString[2] = now_tm->tm_hour;
 	destString[3] = now_tm->tm_min;
 	destString[4] = now_tm->tm_sec;
@@ -80,14 +83,14 @@ void setAotomTime(time_t theGMTTime, char* destString)
 
 unsigned long getAotomTime(char* aotomTimeString)
 {
-	unsigned int 	mjd 	= ((aotomTimeString[1] & 0xFF) * 256) + (aotomTimeString[2] & 0xFF);
+	unsigned int 	mjd 	= ((aotomTimeString[0] & 0xFF) * 256) + (aotomTimeString[1] & 0xFF);
 	unsigned long 	epoch 	= ((mjd - 40587)*86400);
 
-	unsigned int 	hour 	= aotomTimeString[3] & 0xFF;
-	unsigned int 	min 	= aotomTimeString[4] & 0xFF;
-	unsigned int 	sec 	= aotomTimeString[5] & 0xFF;
+	unsigned int 	hour 	= aotomTimeString[2] & 0xFF;
+	unsigned int 	min 	= aotomTimeString[3] & 0xFF;
+	unsigned int 	sec 	= aotomTimeString[4] & 0xFF;
 
-	epoch += ( hour * 3600 + min * 60 + sec );
+	epoch += ( (hour * 3600) + (min * 60) + sec );
 
 	printf( "MJD = %d epoch = %ld, time = %02d:%02d:%02d\n", mjd,
 		epoch, hour, min, sec );
@@ -128,13 +131,10 @@ static int usage(Context_t* context, char* prg_name)
 
 static int setTime(Context_t* context, time_t* theGMTTime)
 {
-   struct aotom_ioctl_data vData;
-
    printf("%s\n", __func__);
 
-   setAotomTime(*theGMTTime, vData.u.time.time);
-
-   if (ioctl(context->fd, VFDSETTIME, &vData) < 0)
+   //instead VFDSETTIME,&vData we use VFDREBOOT, theGMTTime to set the VFD time
+   if (ioctl(context->fd, VFDREBOOT, theGMTTime) < 0) 
    {
       perror("settime: ");
       return -1;
@@ -144,24 +144,23 @@ static int setTime(Context_t* context, time_t* theGMTTime)
 
 static int getTime(Context_t* context, time_t* theGMTTime)
 {
-   char fp_time[8];
-
+   time_t iTime;
    fprintf(stderr, "waiting on current time from fp ...\n");
 
    /* front controller time */
-   if (ioctl(context->fd, VFDGETTIME, &fp_time) < 0)
+   if (ioctl(context->fd, VFDGETTIME, &iTime) < 0)
    {
       perror("gettime: ");
       return -1;
    }
 
    /* if we get the fp time */
-   if (fp_time[0] != '\0')
+   if (iTime != '\0')
    {
       fprintf(stderr, "success reading time from fp\n");
 
       /* current front controller time */
-      *theGMTTime = (time_t) getAotomTime(fp_time);
+      *theGMTTime = iTime;
    } else
    {
       fprintf(stderr, "error reading time from fp\n");
@@ -205,14 +204,13 @@ static int setTimer(Context_t* context, time_t* theGMTTime)
    } else
    {
       unsigned long diff;
-      char   	    fp_time[8];
-
+	  time_t iTime;
       fprintf(stderr, "waiting on current time from fp ...\n");
 
       /* front controller time */
-       if (ioctl(context->fd, VFDGETTIME, &fp_time) < 0)
+       if (ioctl(context->fd, VFDGETTIME, &iTime) < 0)
        {
-	  perror("gettime: ");
+	  	  perror("gettime: ");
           return -1;
        }
 
@@ -220,12 +218,12 @@ static int setTimer(Context_t* context, time_t* theGMTTime)
       diff = (unsigned long int) wakeupTime - curTime;
 
       /* if we get the fp time */
-      if (fp_time[0] != '\0')
+      if (iTime != '\0')
       {
          fprintf(stderr, "success reading time from fp\n");
 
          /* current front controller time */
-         curTime = (time_t) getAotomTime(fp_time);
+		 curTime = iTime;
       } else
       {
           fprintf(stderr, "error reading time ... assuming localtime\n");
@@ -234,14 +232,13 @@ static int setTimer(Context_t* context, time_t* theGMTTime)
 
       wakeupTime = curTime + diff;
 
-      setAotomTime(wakeupTime, vData.u.standby.time);
+	  if (ioctl(context->fd, VFDSTANDBY, &wakeupTime) < 0)
+	  {
+		  perror("standby: ");
+	    return -1;
+	  }
 
-       if (ioctl(context->fd, VFDSTANDBY, &vData) < 0)
-       {
-	  perror("standby: ");
-          return -1;
-       }
-   }
+   } //else end
    return 0;
 }
 
@@ -302,6 +299,7 @@ static int reboot(Context_t* context, time_t* rebootTimeGMT)
 
 static int Sleep(Context_t* context, time_t* wakeUpGMT)
 {
+#if 0
    time_t     curTime;
    int        sleep = 1;
    int        vFd;
@@ -312,7 +310,6 @@ static int Sleep(Context_t* context, time_t* wakeUpGMT)
    char       output[cMAXCharsVIP2 + 1];
    tVIP2Private* private = (tVIP2Private*)
         ((Model_t*)context->m)->private;
-#if 0
    printf("%s\n", __func__);
 
    vFd = open(cRC_DEVICE, O_RDWR);
@@ -466,6 +463,45 @@ static int Clear(Context_t* context)
 	 return 0;
 }
 
+static int getWakeupReason(Context_t* context, int *reason)
+{
+    if (ioctl(context->fd, VFDGETSTARTUPSTATE, reason) < 0)
+    {
+	perror("getWakeupReason: ");
+    
+	return -1;
+    }
+    
+    return 0;
+}
+
+static int setDisplayTime(Context_t* context, int on)
+{
+    if (on ==1) {
+	    time_t theGMTTime = time(NULL);
+	    struct tm *gmt;
+	    gmt = localtime(&theGMTTime);
+	    
+	    if (gmt->tm_year == 100) {
+		fprintf(stderr, "RTC Time not set.\n");
+	    } else {
+		fprintf(stderr, "Setting Clock to current time: %02d:%02d:%02d %02d-%02d-%04d\n",
+			gmt->tm_hour, gmt->tm_min, gmt->tm_sec, gmt->tm_mday, gmt->tm_mon+1, gmt->tm_year+1900);
+			
+		theGMTTime += gmt->tm_gmtoff;
+		
+		if (ioctl(context->fd, VFDREBOOT, &theGMTTime) < 0)
+		{
+		    perror("settime: ");
+		    return -1;
+		}
+	     }
+	} else {
+		Clear(context);
+	}
+	return 0;
+}
+
 Model_t VIP2_model = {
 	.Name                      = "Edision vip2 frontpanel control utility",
 	.Type                      = Vip2,
@@ -476,6 +512,7 @@ Model_t VIP2_model = {
 	.GetTime                   = getTime,
 	.SetTimer                  = setTimer,
 	.GetTimer                  = getTimer,
+	.SetDisplayTime			   = setDisplayTime,
 	.Shutdown                  = shutdown,
 	.Reboot                    = reboot,
 	.Sleep                     = Sleep,
@@ -491,4 +528,6 @@ Model_t VIP2_model = {
 	.SetRF                     = NULL,
     .SetFan                    = NULL,
     .private                   = NULL,
+	.GetWakeupReason		   = getWakeupReason
 };
+
