@@ -472,3 +472,25 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
  	"webtv.head",
  };
  #endif
+--- neutrino-hd2-exp.org/src/neutrino.cpp	2013-05-19 08:30:53.820061000 +0200
++++ neutrino-hd2-exp/src/neutrino.cpp	2013-05-19 12:09:37.237137000 +0200
+@@ -4333,7 +4333,10 @@
+ 		CVFD::getInstance()->Clear();
+ 		
+ 		// show time in vfd
+-		CVFD::getInstance()->setMode(CVFD::MODE_STANDBY);
++		/* Deaktiviert Display Time in standby, das erledigt die Time.sh */
++		/* CVFD::getInstance()->setMode(CVFD::MODE_STANDBY); */
++		/* Hier teilen wir der Time.sh mit das die Box Standby ist */
++		system("echo scart > /proc/stb/avs/0/input");
+ 		
+ 		//if(videoDecoder)
+ 		//	videoDecoder->SetInput(INPUT_SCART);
+@@ -4413,6 +4416,7 @@
+ 		// video wake up
+ 		//if(videoDecoder)
+ 		//	videoDecoder->SetInput(INPUT_ENCODER);
++		system("echo encoder > /proc/stb/avs/0/input");
+ 
+ 		g_Sectionsd->setPauseScanning(false);
+ 		g_Sectionsd->setServiceChanged(live_channel_id&0xFFFFFFFFFFFFULL, true );
