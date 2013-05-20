@@ -177,6 +177,15 @@ fe-core-objs +=        base/tda10023.o
 fe-core-objs +=        base/lg031.o
 fe-core-objs +=        vip2/core.o
 obj-m += fe-core.o
+fe-core-vip2-dual-sharp-objs +=        vip2-dual-sharp/stv090x.o
+fe-core-vip2-dual-sharp-objs +=        vip2-dual-sharp/stv6110x.o
+fe-core-vip2-dual-sharp-objs +=        vip2-dual-sharp/ix7306.o
+fe-core-vip2-dual-sharp-objs +=        vip2-dual-sharp/zl10353.o
+fe-core-vip2-dual-sharp-objs +=        base/sharp6465.o
+fe-core-vip2-dual-sharp-objs +=        base/tda10023.o
+fe-core-vip2-dual-sharp-objs +=        base/lg031.o
+fe-core-vip2-dual-sharp-objs +=        vip2-dual-sharp/core.o
+obj-m += fe-core-vip2-dual-sharp.o
 else ifdef CUBEREVO
 tuner-objs +=	tuner/tuner.o
 obj-m += tuner.o
@@ -257,6 +266,16 @@ fe-core-vip2-objs += base/tda10023.o
 fe-core-vip2-objs += base/lg031.o
 fe-core-vip2-objs += vip2/core.o
 obj-m += fe-core-vip2.o
+
+fe-core-vip2-dual-sharp-objs +=        vip2-dual-sharp/stv090x.o
+fe-core-vip2-dual-sharp-objs +=        vip2-dual-sharp/stv6110x.o
+fe-core-vip2-dual-sharp-objs +=        vip2-dual-sharp/ix7306.o
+fe-core-vip2-dual-sharp-objs +=        vip2-dual-sharp/zl10353.o
+fe-core-vip2-dual-sharp-objs +=        base/sharp6465.o
+fe-core-vip2-dual-sharp-objs +=        base/tda10023.o
+fe-core-vip2-dual-sharp-objs +=        base/lg031.o
+fe-core-vip2-dual-sharp-objs +=        vip2-dual-sharp/core.o
+obj-m += fe-core-vip2-dual-sharp.o
 
 ##### VIP1v2 MAKE
 fe-core-vip1v2-objs += vip1_v2/stb0899_algo.o
