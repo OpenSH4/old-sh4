@@ -35,6 +35,8 @@ struct tuner_config
 {
 	int adapter; /* DVB adapter number */
 	int i2c_bus; /* i2c adapter number */
+	u8 i2c_addr; /* i2c address of the tuner */
+	u8 addr;     /* i2c address of the tuner */
 	u8 fe_rst;
 	u8 fe_lnb_en;
 	u8 fe_1318;
@@ -48,6 +50,7 @@ struct core_config
 	struct i2c_adapter	*i2c_adap; /* i2c bus of the tuner */
 	u8			i2c_addr; /* i2c address of the tuner */
 	u8			i2c_addr_lnb_supply; /* i2c address of the lnb_supply */
+	u8 			addr;     /* i2c address of the tuner */
 	u8			vertical; /* i2c value */
 	u8			horizontal; /* i2c value */
 

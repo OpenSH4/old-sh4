@@ -17,7 +17,8 @@
 
 #define I2C_ADDR_STV090X	(0xd0 >> 1)
 #define I2C_ADDR_STV6110X	(0xc0 >> 1)
-#define I2C_ADDR_IX7306		(0xc0 >> 1)
+#define I2C_ADDR_IX7306		(0xc0 >> 1) /* c0 = 0x60, test d0 = 0x68 */
+#define I2C_ADDR_IX7306_DUAL	(0xc2 >> 1) /* c2 = 0x??, test d0 = 0x68 */
 #define I2C_ADDR_CE6353		(0x1e >> 1)
 #define I2C_ADDR_SHARP6465	(0xc2 >> 1)
 #define I2C_ADDR_TDA10023	(0x18 >> 1)
@@ -58,7 +59,7 @@ MODULE_PARM_DESC(demod1, "demodelator2 stv090x, ce6353, tda10023(default stv090x
 module_param(tuner1,charp,0);
 module_param(tuner2,charp,0);
 MODULE_PARM_DESC(tuner1, "tuner1 sharp7306, stv6110x, sharp6465, lg031(default sharp7306"); // DVB-S2
-MODULE_PARM_DESC(tuner2, "tuner2 sharp7306, stv6110x, sharp6465, lg031(default sharp7306"); // DVB-T
+MODULE_PARM_DESC(tuner2, "tuner2 sharp7306, sharp7306dual, stv6110x, sharp6465, lg031(default sharp7306"); // DVB-T
 
 enum {
 	STV090X,
@@ -75,6 +76,7 @@ static char *demod_name[] =
 
 enum {
 	SHARP7306,
+	SHARP7306DUAL,
 	STV6110X,
 	SHARP6465,
 	LG031,
@@ -83,6 +85,7 @@ enum {
 static char *tuner_name[] =
 {
 	"sharp7306",
+	"sharp7306dual",
 	"stv6110x",
 	"sharp6465",
 	"lg031",
@@ -161,7 +164,7 @@ static struct stv090x_config stv090x_config = {
 	.clk_mode		= STV090x_CLK_EXT,
 
 	.xtal			= CLK_EXT_IX7306,
-	.address		= I2C_ADDR_STV090X,
+	.address		= 0x68,
 
 	.ts1_mode		= STV090x_TSMODE_DVBCI/*STV090x_TSMODE_PARALLEL_PUNCTURED*//*STV090x_TSMODE_SERIAL_CONTINUOUS*/,
 	.ts2_mode		= STV090x_TSMODE_DVBCI/*STV090x_TSMODE_PARALLEL_PUNCTURED*//*STV090x_TSMODE_SERIAL_CONTINUOUS*/,
@@ -195,7 +198,15 @@ static struct stv6110x_config stv6110x_config = {
 
 static const struct ix7306_config bs2s7hz7306a_config = {
 	.name		= "Sharp BS2S7HZ7306A",
-	.addr		= I2C_ADDR_IX7306,
+	.addr		= 0x58,
+	.step_size 	= IX7306_STEP_1000,
+	.bb_lpf		= IX7306_LPF_12,
+	.bb_gain	= IX7306_GAIN_2dB,
+};
+
+static const struct ix7306_config dual_config = {
+	.name		= "Sharp BS2S7HZ7306A",
+	.addr		= 0x3a,
 	.step_size 	= IX7306_STEP_1000,
 	.bb_lpf		= IX7306_LPF_12,
 	.bb_gain	= IX7306_GAIN_2dB,
@@ -252,6 +263,24 @@ static struct dvb_frontend *frontend_get_by_type(struct core_config *cfg,
 					case SHARP7306:
 					{
 						if(dvb_attach(ix7306_attach, frontend, &bs2s7hz7306a_config, cfg->i2c_adap))
+						{
+							printk("%s: IX7306 attached\n", __FUNCTION__);
+							stv090x_config.tuner_set_frequency 	= ix7306_set_frequency;
+							stv090x_config.tuner_get_frequency 	= ix7306_get_frequency;
+							stv090x_config.tuner_set_bandwidth 	= ix7306_set_bandwidth;
+							stv090x_config.tuner_get_bandwidth 	= ix7306_get_bandwidth;
+							stv090x_config.tuner_get_status	  	= frontend->ops.tuner_ops.get_status;
+						}
+						else
+						{
+							printk (KERN_INFO "%s: error attaching IX7306\n", __FUNCTION__);
+							goto error_out;
+						}
+						break;
+					}
+					case SHARP7306DUAL:
+					{
+						if(dvb_attach(ix7306_attach, frontend, &dual_config, cfg->i2c_adap))
 						{
 							printk("%s: IX7306 attached\n", __FUNCTION__);
 							stv090x_config.tuner_set_frequency 	= ix7306_set_frequency;
@@ -419,10 +448,13 @@ static struct dvb_frontend *init_fe_device (struct dvb_adapter *adapter,
     printk ("fe-core: kmalloc failed\n");
     return NULL;
   }
-
+  
   /* initialize the config data */
   cfg->tuner = tuner_cfg;
   cfg->i2c_adap = i2c_get_adapter (tuner_cfg->i2c_bus);
+  /* Add by Ducktrick */
+  cfg->i2c_addr = tuner_cfg->i2c_addr;
+  cfg->addr = tuner_cfg->addr;
   printk("i2c adapter = 0x%0x\n", (int)cfg->i2c_adap);
 
   if (cfg->i2c_adap == NULL)
@@ -475,18 +507,18 @@ struct tuner_config tuner_resources[] = {
         [0] = {
                 .adapter 	= 0,
                 .i2c_bus 	= 0,
-          	  	.fe_rst 	= FE0_RST,
-          	  	.fe_1318 	= FE0_1318,
-          	  	.fe_1419 	= FE0_1419,
-          	  	.fe_lnb_en  = FE0_LNB_EN,
+          	.fe_rst 	= FE0_RST,
+          	.fe_1318 	= FE0_1318,
+          	.fe_1419 	= FE0_1419,
+          	.fe_lnb_en  	= FE0_LNB_EN,
         },
         [1] = {
-                .adapter 	= 1,
+                .adapter 	= 0,
                 .i2c_bus 	= 1,
-          	  	.fe_rst 	= FE1_RST,
-          	  	.fe_1318 	= FE1_1318,
-          	  	.fe_1419 	= FE1_1419,
-          	  	.fe_lnb_en  = FE1_LNB_EN,
+          	.fe_rst 	= FE1_RST,
+          	.fe_1318 	= FE1_1318,
+          	.fe_1419 	= FE1_1419,
+          	.fe_lnb_en  	= FE1_LNB_EN,
         },
 };
 
@@ -571,6 +603,10 @@ static int fe_get_tuner_type(char *pcTuner)
 	if((pcTuner[0] == 0) || (strcmp("sharp7306", pcTuner) == 0))
 	{
 		iTunerType = SHARP7306;
+	}
+	else if(strcmp("sharp7306dual", pcTuner) == 0)
+	{
+		iTunerType = SHARP7306DUAL;
 	}
 	else if(strcmp("stv6110x", pcTuner) == 0)
 	{
