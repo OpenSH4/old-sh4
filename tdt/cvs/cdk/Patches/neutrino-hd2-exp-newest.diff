@@ -97,7 +97,7 @@
  	
  	// set led color
 -#if defined (PLATFORM_GIGABLUE)
--	vfd_led("1");  //1:, 2:, 3:
+-	vfd_led(1);  //0:off, 1:blue, 2:red, 3:purple
 -#endif
  }
  
@@ -110,7 +110,7 @@
          struct vfd_ioctl_data data;
  	data.start_address = dimm;
  	
-@@ -253,12 +212,7 @@
+@@ -253,19 +212,7 @@
  	if( ioctl(fd, VFDBRIGHTNESS, &data) < 0)  
  		perror("VFDBRIGHTNESS");
  	
@@ -119,12 +119,19 @@
 -	int ret = ioctl(fd, IOC_VFD_SET_BRIGHT, dimm);
 -	if(ret < 0)
 -		perror("IOC_VFD_SET_BRIGHT");
+-#elif defined (PLATFORM_GIGABLUE)  
+-	FILE * f;
+-	if((f = fopen("/proc/stb/fp/oled_brightness", "w")) == NULL) 
+-		return;
+-	
+-	fprintf(f, "%d", dimm);
+-	fclose(f);	
 -#endif		
 +	closeDevice();		
  }
  
  void CVFD::setlcdparameter(void)
-@@ -335,12 +289,7 @@
+@@ -342,12 +289,7 @@
  			if(force || ((hour != t->tm_hour) || (minute != t->tm_min))) 
  			{
  				hour = t->tm_hour;
@@ -138,7 +145,7 @@
  				ShowText(timestr);
  			}
  		} 
-@@ -445,35 +394,22 @@
+@@ -452,35 +394,22 @@
  	switch (m) 
  	{
  		case MODE_TVRADIO:	
@@ -179,9 +186,14 @@
  			ShowIcon(VFD_ICON_HD, false);
  			ShowIcon(VFD_ICON_DOLBY, false);
  			//showTime();      /* "showclock = true;" implies that "showTime();" does a "displayUpdate();" */
-@@ -495,18 +431,14 @@
+@@ -498,21 +427,18 @@
+ 			break;
+ 
+ 		case MODE_SHUTDOWN:
+-			//Clear();
++			//ShowIcon(VFD_ICON_TV, false);
  			/* clear all symbols */
- 			Clear();
++			Clear();
  			ClearIcons();
 -#if defined(PLATFORM_SPARK7162)
 -			ShowIcon(VFD_ICON_CLOCK, timer_icon);	
@@ -200,7 +212,7 @@
  			showclock = true;
  			showTime(true);      	/* "showclock = true;" implies that "showTime();" does a "displayUpdate();" */
  						/* "showTime()" clears the whole lcd in MODE_STANDBY */
-@@ -571,7 +503,6 @@
+@@ -577,7 +503,6 @@
  	if(!has_lcd || is4digits) 
  		return;
  
@@ -208,37 +220,34 @@
  	struct vfd_ioctl_data data;
  	data.start_address = power;
  	
-@@ -581,7 +512,6 @@
+@@ -587,7 +512,13 @@
  		perror("VFDPWRLED");
  	
  	closeDevice();
 -#endif
- }
- 
- void CVFD::setFPTime(void)
-@@ -589,14 +519,6 @@
- 	if(!has_lcd)
- 		return;
- 
--#ifdef __sh__
--	//openDevice();
--	
--	//if( ioctl(fd, VFDSETTIME) < 0)  
--	//	perror("VFDPWRLED");
--	
--	//closeDevice();
--#endif
++}
++
++void CVFD::setFPTime(void)
++{
++	if(!has_lcd)
++		return;
++
  }
  
  int CVFD::getPower()
-@@ -654,31 +576,12 @@
- 	if(!has_lcd) 
+@@ -642,35 +573,15 @@
+ 
+ void CVFD::Clear()
+ {
+-	if(!has_lcd || is4digits) 
++	if(!has_lcd) 
  		return;
  	
 -#if defined (PLATFORM_GIGABLUE)
 -	ShowText("    "); // 4 empty digits
 -#elif defined __sh__ 
  	struct vfd_ioctl_data data;
+-	
 -#if defined (PLATFORM_KATHREIN)		/* using this otherwise VFD of ufs910 is black and Neutrino has a segfault 		*/
 -	data.start_address = 0x01;
 -	data.length = 0x0;
@@ -263,7 +272,7 @@
  }
  
  void CVFD::ClearIcons()				/* switcht all VFD Icons off		*/
-@@ -686,33 +589,16 @@
+@@ -678,33 +589,16 @@
  	if(!has_lcd || is4digits) 
  		return;
  	
@@ -299,7 +308,7 @@
  void CVFD::ShowDiskLevel()
  {
  	int hdd_icons[9] ={24, 23, 21, 20, 19, 18, 17, 16, 22};
-@@ -741,21 +627,16 @@
+@@ -733,21 +627,16 @@
  
  	}
  }
@@ -323,7 +332,7 @@
  	switch (icon)
  	{
  		case VFD_ICON_USB:
-@@ -764,31 +645,18 @@
+@@ -756,31 +645,18 @@
  		case VFD_ICON_CLOCK:
  			timer_icon = show;
  			break;
@@ -357,7 +366,7 @@
  	struct vfd_ioctl_data data;
  
  	data.data[0] = (icon - 1) & 0x1F;
-@@ -796,13 +664,7 @@
+@@ -788,13 +664,7 @@
  	
  	if( ioctl(fd, VFDICONDISPLAYONOFF, &data) < 0)
  		perror("VFDICONDISPLAYONOFF");
@@ -371,7 +380,7 @@
  }
  
  void * CVFD::ThreadScrollText(void * arg)
-@@ -901,52 +763,21 @@
+@@ -893,84 +763,21 @@
  			text.replace(pos, 2, std::string(repl));
  		}
  	}
@@ -386,7 +395,7 @@
  	closeDevice();
 -#elif defined (PLATFORM_GIGABLUE)	
 -	FILE *f;
--	if((f = fopen("/proc/vfd","w")) == NULL) 
+-	if((f = fopen("/proc/vfd", "w")) == NULL) 
 -		return;
 -	
 -	fprintf(f,"%s", str);
@@ -409,24 +418,55 @@
 -	
 -	//closeDevice();
 -#endif	
-+
- }
+-}
  
- void CVFD::vfd_led(const char * led)
- {
+-void CVFD::vfd_led(int led)
+-{
+-	dprintf(DEBUG_NORMAL, "%s\n", __FUNCTION__);
+-	
 -#if defined (PLATFORM_GIGABLUE)  
 -	FILE * f;
 -	if((f = fopen("/proc/stb/fp/led0_pattern", "w")) == NULL) 
 -		return;
 -	
--	fprintf(f, "%s", led);
+-	fprintf(f, "%d", led);
 -	fclose(f);
 -#endif	
--}
--
--
+ }
  
-+}
+-void CVFD::setFPTime(void)
++void CVFD::vfd_led(int led)
+ {
+-	if(!has_lcd)
+-		return;
+ 
+-#ifdef __sh__
+-	openDevice();
+-	
+-	char timebuf[6];
+-	time_t tnow = time(NULL);
+-	
+-	tm *now = localtime(&tnow);
+-	timebuf[0]=1;
+-	timebuf[1]=now->tm_min;
+-	timebuf[2]=now->tm_hour;
+-	timebuf[3]=now->tm_mday;
+-	timebuf[4]=now->tm_mon+1;
+-	timebuf[5]=now->tm_year % 100;
+-	
+-	struct vfd_ioctl_data data;
+-	memset(&data, 0, sizeof(struct vfd_ioctl_data));
+-	memcpy(&data, timebuf, 6); 
+-	
+-	if( ioctl(fd, VFDSETTIME, &data) < 0)  
+-		perror("VFDPWRLED");
+-	
+-	closeDevice();
+-#endif
+ }
+-
+-
+-
 --- neutrino-hd2-exp.org/src/driver/vfd.h	2013-04-22 10:13:02.403201000 +0200
 +++ neutrino-hd2-exp/src/driver/vfd.h	2013-04-23 19:56:16.865164127 +0200
 @@ -33,12 +33,7 @@
