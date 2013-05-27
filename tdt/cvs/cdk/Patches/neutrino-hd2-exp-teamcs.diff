@@ -221,18 +221,20 @@ diff -upr neutrino-hd2-exp/src/gui/Makefile.am neutrino-hd2-exp/src/gui/Makefile
 diff -upr neutrino-hd2-exp/src/neutrino_menue.cpp neutrino-hd2-exp/src/neutrino_menue.cpp
 --- neutrino-hd2-exp/src/neutrino_menue.cpp	2013-04-22 15:25:38.000000000 +0200
 +++ neutrino-hd2-exp/src/neutrino_menue.cpp	2013-04-20 15:17:52.000000000 +0200
-@@ -113,6 +113,7 @@
- #if ENABLE_UPNP
+@@ -114,6 +114,8 @@
  #include "gui/upnpbrowser.h"
  #endif
-+#include "gui/teamcs.h"
  
++#include "gui/teamcs.h"
++
  #include <system/setting_helpers.h>
  #include <system/settings.h>
-@@ -269,6 +270,14 @@ void CNeutrinoApp::InitMainMenu(CMenuWid
- //#if defined (PLATFORM_CUBEREVO ) || defined (PLATFORM_CUBEREVO_9500HD)
- 	mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_SCARTMODE, true, "", this, "scart", CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, "scart", LOCALE_HELPTEXT_SCART ));
- //#endif
+ #include <system/debug.h>
+@@ -265,7 +267,15 @@
+ #if defined (ENABLE_SCART)
+ 	mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_SCARTMODE, true, NULL, this, "scart", CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, "scart", LOCALE_HELPTEXT_SCART ));
+ #endif
+-	
 +
 +	//teamcs
 +	/*mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_TEAMCS, true, "", this, "teamcs", CRCInput::convertDigitToKey(shortcut++), NULL, "teamcs", LOCALE_HELPTEXT_TEAMCS ));*/
@@ -240,10 +242,11 @@ diff -upr neutrino-hd2-exp/src/neutrino_menue.cpp neutrino-hd2-exp/src/neutrino_
 +
 +	#if ENABLE_GRAPHLCD
 +        mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_GLCD1, true, "", new GLCD_Menu(), NULL, CRCInput::convertDigitToKey(shortcut++), NULL, "nix", LOCALE_HELPTEXT_NIX ));
-+	#endif
- 	
++	#endif	
++
  	//Main Setting Menu
  	mainMenu.addItem( new CMenuSeparatorItemMenuIcon(CMenuSeparatorItemMenuIcon::LINE) );
+ 
 diff -upr neutrino-hd2-exp/src/system/locals.h neutrino-hd2-exp/src/system/locals.h
 --- neutrino-hd2-exp/src/system/locals.h	2013-04-22 15:25:36.000000000 +0200
 +++ neutrino-hd2-exp/src/system/locals.h	2013-04-21 23:09:16.000000000 +0200
