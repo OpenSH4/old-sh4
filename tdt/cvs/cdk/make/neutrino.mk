@@ -439,6 +439,8 @@ $(appsdir)/neutrino-hd2-exp/config.status:
 			--with-gamesdir=/var/tuxbox/games \
 			--with-plugindir=/var/plugins \
 			--enable-libeplayer3 \
+			--enable-scart \
+			--enable-ci \
 			--enable-standalonepluigns \
 			PKG_CONFIG=$(hostprefix)/bin/pkg-config \
 			PKG_CONFIG_PATH=$(targetprefix)/usr/lib/pkgconfig \
