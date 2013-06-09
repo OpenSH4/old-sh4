@@ -796,6 +796,33 @@ $(DEPDIR)/%hotplug_e2: $(DEPDIR)/hotplug_e2.do_compile
 	[ "x$*" = "x" ] && touch $@ || true
 
 #
+# grab
+#
+
+$(DEPDIR)/grab.do_prepare: bootstrap libpng libjpeg @DEPENDS_grab@
+	@PREPARE_grab@
+	git clone git://git.code.sf.net/p/openpli/aio-grab;
+	cd aio-grab && patch -p1 < $(buildprefix)/Patches/aio-grab-ADD_ST_SUPPORT.patch
+	touch $@
+
+$(DEPDIR)/grab.do_compile: grab.do_prepare 
+	cd aio-grab && \
+		autoreconf --install && \
+		$(BUILDENV) \
+		./configure \
+			--build=$(build) \
+			--host=$(target) \
+			--prefix=/usr && \
+		$(MAKE) && \
+	touch $@
+
+$(DEPDIR)/grab: \
+$(DEPDIR)/%grab: $(DEPDIR)/grab.do_compile
+	cd aio-grab && \
+	@DISTCLEANUP_grab@
+	[ "x$*" = "x" ] && touch $@ || true
+
+#
 # autofs
 #
 $(DEPDIR)/autofs.do_prepare: bootstrap @DEPENDS_autofs@

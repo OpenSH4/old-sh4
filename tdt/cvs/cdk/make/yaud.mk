@@ -34,7 +34,6 @@ $(DEPDIR)/%bare-os: \
 	%$(BASE_FILES) \
 	%module_init_tools \
 	%busybox \
-	\
 	%$(SYSVINIT) \
 	%$(SYSVINITTOOLS) \
 	%$(INITSCRIPTS) \
@@ -59,6 +58,7 @@ $(DEPDIR)/%net-utils: \
 	%$(CIFS) \
 	%ethtool \
 	%grep \
+	%grab \
 	%samba \
 	%djmount \
 	%opkg
