@@ -35,18 +35,19 @@ class MyMenu(Screen):
 		list.append(("Addon Manager", "addon", "addonmanager", "46"))
 		list.append(("Display Uhr Einstellen", "time", "timer", "46"))
 		list.append(("W-Lan Einstellungen", "wlan", "wlansettings", "46"))
-		#list.append(("Backup, Install Menu", "BACKUP", "BACKUPINSTALL", "46"))
+		list.append(("Backup, Install Menu", "BACKUP", "BACKUPINSTALL", "46"))
 		list.append(("System Information", "SYSTEM", "SYSINFO", "46"))
 		list.append(("Tuner Waehlen", "tuner", "tuners", "46"))
 		list.append(("Benutzerdaten Einstellen", "benutzerdaten", "setbenutzer", "46"))
-		#list.append(("FileSystemCheck Einstellen", "fsck", "fsckuser", "46"))
-		#list.append(("WakeOnLan Einstellen", "wol", "woltimer", "46"))
+		list.append(("WakeOnLan Einstellen", "wol", "woltimer", "46"))
 		list.append(("UPNP Media-Server-Client", "upnp", "upnpms", "46"))
-		#list.append(("OpenVPN Client", "ovpn", "openvpn", "46"))
+		list.append(("OpenVPN Client", "ovpn", "openvpn", "46"))
 		list.append(("Samba Menu", "samba", "sambamenu", "46"))
 		list.append(("Swap Einrichten", "swap", "swappart", "46"))
-		#list.append(("NeutrinoHD2 Subsystem Switch", "NHD2", "subsystem", "46"))
-		#list.append((_("Exit"), "exit"))
+		list.append(("CPU Overclocking", "CPUO", "CPUOVER", "46"))
+		list.append(("ETH0 MAC Switcher", "MACSWITCH", "eth0mac", "46"))
+		list.append(("NeutrinoHD2 Subsystem Switch", "NHD2", "subsystem", "46"))
+		list.append((_("Exit"), "exit"))
 		
 		Screen.__init__(self, session)
 		self["myMenu"] = MenuList(list)
@@ -69,6 +70,9 @@ class MyMenu(Screen):
 			elif selection[1] == "SYSTEM":
 				self.session.open(SYSTEM)
 
+			elif selection[1] == "MACSWITCH":
+				self.session.open(ETHMAC)
+
 			elif selection[1] == "swap":
 				self.session.open(SWAPPART)
 
@@ -77,9 +81,6 @@ class MyMenu(Screen):
 
 			elif selection[1] == "time":
 				self.session.open(TIMESET)
-
-			elif selection[1] == "fsck":
-				self.session.open(FSCKTIME)
 			
 			elif selection[1] == "wol":
 				self.session.open(WOLSET)
@@ -99,6 +100,9 @@ class MyMenu(Screen):
 			elif selection[1] == "tuner":
 				self.session.open(TUNER)
 
+			elif selection[1] == "CPUO":
+				self.session.open(OVERCLOCK)
+
 			elif selection[1] == "NHD2":
 				os.system("echo Neutrino > /var/config/subsystem; echo switch > /var/config/subswitch; sync")
 				self.session.open(MessageBox,_("NeutrinoHD2 wird beim naechsten Systemstart ausgefuehrt"), MessageBox.TYPE_INFO)
@@ -116,7 +120,160 @@ class MyMenu(Screen):
 	def cancel(self):
 		print "\n[MyMenu] cancel\n"
 		self.close(None)
+
+###########################################################################
+
+class ETHMAC(Screen):
+	skin = """
+		<screen position="center,center" size="460,400" title="Mac Switch Menu" >
+			<widget name="ETHMAC" position="10,10" size="420,380" scrollbarMode="showOnDemand" />
+		</screen>"""
+
+	def __init__(self, session):
+		Screen.__init__(self, session)
 		
+		list = []
+		list.append(("Benutze MAC 00:80:E1:12:06:30 -- default", "MAC1", "UMAC1", "46"))
+		list.append(("Benutze MAC 00:81:E1:12:06:30", "MAC2", "UMAC2", "46"))
+		list.append(("Benutze MAC 00:82:E1:12:06:30", "MAC3", "UMAC3", "46"))
+		list.append(("Benutze MAC 00:83:E1:12:06:30", "MAC4", "UMAC4", "46"))
+		list.append(("Benutze MAC 00:84:E1:12:06:30", "MAC5", "UMAC5", "46"))
+
+		Screen.__init__(self, session)
+		self["ETHMAC"] = MenuList(list)
+		self["myActionMap"] = ActionMap(["SetupActions"],
+		{
+			"ok": self.go,
+			"cancel": self.cancel
+		}, -1)
+
+	def go(self):
+		print "okbuttonClick"
+		selection = self["ETHMAC"].getCurrent()
+		if selection is not None:
+			if selection[1] == "MAC1":
+				os.system("echo 1 > /var/keys/Benutzerdaten/.system/mac; ifconfig eth0 hw ether 00:80:E1:12:06:30")
+				self.session.open(MessageBox,_("Die neu MAC lautet 00:80:E1:12:06:30"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "MAC2":
+				os.system("echo 2 > /var/keys/Benutzerdaten/.system/mac; ifconfig eth0 hw ether 00:81:E1:12:06:30")
+				self.session.open(MessageBox,_("Die neu MAC lautet 00:81:E1:12:06:30"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "MAC3":
+				os.system("echo 3 > /var/keys/Benutzerdaten/.system/mac; ifconfig eth0 hw ether 00:82:E1:12:06:30")
+				self.session.open(MessageBox,_("Die neu MAC lautet 00:82:E1:12:06:30"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "MAC4":
+				os.system("echo 4 > /var/keys/Benutzerdaten/.system/mac; ifconfig eth0 hw ether 00:83:E1:12:06:30")
+				self.session.open(MessageBox,_("Die neu MAC lautet 00:83:E1:12:06:30"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "MAC5":
+				os.system("echo 5 > /var/keys/Benutzerdaten/.system/mac; ifconfig eth0 hw ether 00:84:E1:12:06:30")
+				self.session.open(MessageBox,_("Die neu MAC lautet 00:84:E1:12:06:30"), MessageBox.TYPE_INFO)
+
+
+	def prombt(self, com):
+		self.session.open(Console,_("Configs erstellen: %s") % (com), ["%s" % com])
+		
+	def cancel(self):
+		print "\n[ETHMAC] cancel\n"
+		self.close(None)
+		
+###########################################################################
+
+class OVERCLOCK(Screen):
+	skin = """
+		<screen position="center,center" size="460,400" title="Overclock Menu" >
+			<widget name="OVERCLOCK" position="10,10" size="420,380" scrollbarMode="showOnDemand" />
+		</screen>"""
+
+	def __init__(self, session):
+		Screen.__init__(self, session)
+		
+		list = []
+		list.append(("---------- Boot Overclocking -----------", "", "", "46"))
+		list.append(("Aktivieren 266 Mhz -- default", "OVEROFF", "OVERCLOCKOFF", "46"))
+		list.append(("Aktivieren 300 Mhz", "300OVERON", "300OVERCLOCKON", "46"))
+		list.append(("Aktivieren 333 Mhz", "333OVERON", "333OVERCLOCKON", "46"))
+		list.append(("Aktivieren 366 Mhz", "366OVERON", "366OVERCLOCKON", "46"))
+		list.append(("Aktivieren 400 Mhz", "400OVERON", "400OVERCLOCKON", "46"))
+		list.append(("--------- Dauer Overclocking -----------", "", "", "46"))
+		list.append(("Aktivieren 300 Mhz", "300DAUEROVERON", "300daueron", "46"))
+		list.append(("Aktivieren 333 Mhz", "333DAUEROVERON", "333daueron", "46"))
+		list.append(("Aktivieren 366 Mhz", "366DAUEROVERON", "366daueron", "46"))
+		list.append(("Aktivieren 400 Mhz", "400DAUEROVERON", "400daueron", "46"))
+		list.append(("Deaktiviert Overclocking", "DAUEROVEROFF", "daueroff", "46"))
+		list.append(("----------------------------------------", "", "", "46"))
+		list.append(("Cpu Tacktfrequence Test", "CHECK", "CHECKIT", "46"))
+		list.append(("----------------------------------------", "", "", "46"))
+		list.append(("Das Overclocking geschieht auf eigene", "", "", "46"))
+		list.append(("Gefahr, jeder muss selber wissen was er", "", "", "46"))
+		list.append(("seiner Box Antut, getestet sind diese ", "", "", "46"))
+		list.append(("Einstellungen, dennoch kann es sich bei", "", "", "46"))
+		list.append(("jeder Box anders Verhalten oder Auswirken !", "", "", "46"))
+		
+		Screen.__init__(self, session)
+		self["OVERCLOCK"] = MenuList(list)
+		self["myActionMap"] = ActionMap(["SetupActions"],
+		{
+			"ok": self.go,
+			"cancel": self.cancel
+		}, -1)
+
+	def go(self):
+		print "okbuttonClick"
+		selection = self["OVERCLOCK"].getCurrent()
+		if selection is not None:
+			if selection[1] == "300OVERON":
+				os.system("echo 300on > /var/keys/Benutzerdaten/.system/overclock")
+				self.session.open(MessageBox,_("Die CPU wird waerend des Booten auf 300 Mhz getacktet"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "333OVERON":
+				os.system("echo 333on > /var/keys/Benutzerdaten/.system/overclock")
+				self.session.open(MessageBox,_("Die CPU wird waerend des Booten auf 333 Mhz getacktet"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "366OVERON":
+				os.system("echo 366on > /var/keys/Benutzerdaten/.system/overclock")
+				self.session.open(MessageBox,_("Die CPU wird waerend des Booten auf 366 Mhz getacktet"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "400OVERON":
+				os.system("echo 400on > /var/keys/Benutzerdaten/.system/overclock")
+				self.session.open(MessageBox,_("Die CPU wird waerend des Booten auf 400 Mhz getacktet"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "OVEROFF":
+				os.system("echo off > /var/keys/Benutzerdaten/.system/overclock; echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv")
+				self.session.open(MessageBox,_("Die CPU wird Standart auf 266 Mhz getacktet"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "300DAUEROVERON":
+				os.system("echo 300daueron > /var/keys/Benutzerdaten/.system/overclock; echo 25609 > /proc/cpu_frequ/pll0_ndiv_mdiv")
+				self.session.open(MessageBox,_("Aktuelle CPU Freq. auf 300 Mhz getacktet und fest gestellt fuer jeden Boot"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "333DAUEROVERON":
+				os.system("echo 333daueron > /var/keys/Benutzerdaten/.system/overclock; echo 9475 > /proc/cpu_frequ/pll0_ndiv_mdiv")
+				self.session.open(MessageBox,_("Aktuelle CPU Freq. auf 333 Mhz getacktet und fest gestellt fuer jeden Boot"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "366DAUEROVERON":
+				os.system("echo 366daueron > /var/keys/Benutzerdaten/.system/overclock; echo 31241 > /proc/cpu_frequ/pll0_ndiv_mdiv")
+				self.session.open(MessageBox,_("Aktuelle CPU Freq. auf 366 Mhz getacktet und fest gestellt fuer jeden Boot"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "400DAUEROVERON":
+				os.system("echo 400daueron > /var/keys/Benutzerdaten/.system/overclock; echo 22790 > /proc/cpu_frequ/pll0_ndiv_mdiv")
+				self.session.open(MessageBox,_("Aktuelle CPU Freq. auf 400 Mhz getacktet und fest gestellt fuer jeden Boot"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "DAUEROVEROFF":
+				os.system("echo daueroff > /var/keys/Benutzerdaten/.system/overclock; echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv")
+				self.session.open(MessageBox,_("Aktuelle CPU Freq. auf 266 Mhz getacktet und fest gestellt fuer jeden Boot"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "CHECK":
+				self.prombt("cat /proc/cpu_frequ/pll0_ndiv_mdiv")
+
+	def prombt(self, com):
+		self.session.open(Console,_("Configs erstellen: %s") % (com), ["%s" % com])
+		
+	def cancel(self):
+		print "\n[OVERCLOCK] cancel\n"
+		self.close(None)
+				
 ###########################################################################
 
 class SWAPPART(Screen):
@@ -129,8 +286,13 @@ class SWAPPART(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
+		list.append(("------------ Swap Aktivieren -------------", "", "", "46"))
 		list.append(("Swap Partition Aktivieren -- default", "swapdev", "swapdevan", "46"))
 		list.append(("Ramzswap Aktivieren", "ramzswap", "ramzswapan", "46"))
+		list.append(("Swapfile auf HDD Aktivieren", "swaphdd", "hddswapan", "46"))
+		list.append(("------------ Swap Anlegen -------------", "", "", "46"))
+		list.append(("Swapfile auf HDD Erstellen", "swapfileerstellen", "hddswaperstellen", "46"))
+		list.append(("Swappartition /dev/sda3 Formatieren", "swapfileerstellensda", "hddswaperstellensda", "46"))
 		
 		Screen.__init__(self, session)
 		self["SWAPPART"] = MenuList(list)
@@ -146,11 +308,21 @@ class SWAPPART(Screen):
 		if selection is not None:
 			if selection[1] == "swapdev":
 				os.system("echo swapdev > /var/config/SWAP")
-				self.session.open(MessageBox,_("Swap /dev Eingeschalten"), MessageBox.TYPE_INFO)
+				self.session.open(MessageBox,_("Swap /dev/sda2 Eingeschalten"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "ramzswap":
 				os.system("echo ramzswap > /var/config/SWAP")
 				self.session.open(MessageBox,_("RamZswap Eingeschalten"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "swaphdd":
+				os.system("echo swapfile > /var/config/SWAP")
+				self.session.open(MessageBox,_("Swapfile auf HDD Eingeschalten"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "swapfileerstellen":
+				self.prombt("/var/config/swap/swapfile.sh; echo swapfile > /var/config/SWAP")
+
+			elif selection[1] == "swapfileerstellensda":
+				self.prombt("/var/config/swap/swapdev.sh; echo swapdev > /var/config/SWAP")
 
 	def prombt(self, com):
 		self.session.open(Console,_("Configs erstellen: %s") % (com), ["%s" % com])
@@ -466,96 +638,6 @@ class MAC(Screen):
 	def cancel(self):
 		print "\n[MAC] cancel\n"
 		self.close(None)
-###########################################################################
-
-class FSCKTIME(Screen):
-	skin = """
-		<screen position="center,center" size="460,400" title="SystemCheck Menu" >
-			<widget name="FSCKTIME" position="10,10" size="420,380" scrollbarMode="showOnDemand" />
-		</screen>"""
-
-	def __init__(self, session):
-		Screen.__init__(self, session)
-		
-		list = []
-		list.append(("FSCK Bootintervall AN", "FSCKAN", "an", "46"))
-		list.append(("FSCK Bootintervall AUS", "FSCKAUS", "aus", "46"))
-		list.append(("Anzahl der Bootvorgaenge eingeben", "boots", "reboots", "46"))
-		list.append(("FSCK beim next Boot Starten", "startfsck", "sfsck", "46"))
-		list.append(("FSCK Log anzeigen", "SCANLOG", "log", "46"))
-		
-		Screen.__init__(self, session)
-		self["FSCKTIME"] = MenuList(list)
-		self["myActionMap"] = ActionMap(["SetupActions"],
-		{
-			"ok": self.go,
-			"cancel": self.cancel
-		}, -1)
-
-	def go(self):
-		print "okbuttonClick"
-		selection = self["FSCKTIME"].getCurrent()
-		if selection is not None:
-			if selection[1] == "FSCKAN":
-				os.system("echo an > /var/keys/Benutzerdaten/.system/fsck")
-				self.session.open(MessageBox,_("FSCK Bootintervall Eingeschalten"), MessageBox.TYPE_INFO)
-
-			elif selection[1] == "FSCKAUS":
-				os.system("echo aus > /var/keys/Benutzerdaten/.system/fsck")
-				self.session.open(MessageBox,_("FSCK Bootintervall Ausgeschalten"), MessageBox.TYPE_INFO)
-				
-			elif selection[1] == "startfsck":
-				os.system("echo run > /var/etc/.errors_run")
-				self.session.open(MessageBox,_("FSCK wird beim naechsten Start ausgefuehrt !!!"), MessageBox.TYPE_INFO)
-
-			elif selection[1] == "boots":
-				self.session.open(BOOTS)
-
-			elif selection[1] == "SCANLOG":
-				self.prombt("cat /var/config/scanlog")
-
-			else:
-				print "\n[BENUTZER] cancel\n"
-				self.close(None)
-
-	def prombt(self, com):
-		self.session.open(Console,_("Configs erstellen: %s") % (com), ["%s" % com])
-		
-	def cancel(self):
-		print "\n[FSCKTIME] cancel\n"
-		self.close(None)
-
-############################ FSCK #################################
-
-class BOOTS(Screen):
-	skin = """
-		<screen position="center,center" size="460,150" title="Reboots bis FSCK Check" >
-			<widget name="BOOTS" position="10,60" size="200,40" font="Regular;20"/>
-		</screen>"""
-
-	def __init__(self, session):
-		Screen.__init__(self, session)
-
-		self["BOOTS"] = Label(_("Reboots bis FSCK Check eingeben?"))
-		self["myActionMap"] = ActionMap(["SetupActions"],
-		{
-			"ok": self.FSCKimput,
-			"cancel": self.cancel
-		}, -1)
-
-	def FSCKimput(self):
-		self.session.openWithCallback(self.askForWord, InputBox, title=_("Bitte die Anzahl der Bootvorgaenge eingeben!"), text=" " * 55, maxSize=55, type=Input.TEXT)
-
-	def askForWord(self, word):
-		if word is None:
-			pass
-		else:
-			self.session.open(Console,_("Intervall Angabe: %s") % (word), ["echo %s > /var/keys/Benutzerdaten/.system/userset_fsck; echo Intervall eingestellt" % word])
-
-	def cancel(self):
-		print "\n[BOOTS] cancel\n"
-		self.close(None)
-
 
 ################################# TIMESET ################################
 class TIMESET(Screen):
@@ -685,14 +767,19 @@ class EMU(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("Stoppt laufenden Emu", "stop", "emustop", "46"))
+		list.append(("Stoppt laufende Emus", "stop", "emustop", "46"))
+		list.append(("------------- Single Emu ------------", "", "", "46"))
 		list.append(("Start oder Restart Mg-Camd", "mgstart", "mgcamd", "46"))
 		list.append(("Start oder Restart OS-Cam", "oscam", "oscamd", "46"))
 		list.append(("Start oder Restart Vizcam", "vizcam", "vizcamd", "46"))
 		list.append(("Start oder Restart MBox", "mbox", "mbox1", "46"))
 		list.append(("Start oder Restart Incubus", "incubus", "incubus1", "46"))
 		list.append(("Start oder Restart Camd3", "camd3", "camd31", "46"))
+		list.append(("-------------- Dual Emu -------------", "", "", "46"))
 		list.append(("Start Dual Emu", "dual", "dualmode", "46"))
+		list.append(("------------- Emu Watchdog ----------", "", "", "46"))
+		list.append(("Watchdog Einschalten", "watchon", "watchon1", "46"))
+		list.append(("Watchdog Ausschalten", "watchoff", "watchoff1", "46"))
 		
 		Screen.__init__(self, session)
 		self["EMU"] = MenuList(list)
@@ -729,6 +816,14 @@ class EMU(Screen):
 
 			elif selection[1] == "dual":
 				self.session.open(EMUDUAL)
+
+			elif selection[1] == "watchon":
+				os.system("echo on > /var/config/emu-watchdog; /var/config/emu/emu-watchdog.sh &")
+				self.session.open(MessageBox,_("Emu Watchdog Aktiviert"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "watchoff":
+				os.system("echo off > /var/config/emu-watchdog; killall -9 emu-watchdog.sh")
+				self.session.open(MessageBox,_("Emu Watchdog Deaktiviert"), MessageBox.TYPE_INFO)
 
 			else:
 				print "\n[EMU] cancel\n"
@@ -812,7 +907,9 @@ class SYSTEM(Screen):
 		list.append(("Netzwerk Infos", "netstat", "com_one", "46"))
 		list.append(("Geladen Module Anzeigen", "lsmod", "runlsmod", "46"))
 		list.append(("Freier Speicher", "free", "runfree", "46"))
+		list.append(("Online Update", "ONLINE", "UPDATE", "46"))
 		list.append(("Image Version Infomation", "IMG", "IMGVER", "46"))
+		list.append(("Letztes FSCK Log Anzeigen", "FSCK", "LOG", "46"))
 		
 		Screen.__init__(self, session)
 		self["SYSTEM"] = MenuList(list)
@@ -835,9 +932,15 @@ class SYSTEM(Screen):
 
 			elif selection[1] == "free":
 				self.prombt("free")
+
+			elif selection[1] == "ONLINE":
+				self.prombt("/var/config/updatecheck.sh")
 				
 			elif selection[1] == "IMG":
 				self.prombt("/var/config/sysversion.sh")
+
+			elif selection[1] == "FSCK":
+				self.prombt("/var/config/system/fsck.sh")
 		
 			else:
 				print "\n[SYSTEM] cancel\n"
@@ -862,7 +965,7 @@ class BACKUP(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("Systembackup erstellen", "backupsys", "sback", "46"))
+		list.append(("System Full Backup erstellen", "backupsys", "sback", "46"))
 		list.append(("Kanal-listen Sichern", "ksave", "save", "46"))
 		list.append(("Kanal-listen Installieren", "kinstall", "install", "46"))
 		
@@ -910,13 +1013,16 @@ class TUNER(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
+		list.append(("------ VIP1 Tuner Treiber ---------", "", "", "46"))
 		list.append(("ST-Tuner Opti,VIP1,VIP2", "tuner", "tunervip1", "46"))
 		list.append(("RB-Tuner Opti,VIP1", "tuner2", "tunervip", "46"))
 		list.append(("VIP1 Kabel Tuner", "tuner1kabel", "tunervip1kabel", "46"))
 		list.append(("VIP1 DVB-T Tuner", "tuner1dvbt", "tunervipdvbt", "46"))
+		list.append(("------ VIP1v2 Tuner Treiber ---------", "", "", "46"))
 		list.append(("Sharp Tuner VIP1v2", "tunervip1v2", "tunervip1v2vip2", "46"))
 		list.append(("LG Kabel Tuner VIP1v2", "tunervip1v2kabel", "tunervip1v2kabel", "46"))
 		list.append(("Sharp DVB-T Tuner VIP1v2", "tunervip1v2dvbt", "tunervip1v2dvbt", "46"))
+		list.append(("------ VIP2 Tuner Treiber ---------", "", "", "46"))
 		list.append(("Sharp Tuner VIP2", "tunervip2", "tunervip2vip2", "46"))
 		list.append(("Sharp DVB-S2 und Kabel LG VIP2", "tuners2lg", "tuners2lgvip2", "46"))
 		list.append(("2x Kabel LG VIP2", "tuner2xlg", "tuner2xlgvip2", "46"))
@@ -1114,27 +1220,27 @@ class FERNB(Screen):
 		selection = self["FERNB"].getCurrent()
 		if selection is not None:
 			if selection[1] == "ArgusVIPalt":
-				os.system("cp /etc/lircd_alt.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf; echo vip1 > /var/config/boxtype")
+				os.system("cp /etc/lircd_alt.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; echo vip1 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP alt Mode Rot"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "ArgusVIPaltgruen":
-				os.system("cp /etc/lircd_alt_gruen.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf; echo vip1 > /var/config/boxtype")
+				os.system("cp /etc/lircd_alt_gruen.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; echo vip1 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP alt Mode Gruen"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "ArgusVIPneu":
-				os.system("cp /etc/lircd_neu.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype")
+				os.system("cp /etc/lircd_neu.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; echo vip2 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP neu Mode Rot"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "ArgusVIPneugruen":
-				os.system("cp /etc/lircd_neu_gruen.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml;  rm -f /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype")
+				os.system("cp /etc/lircd_neu_gruen.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; echo vip2 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP neu Mode Gruen"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "Opticum":
-				os.system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; cp /var/tuxbox/config/keymap_opti.conf /var/tuxbox/config/keymap.conf; echo opti > /var/config/boxtype")
+				os.system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; echo opti > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB Opticum"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "Pingolux":
-				os.system("cp /etc/lircd_pingolux.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; echo Pingolux > /var/config/boxtype")
+				os.system("cp /etc/lircd_pingolux.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; echo Pingolux > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB Pingolux gesetzt"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "neustart":
@@ -1427,6 +1533,7 @@ class WLAN(Screen):
 		list.append(("W-Lan rt5370sta.ko Treiber Modul", "5", "55", "46"))
 		list.append(("W-Lan rt73.ko Treiber Modul", "6", "66", "46"))
 		list.append(("W-Lan zydas.ko Treiber Modul", "7", "77", "46"))
+		list.append(("W-Lan Deaktivieren", "8", "88", "46"))
 
 		
 		Screen.__init__(self, session)
@@ -1468,6 +1575,10 @@ class WLAN(Screen):
 			elif selection[1] == "7":
 				os.system("echo 7 > /var/keys/Benutzerdaten/.system/wlan")
 				self.session.open(MessageBox,_("W-Lan Modul zydas.ko Geladen, Neustart erforderlich"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "8":
+				os.system("echo 0 > /var/keys/Benutzerdaten/.system/wlan")
+				self.session.open(MessageBox,_("W-Lan Treiber Deaktiviert, Neustart erforderlich"), MessageBox.TYPE_INFO)
 				
 			else:
 				print "\n[WLAN] cancel\n"
@@ -1838,7 +1949,7 @@ class SYSBACKUP(Screen):
 		self.session = session
 		Screen.__init__(self, session)
 		
-		self.text="Systembackup erstellen ?\nDu findest das Backup im Anschluss im /Enigma2_System_Ordner/Backups Ordner\nConnecte per ftp und Kopiere dein Backup auf deinen Pc, nachdem das System neugestartet hat !\nBei Ja, Weitere Infos im LCD Display!\nDas Backup benoetigt mindestens 30 min"
+		self.text="System Full Backup erstellen ?\nDas Backup benoetigt ca. 90 Min\nes kann im Hintergrund\nausgefuehrt werden so das das\nSystem weiter verwendet werden\nkann (VIP1v2 und VIP2 user bitte\nnicht Zappen) bei Fertigstellung\nbefindet sich das Backup in\n/Enigma2_System_Ordner/Backups\nDieses Backup ist ein Update Backup\nbitte entpacken nach /media/sda1 !!!"
 		self["myText"] = Label()
 		self["myRedBtn"] = Label(_("Cancel"))
 		self["myGreenBtn"] = Label(_("OK"))
@@ -1855,7 +1966,8 @@ class SYSBACKUP(Screen):
 		self["myText"].setText(self.text)
 		
 	def startbackup(self):
-		os.system("/var/config/system/backup.sh")
+		os.system("/var/config/system/backup.sh &")
+		self.close(None)
 
 	def cancel(self):
 		print "\n[SYSBACKUP] cancel\n"
