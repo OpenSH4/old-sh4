@@ -482,12 +482,12 @@
  /* SAB Triple VFD Icons								*/
  /* taken from aotom_main.h, with these numbers the Icons on Spark7162		*/
  /* will work right ( hopefully all Models )					*/
-@@ -131,114 +126,10 @@
- 	VFD_ICON_STANDBY	= CYCLE,
+@@ -131,114 +126,6 @@
+ 	VFD_ICON_STANDBY	= VFD_SPARK_CYCLE	
  } vfd_icon;
  
 -#endif //spark7162
- 
+-
 -#if defined(PLATFORM_KATHREIN)
 -typedef enum
 -{
@@ -506,9 +506,9 @@
 -	vfd_910_ff = 13,
 -	vfd_910_fr = 14,
 -	vfd_910_rec = 15,
--	vfd_910_clock = 16,
+-	vfd_910_clock = 16
 -} ufs910_vfd_icon;
- 
+-
 -// neutrino common translate for ufs910  / ufs913
 -typedef enum
 -{
@@ -530,10 +530,10 @@
 -	VFD_ICON_PAUSE		= vfd_910_pause,
 -	VFD_ICON_LOCK 		= vfd_910_lock,
 -	VFD_ICON_HDD 		= vfd_910_hdd,	
--	VFD_ICON_CLOCK		= vfd_910_clock,
+-	VFD_ICON_CLOCK		= vfd_910_clock
 -} vfd_icon;
 -#endif //ufs910, ufs913
- 
+-
 -#if !defined(PLATFORM_KATHREIN) && !defined(PLATFORM_SPARK7162) && !defined (PLATFORM_COOLSTREAM)
 -// duckbox
 -// token from micom
@@ -569,7 +569,7 @@
 -	ICON_PAUSE,   
 -	ICON_MAX
 -};
- 
+-
 -// neutrino common
 -typedef enum
 -{
@@ -589,7 +589,7 @@
 -	VFD_ICON_MP3		= ICON_MP3,
 -	VFD_ICON_PLAY		= ICON_Play,
 -	VFD_ICON_PAUSE		= ICON_PAUSE,
--	VFD_ICON_LOCK 		= ICON_SCRAMBLED,
+-	VFD_ICON_LOCK 		= ICON_SCRAMBLED
 -} vfd_icon;
 -#endif  //common
 -
@@ -597,7 +597,7 @@
  #define VFDBRIGHTNESS         0xc0425a03
  #define VFDPWRLED             0xc0425a04 /* added by zeroone, also used in fp_control/global.h ; set PowerLed Brightness on HDBOX*/
  #define VFDDRIVERINIT         0xc0425a08
-@@ -263,60 +154,8 @@
+@@ -263,60 +150,8 @@
  #define VFDSETTIMEMODE        0xc0425b03
  #define VFDDISPLAYCLR	      0xc0425b00
  
@@ -610,12 +610,12 @@
 -struct set_brightness_s {
 -	int level;
 -};
- 
+-
 -struct set_icon_s {
 -	int icon_nr;
 -	int on;
 -};
--
+ 
 -struct set_led_s {
 -	int led_nr;
 -	int on;
@@ -659,7 +659,7 @@
  struct set_mode_s {
  	int compat; /* 0 = compatibility mode to vfd driver; 1 = nuvoton mode */
  };
-@@ -361,23 +200,12 @@
+@@ -361,23 +196,12 @@
  	} u;
  };
  
@@ -683,7 +683,7 @@
  
  
  class CVFD
-@@ -472,12 +300,9 @@
+@@ -472,12 +296,9 @@
  		void Unlock();
  		void Clear();
  		void ClearIcons();
@@ -697,9 +697,9 @@
  		void ShowText(const char * str);
  
  		void ShowScrollText(char * str);
-@@ -489,10 +314,8 @@
+@@ -489,10 +310,8 @@
  		
- 		void vfd_led(const char * led);
+ 		void vfd_led(int led);
  		
 -#ifdef __sh__
  		void openDevice();
