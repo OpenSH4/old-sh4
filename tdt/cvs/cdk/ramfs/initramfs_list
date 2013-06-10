@@ -34,7 +34,7 @@ file  /sbin/mke2fs	../ramfs/bin/mke2fs 	0755 0 0
 file  /sbin/sfdisk	../ramfs/bin/sfdisk 	0755 0 0
 file  /install/install.sh	../ramfs/install.sh 	0755 0 0
 file  /install/update.sh	../ramfs/update.sh 	0755 0 0
-# Das sind nodebug Kernel 207 Module zum Aktuellen Kernel
+# Das sind nodebug Kernel p0211 Module zum Aktuellen Kernel
 file /drvko/aotom.ko		../ramfs/aotom.ko	0755 0 0
 file /drvko/aotom_vip1.ko	../ramfs/aotom_vip1.ko	0755 0 0
 slink /bin/sh busybox 				777 0 0
