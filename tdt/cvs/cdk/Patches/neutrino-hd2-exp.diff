@@ -1,11 +1,17 @@
 --- neutrino-hd2-exp.org/src/driver/vfd.cpp	2013-04-22 10:13:02.967204000 +0200
 +++ neutrino-hd2-exp/src/driver/vfd.cpp	2013-04-23 19:48:49.066943614 +0200
-@@ -43,13 +43,10 @@
+@@ -43,19 +43,14 @@
  #include <system/debug.h>
  
  
 -#if defined(PLATFORM_SPARK7162)
  static struct aotom_ioctl_data aotom_data;
+-#endif
+ 
+-#if defined(PLATFORM_KATHREIN) || defined(PLATFORM_SPARK7162)
+ static bool usb_icon = false;
+ static bool timer_icon = false;
+ static bool hdd_icon = false;
 -#endif
  
  //konfetti: let us share the device with evremote and fp_control
@@ -14,12 +20,13 @@
  bool blocked = false;
  
  void CVFD::openDevice()
-@@ -79,40 +76,16 @@
+@@ -85,41 +80,20 @@
  	
  	fd = -1;
  }
 -#endif
  
+ // default: has_lcd:1, is4digits:0, has_led:0
  // constructor
  CVFD::CVFD()
  {
@@ -36,13 +43,14 @@
 -#else
  	is4digits = 0;
 -#endif
--	// has led
++
+ 	// has led
 -#if defined (PLATFORM_GIGABLUE) || defined (PLATFORM_SPARK)
 -	has_led = 1;
 -#else	
--	has_led = 0;
+ 	has_led = 0;
 -#endif
--
+ 
 -#if defined (PLATFORM_COOLSTREAM)
 -	fd = open("/dev/display", O_RDONLY);
 -	
@@ -52,11 +60,10 @@
 -		has_lcd = 0;
 -	}
 -#endif
-+
  	
  	text[0] = 0;
  	clearClock = 0;
-@@ -122,10 +95,7 @@
+@@ -129,10 +103,7 @@
  
  CVFD::~CVFD()
  { 
@@ -68,7 +75,7 @@
  }
  
  CVFD * CVFD::getInstance()
-@@ -164,15 +134,7 @@
+@@ -171,15 +142,7 @@
  
  void CVFD::wake_up() 
  {
@@ -81,22 +88,21 @@
 -	else
 -		setPower(1);
 -#endif	
-+
++	
  }
  
  void * CVFD::TimeThread(void *)
-@@ -207,10 +169,6 @@
- 		return ;
+@@ -215,9 +178,6 @@
  	}
  	
--	// set led color
+ 	// set led color
 -#if defined (PLATFORM_GIGABLUE)
--	vfd_led("1");  //1:, 2:, 3:
+-	vfd_led(1);  //0:off, 1:blue, 2:red, 3:purple
 -#endif
  }
  
  void CVFD::setlcdparameter(int dimm, const int power)
-@@ -233,7 +191,6 @@
+@@ -240,7 +200,6 @@
  
  	dprintf(DEBUG_DEBUG, "CVFD::setlcdparameter dimm %d power %d\n", dimm, power);
  	
@@ -104,51 +110,71 @@
          struct vfd_ioctl_data data;
  	data.start_address = dimm;
  	
-@@ -247,11 +204,6 @@
+@@ -253,19 +212,7 @@
+ 	if( ioctl(fd, VFDBRIGHTNESS, &data) < 0)  
  		perror("VFDBRIGHTNESS");
  	
- 	closeDevice();
+-	closeDevice();
 -#elif defined (PLATFORM_COOLSTREAM)
 -	int ret = ioctl(fd, IOC_VFD_SET_BRIGHT, dimm);
 -	if(ret < 0)
 -		perror("IOC_VFD_SET_BRIGHT");
+-#elif defined (PLATFORM_GIGABLUE)  
+-	FILE * f;
+-	if((f = fopen("/proc/stb/fp/oled_brightness", "w")) == NULL) 
+-		return;
+-	
+-	fprintf(f, "%d", dimm);
+-	fclose(f);	
 -#endif		
++	closeDevice();		
  }
  
  void CVFD::setlcdparameter(void)
-@@ -276,31 +228,6 @@
- 	if (mode != MODE_TVRADIO)
- 		return;
- 
--	// scroll text
--	#if 0
--	if(g_settings.lcd_setting[SNeutrinoSettings::LCD_SCROLL_TEXT] == 1)
--	{
--		int len = strlen((char *) servicename.c_str());
--
--		if(len>14)
--		{
--			ShowScrollText((char *) servicename.c_str());
--		}
--		else
--		{
--			if(vfd_scrollText != 0)
--			{
--				pthread_cancel(vfd_scrollText);
--				pthread_join(vfd_scrollText, NULL);
--		
--				vfd_scrollText = 0;
--			}
--	
--			ShowText((char *) servicename.c_str());
--		}
--	}
--	else
--	#endif
+@@ -342,12 +289,7 @@
+ 			if(force || ((hour != t->tm_hour) || (minute != t->tm_min))) 
+ 			{
+ 				hour = t->tm_hour;
+-				minute = t->tm_min;
+-#if defined (PLATFORM_KATHREIN)							/* time and date at kathrein because 16 character vfd	*/
+-				strftime(timestr, 20, "%H:%M - %d.%m.%y", t);
+-#elif !defined(PLATFORM_SPARK7162) && !defined (PLATFORM_KATHREIN)		/* no time at spark7162 because clock integrated	*/
+- 				strftime(timestr, 20, "%H:%M", t);
+-#endif				
++				minute = t->tm_min;				
+ 				ShowText(timestr);
+ 			}
+ 		} 
+@@ -452,35 +394,22 @@
+ 	switch (m) 
  	{
- 		ShowText((char *)name.c_str() );
- 	}
-@@ -448,10 +375,7 @@
+ 		case MODE_TVRADIO:	
+-			showServicename(servicename);
+-#if !defined(PLATFORM_SPARK7162)			
+-			ShowIcon(VFD_ICON_MP3, false);	        // NOTE: @dbo  //ICON_MP3 and ICON_DOLBY switched in infoviewer 
+-#endif			
+-	
+-#if defined (PLATFORM_KATHREIN)
+-			ShowIcon(VFD_ICON_USB, usb_icon);	
+-			ShowIcon(VFD_ICON_HDD, hdd_icon);	
+-#elif defined(PLATFORM_SPARK7162)
++			showServicename(servicename);			
++			ShowIcon(VFD_ICON_MP3, false);	        // NOTE: @dbo  //ICON_MP3 and ICON_DOLBY switched in infoviewer 		
+ 			ShowIcon(VFD_ICON_USB, usb_icon);	
+ 			ShowDiskLevel();
+-			ShowIcon(VFD_ICON_STANDBY, false);	
+-#endif		
++			ShowIcon(VFD_ICON_STANDBY, false);		
+ 			showclock = true;
+ 			//showTime();      /* "showclock = true;" implies that "showTime();" does a "displayUpdate();" */
+ 			break;
+ 
+ 		case MODE_AUDIO:
+ 		{
+-#if defined(PLATFORM_SPARK7162)
+-			ShowIcon(VFD_ICON_AC3, false);			
+-#endif		  
++			ShowIcon(VFD_ICON_AC3, false);					  
  			ShowIcon(VFD_ICON_MP3, true);			
  			ShowIcon(VFD_ICON_TV, false);			
  			showAudioPlayMode(AUDIO_MODE_STOP);			
@@ -156,11 +182,37 @@
 -#if !defined (PLATFORM_COOLSTREAM)			
 -			ShowIcon(VFD_ICON_LOCK, false);
 -#endif			
-+			showclock = true;			
++			showclock = true;		
  			ShowIcon(VFD_ICON_HD, false);
  			ShowIcon(VFD_ICON_DOLBY, false);
  			//showTime();      /* "showclock = true;" implies that "showTime();" does a "displayUpdate();" */
-@@ -543,7 +467,6 @@
+@@ -498,21 +427,18 @@
+ 			break;
+ 
+ 		case MODE_SHUTDOWN:
+-			//Clear();
++			//ShowIcon(VFD_ICON_TV, false);
+ 			/* clear all symbols */
++			Clear();
+ 			ClearIcons();
+-#if defined(PLATFORM_SPARK7162)
+-			ShowIcon(VFD_ICON_CLOCK, timer_icon);	
+-#endif			
++			ShowIcon(VFD_ICON_CLOCK, timer_icon);			
+ 			showclock = false;
+ 			break;
+ 
+ 		case MODE_STANDBY:
+ 			ShowIcon(VFD_ICON_TV, false);
+ 			ClearIcons();
+-#if defined(PLATFORM_SPARK7162)
+-			ShowIcon(VFD_ICON_STANDBY, true);	
+-#endif			
++			ShowIcon(VFD_ICON_STANDBY, true);			
+ 			showclock = true;
+ 			showTime(true);      	/* "showclock = true;" implies that "showTime();" does a "displayUpdate();" */
+ 						/* "showTime()" clears the whole lcd in MODE_STANDBY */
+@@ -577,7 +503,6 @@
  	if(!has_lcd || is4digits) 
  		return;
  
@@ -168,37 +220,34 @@
  	struct vfd_ioctl_data data;
  	data.start_address = power;
  	
-@@ -553,22 +476,12 @@
+@@ -587,7 +512,13 @@
  		perror("VFDPWRLED");
  	
  	closeDevice();
 -#endif
- }
- 
- void CVFD::setFPTime(void)
- {
- 	if(!has_lcd)
- 		return;
--
--#ifdef __sh__
--	//openDevice();
--	
--	//if( ioctl(fd, VFDSETTIME) < 0)  
--	//	perror("VFDPWRLED");
--	
--	//closeDevice();
--#endif
++}
++
++void CVFD::setFPTime(void)
++{
++	if(!has_lcd)
++		return;
++
  }
  
  int CVFD::getPower()
-@@ -626,62 +539,25 @@
- 	if(!has_lcd) 
+@@ -642,35 +573,15 @@
+ 
+ void CVFD::Clear()
+ {
+-	if(!has_lcd || is4digits) 
++	if(!has_lcd) 
  		return;
  	
 -#if defined (PLATFORM_GIGABLUE)
 -	ShowText("    "); // 4 empty digits
 -#elif defined __sh__ 
  	struct vfd_ioctl_data data;
+-	
 -#if defined (PLATFORM_KATHREIN)		/* using this otherwise VFD of ufs910 is black and Neutrino has a segfault 		*/
 -	data.start_address = 0x01;
 -	data.length = 0x0;
@@ -223,10 +272,10 @@
  }
  
  void CVFD::ClearIcons()				/* switcht all VFD Icons off		*/
- {
+@@ -678,33 +589,16 @@
  	if(!has_lcd || is4digits) 
  		return;
--	
+ 	
 -#if defined (PLATFORM_KATHREIN)
 -	int i;
 -	struct vfd_ioctl_data data;
@@ -244,7 +293,7 @@
 -	
 -	closeDevice();
 -#elif defined(PLATFORM_SPARK7162)		/* using one command for switching off all Icons*/	 
-+		 
++/* using one command for switching off all Icons*/	 
  	openDevice();
  	aotom_data.u.icon.icon_nr = SPARK_ICON_ALL;
  	aotom_data.u.icon.on = 0;
@@ -254,21 +303,57 @@
 -#endif
  }
  
- void CVFD::ShowIcon(vfd_icon icon, bool show)
-@@ -691,38 +567,24 @@
+-#if defined(PLATFORM_SPARK7162)			/* only for Spark7162 STB's which Display has a HDD Level indicator */	 
++/* only for Spark7162 STB's which Display has a HDD Level indicator */	 
+ void CVFD::ShowDiskLevel()
+ {
+ 	int hdd_icons[9] ={24, 23, 21, 20, 19, 18, 17, 16, 22};
+@@ -733,21 +627,16 @@
+ 
+ 	}
+ }
+-#endif
+ 
+-#if defined(PLATFORM_SPARK7162)
+ void CVFD::ShowIcon(int icon, bool show)
+-#else
+-void CVFD::ShowIcon(vfd_icon icon, bool show)
+-#endif
++
++//void CVFD::ShowIcon(vfd_icon icon, bool show)
+ {
+ 	if(!has_lcd || is4digits) 
+ 		return;
  	
  	dprintf(DEBUG_DEBUG, "CVFD::ShowIcon %s %x\n", show ? "show" : "hide", (int) icon);
  
 -#ifdef __sh__
+-#if defined (PLATFORM_KATHREIN) || defined(PLATFORM_SPARK7162)
+ 	switch (icon)
+ 	{
+ 		case VFD_ICON_USB:
+@@ -756,31 +645,18 @@
+ 		case VFD_ICON_CLOCK:
+ 			timer_icon = show;
+ 			break;
+-#if defined (PLATFORM_KATHREIN)
+-		case VFD_ICON_HDD:
+-			hdd_icon = show;
+-			break;
+-#endif
++
+ 		default:
+ 			break;
+ 	}
+-#endif
+ 
  	openDevice();
 -#if defined(PLATFORM_SPARK7162)
  	aotom_data.u.icon.icon_nr = icon;
- 	if (show == true)
- 		aotom_data.u.icon.on = 1;
- 	else
- 		aotom_data.u.icon.on = 0;
+ 	aotom_data.u.icon.on = show ? 1 : 0;
+ 	
  	if (ioctl(fd, VFDICONDISPLAYONOFF, &aotom_data) <0)
--		perror("VFDICONDISPLAYONOFF");	
+ 		perror("VFDICONDISPLAYONOFF");	
 -#else
 -#if defined (PLATFORM_KATHREIN)
 -	if (icon == 17)				/* returning because not existing icon at ufs910 */
@@ -277,19 +362,15 @@
 -		return;
 -	}
 -#endif	
-+		perror("VFDICONDISPLAYONOFF_YES_AOTOM");	
-+	
++
  	struct vfd_ioctl_data data;
  
  	data.data[0] = (icon - 1) & 0x1F;
- 	data.data[4] = show ? 1 : 0;
+@@ -788,13 +664,7 @@
  	
--	if( ioctl(fd, VFDICONDISPLAYONOFF, &data) < 0)
--		perror("VFDICONDISPLAYONOFF");
+ 	if( ioctl(fd, VFDICONDISPLAYONOFF, &data) < 0)
+ 		perror("VFDICONDISPLAYONOFF");
 -#endif	
-+	if( ioctl(fd, VFDICONDISPLAYONOFF, &aotom_data) < 0)
-+		perror("VFDICONDISPLAYONOFF_NO_AOTOM");
-+
  	closeDevice();
 -#elif defined (PLATFORM_COOLSTREAM)
 -	int ret = ioctl(fd, show ? IOC_VFD_SET_ICON : IOC_VFD_CLEAR_ICON, icon);
@@ -299,11 +380,13 @@
  }
  
  void * CVFD::ThreadScrollText(void * arg)
-@@ -822,51 +684,20 @@
+@@ -893,84 +763,21 @@
+ 			text.replace(pos, 2, std::string(repl));
  		}
  	}
- 	 
+-	 
 -#if defined (__sh__)	 
++	  
  	openDevice();
  	
  	if( write(fd , text.c_str(), len > 16? 16 : len ) < 0)
@@ -312,7 +395,7 @@
  	closeDevice();
 -#elif defined (PLATFORM_GIGABLUE)	
 -	FILE *f;
--	if((f = fopen("/proc/vfd","w")) == NULL) 
+-	if((f = fopen("/proc/vfd", "w")) == NULL) 
 -		return;
 -	
 -	fprintf(f,"%s", str);
@@ -329,29 +412,61 @@
  {
 -#ifdef __sh__
 -	//openDevice();
- 	
+-	
 -	//if( ioctl(fd, VFDSETFAN, enable) < 0)  
 -	//	perror("VFDPWRLED");
 -	
 -	//closeDevice();
 -#endif	
- }
+-}
  
- void CVFD::vfd_led(const char * led)
- {
+-void CVFD::vfd_led(int led)
+-{
+-	dprintf(DEBUG_NORMAL, "%s\n", __FUNCTION__);
+-	
 -#if defined (PLATFORM_GIGABLUE)  
 -	FILE * f;
 -	if((f = fopen("/proc/stb/fp/led0_pattern", "w")) == NULL) 
 -		return;
 -	
--	fprintf(f, "%s", led);
+-	fprintf(f, "%d", led);
 -	fclose(f);
 -#endif	
--}
--
--
+ }
  
-+}
+-void CVFD::setFPTime(void)
++void CVFD::vfd_led(int led)
+ {
+-	if(!has_lcd)
+-		return;
+ 
+-#ifdef __sh__
+-	openDevice();
+-	
+-	char timebuf[6];
+-	time_t tnow = time(NULL);
+-	
+-	tm *now = localtime(&tnow);
+-	timebuf[0]=1;
+-	timebuf[1]=now->tm_min;
+-	timebuf[2]=now->tm_hour;
+-	timebuf[3]=now->tm_mday;
+-	timebuf[4]=now->tm_mon+1;
+-	timebuf[5]=now->tm_year % 100;
+-	
+-	struct vfd_ioctl_data data;
+-	memset(&data, 0, sizeof(struct vfd_ioctl_data));
+-	memcpy(&data, timebuf, 6); 
+-	
+-	if( ioctl(fd, VFDSETTIME, &data) < 0)  
+-		perror("VFDPWRLED");
+-	
+-	closeDevice();
+-#endif
+ }
+-
+-
+-
 --- neutrino-hd2-exp.org/src/driver/vfd.h	2013-04-22 10:13:02.403201000 +0200
 +++ neutrino-hd2-exp/src/driver/vfd.h	2013-04-23 19:56:16.865164127 +0200
 @@ -33,12 +33,7 @@
@@ -367,14 +482,13 @@
  /* SAB Triple VFD Icons								*/
  /* taken from aotom_main.h, with these numbers the Icons on Spark7162		*/
  /* will work right ( hopefully all Models )					*/
-@@ -118,115 +113,6 @@
- 	VFD_ICON_LOCK 		= CA,
+@@ -131,114 +126,6 @@
+ 	VFD_ICON_STANDBY	= VFD_SPARK_CYCLE	
  } vfd_icon;
  
 -#endif //spark7162
 -
 -#if defined(PLATFORM_KATHREIN)
--
 -typedef enum
 -{
 -	vfd_910_usb = 1,
@@ -392,9 +506,8 @@
 -	vfd_910_ff = 13,
 -	vfd_910_fr = 14,
 -	vfd_910_rec = 15,
--	vfd_910_clock = 16,
+-	vfd_910_clock = 16
 -} ufs910_vfd_icon;
--
 -
 -// neutrino common translate for ufs910  / ufs913
 -typedef enum
@@ -416,8 +529,9 @@
 -	VFD_ICON_PLAY		= vfd_910_play,
 -	VFD_ICON_PAUSE		= vfd_910_pause,
 -	VFD_ICON_LOCK 		= vfd_910_lock,
+-	VFD_ICON_HDD 		= vfd_910_hdd,	
+-	VFD_ICON_CLOCK		= vfd_910_clock
 -} vfd_icon;
--
 -#endif //ufs910, ufs913
 -
 -#if !defined(PLATFORM_KATHREIN) && !defined(PLATFORM_SPARK7162) && !defined (PLATFORM_COOLSTREAM)
@@ -475,7 +589,7 @@
 -	VFD_ICON_MP3		= ICON_MP3,
 -	VFD_ICON_PLAY		= ICON_Play,
 -	VFD_ICON_PAUSE		= ICON_PAUSE,
--	VFD_ICON_LOCK 		= ICON_SCRAMBLED,
+-	VFD_ICON_LOCK 		= ICON_SCRAMBLED
 -} vfd_icon;
 -#endif  //common
 -
@@ -483,7 +597,7 @@
  #define VFDBRIGHTNESS         0xc0425a03
  #define VFDPWRLED             0xc0425a04 /* added by zeroone, also used in fp_control/global.h ; set PowerLed Brightness on HDBOX*/
  #define VFDDRIVERINIT         0xc0425a08
-@@ -251,52 +137,6 @@
+@@ -263,60 +150,8 @@
  #define VFDSETTIMEMODE        0xc0425b03
  #define VFDDISPLAYCLR	      0xc0425b00
  
@@ -501,7 +615,7 @@
 -	int icon_nr;
 -	int on;
 -};
--
+ 
 -struct set_led_s {
 -	int led_nr;
 -	int on;
@@ -533,18 +647,35 @@
 -	} u;
 -};
 -#elif defined (PLATFORM_SPARK)
- /* ugly: this is copied from frontcontroller utility, but the driver
-  * does not seem to provide userspace headers... :-( */
+-/* ugly: this is copied from frontcontroller utility, but the driver
+- * does not seem to provide userspace headers... :-( */
+-
+-
+-/* this setups the mode temporarily (for one ioctl)
+- * to the desired mode. currently the "normal" mode
+- * is the compatible vfd mode
+- */
++/* structs are needed for sending icons etc. to aotom 				*/
+ struct set_mode_s {
+ 	int compat; /* 0 = compatibility mode to vfd driver; 1 = nuvoton mode */
+ };
+@@ -361,23 +196,12 @@
+ 	} u;
+ };
  
-@@ -357,7 +197,6 @@
- #define VFDDISPLAYCHARS 0xc0425a00
- #define VFDDISPLAYCLR   0xc0425b00
- #define VFDSETMODE      0xc0425aff
+-/* a strange way of defining ioctls... but anyway... */
+-#define VFDGETTIME      0xc0425afa
+-#define VFDSETTIME      0xc0425afb
+-#define VFDSTANDBY      0xc0425afc
+-#define VFDSETLED       0xc0425afe
+-#define VFDDISPLAYCHARS 0xc0425a00
+-#define VFDDISPLAYCLR   0xc0425b00
+-#define VFDSETMODE      0xc0425aff
 -#endif //Spark7162
- 
+-
  
  struct vfd_ioctl_data {
-@@ -365,7 +204,6 @@
+ 	unsigned char start_address;
  	unsigned char data[64];
  	unsigned char length;
  };
@@ -552,9 +683,23 @@
  
  
  class CVFD
-@@ -472,10 +310,8 @@
+@@ -472,12 +296,9 @@
+ 		void Unlock();
+ 		void Clear();
+ 		void ClearIcons();
+-#if defined(PLATFORM_SPARK7162)
+ 		void ShowDiskLevel();
+ 		void ShowIcon(int icon, bool show);
+-#else
+-		void ShowIcon(vfd_icon icon, bool show);
+-#endif		
++//		void ShowIcon(vfd_icon icon, bool show);	
+ 		void ShowText(const char * str);
+ 
+ 		void ShowScrollText(char * str);
+@@ -489,10 +310,8 @@
  		
- 		void vfd_led(const char * led);
+ 		void vfd_led(int led);
  		
 -#ifdef __sh__
  		void openDevice();

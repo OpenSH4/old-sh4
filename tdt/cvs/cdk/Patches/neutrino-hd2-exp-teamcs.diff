@@ -1,7 +1,6 @@
-diff -upr neutrino-hd2-exp/data/locale/deutsch.locale neutrino-hd2-exp/data/locale/deutsch.locale
---- neutrino-hd2-exp/data/locale/deutsch.locale	2013-04-22 15:25:39.000000000 +0200
-+++ neutrino-hd2-exp/data/locale/deutsch.locale	2013-04-22 16:39:30.000000000 +0200
-@@ -1591,4 +1591,95 @@ keybinding.savekeymap_hint keymap wird g
+--- neutrino-hd2-exp/data/locale/deutsch.locale	2013-06-11 16:50:25.000000000 +0200
++++ neutrino-hd2-exp/data/locale/deutsch.locale	2013-06-12 17:55:12.000000000 +0200
+@@ -1593,6 +1593,119 @@ keybinding.savekeymap_hint keymap wird g
  
  audiomenu.volumebar_audiosteps Lautstärke Schrittweite
  
@@ -21,6 +20,8 @@ diff -upr neutrino-hd2-exp/data/locale/deutsch.locale neutrino-hd2-exp/data/loca
 +teamcs.upnp UPNP Media-Server-Client
 +teamcs.samba Samba Menu
 +teamcs.swap Swap Einrichten
++teamcs.overclock CPU Overclocking
++teamcs.mac ETH0 MAC Switcher
 +teamcs.enigma Enigma2 Subsystem Switch
 +	
 +teamcsemu.emustop1 Stoppt laufenden Emu
@@ -92,15 +93,36 @@ diff -upr neutrino-hd2-exp/data/locale/deutsch.locale neutrino-hd2-exp/data/loca
 +	
 +teamcsswap.dev Swap Partition Aktivieren -- default
 +teamcsswap.ram Ramzswap Aktivieren
-+teamcssystem.hdd Swapfile auf HDD Aktivieren
-+teamcssystem.hddcreate Swapfile auf HDD Erstellen
-+teamcssystem.sda3 Swappartition /dev/sda3 Formatieren
++teamcsswap.hdd Swapfile auf HDD Aktivieren
++teamcsswap.hddcreate Swapfile auf HDD Erstellen
++teamcsswap.sda3 Swappartition /dev/sda3 Formatieren
++
++teamcsoverclock.boothead --- Boot Overclocking ---
++teamcsoverclock.266boot Aktiviere 266 Mhz --default
++teamcsoverclock.300boot Aktiviere 300 Mhz
++teamcsoverclock.333boot Aktiviere 333 Mhz
++teamcsoverclock.366boot Aktiviere 366 Mhz
++teamcsoverclock.400boot Aktiviere 400 Mhz
++teamcsoverclock.fixhead --- FIX Overclocking ---
++teamcsoverclock.300fix Aktiviere 300 Mhz
++teamcsoverclock.333fix Aktiviere 333 Mhz
++teamcsoverclock.366fix Aktiviere 366 Mhz
++teamcsoverclock.400fix Aktiviere 400 Mhz
++teamcsoverclock.266fix Deaktiviere Overclocking
++teamcsoverclock.test CPU Freq. Test
++
++teamcsmac.mac1 Benutze 00:80:E1:12:06:30 --default 
++teamcsmac.mac2 Benutze 00:81:E1:12:06:30
++teamcsmac.mac3 Benutze 00:82:E1:12:06:30
++teamcsmac.mac4 Benutze 00:83:E1:12:06:30
++teamcsmac.mac5 Benutze 00:84:E1:12:06:30
 +
  webtv.head WebTV
-diff -upr neutrino-hd2-exp/data/locale/english.locale neutrino-hd2-exp/data/locale/english.locale
---- neutrino-hd2-exp/data/locale/english.locale	2013-04-22 15:25:39.000000000 +0200
-+++ neutrino-hd2-exp/data/locale/english.locale	2013-04-22 16:37:30.000000000 +0200
-@@ -1590,4 +1591,95 @@ keybinding.savekeymap_hint Saving keymap
+ 
+ menu.hint_ytplay Wiedergabe von ausgewählten Youtube Feeds
+--- neutrino-hd2-exp/data/locale/english.locale	2013-06-11 16:50:25.000000000 +0200
++++ neutrino-hd2-exp/data/locale/english.locale	2013-06-12 17:55:12.000000000 +0200
+@@ -1592,6 +1592,119 @@ keybinding.savekeymap_hint Saving keymap
  
  audiomenu.volumebar_audiosteps Volume Step Size
  
@@ -120,6 +142,8 @@ diff -upr neutrino-hd2-exp/data/locale/english.locale neutrino-hd2-exp/data/loca
 +teamcs.upnp UPNP Media-Server-Client
 +teamcs.samba Samba Menu
 +teamcs.swap Swap Settings
++teamcs.overclock CPU Overclocking
++teamcs.mac ETH0 MAC Switcher
 +teamcs.enigma Enigma2 Subsystem Switch
 +	
 +teamcsemu.emustop1 Stop all running Emu
@@ -191,66 +215,36 @@ diff -upr neutrino-hd2-exp/data/locale/english.locale neutrino-hd2-exp/data/loca
 +	
 +teamcsswap.dev Activate Swap Partition -- default
 +teamcsswap.ram Activate Ramzswap
-+teamcssystem.hdd Activate Swapfile on HDD
-+teamcssystem.hddcreate Create Swapfile on HDD
-+teamcssystem.sda3 Format Swappartition on /dev/sda3
++teamcsswap.hdd Activate Swapfile on HDD
++teamcsswap.hddcreate Create Swapfile on HDD
++teamcsswap.sda3 Format Swappartition on /dev/sda3
++
++teamcsoverclock.boothead --- Boot Overclocking ---
++teamcsoverclock.266boot Activate 266 Mhz --default
++teamcsoverclock.300boot Activate 300 Mhz
++teamcsoverclock.333boot Activate 333 Mhz
++teamcsoverclock.366boot Activate 366 Mhz
++teamcsoverclock.400boot Activate 400 Mhz
++teamcsoverclock.fixhead --- FIX Overclocking ---
++teamcsoverclock.300fix Activate 300 Mhz
++teamcsoverclock.333fix Activate 333 Mhz
++teamcsoverclock.366fix Activate 366 Mhz
++teamcsoverclock.400fix Activate 400 Mhz
++teamcsoverclock.266fix Deactivate Overclocking
++teamcsoverclock.test CPU Freq. Test
++
++teamcsmac.mac1 Use 00:80:E1:12:06:30 --default 
++teamcsmac.mac2 Use 00:81:E1:12:06:30
++teamcsmac.mac3 Use 00:82:E1:12:06:30
++teamcsmac.mac4 Use 00:83:E1:12:06:30
++teamcsmac.mac5 Use 00:84:E1:12:06:30
 +
  webtv.head WebTV
-diff -upr neutrino-hd2-exp/src/gui/Makefile.am neutrino-hd2-exp/src/gui/Makefile.am
---- neutrino-hd2-exp/src/gui/Makefile.am	2013-04-22 15:25:42.000000000 +0200
-+++ neutrino-hd2-exp/src/gui/Makefile.am	2013-04-22 12:35:34.000000000 +0200
-@@ -6,6 +6,8 @@ svn_version.h:
- 	else \
- 		rm svn_version.h; echo '#define BUILT_DATE "'`date`'"' > svn_version.h ; \
- 	fi
-+teamcs_sources =teamcs.cpp teamcsemu.cpp teamcsuhr.cpp teamcswlan.cpp teamcssystem.cpp \
-+		teamcstuner.cpp teamcsfb.cpp teamcsupnp.cpp teamcssamba.cpp teamcsswap.cpp
  
- noinst_HEADERS = svn_version.h
- 
-@@ -53,7 +55,8 @@ libneutrino_gui_a_SOURCES = \
- 
- libneutrino_gui2_a_SOURCES = \
- 	color.cpp motorcontrol.cpp hdd_menu.cpp \
--	alphasetup.cpp dvbsub_select.cpp psisetup.cpp opkg_manager.cpp webtv.cpp
-+	alphasetup.cpp dvbsub_select.cpp psisetup.cpp opkg_manager.cpp webtv.cpp \
-+	$(teamcs_sources)
- 
- if ENABLE_UPNP
- libneutrino_gui2_a_SOURCES += upnpbrowser.cpp
-diff -upr neutrino-hd2-exp/src/neutrino_menue.cpp neutrino-hd2-exp/src/neutrino_menue.cpp
---- neutrino-hd2-exp/src/neutrino_menue.cpp	2013-04-22 15:25:38.000000000 +0200
-+++ neutrino-hd2-exp/src/neutrino_menue.cpp	2013-04-20 15:17:52.000000000 +0200
-@@ -114,6 +114,8 @@
- #include "gui/upnpbrowser.h"
- #endif
- 
-+#include "gui/teamcs.h"
-+
- #include <system/setting_helpers.h>
- #include <system/settings.h>
- #include <system/debug.h>
-@@ -265,7 +267,15 @@
- #if defined (ENABLE_SCART)
- 	mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_SCARTMODE, true, NULL, this, "scart", CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, "scart", LOCALE_HELPTEXT_SCART ));
- #endif
--	
-+
-+	//teamcs
-+	/*mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_TEAMCS, true, "", this, "teamcs", CRCInput::convertDigitToKey(shortcut++), NULL, "teamcs", LOCALE_HELPTEXT_TEAMCS ));*/
-+	mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_TEAMCS, true, "", new teamcs(), NULL, CRCInput::convertDigitToKey(shortcut++), NULL, "teamcs", LOCALE_HELPTEXT_TEAMCS ));
-+
-+	#if ENABLE_GRAPHLCD
-+        mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_GLCD1, true, "", new GLCD_Menu(), NULL, CRCInput::convertDigitToKey(shortcut++), NULL, "nix", LOCALE_HELPTEXT_NIX ));
-+	#endif	
-+
- 	//Main Setting Menu
- 	mainMenu.addItem( new CMenuSeparatorItemMenuIcon(CMenuSeparatorItemMenuIcon::LINE) );
- 
-diff -upr neutrino-hd2-exp/src/system/locals.h neutrino-hd2-exp/src/system/locals.h
---- neutrino-hd2-exp/src/system/locals.h	2013-04-22 15:25:36.000000000 +0200
-+++ neutrino-hd2-exp/src/system/locals.h	2013-04-21 23:09:16.000000000 +0200
-@@ -554,6 +554,8 @@ typedef enum {
+ menu.hint_ytplay Play selected youtube feeds
+--- neutrino-hd2-exp/src/system/locals.h	2013-06-11 16:50:25.000000000 +0200
++++ neutrino-hd2-exp/src/system/locals.h	2013-06-12 17:55:12.000000000 +0200
+@@ -556,6 +556,8 @@ typedef enum {
  	LOCALE_MAINMENU_SHUTDOWN,
  	LOCALE_MAINMENU_SLEEPTIMER,
  	LOCALE_MAINMENU_TVMODE,
@@ -259,7 +253,7 @@ diff -upr neutrino-hd2-exp/src/system/locals.h neutrino-hd2-exp/src/system/local
  	LOCALE_MAINSETTINGS_AUDIO,
  	LOCALE_MAINSETTINGS_OSD,
  	LOCALE_MAINSETTINGS_HEAD,
-@@ -1542,6 +1543,8 @@ typedef enum {
+@@ -1544,6 +1546,8 @@ typedef enum {
  	LOCALE_HELPTEXT_FEATURES,
  	LOCALE_HELPTEXT_DVD,
  	LOCALE_HELPTEXT_BLUERAY,
@@ -268,7 +262,7 @@ diff -upr neutrino-hd2-exp/src/system/locals.h neutrino-hd2-exp/src/system/local
  	
  	LOCALE_MISCSETTINGS_LOGOSDIR,
  	
-@@ -1604,6 +1607,92 @@ typedef enum {
+@@ -1606,6 +1610,114 @@ typedef enum {
  	
  	LOCALE_AUDIOMENU_VOLUMEBAR_AUDIOSTEPS,
  	
@@ -283,6 +277,8 @@ diff -upr neutrino-hd2-exp/src/system/locals.h neutrino-hd2-exp/src/system/local
 +	LOCALE_TEAMCS_UPNP,
 +	LOCALE_TEAMCS_SAMBA,
 +	LOCALE_TEAMCS_SWAP,
++	LOCALE_TEAMCS_OVERCLOCK,
++	LOCALE_TEAMCS_MAC,
 +	LOCALE_TEAMCS_ENIGMA,
 +
 +	LOCALE_TEAMCSEMU_EMUSTOP1,
@@ -358,13 +354,32 @@ diff -upr neutrino-hd2-exp/src/system/locals.h neutrino-hd2-exp/src/system/local
 +	LOCALE_TEAMCSSWAP_HDDCREATE,
 +	LOCALE_TEAMCSSWAP_SDA3,
 +
++	LOCALE_TEAMCSOVERCLOCK_BOOTHEAD,
++	LOCALE_TEAMCSOVERCLOCK_266BOOT,
++	LOCALE_TEAMCSOVERCLOCK_300BOOT,
++	LOCALE_TEAMCSOVERCLOCK_333BOOT,
++	LOCALE_TEAMCSOVERCLOCK_366BOOT,
++	LOCALE_TEAMCSOVERCLOCK_400BOOT,
++	LOCALE_TEAMCSOVERCLOCK_FIXHEAD,
++	LOCALE_TEAMCSOVERCLOCK_300FIX,
++	LOCALE_TEAMCSOVERCLOCK_333FIX,
++	LOCALE_TEAMCSOVERCLOCK_366FIX,
++	LOCALE_TEAMCSOVERCLOCK_400FIX,
++	LOCALE_TEAMCSOVERCLOCK_266FIX,
++	LOCALE_TEAMCSOVERCLOCK_TEST,
++
++	LOCALE_TEAMCSMAC_MAC1,
++	LOCALE_TEAMCSMAC_MAC2,
++	LOCALE_TEAMCSMAC_MAC3,
++	LOCALE_TEAMCSMAC_MAC4,
++	LOCALE_TEAMCSMAC_MAC5,
++
  	LOCALE_WEBTV_HEAD,
- } neutrino_locale_t;
- 
-diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/system/locals_intern.h
---- neutrino-hd2-exp/src/system/locals_intern.h	2013-04-22 15:25:36.000000000 +0200
-+++ neutrino-hd2-exp/src/system/locals_intern.h	2013-04-21 23:09:35.000000000 +0200
-@@ -554,6 +554,8 @@ const char * locale_real_names[] = {
+ 	
+ 	//youtube
+--- neutrino-hd2-exp/src/system/locals_intern.h	2013-06-11 16:50:25.000000000 +0200
++++ neutrino-hd2-exp/src/system/locals_intern.h	2013-06-12 17:55:12.000000000 +0200
+@@ -556,6 +556,8 @@ const char * locale_real_names[] = {
  	"mainmenu.shutdown",
  	"mainmenu.sleeptimer",
  	"mainmenu.tvmode",
@@ -373,7 +388,7 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
  	"mainsettings.audio",
  	"mainsettings.osd",
  	"mainsettings.head",
-@@ -1542,6 +1543,8 @@ const char * locale_real_names[] = {
+@@ -1544,6 +1546,8 @@ const char * locale_real_names[] = {
  	"helptext.features",
  	"helptext.dvd",
  	"helptext.blueray",
@@ -382,7 +397,7 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
  	
  	"miscsettings.logosdir",
  	
-@@ -1604,6 +1607,92 @@ const char * locale_real_names[] = {
+@@ -1606,6 +1610,114 @@ const char * locale_real_names[] = {
  	
  	"audiomenu.volumebar_audiosteps",
  	
@@ -397,6 +412,8 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
 +	"teamcs.upnp",
 +	"teamcs.samba",
 +	"teamcs.swap",
++	"teamcs.overclock",
++	"teamcs.mac",
 +	"teamcs.enigma",
 +	
 +	"teamcsemu.emustop1",
@@ -468,17 +485,37 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
 +	
 +	"teamcsswap.dev",
 +	"teamcsswap.ram",
-+       "teamcssystem.hdd",
-+       "teamcssystem.hddcreate",
-+       "teamcssystem.sda3",
++       "teamcsswap.hdd",
++       "teamcsswap.hddcreate",
++       "teamcsswap.sda3",
++
++	"teamcsoverclock.boothead",
++	"teamcsoverclock.266boot",
++	"teamcsoverclock.300boot",
++	"teamcsoverclock.333boot",
++	"teamcsoverclock.366boot",
++	"teamcsoverclock.400boot",
++	"teamcsoverclock.fixhead",
++	"teamcsoverclock.300fix",
++	"teamcsoverclock.333fix",
++	"teamcsoverclock.366fix",
++	"teamcsoverclock.400fix",
++	"teamcsoverclock.266fix",
++	"teamcsoverclock.test",
++
++	"teamcsmac.mac1",
++	"teamcsmac.mac2",
++	"teamcsmac.mac3",
++	"teamcsmac.mac4",
++	"teamcsmac.mac5",
 +	
  	"webtv.head",
- };
- #endif
---- neutrino-hd2-exp.org/src/neutrino.cpp	2013-05-19 08:30:53.820061000 +0200
-+++ neutrino-hd2-exp/src/neutrino.cpp	2013-05-19 12:09:37.237137000 +0200
-@@ -4333,7 +4333,10 @@
- 		CVFD::getInstance()->Clear();
+ 	
+ 	// youtube
+--- neutrino-hd2-exp/src/neutrino.cpp	2013-06-11 16:50:25.000000000 +0200
++++ neutrino-hd2-exp/src/neutrino.cpp	2013-06-12 17:55:12.000000000 +0200
+@@ -4373,7 +4373,10 @@ void CNeutrinoApp::standbyMode( bool bOn
+ #endif		
  		
  		// show time in vfd
 -		CVFD::getInstance()->setMode(CVFD::MODE_STANDBY);
@@ -489,7 +526,7 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
  		
  		//if(videoDecoder)
  		//	videoDecoder->SetInput(INPUT_SCART);
-@@ -4413,6 +4416,7 @@
+@@ -4453,6 +4456,7 @@ void CNeutrinoApp::standbyMode( bool bOn
  		// video wake up
  		//if(videoDecoder)
  		//	videoDecoder->SetInput(INPUT_ENCODER);
@@ -497,3 +534,25 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
  
  		g_Sectionsd->setPauseScanning(false);
  		g_Sectionsd->setServiceChanged(live_channel_id&0xFFFFFFFFFFFFULL, true );
+--- neutrino-hd2-exp/src/gui/Makefile.am	2013-06-11 16:50:25.000000000 +0200
++++ neutrino-hd2-exp/src/gui/Makefile.am	2013-06-12 17:55:12.000000000 +0200
+@@ -8,6 +8,9 @@ sleep 180 && rm svn_version.h
+ 	else \
+ 		rm svn_version.h; echo '#define BUILT_DATE "'`date`'"' > svn_version.h ; \
+ 	fi
++teamcs_sources =teamcs.cpp teamcsemu.cpp teamcsuhr.cpp teamcswlan.cpp teamcssystem.cpp \
++		teamcstuner.cpp teamcsfb.cpp teamcsupnp.cpp teamcssamba.cpp teamcsswap.cpp \
++		teamcsoverclock.cpp teamcsmac.cpp
+ 
+ noinst_HEADERS = svn_version.h
+ 
+@@ -55,7 +58,8 @@ libneutrino_gui_a_SOURCES = \
+ 
+ libneutrino_gui2_a_SOURCES = \
+ 	color.cpp motorcontrol.cpp hdd_menu.cpp \
+-	alphasetup.cpp dvbsub_select.cpp psisetup.cpp opkg_manager.cpp webtv.cpp
++	alphasetup.cpp dvbsub_select.cpp psisetup.cpp opkg_manager.cpp webtv.cpp \
++	$(teamcs_sources)
+ 
+ if ENABLE_UPNP
+ libneutrino_gui2_a_SOURCES += upnpbrowser.cpp
