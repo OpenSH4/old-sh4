@@ -26,13 +26,20 @@ root="/dev/sda1"
 rootfs="/dev/sda2"
 record="/dev/sda4"
 
-echo "Sleep 3 Second and wait of the /dev/sda1"
-sleep 3
-
+# Läd den Display Treiber, sollte aotom.ko nicht geladen werden können 
+# Aufgrund der fehlenden I2C Adresse wird aotom_vip1.ko geladen ;)
 echo "INIT VFD"
 insmod /drvko/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
 sleep 1
 insmod /drvko/aotom_vip1.ko I2C_bus_num=2 I2C_bus_add=0x40
+
+# Checkt ob /dev/sda1 verfügbar, ist 1 verfügbar sollte auch 2-4 verfügbar sein #
+while [ ! -b /dev/sda1 ]
+do
+  echo "RAMFS...."  > /dev/vfd
+  echo "Warte auf USB-Device..."
+  sleep 1
+done 
 
 #Process command line options
 for i in $(cat /proc/cmdline); do
@@ -45,11 +52,12 @@ for i in $(cat /proc/cmdline); do
 			;;
 	esac
 done
+# Quik FSCK Check
 if [ `tune2fs -l /dev/sda1 | grep -i "Filesystem state" | awk '{ print $3 }'` == "clean" ]; then
     echo "SDA1 OK"
 else
     echo "FSCK SDA1 run" > /fsck.log
-    echo "FSCK SDA1 run" > /dev/vfd
+    echo "FSCK SDA1" > /dev/vfd
     fsck.ext2 -f -y "${root}" >> /fsck.log
     tune2fs -l "${root}" | grep -i "Filesystem state" >> /fsck.log
 fi
@@ -57,7 +65,7 @@ if [ `tune2fs -l /dev/sda2 | grep -i "Filesystem state" | awk '{ print $3 }'` ==
     echo "SDA2 OK"
 else
     echo "FSCK SDA2 run" > /fsck.log
-    echo "FSCK SDA2 run" > /dev/vfd
+    echo "FSCK SDA2" > /dev/vfd
     fsck.ext4 -f -y "${rootfs}" >> /fsck.log
     tune2fs -l "${rootfs}" | grep -i "Filesystem state" >> /fsck.log
 fi
@@ -65,15 +73,16 @@ if [ `tune2fs -l /dev/sda4 | grep -i "Filesystem state" | awk '{ print $3 }'` ==
     echo "SDA4 OK"
 else
     echo "FSCK SDA4 run" > /fsck.log
-    echo "FSCK SDA4 run" > /dev/vfd
+    echo "FSCK SDA4" > /dev/vfd
     fsck.ext4 -f -y "${record}" >> /fsck.log
     tune2fs -l "${record}" | grep -i "Filesystem state" >> /fsck.log
 fi
+
 #Mount the root device
 echo "Mount rootfs /dev/sda1"
 mount "${root}" /rootfs
 
-# Check auf installing System Files
+# Checkt auf Updates oder Install Files
 if [ -e /rootfs/install ]; then
 	cd /install
 	./install.sh
@@ -81,6 +90,7 @@ elif [ -e /rootfs/update ]; then
 	cd /install
 	./update.sh
 fi
+
 # Wenn kein install mounte rootfs to start
 # Switch from /dev/sda1 to /dev/sda2 (ROOTFS)
 if [ ! -e /rootfs/install ]; then
@@ -91,6 +101,9 @@ echo "mount /dev/sda2"
 mount "${rootfs}" /rootfs
 
 # erst hier ist sda2 mounted
+# Kopiert das FSCK.log fals vorhanden auf /dev/sda2
+# Später kann dieses File im TeamCS Menü aufgerufen werden
+# um nachvollziehen zu können was defekt war
 if [ -e /fsck.log ]; then
 	cp /fsck.log /rootfs/var/config/fsck.log
 	rm /fsck.log
