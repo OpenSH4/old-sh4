@@ -479,6 +479,10 @@ release_hl101: release_common_utils
 	mkdir $(prefix)/release/var/keys/Benutzerdaten/.emu
 	mkdir $(prefix)/release/var/keys/Benutzerdaten/.system
 	mkdir $(prefix)/release/var/keys/Benutzerdaten/.web
+	mkdir $(prefix)/release/etc/rc.d/rc4.d
+	ln -s $(prefix)/release/etc/init.d/sendsigs $(prefix)/release/etc/rc.d/rc4.d/S20sendsigs
+	ln -s $(prefix)/release/etc/init.d/umountfs $(prefix)/release/etc/rc.d/rc4.d/S40umountfs
+	ln -s $(prefix)/release/etc/init.d/switchoff $(prefix)/release/etc/rc.d/rc4.d/S60switchoff
 #
 # release_adb_box
 #
