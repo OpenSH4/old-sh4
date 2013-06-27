@@ -74,5 +74,6 @@ file /lib/libext2fs.so.2	../ramfs/libs/libext2fs.so.2		0755 0 0
 file /lib/libcom_err.so.2	../ramfs/libs/libcom_err.so.2		0755 0 0
 file /lib/libblkid.so.1		../ramfs/libs/libblkid.so.1		0755 0 0
 file /lib/libuuid.so.1		../ramfs/libs/libuuid.so.1		0755 0 0
+file /install/devs.tar.gz	../ramfs/devs.tar.gz			0755 0 0
 file /init ../ramfs/init.sh 			755 0 0
 
