@@ -52,7 +52,7 @@ for i in $(cat /proc/cmdline); do
 			;;
 	esac
 done
-# Quik FSCK Check
+# Quik FSCK Check and create LOG
 if [ `tune2fs -l /dev/sda1 | grep -i "Filesystem state" | awk '{ print $3 }'` == "clean" ]; then
     echo "SDA1 OK"
 else
@@ -64,7 +64,7 @@ fi
 if [ `tune2fs -l /dev/sda2 | grep -i "Filesystem state" | awk '{ print $3 }'` == "clean" ]; then
     echo "SDA2 OK"
 else
-    echo "FSCK SDA2 run" > /fsck.log
+    echo "FSCK SDA2 run" >> /fsck.log
     echo "FSCK SDA2" > /dev/vfd
     fsck.ext4 -f -y "${rootfs}" >> /fsck.log
     tune2fs -l "${rootfs}" | grep -i "Filesystem state" >> /fsck.log
@@ -72,7 +72,7 @@ fi
 if [ `tune2fs -l /dev/sda4 | grep -i "Filesystem state" | awk '{ print $3 }'` == "clean" ]; then
     echo "SDA4 OK"
 else
-    echo "FSCK SDA4 run" > /fsck.log
+    echo "FSCK SDA4 run" >> /fsck.log
     echo "FSCK SDA4" > /dev/vfd
     fsck.ext4 -f -y "${record}" >> /fsck.log
     tune2fs -l "${record}" | grep -i "Filesystem state" >> /fsck.log
@@ -100,7 +100,23 @@ fi
 echo "mount /dev/sda2"
 mount "${rootfs}" /rootfs
 
-# erst hier ist sda2 mounted
+# Make /dev auf /dev/sda2
+if [ -e /rootfs/var/etc/.firstboot ]; then
+       # Create FB Switch file by Firstboot
+       echo "firstboot" > /rootfs/var/etc/firstboot
+       echo "MKDEV" > /dev/vfd
+       echo "WAIT 3 SEC"
+       rm /rootfs/var/etc/.firstboot
+       cp /rootfs/var/config/devs.tar.gz /dev/
+       cd /rootfs/dev
+       sleep 1
+       # workaround
+       tar -xf devs.tar.gz
+       sleep 1
+       rm devs.tar.gz
+       cd /
+fi
+
 # Kopiert das FSCK.log fals vorhanden auf /dev/sda2
 # Später kann dieses File im TeamCS Menü aufgerufen werden
 # um nachvollziehen zu können was defekt war
@@ -108,6 +124,7 @@ if [ -e /fsck.log ]; then
 	cp /fsck.log /rootfs/var/config/fsck.log
 	rm /fsck.log
 fi
+
 #Check if $init exists and is executable
 if [[ -x "/rootfs/${init}" ]] ; then
 	#Unmount all other mounts so that the ram used by

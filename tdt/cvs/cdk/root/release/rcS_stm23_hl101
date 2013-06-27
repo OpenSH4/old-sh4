@@ -1,802 +1,1025 @@
-#!/bin/sh
-MODDIR=/lib/modules
-FBALT=/boot/first/alt.mvi
-FBNEU=/boot/first/neu.mvi
-FBOPTI=/boot/first/opti.mvi
-FBPINGOLUX=/boot/first/pingolux.mvi
-DANKE=/boot/first/danke.mvi
-echo "init frontpanel"
-### An dieser Stellen wird gecheckt ob die Tuner fuer eure Box bereits gesetzt wurden im TeamCS Menue
-### Aktuell ist das TeamCS Menu nicht im Git, es wird aber noch hinzugefuegt,default Vip1 Opticum Display
-if [ -e /var/keys/Benutzerdaten/.system/tuner ]; then
-tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
-	if [ "$tuner" = "vip2" ]; then
-	if [ ! -e /var/config/deepstandby ]; then
-		echo "vip2" > /var/config/deepstandby
-	else
-		DEEPSTANDBY=`cat /var/config/deepstandby`
-		if [ "$DEEPSTANDBY" = "vip2" ]; then
-			echo "OK"
-		else
-			echo "vip2" > /var/config/deepstandby
-		fi
-	fi	
-	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
-	insmod $MODDIR/simu_button.ko
-	if [ ! -e /var/config/fp_control ]; then
-		echo "aotom" > /var/config/fp_control
-	else
-		TESTFP=`cat /var/config/fp_control`
-		if [ "$TESTFP" = "aotom" ]; then
-			echo "fp_control koreckt gesetzt"
-		else
-			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fp_control
-			echo "DONE"
-		fi
-	fi
-	dual="yes"
-	elif [ "$tuner" = "vip1v2" ]; then
-	if [ ! -e /var/config/deepstandby ]; then
-		echo "vip2" > /var/config/deepstandby
-	else
-		DEEPSTANDBY=`cat /var/config/deepstandby`
-		if [ "$DEEPSTANDBY" = "vip2" ]; then
-			echo "OK"
-		else
-			echo "vip2" > /var/config/deepstandby
-		fi
-	fi
-	dual="no"
-	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
-	insmod $MODDIR/simu_button.ko
-	if [ ! -e /var/config/fp_control ]; then
-		echo "aotom" > /var/config/fp_control
-	else
-		TESTFP=`cat /var/config/fp_control`
-		if [ "$TESTFP" = "aotom" ]; then
-			echo "fp_control koreckt gesetzt"
-		else
-			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fp_control
-			echo "DONE"
-		fi
-	fi
-	elif [ "$tuner" = "s2lgvip" ]; then
-	if [ ! -e /var/config/deepstandby ]; then
-		echo "vip2" > /var/config/deepstandby
-	else
-		DEEPSTANDBY=`cat /var/config/deepstandby`
-		if [ "$DEEPSTANDBY" = "vip2" ]; then
-			echo "OK"
-		else
-			echo "vip2" > /var/config/deepstandby
-		fi
-	fi
-	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
-	insmod $MODDIR/simu_button.ko
-	dual="yes"
-	if [ ! -e /var/config/fp_control ]; then
-		echo "aotom" > /var/config/fp_control
-	else
-		TESTFP=`cat /var/config/fp_control`
-		if [ "$TESTFP" = "aotom" ]; then
-			echo "fp_control koreckt gesetzt"
-		else
-			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fp_control
-			echo "DONE"
-		fi
-	fi
-	elif [ "$tuner" = "2xlgvip" ]; then
-	if [ ! -e /var/config/deepstandby ]; then
-		echo "vip2" > /var/config/deepstandby
-	else
-		DEEPSTANDBY=`cat /var/config/deepstandby`
-		if [ "$DEEPSTANDBY" = "vip2" ]; then
-			echo "OK"
-		else
-			echo "vip2" > /var/config/deepstandby
-		fi
-	fi
-	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
-	insmod $MODDIR/simu_button.ko
-	dual="yes"
-	if [ ! -e /var/config/fp_control ]; then
-		echo "aotom" > /var/config/fp_control
-	else
-		TESTFP=`cat /var/config/fp_control`
-		if [ "$TESTFP" = "aotom" ]; then
-			echo "fp_control koreckt gesetzt"
-		else
-			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fp_control
-			echo "DONE"
-		fi
-	fi
-	elif [ "$tuner" = "lgdvbtvip" ]; then
-	if [ ! -e /var/config/deepstandby ]; then
-		echo "vip2" > /var/config/deepstandby
-	else
-		DEEPSTANDBY=`cat /var/config/deepstandby`
-		if [ "$DEEPSTANDBY" = "vip2" ]; then
-			echo "OK"
-		else
-			echo "vip2" > /var/config/deepstandby
-		fi
-	fi
-	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
-	insmod $MODDIR/simu_button.ko
-	dual="yes"
-	if [ ! -e /var/config/fp_control ]; then
-		echo "aotom" > /var/config/fp_control
-	else
-		TESTFP=`cat /var/config/fp_control`
-		if [ "$TESTFP" = "aotom" ]; then
-			echo "fp_control koreckt gesetzt"
-		else
-			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fp_control
-			echo "DONE"
-		fi
-	fi
-	elif [ "$tuner" = "dvbs2dvbt" ]; then
-	if [ ! -e /var/config/deepstandby ]; then
-		echo "vip2" > /var/config/deepstandby
-	else
-		DEEPSTANDBY=`cat /var/config/deepstandby`
-		if [ "$DEEPSTANDBY" = "vip2" ]; then
-			echo "OK"
-		else
-			echo "vip2" > /var/config/deepstandby
-		fi
-	fi
-	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
-	insmod $MODDIR/simu_button.ko
-	dual="yes"
-	if [ ! -e /var/config/fp_control ]; then
-		echo "aotom" > /var/config/fp_control
-	else
-		TESTFP=`cat /var/config/fp_control`
-		if [ "$TESTFP" = "aotom" ]; then
-			echo "fp_control koreckt gesetzt"
-		else
-			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fp_control
-			echo "DONE"
-		fi
-	fi
-	elif [ "$tuner" = "vip1v2kabel" ]; then
-	if [ ! -e /var/config/deepstandby ]; then
-		echo "vip2" > /var/config/deepstandby
-	else
-		DEEPSTANDBY=`cat /var/config/deepstandby`
-		if [ "$DEEPSTANDBY" = "vip2" ]; then
-			echo "OK"
-		else
-			echo "vip2" > /var/config/deepstandby
-		fi
-	fi
-	dual="no"
-	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
-	insmod $MODDIR/simu_button.ko
-	if [ ! -e /var/config/fp_control ]; then
-		echo "aotom" > /var/config/fp_control
-	else
-		TESTFP=`cat /var/config/fp_control`
-		if [ "$TESTFP" = "aotom" ]; then
-			echo "fp_control koreckt gesetzt"
-		else
-			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fp_control
-			echo "DONE"
-		fi
-	fi
-	elif [ "$tuner" = "vip1v2dvbt" ]; then
-	if [ ! -e /var/config/deepstandby ]; then
-		echo "vip2" > /var/config/deepstandby
-	else
-		DEEPSTANDBY=`cat /var/config/deepstandby`
-		if [ "$DEEPSTANDBY" = "vip2" ]; then
-			echo "OK"
-		else
-			echo "vip2" > /var/config/deepstandby
-		fi
-	fi
-	dual="no"
-	insmod $MODDIR/aotom.ko I2C_bus_num=2 I2C_bus_add=0x28
-	insmod $MODDIR/simu_button.ko
-	if [ ! -e /var/config/fp_control ]; then
-		echo "aotom" > /var/config/fp_control
-	else
-		TESTFP=`cat /var/config/fp_control`
-		if [ "$TESTFP" = "aotom" ]; then
-			echo "fp_control koreckt gesetzt"
-		else
-			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fp_control
-			echo "DONE"
-		fi
-	fi
-	else
-	dual="no"
-	insmod $MODDIR/aotom_vip1.ko I2C_bus_num=2 I2C_bus_add=0x40
-	insmod $MODDIR/simu_button.ko
-	if [ ! -e /var/config/fp_control ]; then
-		echo "aotom" > /var/config/fp_control
-	else
-		TESTFP=`cat /var/config/fp_control`
-		if [ "$TESTFP" = "aotom" ]; then
-			echo "fp_control koreckt gesetzt"
-		else
-			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fp_control
-			echo "DONE"
-		fi
-	fi
-	fi
-else
-	### Hier ist das Default Display definiert
-	insmod $MODDIR/aotom_vip1.ko I2C_bus_num=2 I2C_bus_add=0x40
-	insmod $MODDIR/simu_button.ko
-	if [ ! -e /var/config/fp_control ]; then
-		echo "aotom" > /var/config/fp_control
-	else
-		TESTFP=`cat /var/config/fp_control`
-		if [ "$TESTFP" = "aotom" ]; then
-			echo "fp_control koreckt gesetzt"
-		else
-			echo "fp_control falsch gesetzt... setze neu"
-			echo "aotom" > /var/config/fp_control
-			echo "DONE"
-		fi
-	fi
-	dual="no"
-fi
+    #!/bin/sh
+    MODDIR=/lib/modules
+    FBALT=/boot/first/alt.mvi
+    FBNEU=/boot/first/neu.mvi
+    FBOPTI=/boot/first/opti.mvi
+    FBPINGULUX=/boot/first/pingulux.mvi
+    DANKE=/boot/first/danke.mvi
 
-### bei Firstboot /dev erstellen und FB Switch Aktivieren
-if [ -e /var/etc/.firstboot ]; then
-   echo "firstboot" > /var/etc/firstboot
-   echo "WARTEN" > /dev/vfd
-   echo "WAIT 3 min"
-   rm /var/etc/.firstboot
-   touch /dev/.devfsd
-fi
+    echo "Welcome..." > /dev/vfd
 
-/etc/init.d/mountvirtfs start
-/etc/init.d/portmap start
-
-if [ "$dual" = "yes" ]; then
-    if [ ! -e /dev/dvb/adapter0/frontend1 ]; then
-	echo "Dual Tuner /devs erstellen ..." 
-	mknod /dev/dvb/adapter0/video1   c 212 80
-	mknod /dev/dvb/adapter0/frontend1 c 212 83
-	mknod /dev/dvb/adapter0/demux2    c 212 100
-	mknod /dev/dvb/adapter0/dvr2      c 212 101
-	echo "Dual Tuner /devs erstellen ... FERTIG" 
-    else
-	echo "Dual Tuner /devs Vorhanden, Tuner Ready ..." 
+    if [ ! -e /dev/hdmi_cec ]; then
+       mknod -m 644 /dev/hdmi_cec c 149 0
     fi
-fi
 
-insmod $MODDIR/e2_proc.ko
+    /etc/init.d/mountvirtfs start
+    /etc/init.d/portmap start
 
-# Filesystem Treiber ext3 ext4 ...
-echo "Lade Filesystem Treiber ext3 ext4 ..."
-insmod $MODDIR/fat.ko
-insmod $MODDIR/fscache.ko
-insmod $MODDIR/isofs.ko
-insmod $MODDIR/msdos.ko
-insmod $MODDIR/ntfs.ko
-insmod $MODDIR/udf.ko
-insmod $MODDIR/vfat.ko
-insmod $MODDIR/cachefiles.ko
-echo "Fertig"
+       echo "Starting DEBUG Interface"
+       /etc/init.d/mountall start
+
+    insmod $MODDIR/cpu_frequ.ko
+    if [ -e /var/keys/Benutzerdaten/.system/overclock ]; then
+       OVERCLOCK=`cat /var/keys/Benutzerdaten/.system/overclock`
+       if [ "$OVERCLOCK" = "300on" ]; then
+    		echo "overclock Aktiviert"
+    		echo 25609 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "333on" ]; then
+    		echo "overclock Aktiviert"
+    		echo 9475 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "366on" ]; then
+    		echo "overclock Aktiviert"
+    		echo 31241 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "400on" ]; then
+    		echo "overclock Aktiviert"
+    		echo 22790 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "300daueron" ]; then
+    		echo "overclock Aktiviert"
+   		echo 25609 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "333daueron" ]; then
+    		echo "overclock Aktiviert"
+   		echo 9475 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "366daueron" ]; then
+    		echo "overclock Aktiviert"
+   		echo 31241 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "400daueron" ]; then
+    		echo "overclock Aktiviert"
+   		echo 22790 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "daueroff" ]; then
+    		echo "overclock Deaktiviert"
+       elif [ "$OVERCLOCK" = "overoff" ]; then
+    		echo "overclock Deaktiviert"
+       else
+		echo "Overclock OFF"
+       fi
+    else
+	echo "Overclock OFF -- Default"
+    fi
+
+    insmod $MODDIR/e2_proc.ko
+
+    MAC=`cat /var/keys/Benutzerdaten/.system/mac`
+    if [ "$MAC" = "1" ]; then
+	echo "use default MAC Adresse"
+    elif [ "$MAC" = "2" ]; then
+	ifconfig eth0 hw ether 00:81:E1:12:06:30
+    elif [ "$MAC" = "3" ]; then
+	ifconfig eth0 hw ether 00:82:E1:12:06:30
+    elif [ "$MAC" = "4" ]; then
+	ifconfig eth0 hw ether 00:83:E1:12:06:30
+    elif [ "$MAC" = "5" ]; then
+	ifconfig eth0 hw ether 00:84:E1:12:06:30
+    fi
+
+    # Filesystem Treiber ext3 ext4 ...
+    echo "Lade Filesystem Treiber fat vfat  ..."
+    insmod $MODDIR/fat.ko
+    insmod $MODDIR/fscache.ko
+    insmod $MODDIR/isofs.ko
+    insmod $MODDIR/msdos.ko
+    insmod $MODDIR/ntfs.ko
+    insmod $MODDIR/udf.ko
+    insmod $MODDIR/vfat.ko
+    insmod $MODDIR/cifs.ko
+    insmod $MODDIR/cachefiles.ko
+    echo "Fertig"
 
 
-# start automounter with umount timeout of 5 seconds
-insmod $MODDIR/autofs4.ko
-/usr/sbin/automount --timeout=5 /autofs file /etc/auto.hotplug
-/usr/sbin/automount --timeout=5 /media/net file /etc/auto.network
+    # start automounter with umount timeout of 5 seconds
+    insmod $MODDIR/autofs4.ko
+    /usr/sbin/automount --timeout=5 /autofs file /etc/auto.hotplug
+    /usr/sbin/automount --timeout=5 /media/net file /etc/auto.network
 
-   echo "Starting DEBUG Interface"
-   /etc/init.d/mountall start
-   /etc/init.d/hostname start
+    ### Neutrino Switch Fix ###
+    if [ -e /var/config/subswitch ]; then
+       rm /var/config/subswitch
+    fi
 
-   echo "starting telnetd"
-   /usr/sbin/telnetd -l /bin/login
+       /etc/init.d/hostname start
 
-   echo "init stmfb"
-   insmod $MODDIR/stmcore-display-stx7109c3.ko
-   insmod $MODDIR/stmfb.ko display0=1280x720-32@60:12m:pal:yuv:yuv
+       echo "starting telnetd"
+       /usr/sbin/telnetd -l /bin/login
 
-   echo "LOADING MODULES"
-   echo "TeamCS" >/dev/vfd
+       echo "init stmfb"
+       insmod $MODDIR/stmcore-display-stx7109c3.ko
+	
+	# Stellt den Boot Prozess je nach dem was Aktiviert wurde auf Scart oder HDMI um
+       MODE=`cat /etc/enigma2/settings | grep Scart`
+       if [ "$MODE" = "config.av.videoport=Scart" ]; then
+		echo "Scart Ausgang Aktviert"
+       		insmod $MODDIR/stmfb.ko display0=720x576-32@60:12m:pal:yuv:yuv;
+       else
+		echo "HDMI Ausgang Aktviert"
+       		insmod $MODDIR/stmfb.ko display0=1280x720-32@60:12m:pal:yuv:yuv
+       fi
 
-   if [ ! -e /boot/audio.elf ]; then
-      echo "FW MISSING!!!"
-   fi
+       echo "LOADING MODULES"
 
-   echo "load a firmware"
-   /bin/ustslave /dev/st231-1 /boot/audio.elf
-   echo "load v firmware"
-   /bin/ustslave /dev/st231-0 /boot/video.elf
+       if [ ! -e /boot/audio.elf ]; then
+          echo "FW MISSING!!!"
+       fi
 
-   echo "init embx"
-   insmod $MODDIR/embxshell.ko
-   insmod $MODDIR/embxmailbox.ko mailbox0=0xb9211000:136:set2 mailbox1=0xb9212000:0 ;
-   insmod $MODDIR/embxshm.ko mailbox0=shm:0:7:0x60000000:0:256:256:0:1024:0xa4000000:0x10000000 ;
-   insmod $MODDIR/mme_host.ko transport0=shm
+       echo "load a firmware"
+       /bin/ustslave /dev/st231-1 /boot/audio.elf
+       echo "load v firmware"
+       /bin/ustslave /dev/st231-0 /boot/video.elf
 
-### Hier definieren wir die AVS um ueberhaupt ein bild zu bekommen, default ist fake_avs die funktioniert bei allen, gesetzt wird die richtige via TeamCS Menu
-   echo "init AVS"
-if [ -e /var/keys/Benutzerdaten/.system/tuner ]; then
-   tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
-   if [ "$tuner" = "vip2" ]; then
-      echo "AVS Aktiviert -- VIP2"
-         insmod $MODDIR/avs.ko type=vip2_avs
-   elif [ "$tuner" = "s2lgvip" ]; then
-      echo "AVS Aktiviert -- VIP2"
-         insmod $MODDIR/avs.ko type=vip2_avs
-   elif [ "$tuner" = "2xlgvip" ]; then
-      echo "AVS Aktiviert -- VIP2"
-         insmod $MODDIR/avs.ko type=vip2_avs
-   elif [ "$tuner" = "lgdvbtvip" ]; then
-      echo "AVS Aktiviert -- VIP2"
-         insmod $MODDIR/avs.ko type=vip2_avs
-   elif [ "$tuner" = "dvbs2dvbt" ]; then
-      echo "AVS Aktiviert -- VIP2"
-         insmod $MODDIR/avs.ko type=vip2_avs
-   elif [ "$tuner" = "vip" ]; then
-      echo "AVS Aktiviert -- VIP1"
-         insmod $MODDIR/avs.ko type=stv6418 
-   elif [ "$tuner" = "vip1kabel" ]; then
-      echo "AVS Aktiviert -- VIP1"
-         insmod $MODDIR/avs.ko type=vip1_avs
-   elif [ "$tuner" = "vip1dvbt" ]; then
-      echo "AVS Aktiviert -- VIP1"
-         insmod $MODDIR/avs.ko type=vip1_avs
-   elif [ "$tuner" = "vip1v2" ]; then
-      echo "AVS Aktiviert -- VIP1v2"
-         insmod $MODDIR/avs.ko type=vip1_avs
-   elif [ "$tuner" = "vip1v2kabel" ]; then
-      echo "AVS Aktiviert -- VIP1v2"
-         insmod $MODDIR/avs.ko type=vip1_avs
-   elif [ "$tuner" = "vip1v2dvbt" ]; then
-      echo "AVS Aktiviert -- VIP1v2"
-         insmod $MODDIR/avs.ko type=vip1_avs
-   elif [ "$tuner" = "rbvip" ]; then
-      echo "AVS Aktiviert -- VIP1"
-         insmod $MODDIR/avs.ko type=stv6418 #vip1_avs ist Inkompatiebel mit dem Opticum, kein Audio und Scart Out!!!
-   else
-      echo "AVS Aktiviert -- Kein Tuner gesetzt -- Default"
-         insmod $MODDIR/avs.ko type=fake_avs
-   fi
-else
-      ### hier ist default definiert
-      echo "AVS Aktiviert -- Kein Tuner gesetzt -- Default"
-         insmod $MODDIR/avs.ko type=fake_avs
-fi
+       echo "init embx"
+       insmod $MODDIR/embxshell.ko
+       insmod $MODDIR/embxmailbox.ko mailbox0=0xb9211000:136:set2 mailbox1=0xb9212000:0 ;
+       insmod $MODDIR/embxshm.ko mailbox0=shm:0:7:0x60000000:0:256:256:0:1024:0xa4000000:0x10000000 ;
+       insmod $MODDIR/mme_host.ko transport0=shm
 
-   player=`cat /proc/stb/player/version`
-   player=`cat /proc/stb/player/version | awk '{ print substr( $0, length($0) - 2, length($0) ) }'`
-   echo "init player $player"
+       echo "init AVS"
+    if [ -e /var/keys/Benutzerdaten/.system/tuner ]; then
+       tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
+       if [ "$tuner" = "vip2" ]; then
+          echo "AVS Aktiviert -- VIP2"
+        if [ -e /var/config/deepstandby ]; then
+           DEEPSTANDBY=`cat /var/config/deepstandby`
+	   TIMESET=`cat /var/config/fp_control`
+                if [ "$DEEPSTANDBY" = "vip2" ]; then
+             		echo "Deepstandby OK"
+           	else
+             		echo "vip2" > /var/config/deepstandby
+          fi
+		if [ "$TIMESET" = "aotom" ]; then
+             		echo "Timeset OK"
+           	else
+             		echo "aotom" > /var/config/fp_control
+          	fi
+        else
+           echo "vip2" > /var/config/deepstandby
+	   echo "aotom" > /var/config/fp_control
+        fi
+             insmod $MODDIR/avs.ko type=vip2_avs
+        dual=yes
+       elif [ "$tuner" = "s2lgvip" ]; then
+          echo "AVS Aktiviert -- VIP2"
+        if [ -e /var/config/deepstandby ]; then
+           DEEPSTANDBY=`cat /var/config/deepstandby`
+	   TIMESET=`cat /var/config/fp_control`
+                if [ "$DEEPSTANDBY" = "vip2" ]; then
+             		echo "Deepstandby OK"
+           	else
+             		echo "vip2" > /var/config/deepstandby
+          	fi
+		if [ "$TIMESET" = "aotom" ]; then
+             		echo "Timeset OK"
+           	else
+             		echo "aotom" > /var/config/fp_control
+          	fi
+        else
+           echo "vip2" > /var/config/deepstandby
+	   echo "aotom" > /var/config/fp_control
+        fi
+             insmod $MODDIR/avs.ko type=vip2_avs
+        dual=yes
+       elif [ "$tuner" = "2xlgvip" ]; then
+          echo "AVS Aktiviert -- VIP2"
+        if [ -e /var/config/deepstandby ]; then
+           DEEPSTANDBY=`cat /var/config/deepstandby`
+	   TIMESET=`cat /var/config/fp_control`
+                if [ "$DEEPSTANDBY" = "vip2" ]; then
+             		echo "Deepstandby OK"
+           	else
+             		echo "vip2" > /var/config/deepstandby
+          	fi
+		if [ "$TIMESET" = "aotom" ]; then
+             		echo "Timeset OK"
+           	else
+             		echo "aotom" > /var/config/fp_control
+          	fi
+        else
+           echo "vip2" > /var/config/deepstandby
+	   echo "aotom" > /var/config/fp_control
+        fi
+             insmod $MODDIR/avs.ko type=vip2_avs
+        dual=yes
+       elif [ "$tuner" = "lgdvbtvip" ]; then
+          echo "AVS Aktiviert -- VIP2"
+        if [ -e /var/config/deepstandby ]; then
+           DEEPSTANDBY=`cat /var/config/deepstandby`
+	   TIMESET=`cat /var/config/fp_control`
+                if [ "$DEEPSTANDBY" = "vip2" ]; then
+             		echo "Deepstandby OK"
+           	else
+             		echo "vip2" > /var/config/deepstandby
+          	fi
+		if [ "$TIMESET" = "aotom" ]; then
+             		echo "Timeset OK"
+           	else
+             		echo "aotom" > /var/config/fp_control
+          	fi
+        else
+           echo "vip2" > /var/config/deepstandby
+	   echo "aotom" > /var/config/fp_control
+        fi
+             insmod $MODDIR/avs.ko type=vip2_avs
+        dual=yes
+       elif [ "$tuner" = "dvbs2dvbt" ]; then
+          echo "AVS Aktiviert -- VIP2"
+        if [ -e /var/config/deepstandby ]; then
+           DEEPSTANDBY=`cat /var/config/deepstandby`
+	   TIMESET=`cat /var/config/fp_control`
+                if [ "$DEEPSTANDBY" = "vip2" ]; then
+             		echo "Deepstandby OK"
+           	else
+             		echo "vip2" > /var/config/deepstandby
+          	fi
+		if [ "$TIMESET" = "aotom" ]; then
+             		echo "Timeset OK"
+           	else
+             		echo "aotom" > /var/config/fp_control
+          	fi
+        else
+           echo "vip2" > /var/config/deepstandby
+	   echo "aotom" > /var/config/fp_control
+        fi
+             insmod $MODDIR/avs.ko type=vip2_avs
+        dual=yes
+       elif [ "$tuner" = "vip" ]; then
+          echo "AVS Aktiviert -- VIP1"
+        if [ -e /var/config/deepstandby ]; then
+           DEEPSTANDBY=`cat /var/config/deepstandby`
+	   TIMESET=`cat /var/config/fp_control`
+                if [ "$DEEPSTANDBY" = "vip" ]; then
+             		echo "Deepstandby OK"
+           	else
+             		echo "vip" > /var/config/deepstandby
+          	fi
+		if [ "$TIMESET" = "proton" ]; then
+             		echo "Timeset OK"
+           	else
+             		echo "proton" > /var/config/fp_control
+          	fi
+        else
+           echo "vip" > /var/config/deepstandby
+	   echo "proton" > /var/config/fp_control
+        fi
+             insmod $MODDIR/avs.ko type=stv6418 #vip1_avs ist Inkompatiebel mit dem Opticum, kein Audio und Scart Out!!!
+       elif [ "$tuner" = "vip1kabel" ]; then
+          echo "AVS Aktiviert -- VIP1"
+        if [ -e /var/config/deepstandby ]; then
+           DEEPSTANDBY=`cat /var/config/deepstandby`
+	   TIMESET=`cat /var/config/fp_control`
+                if [ "$DEEPSTANDBY" = "vip" ]; then
+             echo "Deepstandby OK"
+           else
+             echo "vip" > /var/config/deepstandby
+          fi
+		if [ "$TIMESET" = "proton" ]; then
+             		echo "Timeset OK"
+           	else
+             		echo "proton" > /var/config/fp_control
+          	fi
+        else
+           echo "vip" > /var/config/deepstandby
+	   echo "proton" > /var/config/fp_control
+        fi
+             insmod $MODDIR/avs.ko type=stv6418 #vip1_avs ist Inkompatiebel mit dem Opticum, kein Audio und Scart Out!!!
+       elif [ "$tuner" = "vip1dvbt" ]; then
+          echo "AVS Aktiviert -- VIP1"
+        if [ -e /var/config/deepstandby ]; then
+           DEEPSTANDBY=`cat /var/config/deepstandby`
+	   TIMESET=`cat /var/config/fp_control`
+                if [ "$DEEPSTANDBY" = "vip" ]; then
+             		echo "Deepstandby OK"
+           	else
+             		echo "vip" > /var/config/deepstandby
+          fi
+		if [ "$TIMESET" = "proton" ]; then
+             		echo "Timeset OK"
+           	else
+             		echo "proton" > /var/config/fp_control
+          	fi
+        else
+           echo "vip" > /var/config/deepstandby
+	   echo "proton" > /var/config/fp_control
+        fi
+             insmod $MODDIR/avs.ko type=stv6418 #vip1_avs ist Inkompatiebel mit dem Opticum, kein Audio und Scart Out!!!
+       elif [ "$tuner" = "vip1v2" ]; then
+          echo "AVS Aktiviert -- VIP1v2"
+        if [ -e /var/config/deepstandby ]; then
+           DEEPSTANDBY=`cat /var/config/deepstandby`
+	   TIMESET=`cat /var/config/fp_control`
+                if [ "$DEEPSTANDBY" = "vip2" ]; then
+             		echo "Deepstandby OK"
+           	else
+             		echo "vip2" > /var/config/deepstandby
+          	fi
+		if [ "$TIMESET" = "aotom" ]; then
+             		echo "Timeset OK"
+           	else
+             		echo "aotom" > /var/config/fp_control
+          	fi
+        else
+           echo "vip2" > /var/config/deepstandby
+	   echo "aotom" > /var/config/fp_control
+        fi
+             insmod $MODDIR/avs.ko type=vip1_avs
+       elif [ "$tuner" = "vip1v2kabel" ]; then
+          echo "AVS Aktiviert -- VIP1v2"
+        if [ -e /var/config/deepstandby ]; then
+           DEEPSTANDBY=`cat /var/config/deepstandby`
+	   TIMESET=`cat /var/config/fp_control`
+                if [ "$DEEPSTANDBY" = "vip2" ]; then
+             		echo "Deepstandby OK"
+           	else
+             		echo "vip2" > /var/config/deepstandby
+          	fi
+		if [ "$TIMESET" = "aotom" ]; then
+             		echo "Timeset OK"
+           	else
+             		echo "aotom" > /var/config/fp_control
+          	fi
+        else
+           echo "vip2" > /var/config/deepstandby
+	   echo "aotom" > /var/config/fp_control
+        fi
+             insmod $MODDIR/avs.ko type=vip1_avs
+       elif [ "$tuner" = "vip1v2dvbt" ]; then
+          echo "AVS Aktiviert -- VIP1v2"
+        if [ -e /var/config/deepstandby ]; then
+           DEEPSTANDBY=`cat /var/config/deepstandby`
+	   TIMESET=`cat /var/config/fp_control`
+                if [ "$DEEPSTANDBY" = "vip2" ]; then
+             		echo "Deepstandby OK"
+           	else
+             		echo "vip2" > /var/config/deepstandby
+          	fi
+		if [ "$TIMESET" = "aotom" ]; then
+             		echo "Timeset OK"
+           	else
+             		echo "aotom" > /var/config/fp_control
+          	fi
+        else
+           echo "vip2" > /var/config/deepstandby
+	   echo "aotom" > /var/config/fp_control
+        fi
+             insmod $MODDIR/avs.ko type=vip1_avs
+       elif [ "$tuner" = "rbvip" ]; then
+          echo "AVS Aktiviert -- VIP1"
+        if [ -e /var/config/deepstandby ]; then
+           DEEPSTANDBY=`cat /var/config/deepstandby`
+	   TIMESET=`cat /var/config/fp_control`
+                if [ "$DEEPSTANDBY" = "vip" ]; then
+             		echo "Deepstandby OK"
+           	else
+             		echo "vip" > /var/config/deepstandby
+          	fi
+		if [ "$TIMESET" = "proton" ]; then
+             		echo "Timeset OK"
+           	else
+             		echo "proton" > /var/config/fp_control
+          	fi
+        else
+           echo "vip" > /var/config/deepstandby
+	   echo "proton" > /var/config/fp_control
+        fi
+             insmod $MODDIR/avs.ko type=stv6418 #vip1_avs ist Inkompatiebel mit dem Opticum, kein Audio und Scart Out!!!
+       else
+          echo "AVS Aktiviert -- Kein Tuner gesetzt -- Default"
+             insmod $MODDIR/avs.ko type=fake_avs
+       fi
+    else
+          echo "AVS Aktiviert -- Kein Tuner gesetzt -- Default"
+             insmod $MODDIR/avs.ko type=fake_avs
+    fi
 
-   insmod $MODDIR/mmelog.ko
-   insmod $MODDIR/mpeg2hw.ko mmeName=MPEG2_TRANSFORMER1
-   insmod $MODDIR/ksound.ko
-   insmod $MODDIR/kreplay.ko
-   insmod $MODDIR/silencegen.ko
-   insmod $MODDIR/pcm_transcoder.ko
-   insmod $MODDIR/p2div64.ko
-   insmod $MODDIR/stm_v4l2.ko
-   if [ $player -gt 131 ]; then
-	insmod $MODDIR/stmvout.ko
-	insmod $MODDIR/stmvbi.ko
-   fi
-   insmod $MODDIR/pseudocard.ko
-   
-   echo "init frontends"
-### Laed den Gesetzten Tuner Treiber, ebenfalls in TeamCS Menu gewaelt und default steht auf ST-Tuner
-if [ -e /var/keys/Benutzerdaten/.system/tuner ]; then
-   tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
-	if [ "$tuner" = "vip2" ]; then
- 		insmod $MODDIR/fe-core-vip2.ko demod1=stv090x tuner1=sharp7306 demod2=stv090x tuner2=sharp7306 ;
-		echo "Tuner Aktiviert -- 2x Sharp gesetzt"
-	elif [ "$tuner" = "s2lgvip" ]; then
- 		insmod $MODDIR/fe-core-vip2.ko demod1=stv090x tuner1=sharp7306 demod2=tda10023 tuner2=lg031 ;
-		echo "Tuner Aktiviert -- Sharp und LG gesetzt"
-	elif [ "$tuner" = "2xlgvip" ]; then
- 		insmod $MODDIR/fe-core-vip2.ko demod1=tda10023 tuner1=lg031 demod2=tda10023 tuner2=lg031 ;
- 		echo "Tuner Aktiviert -- 2x LG gesetzt"
-	elif [ "$tuner" = "lgdvbtvip" ]; then
- 		insmod $MODDIR/fe-core-vip2.ko demod1=tda10023 tuner1=lg031 demod2=ce6353 tuner2=sharp6465 ;
- 		echo "Tuner Aktiviert -- LG DVB-T gesetzt"
-	elif [ "$tuner" = "dvbs2dvbt" ]; then
- 		insmod $MODDIR/fe-core-vip2.ko demod1=stv090x tuner1=sharp7306 demod2=ce6353 tuner2=sharp6465 ;
- 		echo "Tuner Aktiviert -- Sharp und DVB-T gesetzt"
-	elif [ "$tuner" = "vip" ]; then
-   		insmod $MODDIR/fe-core.ko demod=stb090x tuner=stb6110x ;
-   		echo "Tuner Aktiviert -- ST-Tuner gesetzt"
-	elif [ "$tuner" = "vip1kabel" ]; then
-   		insmod $MODDIR/fe-core.ko demod=tda10023 tuner=lg031 ;
-   		echo "Tuner Aktiviert -- LG Tuner gesetzt"
-	elif [ "$tuner" = "vip1dvbt" ]; then
-   		insmod $MODDIR/fe-core.ko demod=ce6353 tuner=sharp6465 ;
-   		echo "Tuner Aktiviert -- DVB-T Tuner gesetzt"
-	elif [ "$tuner" = "vip1v2" ]; then
- 		insmod $MODDIR/fe-core-vip1v2.ko demod=stv090x tuner=sharp7306 ;
- 		echo "Tuner Aktiviert -- Sharp Vip1v2 gesetzt"
-	elif [ "$tuner" = "vip1v2kabel" ]; then
- 		insmod $MODDIR/fe-core-vip1v2.ko demod=tda10023 tuner=lg031 ;
- 		echo "Tuner Aktiviert -- LG Vip1v2 gesetzt"
-	elif [ "$tuner" = "vip1v2dvbt" ]; then
- 		insmod $MODDIR/fe-core-vip1v2.ko demod=ce6353 tuner=sharp6465 ;
- 		echo "Tuner Aktiviert -- DVB-T Vip1v2 gesetzt"
-	elif [ "$tuner" = "rbvip" ]; then
-		insmod $MODDIR/fe-core.ko demod=stb0899 tuner=stb6100 ;
-		echo "Tuner Aktiviert -- RB-Tuner gesetzt"
-	else
-   		insmod $MODDIR/fe-core.ko demod=stb090x tuner=stb6110x ;
-   		echo "Tuner Aktiviert -- Default ST-Tuner"
-	fi
-else
-   		insmod $MODDIR/fe-core.ko demod=stb090x tuner=stb6110x ;
-   		echo "Tuner Aktiviert -- Default ST-Tuner"
-fi
-   echo "init drivers"
-   insmod $MODDIR/cimax.ko
-   echo "PTI Laden..."
-   insmod $MODDIR/pti.ko #waitMS=20 videoMem=4096
-   echo "Fertig"
+    if [ "$dual" = "yes" ]; then
+        if [ ! -e /dev/dvb/adapter0/frontend1 ]; then
+       echo "Dual Tuner /devs erstellen ..."
+       mknod /dev/dvb/adapter0/video1   c 212 80
+       mknod /dev/dvb/adapter0/frontend1 c 212 83
+       mknod /dev/dvb/adapter0/demux2    c 212 100
+       mknod /dev/dvb/adapter0/dvr2      c 212 101
+       echo "Dual Tuner /devs erstellen ... FERTIG"
+        else
+       echo "Dual Tuner /devs Vorhanden, Tuner Ready ..."
+        fi
+    fi
 
-   if [ $player -gt 131 ]; then
-	insmod $MODDIR/stm_monitor.ko
-	insmod $MODDIR/stmsysfs.ko
-    	insmod $MODDIR/stmdvb.ko
-   else
-	insmod $MODDIR/stmdvb.ko
-	insmod $MODDIR/stm_monitor.ko
-   fi	
- echo "player2"
-   insmod $MODDIR/player2.ko discardlateframe=0 noaudiosync=0 useoldaudiofw=1
- echo "player fertig"
-   insmod $MODDIR/sth264pp.ko
-   insmod $MODDIR/stmalloc.ko
-   insmod $MODDIR/platform.ko
-   insmod $MODDIR/lzo1x_compress.ko
-   insmod $MODDIR/lzo1x_decompress.ko
-   echo "RamZswap Laden ..."
-   insmod $MODDIR/ramzswap.ko disksize_kb=30123
-   echo "Kartenslots Aktivieren ..."
-   insmod $MODDIR/smartcard.ko debug=100
-##### Bootlogo file
-   /usr/local/bin/dvbtest -4 -f l /boot/Enigma2.mp4 &
+       player=`cat /proc/stb/player/version`
+       player=`cat /proc/stb/player/version | awk '{ print substr( $0, length($0) - 2, length($0) ) }'`
+       echo "init player $player"
 
-   stfbcontrol a 0
+       insmod $MODDIR/mmelog.ko
+       insmod $MODDIR/mpeg2hw.ko mmeName=MPEG2_TRANSFORMER1
+       insmod $MODDIR/ksound.ko
+       insmod $MODDIR/kreplay.ko
+       insmod $MODDIR/silencegen.ko
+       insmod $MODDIR/pcm_transcoder.ko
+       insmod $MODDIR/p2div64.ko
+       insmod $MODDIR/stm_v4l2.ko
+       if [ $player -gt 131 ]; then
+       insmod $MODDIR/stmvout.ko
+       insmod $MODDIR/stmvbi.ko
+       fi
+       insmod $MODDIR/pseudocard.ko
+       
+       echo "init frontends"
+    ### Laed den Gesetzten Tuner Treiber
+    if [ -e /var/keys/Benutzerdaten/.system/tuner ]; then
+       tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
+       if [ "$tuner" = "vip2" ]; then
+           insmod $MODDIR/fe-core-vip2-dual-sharp.ko demod1=stv090x tuner1=sharp7306 demod2=stv090x tuner2=sharp7306 ;
+          echo "Tuner Aktiviert -- 2x Sharp gesetzt"
+       elif [ "$tuner" = "s2lgvip" ]; then
+           insmod $MODDIR/fe-core-vip2.ko demod1=stv090x tuner1=sharp7306 demod2=tda10023 tuner2=lg031 ;
+          echo "Tuner Aktiviert -- Sharp und LG gesetzt"
+       elif [ "$tuner" = "2xlgvip" ]; then
+           insmod $MODDIR/fe-core-vip2.ko demod1=tda10023 tuner1=lg031 demod2=tda10023 tuner2=lg031 ;
+           echo "Tuner Aktiviert -- 2x LG gesetzt"
+       elif [ "$tuner" = "lgdvbtvip" ]; then
+           insmod $MODDIR/fe-core-vip2.ko demod1=tda10023 tuner1=lg031 demod2=ce6353 tuner2=sharp6465 ;
+           echo "Tuner Aktiviert -- LG DVB-T gesetzt"
+       elif [ "$tuner" = "dvbs2dvbt" ]; then
+           insmod $MODDIR/fe-core-vip2.ko demod1=stv090x tuner1=sharp7306 demod2=ce6353 tuner2=sharp6465 ;
+           echo "Tuner Aktiviert -- Sharp und DVB-T gesetzt"
+       elif [ "$tuner" = "vip" ]; then
+             insmod $MODDIR/fe-core.ko demod=stb090x tuner=stb6110x ;
+             echo "Tuner Aktiviert -- ST-Tuner gesetzt"
+       elif [ "$tuner" = "vip1kabel" ]; then
+             insmod $MODDIR/fe-core.ko demod=tda10023 tuner=lg031 ;
+             echo "Tuner Aktiviert -- LG Tuner gesetzt"
+       elif [ "$tuner" = "vip1dvbt" ]; then
+             insmod $MODDIR/fe-core.ko demod=ce6353 tuner=sharp6465 ;
+             echo "Tuner Aktiviert -- DVB-T Tuner gesetzt"
+       elif [ "$tuner" = "vip1v2" ]; then
+           insmod $MODDIR/fe-core-vip1v2.ko demod=stv090x tuner=sharp7306 ;
+           echo "Tuner Aktiviert -- Sharp Vip1v2 gesetzt"
+       elif [ "$tuner" = "vip1v2kabel" ]; then
+           insmod $MODDIR/fe-core-vip1v2.ko demod=tda10023 tuner=lg031 ;
+           echo "Tuner Aktiviert -- LG Vip1v2 gesetzt"
+       elif [ "$tuner" = "vip1v2dvbt" ]; then
+           insmod $MODDIR/fe-core-vip1v2.ko demod=ce6353 tuner=sharp6465 ;
+           echo "Tuner Aktiviert -- DVB-T Vip1v2 gesetzt"
+       elif [ "$tuner" = "rbvip" ]; then
+          insmod $MODDIR/fe-core.ko demod=stb0899 tuner=stb6100 ;
+          echo "Tuner Aktiviert -- RB-Tuner gesetzt"
+       else
+             insmod $MODDIR/fe-core.ko demod=stb090x tuner=stb6110x ;
+             echo "Tuner Aktiviert -- Default ST-Tuner"
+       fi
+    else
+             insmod $MODDIR/fe-core.ko demod=stb090x tuner=stb6110x ;
+             echo "Tuner Aktiviert -- Default ST-Tuner"
+    fi
+       echo "init drivers"
+       insmod $MODDIR/cimax.ko
+       echo "np-PTI Laden..."
+       insmod $MODDIR/pti.ko videoMem=5632 # Maximaler wert für VideoMemory
+       echo "NP- Fertig"
 
-if [ -e /var/config/Fernbedienung ]; then
-### Laed eure Fernbedienung
-   echo "init lircd"
-if [ -e /var/etc/firstboot ]; then 
-echo "FB Switch Startet first..."
-else
-   fb=`cat /var/config/Fernbedienung`
-	if [ ! -e /var/run/lirc ]; then  
-	    mkdir /var/run/lirc
-	fi
-	/usr/bin/lircd	
-fi
-fi
+       if [ $player -gt 131 ]; then
+       insmod $MODDIR/stm_monitor.ko
+       insmod $MODDIR/stmsysfs.ko
+           insmod $MODDIR/stmdvb.ko
+       else
+       insmod $MODDIR/stmdvb.ko
+       insmod $MODDIR/stm_monitor.ko
+       fi   
+     echo "player2"
+       insmod $MODDIR/player2.ko discardlateframe=0 noaudiosync=0 useoldaudiofw=1
+     echo "player fertig"
+       insmod $MODDIR/sth264pp.ko
+       insmod $MODDIR/stmalloc.ko
+       insmod $MODDIR/platform.ko
+    if [ -e /var/config/SWAP ]; then
+    SWAPFILE=`cat /var/config/SWAP`
+       if [ "$SWAPFILE" = "ramzswap" ]; then
+             insmod $MODDIR/lzo1x_compress.ko
+             insmod $MODDIR/lzo1x_decompress.ko
+             echo "RamZswap Laden ..."
+             insmod $MODDIR/ramzswap.ko disksize_kb=30123
+       elif [ "$SWAPFILE" = "swapfile" ]; then
+          echo "Lade SwapFile"
+       elif [ "$SWAPFILE" = "swapdev" ]; then
+          echo "Lade Swap /dev"
+       fi
+    else
+       echo "Lade Swap /dev"
+    fi
+       echo "Kartenslots Aktivieren ..."
+       insmod $MODDIR/smartcard.ko debug=100
+       insmod $MODDIR/cec.ko activemode=1
+    if [ -e /var/config/subsystem ]; then
+       SYSTEM=`cat /var/config/subsystem`
+          if [ "$SYSTEM" = "Neutrino" ]; then
+             insmod $MODDIR/bpamem.ko
+          else
+             echo "Neutrino nicht Aktiv.. Modul nicht benoetigt"
+          fi
+    else
+       echo "System nicht gesetzt"
+    fi
 
-### Laed eure Fernbedienung
-if [ -e /var/etc/firstboot ]; then 
-echo "FB Switch Startet first..."
-else
-if [ -e /var/config/Fernbedienung ]; then   
-	if [ "$fb" = "neu" ]; then
-		echo "Fernbedienung NEU geladen"
-  		/bin/evremote2 vip2 &
-	elif [ "$fb" = "alt" ]; then
-		echo "Fernbedienung ALT geladen"
-		/bin/evremote2 vip1 &
-	elif [ "$fb" = "opti" ]; then
-		echo "Fernbedienung OPTI geladen"
-		/bin/evremote2 opti &
-	elif [ "$fb" = "Pingolux" ]; then
-		echo "Fernbedienung Pingolux geladen"
-		/bin/evremote2 Pingolux &
-	fi
-fi
-fi
+    if [ -e /var/keys/Benutzerdaten/.system/openvpn ]; then
+      ##### OpenVPN benoetigtes TUN dev #####
+       if [ ! -e /dev/net/tun ]; then
+          echo "erstelle tun /dev fuer OpenVPN"
+          mkdir -p /dev/net
+          mknod /dev/net/tun c 10 200
+          chmod 600 /dev/net/tun
+          echo "FERTIG"
+       else
+          echo "TUN /dev vorhanden ... FERTIG"
+       fi
+          echo "Lade tun.ko fuer OpenVPN ..."
+          insmod $MODDIR/tun.ko
+    else
+       echo "Device /dev/net/tun nicht erstellt und tun.ko Modul nicht geladen... OpenVPN deaktiviert"
+    fi
+       
+    ### Aktiviert euren W-Lan treiber
+    if [ -e /var/keys/Benutzerdaten/.system/wlan ]; then
+       WLAN=`cat /var/keys/Benutzerdaten/.system/wlan`
+       if [ "$WLAN" = "1" ]; then
+          echo "W-Lan Modul -- 8192cu geladen ..."
+          insmod $MODDIR/8192cu.ko
+       elif [ "$WLAN" = "2" ]; then
+          echo "W-Lan Modul -- 8712u geladen ..."
+          insmod $MODDIR/8712u.ko
+       elif [ "$WLAN" = "3" ]; then
+          echo "W-Lan Modul -- rt2870sta geladen ..."
+          insmod $MODDIR/rt2870sta.ko
+       elif [ "$WLAN" = "4" ]; then
+          echo "W-Lan Modul -- rt3070sta geladen ..."
+          insmod $MODDIR/rt3070sta.ko
+       elif [ "$WLAN" = "5" ]; then
+          echo "W-Lan Modul -- rt5370sta geladen ..."
+          insmod $MODDIR/rt5370sta.ko
+       elif [ "$WLAN" = "6" ]; then
+          echo "W-Lan Modul -- rt73usb geladen ..."
+          insmod $MODDIR/rt2x00lib.ko
+          insmod $MODDIR/rt2x00usb.ko
+          insmod $MODDIR/rt73usb.ko
+       elif [ "$WLAN" = "7" ]; then
+          echo "W-Lan Modul -- zydas geladen ..."
+          insmod $MODDIR/zd1211rw.ko
+       fi
+    fi
 
-   /etc/init.d/mountall start
-   /etc/init.d/hostname start
+    if [ -e /var/config/subsystem ]; then
+       SYSTEM=`cat /var/config/subsystem`
+       if [ "$SYSTEM" = "Neutrino" ]; then
+          /usr/local/bin/dvbtest -4 -f l /boot/NeutrinoHD.mp4 &
+       else
+          /usr/local/bin/dvbtest -4 -f l /boot/Enigma2.mp4 &
+       fi
+    else
+       /usr/local/bin/dvbtest -4 -f l /boot/Enigma2.mp4 &
+    fi
 
-   echo "starting telnetd"
-   /usr/sbin/telnetd -l /bin/login
-   /etc/init.d/vsftpd start
-   /usr/sbin/inetd
+       stfbcontrol a 0
 
-   mknod /dev/ramzswap0 b 253 0 >/dev/null 2>&1
-   swapon /dev/ramzswap0
+    if [ -e /var/keys/Benutzerdaten/.system/fernbedienung ]; then
+    ### Laed eure Fernbedienung
+       echo "init lircd"
+    if [ -e /var/etc/firstboot ]; then
+       echo "FB Switch Startet first..."
+    else
+       /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
+    fi
+    fi
+       mknod /dev/rc c 147 1
+       mknod /dev/sci0 c 169 0
+       mknod /dev/sci1 c 169 1
 
-   NFS=`grep -c nfs /proc/cmdline`
-   if [ "$NFS" -eq "1" ]; then 
-      echo "Booting from nfs, don't set network" 
-   else 
-      if [ -e /etc/network/interfaces ]; then 
-	 ip addr flush eth0
-	 /etc/init.d/networking stop 
-	 DHCP=`grep -c dhcp /etc/network/interfaces`
-	 if [ "$DHCP" -eq "1" ]; then 
-	    echo "Starting dhcp"
-           /etc/init.d/udhcpc start 
-	 fi 
-	 /etc/init.d/networking start &
-      fi 
-   fi
+    ### Laed eure Fernbedienung
+    if [ -e /var/etc/firstboot ]; then
+    echo "FB Switch Startet first..."
+    else
+    if [ -e /var/keys/Benutzerdaten/.system/fernbedienung ]; then
+    fb=`cat /var/keys/Benutzerdaten/.system/fernbedienung`
+       if [ "$fb" = "neu" ]; then
+          echo "Fernbedienung NEU geladen"
+            /bin/evremote2 -x vip2 &
+       elif [ "$fb" = "alt" ]; then
+          echo "Fernbedienung ALT geladen"
+          /bin/evremote2 -x vip1 &
+       elif [ "$fb" = "opti" ]; then
+          echo "Fernbedienung OPTI geladen"
+          /bin/evremote2 -x opti &
+       elif [ "$fb" = "Pingulux" ]; then
+          echo "Fernbedienung Pingulux geladen"
+          /bin/evremote2 -x Pingulux &
+       fi
+    fi
+    fi
 
-   touch /dev/.udev
+       /etc/init.d/mountall start
+       /etc/init.d/hostname start
 
-### Auto Fernbedienungs Switch
-if [ -e /var/etc/firstboot ]; then
-	if [ -e /tmp/autoswitch.tmp ]; then
-		rm /tmp/autoswitch.tmp
-	fi
-	if [ -e /var/run/lirc/lircd.pid ]; then
-		rm /var/run/lirc/lircd.pid
-	fi
-	echo "neu" > /tmp/fbneu
-	echo "alt" > /tmp/fbalt
-	echo "opti" > /tmp/fbopti
-	echo "pingo" > /tmp/fbpingolux
-	until false
-	do
-	neu="/tmp/fbneu"
-	if [ -e $neu ]; then
-		check="/tmp/autoswitch.tmp"
-		echo "vip2" > /var/config/boxtype
-		sync
-		sleep 1
-		cp /etc/lircd_neu.conf /etc/lircd.conf
-		sleep 1
-   		/usr/bin/lircd
-   		mknod /dev/rc c 147 1 
-  		/bin/evremote2 vip2 &
-	if [ -e /tmp/autoswitch.tmp ]; then
-		rm /tmp/autoswitch.tmp
-	fi
-  		killall -9 dvbtest
-  		killall -9 showiframe
-  		sleep 2
-  		/bin/showiframe $FBNEU &
-		echo "FB NEU" > /dev/vfd
-		sleep 4
-			if [ ! -e /tmp/autoswitch.tmp ]; then
-				killall -9 evremote2
-				killall -9 lircd
-				cp /etc/lircd_neu_gruen.conf /etc/lircd.conf
-				sleep 1
-   				/usr/bin/lircd
-   				mknod /dev/rc c 147 1 
-  				/bin/evremote2 vip2 &
-			if [ -e /tmp/autoswitch.tmp ]; then
-				rm /tmp/autoswitch.tmp
-			fi
-				sleep 4
-			fi
-			if [ -e $check ]; then
-				killall -9 showiframe
-				sleep 2
-				/bin/showiframe $DANKE &
-				rm /tmp/fbneu
-				rm /var/etc/firstboot
-				if [ -e /var/etc/firstboot ]; then
-					rm -rf /var/etc/firstboot
-				fi
-				echo "neu" > /var/config/Fernbedienung
-				cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml
-				sync
-				echo "FB NEU GESETZ" > /dev/vfd
-				sleep 3
-				init 6
-			fi
-		killall -9 lircd
-		killall -9 evremote2
-	fi 
-	alt="/tmp/fbalt"
-	if [ -e $alt ]; then
-		check="/tmp/autoswitch.tmp"
-		if [ -e /var/run/lirc/lircd.pid ]; then
-			rm /var/run/lirc/lircd.pid
+       echo "starting telnetd"
+       /usr/sbin/telnetd -l /bin/login
+       /etc/init.d/vsftpd start
+       /usr/sbin/inetd
+
+    if [ -e /var/config/SWAP ]; then
+    SWAPFILE=`cat /var/config/SWAP`
+       if [ "$SWAPFILE" = "ramzswap" ]; then
+             mknod /dev/ramzswap0 b 253 0 >/dev/null 2>&1
+             swapon /dev/ramzswap0
+       elif [ "$SWAPFILE" = "swapfile" ]; then
+          swapon /hdd/swap0
+       elif [ "$SWAPFILE" = "swapdev" ]; then
+             swapon /dev/sda3
+       fi
+    else
+       swapon /dev/sda3
+    fi
+
+       NFS=`grep -c nfs /proc/cmdline`
+       if [ "$NFS" -eq "1" ]; then
+          echo "Booting from nfs, don't set network"
+       else
+          if [ -e /etc/network/interfaces ]; then
+        ip addr flush eth0
+        /etc/init.d/networking stop
+        DHCP=`grep -c dhcp /etc/network/interfaces`
+        if [ "$DHCP" -eq "1" ]; then
+           echo "Starting dhcp"
+               /etc/init.d/udhcpc start
+        fi
+        /etc/init.d/networking start &
+          fi
+       fi
+
+       touch /dev/.udev
+
+    if [ -e /var/keys/Benutzerdaten/.emu/mgcamd_oder_cccam ]; then
+    emu=`cat /var/keys/Benutzerdaten/.emu/mgcamd_oder_cccam`
+        if [ ! -e /var/keys/mg_cfg ]; then
+       if [ "$emu" = "mgcamd" ]; then
+          mv /var/keys/mg_cfg_mgcamd /var/keys/mg_cfg
+          cp /var/keys/mg_cfg /var/keys/mg_cfg_mgcamd
+       fi
+       if [ "$emu" = "cccam" ]; then
+          mv /var/keys/mg_cfg_cccam /var/keys/mg_cfg
+          cp /var/keys/mg_cfg /var/keys/mg_cfg_cccam
+       fi
+        fi
+    fi
+    ### loescht ueberreste des Wlans
+       if [ -e /var/run/wpa_supplicant ]; then
+          echo "Loesche old W-Lan settings"
+          rm -rf /var/run/wpa_supplicant
+          echo "DONE"
+       fi
+    ### Auto Fernbedienungs Switch
+    if [ -e /var/etc/firstboot ]; then
+       rm /tmp/check
+       if [ -e /ram/autoswitch.tmp ]; then
+          rm /ram/autoswitch.tmp
+       fi
+       if [ -e /ram/lircd.pid ]; then
+          rm /ram/lircd.pid
+       fi
+       echo "neu" > /tmp/fbneu
+       echo "alt" > /tmp/fbalt
+       echo "opti" > /tmp/fbopti
+       echo "pingo" > /tmp/fbpingulux
+       until false
+       do
+       neu="/tmp/fbneu"
+       if [ -e $neu ]; then
+          check="/ram/autoswitch.tmp"
+          echo "vip2" > /var/config/boxtype
+          sync
+          sleep 1
+          cp /etc/lircd_neu.conf /etc/lircd.conf
+          sleep 1
+             /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
+            /bin/evremote2 -x vip2 &
+       if [ -e /ram/autoswitch.tmp ]; then
+          rm /ram/autoswitch.tmp
+       fi
+            killall -9 dvbtest
+            killall -9 showiframe
+            sleep 2
+            /bin/showiframe $FBNEU &
+          echo "FB NEU" > /dev/vfd
+          sleep 4
+             if [ ! -e /ram/autoswitch.tmp ]; then
+                killall -9 evremote2
+                killall -9 lircd
+                cp /etc/lircd_neu_gruen.conf /etc/lircd.conf
+                sleep 1
+                   /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
+                   mknod /dev/rc c 147 1
+                  /bin/evremote2 -x vip2 &
+             if [ -e /ram/autoswitch.tmp ]; then
+                rm /ram/autoswitch.tmp
+             fi
+                sleep 4
+             fi
+             if [ -e $check ]; then
+                killall -9 showiframe
+                sleep 2
+                /bin/showiframe $DANKE &
+                rm /tmp/fbneu
+                rm /var/etc/firstboot
+                if [ -e /var/etc/firstboot ]; then
+                   rm -rf /var/etc/firstboot
+                fi
+                echo "neu" > /var/keys/Benutzerdaten/.system/fernbedienung
+                cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml
+                sync
+                echo "FB NEU GESETZ" > /dev/vfd
+                sleep 3
+                init 6
+             fi
+          killall -9 lircd
+          killall -9 evremote2
+       fi
+       alt="/tmp/fbalt"
+       if [ -e $alt ]; then
+          check="/ram/autoswitch.tmp"
+          if [ -e /ram/lircd.pid ]; then
+             rm /ram/lircd.pid
+          fi
+          echo "vip1" > /var/config/boxtype
+          sync
+          sleep 1
+          cp /etc/lircd_alt.conf /etc/lircd.conf
+          sleep 1
+             /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
+            /bin/evremote2 -x vip1 &
+       if [ -e /ram/autoswitch.tmp ]; then
+          rm /ram/autoswitch.tmp
+       fi
+            killall -9 showiframe
+            sleep 2
+            /bin/showiframe $FBALT &
+            echo "FB ALT" > /dev/vfd
+          sleep 5
+             if [ ! -e /ram/autoswitch.tmp ]; then
+                killall -9 evremote2
+                killall -9 lircd
+                cp /etc/lircd_alt_gruen.conf /etc/lircd.conf
+                sleep 1
+                   /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
+                   mknod /dev/rc c 147 1
+                  /bin/evremote2 -x vip2 &
+             if [ -e /ram/autoswitch.tmp ]; then
+                rm /ram/autoswitch.tmp
+             fi
+                sleep 4
+             fi
+             if [ -e $check ]; then
+                killall -9 showiframe
+                sleep 2
+                /bin/showiframe $DANKE &
+                rm /tmp/fbalt
+                rm /var/etc/firstboot
+                if [ -e /var/etc/firstboot ]; then
+                   rm -rf /var/etc/firstboot
+                fi
+                echo "alt" > /var/keys/Benutzerdaten/.system/fernbedienung
+                cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml
+                cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf
+                sync
+                echo "FB ALT GESETZ" > /dev/vfd
+                sleep 3
+                init 6
+             fi
+          killall -9 lircd
+          killall -9 evremote2
+       fi
+       opti="/tmp/fbopti"
+       if [ -e $alt ]; then
+          check="/ram/autoswitch.tmp"
+          if [ -e /ram/lircd.pid ]; then
+             rm /ram/lircd.pid
+          fi
+          echo "opti" > /var/config/boxtype
+          sync
+          sleep 1
+          cp /etc/lircd_opti.conf /etc/lircd.conf
+          sleep 1
+             /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
+            /bin/evremote2 -x opti &
+       if [ -e /ram/autoswitch.tmp ]; then
+          rm /ram/autoswitch.tmp
+       fi
+            killall -9 showiframe
+            sleep 2
+            /bin/showiframe $FBOPTI &
+               echo "FB OPTI" > /dev/vfd
+          sleep 5
+             if [ -e $check ]; then
+                killall -9 showiframe
+                sleep 2
+                /bin/showiframe $DANKE &
+                rm /tmp/fbopti
+                rm /var/etc/firstboot
+                if [ -e /var/etc/firstboot ]; then
+                   rm -rf /var/etc/firstboot
+                fi
+                echo "opti" > /var/keys/Benutzerdaten/.system/fernbedienung
+                cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml
+                cp /var/tuxbox/config/keymap_opti.conf /var/tuxbox/config/keymap.conf
+                sync
+                echo "FB OPTI GESETZ" > /dev/vfd
+                sleep 3
+                init 6
+             fi
+          killall -9 lircd
+          killall -9 evremote2
+       fi
+       pingo="/tmp/fbpingulux"
+       if [ -e $pingo ]; then
+          check="/ram/autoswitch.tmp"
+          if [ -e /ram/lircd.pid ]; then
+             rm /ram/lircd.pid
+          fi
+          echo "Pingulux" > /var/config/boxtype
+          sync
+          sleep 1
+          cp /etc/lircd_pingulux.conf /etc/lircd.conf
+          sleep 1
+             /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
+            /bin/evremote2 -x Pingulux &
+       if [ -e /ram/autoswitch.tmp ]; then
+          rm /ram/autoswitch.tmp
+       fi
+            killall -9 showiframe
+            sleep 2
+            /bin/showiframe $FBPINGULUX &
+               echo "FB PINGULUX" > /dev/vfd
+          sleep 5
+             if [ -e $check ]; then
+                killall -9 showiframe
+                sleep 2
+                /bin/showiframe $DANKE &
+                rm /tmp/fbpingulux
+                rm /var/etc/firstboot
+                if [ -e /var/etc/firstboot ]; then
+                   rm -rf /var/etc/firstboot
+                fi
+                echo "Pingulux" > /var/keys/Benutzerdaten/.system/fernbedienung
+                cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml
+                sync
+                echo "FB Pingulux GESETZ" > /dev/vfd
+                sleep 3
+                init 6
+             fi
+          killall -9 lircd
+          killall -9 evremote2
+       fi
+       done
+    fi
+    if [ -e /var/config/subsystem ]; then
+       SYSTEM=`cat /var/config/subsystem`
+       if [ "$SYSTEM" = "Neutrino" ]; then
+          echo "Duck-Trick Image" > /dev/vfd
+          echo "LOADING NHD2"
+       else
+          echo "Duck-Trick Image" > /dev/vfd
+          echo "LOADING E2"
+       fi
+    else
+       echo "Duck-Trick Image" > /dev/vfd
+       echo "LOADING E2"
+    fi
+       until false
+       do
+          echo "starting e2->"
+       ###### Den Muel entsorgen ####
+       if [ -e /.Trash-1000 ]; then
+          echo "Loesche alten Muell"
+          rm -rf /.Trash-1000
+          echo "Fertig"
+       fi
+       if [ -e /.Trash-0 ]; then
+          echo "Loesche neuen Muell"
+          rm -rf /.Trash-0
+          echo "Fertig"
+       fi
+          ##### UPNP Verzeichniss Fix ####
+       if [ ! -e /hdd/upnp ]; then
+          echo "symlink zu /upnp erstellen"
+          ln -s /upnp /hdd/upnp
+          echo "Fertig"
+       fi
+           ###### Startcript #####
+          /var/config/system/start_script.sh &
+    if [ -e /var/keys/Benutzerdaten/.system/overclock ]; then
+       if [ "$OVERCLOCK" = "300on" ]; then
+        	echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "333on" ]; then
+        	echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "366on" ]; then
+        	echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "400on" ]; then
+        	echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "300daueron" ]; then
+		echo "Dauer Overclocking -- CPU Stable freq. 300 Mhz"
+       elif [ "$OVERCLOCK" = "333daueron" ]; then
+		echo "Dauer Overclocking -- CPU Stable freq. 333 Mhz"
+       elif [ "$OVERCLOCK" = "366daueron" ]; then
+		echo "Dauer Overclocking -- CPU Stable freq. 366 Mhz"
+       elif [ "$OVERCLOCK" = "400daueron" ]; then
+		echo "Dauer Overclocking -- CPU Stable freq. 400 Mhz"
+       else
+		echo "Overclock OFF"
+       fi
+    else
+	echo "Overclock OFF -- Default"
+    fi
+
+    if [ -e /var/config/subsystem ]; then
+       SYSTEM=`cat /var/config/subsystem`
+          if [ "$SYSTEM" = "Neutrino" ]; then
+             /usr/local/bin/neutrino
+          else
+             /usr/local/bin/enigma2
+          fi
+    else
+          /usr/local/bin/enigma2
+    fi
+          rtv=$?
+          echo "e2 ended <- RTV: " $rtv
+          case "$rtv" in
+          0) echo "0"
+      	     SYSTEM=`cat /var/config/subsystem`
+             if [ "$SYSTEM" = "Neutrino" ]; then
+		echo "SHUTDOWN"
+             	echo "Shutdown" > /dev/vfd
+  	     	MODE=`cat /var/config/mode`
+  	     	echo "$MODE" > /var/config/boxoff
+	     	echo "shutdown" > /var/config/shutdown/reboot
+	     	sleep 6
+             	init 4
+	     else
+		if [ -e /var/config/subswitch ]; then
+			echo "SHUTDOWN"
+             		echo "Shutdown" > /dev/vfd
+  	     		MODE=`cat /var/config/mode`
+  	     		echo "$MODE" > /var/config/boxoff
+	     		echo "shutdown" > /var/config/shutdown/reboot
+	     		sleep 6
+             		init 4
+		else
+             		echo "E2 ERROR"
+             		echo "Neustart" > /dev/vfd
+  	     		MODE=`cat /var/config/mode`
+  	     		echo "$MODE" > /var/config/boxoff
+	     		echo "reboot" > /var/config/shutdown/reboot
+	     		sleep 2
+             		init 4
 		fi
-		echo "vip1" > /var/config/boxtype
-		sync
-		sleep 1
-		cp /etc/lircd_alt.conf /etc/lircd.conf
-		sleep 1
-   		/usr/bin/lircd
-   		mknod /dev/rc c 147 1 
-  		/bin/evremote2 vip1 &
-	if [ -e /tmp/autoswitch.tmp ]; then
-		rm /tmp/autoswitch.tmp
-	fi
-  		killall -9 showiframe
-  		sleep 2
-  		/bin/showiframe $FBALT &
-  		echo "FB ALT" > /dev/vfd
-		sleep 5
-			if [ ! -e /tmp/autoswitch.tmp ]; then
-				killall -9 evremote2
-				killall -9 lircd
-				cp /etc/lircd_alt_gruen.conf /etc/lircd.conf
-				sleep 1
-   				/usr/bin/lircd
-   				mknod /dev/rc c 147 1 
-  				/bin/evremote2 vip2 &
-			if [ -e /tmp/autoswitch.tmp ]; then
-				rm /tmp/autoswitch.tmp
-			fi
-				sleep 4
-			fi
-			if [ -e $check ]; then
-				killall -9 showiframe
-				sleep 2
-				/bin/showiframe $DANKE &
-				rm /tmp/fbalt
-				rm /var/etc/firstboot
-				if [ -e /var/etc/firstboot ]; then
-					rm -rf /var/etc/firstboot
-				fi
-				echo "alt" > /var/config/Fernbedienung
-				cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml
-				cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf
-				sync
-				echo "FB ALT GESETZ" > /dev/vfd
-				sleep 3
-				init 6
-			fi
-		killall -9 lircd
-		killall -9 evremote2
-	fi
-	opti="/tmp/fbopti"
-	if [ -e $alt ]; then
-		check="/tmp/autoswitch.tmp"
-		if [ -e /var/run/lirc/lircd.pid ]; then
-			rm /var/run/lirc/lircd.pid
+	     fi
+	     echo "DONE";;
+          1) echo "1"
+      	     SYSTEM=`cat /var/config/subsystem`
+             if [ "$SYSTEM" = "Neutrino" ]; then
+             	echo "REBOOT"
+  	     	MODE=`cat /var/config/mode`
+  	     	echo "$MODE" > /var/config/boxoff
+	     	echo "reboot" > /var/config/shutdown/reboot
+	     	sleep 2
+	     	init 4
+	     else
+		if [ -e /var/config/subswitch ]; then
+             		echo "REBOOT"
+  	     		MODE=`cat /var/config/mode`
+  	     		echo "$MODE" > /var/config/boxoff
+	     		echo "reboot" > /var/config/shutdown/reboot
+	     		sleep 2
+	     		init 4
+		else
+             		echo "SHUTDOWN"
+  	     		MODE=`cat /var/config/mode`
+  	     		echo "$MODE" > /var/config/boxoff
+	     		echo "shutdown" > /var/config/shutdown/reboot
+	     		sleep 6
+	     		init 4
 		fi
-		echo "opti" > /var/config/boxtype
-		sync
-		sleep 1
-		cp /etc/lircd_opti.conf /etc/lircd.conf
-		cp /var/tuxbox/config/keymap_opti.conf /var/tuxbox/config/keymap.conf
-		if [ ! -e /var/run/lirc ]; then  
-		    mkdir /var/run/lirc
-		fi
-		sleep 1
-   		/usr/bin/lircd
-   		mknod /dev/rc c 147 1 
-  		/bin/evremote2 opti &
-	if [ -e /tmp/autoswitch.tmp ]; then
-		rm /tmp/autoswitch.tmp
-	fi
-  		killall -9 showiframe
-  		sleep 2
-  		/bin/showiframe $FBOPTI &
-	        echo "FB OPTI" > /dev/vfd
-		sleep 5
-			if [ -e $check ]; then
-				killall -9 showiframe
-				sleep 2
-				/bin/showiframe $DANKE &
-				rm /tmp/fbopti
-				rm /var/etc/firstboot
-				if [ -e /var/etc/firstboot ]; then
-					rm -rf /var/etc/firstboot
-				fi
-				echo "opti" > /var/config/Fernbedienung
-				cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml
-				cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf
-				sync
-				echo "FB OPTI GESETZ" > /dev/vfd
-				sleep 3
-				init 6
-			fi
-		killall -9 lircd
-		killall -9 evremote2
-	fi
-	pingo="/tmp/fbpingolux"
-	if [ -e $pingo ]; then
-		check="/tmp/autoswitch.tmp"
-		if [ -e /var/run/lirc/lircd.pid ]; then
-			rm /var/run/lirc/lircd.pid
-		fi
-		echo "Pingolux" > /var/config/boxtype
-		sync
-		sleep 1
-		cp /etc/lircd_pingolux.conf /etc/lircd.conf
-		if [ ! -e /var/run/lirc ]; then  
-		    mkdir /var/run/lirc
-		fi
-		sleep 1
-   		/usr/bin/lircd
-   		mknod /dev/rc c 147 1 
-  		/bin/evremote2 Pingolux &
-	if [ -e /tmp/autoswitch.tmp ]; then
-		rm /tmp/autoswitch.tmp
-	fi
-  		killall -9 showiframe
-  		sleep 2
-  		/bin/showiframe $FBPINGOLUX &
-	        echo "FB PINGOLUX" > /dev/vfd
-		sleep 5
-			if [ -e $check ]; then
-				killall -9 showiframe
-				sleep 2
-				/bin/showiframe $DANKE &
-				rm /tmp/fbpingolux
-				rm /var/etc/firstboot
-				if [ -e /var/etc/firstboot ]; then
-					rm -rf /var/etc/firstboot
-				fi
-				echo "Pingolux" > /var/config/Fernbedienung
-				cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml
-				sync
-				echo "FB Pingolux GESETZ" > /dev/vfd
-				sleep 3
-				init 6
-			fi
-		killall -9 lircd
-		killall -9 evremote2
-	fi
-	done 
-fi
-	echo "Duck-Trick Image" > /dev/vfd
-	echo "LOADING E2"
-   until false
-   do
-      echo "starting e2->"
-       ###### Startcript #####
-        /var/config/system/start_script.sh &
-	/usr/local/bin/enigma2
-      rtv=$?
-      echo "e2 ended <- RTV: " $rtv
-      case "$rtv" in
-		0) echo "0"
-		   	echo "E2 ERROR"
-		   	echo "Neustarten" > /dev/vfd
-                   	/var/config/shutdown/reboot.sh
-		   umount -a;;
-		1) echo "1"
-		   	echo "SHUTDOWN"
-		   	echo "Herunterfahren" > /dev/vfd
-		   	rm /var/etc/.errors
-                   	/var/config/shutdown/shutdown.sh
-		   	rm /var/config/.check
-                   umount -a;;
-		2) echo "2"
-		   echo "REBOOT"
-		   echo "Neustarten" > /dev/vfd
-		   rm /var/etc/.errors
-                   /var/config/shutdown/reboot.sh
-		   rm /var/config/.check
-		   umount -a;;
-		3) echo "3"
-		   echo "E2 RESTART"
-		   echo "0" > /proc/progress
-		   /usr/local/bin/dvbtest -4 -f l /boot/gui.mp4 && 
-		   /var/config/shutdown/gui_neustart.sh;;
-		*) echo "*"
-		   echo "ERROR"
-		   echo "Neustarten" > /dev/vfd
-                   /var/config/shutdown/reboot.sh
-		   umount -a;;
-      esac
-   done 
-#never reached
-echo "REBOOT VIP" > /dev/vfd
-echo "REBOOT VIP"
-sync
-init 6
-
+	     fi
+	     echo "DONE";;
+          2) echo "2"
+             echo "REBOOT"
+             echo "Neustart" > /dev/vfd
+	     echo "reboot" > /var/config/shutdown/reboot
+	     sleep 2
+             init 4;;
+          3) echo "3"
+             echo "E2 RESTART"
+             echo "0" > /proc/progress
+	     echo "DONE";;
+          *) echo "*"
+             echo "ERROR"
+             echo "Neustart" > /dev/vfd
+	     echo "reboot" > /var/config/shutdown/reboot
+	     sleep 2
+             init 4;;
+          esac
+       done
+    #never reached
+    echo "REBOOT VIP" > /dev/vfd
+    echo "REBOOT VIP"
+    sync
+    init 6

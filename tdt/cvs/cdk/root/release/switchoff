@@ -1,0 +1,73 @@
+#! /bin/sh
+#
+# switchoff	Open shell at shutdown
+#
+# chkconfig: S 6 0
+#
+
+PATH=/lib/init:/bin:/sbin:/usr/bin:/usr/sbin
+
+REBOOT=`cat /var/config/shutdown/reboot`
+if [ "$REBOOT" = "reboot" ]; then
+	# keine schleife Reboot ...
+	init 6
+else
+	/bin/echo "Herunterfahren" > /dev/vfd
+fi
+
+sleep 3
+
+# wenn kein VIP2 FB starten
+if [ -e /var/config/deepstandby ]; then
+	DEEPSTANDBY=`cat /var/config/deepstandby`
+fi
+
+if [ "$DEEPSTANDBY" = "vip2" ]; then
+	sync
+	sleep 1
+	fp_control -d
+else
+	# Aktiviere Display Uhr anzeige für Box OFF
+	/var/config/time.sh &
+
+	echo "remount /ram as rw"
+	mount -t ramfs ramfs /ram -o size=65%
+
+	#start remote control for Vip1 & Opti for wake up
+	/usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
+
+	fb=`cat /var/keys/Benutzerdaten/.system/fernbedienung`
+	if [ "$fb" = "neu" ]; then
+		/bin/evremote2 -x vip2 &
+	elif [ "$fb" = "alt" ]; then
+		/bin/evremote2 -x vip1 &
+	elif [ "$fb" = "opti" ]; then
+		/bin/evremote2 -x opti &
+	elif [ "$fb" = "Pungolux" ]; then
+		/bin/evremote2 -x Pingolux &
+	fi
+
+	rm /ram/autoswitch.tmp
+
+	sleep 3
+
+	# start the loop
+
+	until false
+	do
+	file="/ram/autoswitch.tmp"
+	if [ -e $file ]; then
+		echo "Neustart" > /dev/vfd
+		sleep 2
+		swapoff /dev/sda3
+		sleep 2
+		sync
+		sleep 2
+		init 6
+		exit 1
+	else 	
+		sleep 3
+	fi 
+	done
+fi
+
