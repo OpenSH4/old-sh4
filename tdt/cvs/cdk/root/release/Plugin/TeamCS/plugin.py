@@ -204,7 +204,7 @@ class OVERCLOCK(Screen):
 		list.append(("Aktivieren 400 Mhz", "400DAUEROVERON", "400daueron", "46"))
 		list.append(("Deaktiviert Overclocking", "DAUEROVEROFF", "daueroff", "46"))
 		list.append(("----------------------------------------", "", "", "46"))
-		list.append(("Cpu Tacktfrequence Test", "CHECK", "CHECKIT", "46"))
+		list.append(("Overclock Frequence Check", "OCCHECK", "check", "46"))
 		list.append(("----------------------------------------", "", "", "46"))
 		list.append(("Das Overclocking geschieht auf eigene", "", "", "46"))
 		list.append(("Gefahr, jeder muss selber wissen was er", "", "", "46"))
@@ -264,7 +264,7 @@ class OVERCLOCK(Screen):
 				os.system("echo daueroff > /var/keys/Benutzerdaten/.system/overclock; echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv")
 				self.session.open(MessageBox,_("Aktuelle CPU Freq. auf 266 Mhz getacktet und fest gestellt fuer jeden Boot"), MessageBox.TYPE_INFO)
 
-			elif selection[1] == "CHECK":
+			elif selection[1] == "OCCHECK":
 				self.prombt("cat /proc/cpu_frequ/pll0_ndiv_mdiv")
 
 	def prombt(self, com):
@@ -966,6 +966,7 @@ class BACKUP(Screen):
 		
 		list = []
 		list.append(("System Full Backup erstellen", "backupsys", "sback", "46"))
+		list.append(("System Install Backup erstellen", "backupinstallsys", "sback", "46"))
 		list.append(("Kanal-listen Sichern", "ksave", "save", "46"))
 		list.append(("Kanal-listen Installieren", "kinstall", "install", "46"))
 		
@@ -983,6 +984,9 @@ class BACKUP(Screen):
 		if selection is not None:
 			if selection[1] == "backupsys":
 				self.session.open(SYSBACKUP)
+
+			if selection[1] == "backupinstallsys":
+				self.session.open(SYSINSTALLBACKUP)
 
 			elif selection[1] == "ksave":
 				self.prombt("/var/config/tools/sender_sichern.sh")	
@@ -1972,7 +1976,43 @@ class SYSBACKUP(Screen):
 	def cancel(self):
 		print "\n[SYSBACKUP] cancel\n"
 		self.close(None)
-	
+############################# Backup #####################################
+
+class SYSINSTALLBACKUP(Screen):
+	skin = """
+		<screen position="center,center" size="460,400" title="System Backup" >
+			<widget name="myText" position="10,10" size="400,300" valign="center" halign="center" zPosition="2"  foregroundColor="white" font="Regular;22"/>
+			<widget name="myRedBtn" position="10,340" size="100,40" backgroundColor="red" valign="center" halign="center" zPosition="2"  foregroundColor="white" font="Regular;20"/>
+			<widget name="myGreenBtn" position="120,340" size="100,40" backgroundColor="green" valign="center" halign="center" zPosition="2"  foregroundColor="white" font="Regular;20"/>
+		</screen>"""
+
+	def __init__(self, session, args = 0):
+		self.session = session
+		Screen.__init__(self, session)
+		
+		self.text1="System Install Backup erstellen ?\nDas Backup benoetigt ca. 90 Min\nes kann im Hintergrund\nausgefuehrt werden so das das\nSystem weiter verwendet werden\nkann (VIP1v2 und VIP2 user bitte\nnicht Zappen) bei Fertigstellung\nbefindet sich das Backup in\n/Enigma2_System_Ordner/Backups\nDieses Backup ist ein Install Backup\nbitte entpacken auf ext2 Stick !!!"
+		self["myText"] = Label()
+		self["myRedBtn"] = Label(_("Cancel"))
+		self["myGreenBtn"] = Label(_("OK"))
+		self["myActionsMap"] = ActionMap(["SetupActions", "ColorActions"],
+		{
+			"ok": self.startsysbackup,
+			"green": self.startsysbackup,
+			"red": self.cancel,
+			"cancel": self.cancel,
+		}, -1)
+		self.onShown.append(self.setMyText)
+
+	def setMyText(self):
+		self["myText"].setText(self.text1)
+		
+	def startsysbackup(self):
+		os.system("/var/config/system/install_backup.sh &")
+		self.close(None)
+
+	def cancel(self):
+		print "\n[SYSINSTALLBACKUP] cancel\n"
+		self.close(None)
 ###########################################################################
 
 def main(session, **kwargs):
