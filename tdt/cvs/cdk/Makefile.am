@@ -89,6 +89,8 @@ include make/disttargets.mk
 #Trick
 include make/release.mk
 
+include make/ducktrick.mk
+
 include make/release_neutrino.mk
 
 include make/release_neutrino_nightly.mk
