@@ -123,7 +123,7 @@ yaud-enigma2-pli-amiko: yaud-none host_python lirc \
 
 yaud-ducktrick-multiimage: yaud-none host_python lirc \
 		boot-elf remote firstboot enigma2-pli-amiko enigma2-plugins e2-pli-plugins \
-		neutrino-hd2-exp ducktrick
+		neutrino-hd2-exp release_ducktrick
 	@TUXBOX_YAUD_CUSTOMIZE@
 
 yaud-xbmc-nightly: yaud-none host_python boot-elf firstboot xbmc-nightly release_xbmc

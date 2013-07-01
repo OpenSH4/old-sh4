@@ -34,7 +34,7 @@ sleep 1
 insmod /drvko/aotom_vip1.ko I2C_bus_num=2 I2C_bus_add=0x40
 
 # Checkt ob /dev/sda1 verfügbar, ist 1 verfügbar sollte auch 2-4 verfügbar sein #
-while [ ! -b /dev/sda1 ]
+while [ -e `fdisk -l | grep -i "Disk" | awk '{ print $1 }'` ]
 do
   echo "RAMFS...."  > /dev/vfd
   echo "Warte auf USB-Device..."
