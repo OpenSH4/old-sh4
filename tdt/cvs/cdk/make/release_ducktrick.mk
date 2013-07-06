@@ -1088,12 +1088,20 @@ endif
 		cp -f $(targetprefix)/usr/sbin/minidlna $(prefix)/release_ducktrick/usr/sbin/; \
 	fi
 
+release_install:
+	rm -rf $(prefix)/release_ducktrick_install || true
+	$(INSTALL_DIR) $(prefix)/release_ducktrick_install && \
+	mkdir $(prefix)/release_ducktrick_install/boot 
+	cp $(prefix)/release_ducktrick/boot/uImage $(prefix)/release_ducktrick_install/boot/uImage.gz 
+	ln -s $(prefix)/release_ducktrick_install/boot/uImage.gz $(prefix)/release_ducktrick_install/boot/uImage 
+	cd $(prefix)/release_ducktrick && tar -czvf $(prefix)/release_ducktrick_install/Ducktrick-MultiImage-Release.tar.gz ./ > /dev/null 2>&1 
+	echo "" > $(prefix)/release_ducktrick_install/install 
 #
 # The main target depends on the model.
 # IMPORTANT: it is assumed that only one variable is set. Otherwise the target name won't be resolved.
 #
 $(DEPDIR)/release_ducktrick: \
-$(DEPDIR)/%release_ducktrick: release_ducktrick_base release_$(TF7700)$(HL101)$(VIP1_V2)$(VIP2_V1)$(UFS910)$(UFS912)$(UFS913)$(SPARK)$(SPARK7162)$(UFS922)$(OCTAGON1008)$(FORTIS_HDBOX)$(ATEVIO7500)$(HS7810A)$(HS7110)$(WHITEBOX)$(CLASSIC)$(CUBEREVO_MINI)$(CUBEREVO_MINI2)$(CUBEREVO_MINI_FTA)$(CUBEREVO_250HD)$(CUBEREVO_2000HD)$(CUBEREVO_9500HD)$(HOMECAST5101)$(IPBOX9900)$(IPBOX99)$(IPBOX55)$(ADB_BOX)
+$(DEPDIR)/%release_ducktrick: release_ducktrick_base release_$(TF7700)$(HL101)$(VIP1_V2)$(VIP2_V1)$(UFS910)$(UFS912)$(UFS913)$(SPARK)$(SPARK7162)$(UFS922)$(OCTAGON1008)$(FORTIS_HDBOX)$(ATEVIO7500)$(HS7810A)$(HS7110)$(WHITEBOX)$(CLASSIC)$(CUBEREVO_MINI)$(CUBEREVO_MINI2)$(CUBEREVO_MINI_FTA)$(CUBEREVO_250HD)$(CUBEREVO_2000HD)$(CUBEREVO_9500HD)$(HOMECAST5101)$(IPBOX9900)$(IPBOX99)$(IPBOX55)$(ADB_BOX) release_install
 	touch $@
 
 #
