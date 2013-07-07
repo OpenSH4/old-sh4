@@ -437,7 +437,8 @@ release_hl101: release_common_utils
 	cp -p $(buildprefix)/root/usr/local/bin/dvbtest $(prefix)/release_ducktrick/usr/local/bin/
 	mkdir -p $(prefix)/release_ducktrick/boot/first
 	cp -p $(buildprefix)/root/bootscreen/first/* $(prefix)/release_ducktrick/boot/first/
-	cp -p $(buildprefix)/root/bootscreen/Enigma2.mp4 $(prefix)/release_ducktrick/boot/	
+	cp -p $(buildprefix)/root/bootscreen/Enigma2.mp4 $(prefix)/release_ducktrick/boot/
+	cp -p $(buildprefix)/root/bootscreen/NeutrinoHD.mp4 $(prefix)/release_ducktrick/boot/
 	mkdir -p $(prefix)/release_ducktrick/var/run/lirc
 	mkdir $(prefix)/release_ducktrick/var/config
 	mkdir $(prefix)/release_ducktrick/var/config/system
@@ -517,6 +518,11 @@ release_hl101: release_common_utils
 #	TODO: Channellist ....
 	cp -aR $(buildprefix)/root/usr/local/share/config/* $(prefix)/release_ducktrick/var/tuxbox/config/
 	cp -aR $(targetprefix)/usr/share/tuxbox/neutrino $(prefix)/release_ducktrick/usr/local/share/
+	mkdir $(prefix)/release_ducktrick/usr/share/tuxbox
+	cd $(prefix)/release_ducktrick/usr/share/tuxbox && \
+	ln -s ../../local/share/neutrino $(prefix)/release_ducktrick/usr/share/tuxbox/ && \
+	cd $(buildprefix)
+
 #
 # release_adb_box
 #
