@@ -16,7 +16,7 @@ echo ""
 echo ""
 echo ""
 echo ""
-more /tmp/Keys_Changelog_info.txt
+cat /tmp/Keys_Changelog_info.txt
 echo "Loesche Installationsdatei...."
 rm /tmp/cccam_keys.tar.gz
 rm /tmp/Keys_Changelog_info.txt
