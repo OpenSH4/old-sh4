@@ -91,6 +91,9 @@ int teamcsemu::exec(CMenuTarget* parent, const std::string &actionKey)
       teamcsemu->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSEMU_MBOX2, true, "", this, "mbox2", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
       teamcsemu->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSEMU_INCUBUS2, true, "", this, "incubus2", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
       teamcsemu->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSEMU_CAMD32, true, "", this, "camd32", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
+        teamcsemu->addItem( new CMenuSeparator(CMenuSeparator::LINE) );
+        teamcsemu->addItem( new CMenuSeparator(CMenuSeparator::LINE) );
+teamcsemu->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSEMU_KeyUpdate, true, "", this, "keyupdate", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
 
 
       teamcsemu->exec (NULL, "");
@@ -352,6 +355,19 @@ int teamcsemu::exec(CMenuTarget* parent, const std::string &actionKey)
 
       	hintBox->hide();
       	delete hintBox;
+   }
+   else if (actionKey == "keyupdate")
+   {
+      //system("/var/config/emu/start-camd32.sh; echo 2 > /var/emu/emudual");
+
+        cprompt = popen("/var/config/emu/SoftCam-Update.sh", "r");
+                while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
+                {
+                strcat(cprompthint,ctext);
+                }
+        pclose(cprompt);
+	
+	ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
    }
 
 

@@ -447,6 +447,8 @@ release_hl101: release_common_utils
 	rm -f $(prefix)/release_ducktrick/bin/evremote
 	rm -f $(prefix)/release_ducktrick/bin/vdstandby
 	cp -f $(buildprefix)/root/config/shutdown/* $(prefix)/release_ducktrick/var/config/shutdown/
+	mkdir -p $(prefix)/release_ducktrick/var/config/emu
+	cp -f $(buildprefix)/root/var/config/emu/SoftCam-Update.sh $(prefix)/release_ducktrick/var/config/emu/SoftCam-Update.sh
 	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_FB1.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap_FB1.xml
 	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_FB2.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap_FB2.xml
 	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_Opti.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap_Opti.xml
