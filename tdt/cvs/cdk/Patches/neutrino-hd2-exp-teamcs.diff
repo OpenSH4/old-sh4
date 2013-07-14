@@ -1,6 +1,6 @@
 --- neutrino-hd2-exp.org/data/locale/deutsch.locale	2013-06-13 18:25:06.000000000 +0200
 +++ neutrino-hd2-exp/data/locale/deutsch.locale	2013-06-18 18:52:11.000000000 +0200
-@@ -1593,6 +1593,119 @@ keybinding.savekeymap_hint keymap wird g
+@@ -1593,6 +1593,120 @@ keybinding.savekeymap_hint keymap wird g
  
  audiomenu.volumebar_audiosteps Lautstärke Schrittweite
  
@@ -35,6 +35,7 @@
 +teamcsemu.mbox2 DualEmu: Start/Restart MBox
 +teamcsemu.incubus2 DualEmu: Start/Restart Incubus
 +teamcsemu.camd32 DualEmu: Start/Restart Camd3
++teamcsemu.keyupdate KeyUpdate (Mg-Camd/Oscam-Ymod)
 +	
 +teamcsuhr.displayreset Display Reset
 +teamcsuhr.uhran Display Uhr Aktivieren
@@ -122,7 +123,7 @@
  menu.hint_ytplay Wiedergabe von ausgewählten Youtube Feeds
 --- neutrino-hd2-exp.org/data/locale/english.locale	2013-06-13 18:25:06.000000000 +0200
 +++ neutrino-hd2-exp/data/locale/english.locale	2013-06-18 18:52:11.000000000 +0200
-@@ -1592,6 +1592,119 @@ keybinding.savekeymap_hint Saving keymap
+@@ -1592,6 +1592,120 @@ keybinding.savekeymap_hint Saving keymap
  
  audiomenu.volumebar_audiosteps Volume Step Size
  
@@ -157,6 +158,7 @@
 +teamcsemu.mbox2 DualEmu: Start/Restart MBox
 +teamcsemu.incubus2 DualEmu: Start/Restart Incubus
 +teamcsemu.camd32 DualEmu: Start/Restart Camd3
++teamcsemu.keyupdate KeyUpdate (Mg-Camd/Oscam-Ymod)
 +	
 +teamcsuhr.displayreset Display Reset
 +teamcsuhr.uhran Activate Display Clock
@@ -262,7 +264,7 @@
  	
  	LOCALE_MISCSETTINGS_LOGOSDIR,
  	
-@@ -1606,6 +1610,114 @@ typedef enum {
+@@ -1606,6 +1610,115 @@ typedef enum {
  	
  	LOCALE_AUDIOMENU_VOLUMEBAR_AUDIOSTEPS,
  	
@@ -292,6 +294,7 @@
 +	LOCALE_TEAMCSEMU_MBOX2,
 +	LOCALE_TEAMCSEMU_INCUBUS2,
 +	LOCALE_TEAMCSEMU_CAMD32,
++       LOCALE_TEAMCSEMU_KeyUpdate,
 +
 +	LOCALE_TEAMCSUHR_DISPLAYRESET,
 +	LOCALE_TEAMCSUHR_UHRAN,
@@ -397,7 +400,7 @@
  	
  	"miscsettings.logosdir",
  	
-@@ -1606,6 +1610,114 @@ const char * locale_real_names[] = {
+@@ -1606,6 +1610,115 @@ const char * locale_real_names[] = {
  	
  	"audiomenu.volumebar_audiosteps",
  	
@@ -427,6 +430,7 @@
 +	"teamcsemu.mbox2",
 +	"teamcsemu.incubus2",
 +	"teamcsemu.camd32",
++       "teamcsemu.keyupdate",
 +	
 +	"teamcsuhr.displayreset",
 +	"teamcsuhr.uhran",

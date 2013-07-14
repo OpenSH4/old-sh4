@@ -437,7 +437,8 @@ release_hl101: release_common_utils
 	cp -p $(buildprefix)/root/usr/local/bin/dvbtest $(prefix)/release_ducktrick/usr/local/bin/
 	mkdir -p $(prefix)/release_ducktrick/boot/first
 	cp -p $(buildprefix)/root/bootscreen/first/* $(prefix)/release_ducktrick/boot/first/
-	cp -p $(buildprefix)/root/bootscreen/Enigma2.mp4 $(prefix)/release_ducktrick/boot/	
+	cp -p $(buildprefix)/root/bootscreen/Enigma2.mp4 $(prefix)/release_ducktrick/boot/
+	cp -p $(buildprefix)/root/bootscreen/NeutrinoHD.mp4 $(prefix)/release_ducktrick/boot/
 	mkdir -p $(prefix)/release_ducktrick/var/run/lirc
 	mkdir $(prefix)/release_ducktrick/var/config
 	mkdir $(prefix)/release_ducktrick/var/config/system
@@ -446,6 +447,8 @@ release_hl101: release_common_utils
 	rm -f $(prefix)/release_ducktrick/bin/evremote
 	rm -f $(prefix)/release_ducktrick/bin/vdstandby
 	cp -f $(buildprefix)/root/config/shutdown/* $(prefix)/release_ducktrick/var/config/shutdown/
+	mkdir -p $(prefix)/release_ducktrick/var/config/emu
+	cp -f $(buildprefix)/root/var/config/emu/SoftCam-Update.sh $(prefix)/release_ducktrick/var/config/emu/SoftCam-Update.sh
 	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_FB1.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap_FB1.xml
 	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_FB2.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap_FB2.xml
 	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_Opti.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap_Opti.xml
@@ -517,6 +520,11 @@ release_hl101: release_common_utils
 #	TODO: Channellist ....
 	cp -aR $(buildprefix)/root/usr/local/share/config/* $(prefix)/release_ducktrick/var/tuxbox/config/
 	cp -aR $(targetprefix)/usr/share/tuxbox/neutrino $(prefix)/release_ducktrick/usr/local/share/
+	mkdir $(prefix)/release_ducktrick/usr/share/tuxbox
+	cd $(prefix)/release_ducktrick/usr/share/tuxbox && \
+	ln -s ../../local/share/neutrino $(prefix)/release_ducktrick/usr/share/tuxbox/ && \
+	cd $(buildprefix)
+
 #
 # release_adb_box
 #
