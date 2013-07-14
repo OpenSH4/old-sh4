@@ -780,6 +780,8 @@ class EMU(Screen):
 		list.append(("------------- Emu Watchdog ----------", "", "", "46"))
 		list.append(("Watchdog Einschalten", "watchon", "watchon1", "46"))
 		list.append(("Watchdog Ausschalten", "watchoff", "watchoff1", "46"))
+		list.append(("------------- Keys Updater ----------", "", "", "46"))
+		list.append(("SoftCam KeyUpdater OS-Cam MG-Camd", "softcam", "softcam1", "46"))
 		
 		Screen.__init__(self, session)
 		self["EMU"] = MenuList(list)
@@ -813,6 +815,9 @@ class EMU(Screen):
 
 			elif selection[1] == "camd3":
 				self.prombt("/var/config/emu/start-camd3.sh; echo 1 > /var/emu/emudual")
+
+			elif selection[1] == "softcam":
+				self.prombt("/var/config/emu/SoftCam-Update.sh")
 
 			elif selection[1] == "dual":
 				self.session.open(EMUDUAL)
