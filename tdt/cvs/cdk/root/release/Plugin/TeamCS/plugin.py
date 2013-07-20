@@ -8,6 +8,7 @@ from Tools.Directories import fileExists
 from Components.Label import Label
 from Components.PluginComponent import plugins
 from Components.PluginList import *
+from Components.config import getConfigListEntry
 from Screens.Console import Console
 from Screens.ChoiceBox import ChoiceBox
 from Components.Input import Input
@@ -31,23 +32,22 @@ class MyMenu(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("Emu Menu", "EMU", "EMUMANAGER", "46"))
-		list.append(("Addon Manager", "addon", "addonmanager", "46"))
-		list.append(("Display Uhr Einstellen", "time", "timer", "46"))
-		list.append(("W-Lan Einstellungen", "wlan", "wlansettings", "46"))
-		list.append(("Backup, Install Menu", "BACKUP", "BACKUPINSTALL", "46"))
-		list.append(("System Information", "SYSTEM", "SYSINFO", "46"))
-		list.append(("Tuner Waehlen", "tuner", "tuners", "46"))
-		list.append(("Benutzerdaten Einstellen", "benutzerdaten", "setbenutzer", "46"))
-		list.append(("WakeOnLan Einstellen", "wol", "woltimer", "46"))
-		list.append(("UPNP Media-Server-Client", "upnp", "upnpms", "46"))
-		list.append(("OpenVPN Client", "ovpn", "openvpn", "46"))
-		list.append(("Samba Menu", "samba", "sambamenu", "46"))
-		list.append(("Swap Einrichten", "swap", "swappart", "46"))
-		list.append(("CPU Overclocking", "CPUO", "CPUOVER", "46"))
-		list.append(("ETH0 MAC Switcher", "MACSWITCH", "eth0mac", "46"))
-		list.append(("NeutrinoHD2 Subsystem Switch", "NHD2", "subsystem", "46"))
-		list.append((_("Exit"), "exit"))
+		list.append((getConfigListEntry(_("Emu Menu"), "EMU", "EMUMANAGER", "46")))
+		list.append((getConfigListEntry(_("Addon Manager"), "addon", "addonmanager", "46")))
+		list.append((getConfigListEntry(_("Display Uhr Einstellen"), "time", "timer", "46")))
+		list.append((getConfigListEntry(_("W-Lan Einstellungen"), "wlan", "wlansettings", "46")))
+		list.append((getConfigListEntry(_("Backup, Install Menu"), "BACKUP", "BACKUPINSTALL", "46")))
+		list.append((getConfigListEntry(_("System Information"), "SYSTEM", "SYSINFO", "46")))
+		list.append((getConfigListEntry(_("Tuner Waehlen"), "tuner", "tuners", "46")))
+		list.append((getConfigListEntry(_("Benutzerdaten Einstellen"), "benutzerdaten", "setbenutzer", "46")))
+		list.append((getConfigListEntry(_("WakeOnLan Einstellen"), "wol", "woltimer", "46")))
+		list.append((getConfigListEntry(_("UPNP Media-Server-Client"), "upnp", "upnpms", "46")))
+		list.append((getConfigListEntry(_("OpenVPN Client"), "ovpn", "openvpn", "46")))
+		list.append((getConfigListEntry(_("Samba Menu"), "samba", "sambamenu", "46")))
+		list.append((getConfigListEntry(_("Swap Einrichten"), "swap", "swappart", "46")))
+		list.append((getConfigListEntry(_("CPU Overclocking"), "CPUO", "CPUOVER", "46")))
+		list.append((getConfigListEntry(_("ETH0 MAC Switcher"), "MACSWITCH", "eth0mac", "46")))
+		list.append((getConfigListEntry(_("NeutrinoHD2 Subsystem Switch"), "NHD2", "subsystem", "46")))
 		
 		Screen.__init__(self, session)
 		self["myMenu"] = MenuList(list)
@@ -133,11 +133,11 @@ class ETHMAC(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("Benutze MAC 00:80:E1:12:06:30 -- default", "MAC1", "UMAC1", "46"))
-		list.append(("Benutze MAC 00:81:E1:12:06:30", "MAC2", "UMAC2", "46"))
-		list.append(("Benutze MAC 00:82:E1:12:06:30", "MAC3", "UMAC3", "46"))
-		list.append(("Benutze MAC 00:83:E1:12:06:30", "MAC4", "UMAC4", "46"))
-		list.append(("Benutze MAC 00:84:E1:12:06:30", "MAC5", "UMAC5", "46"))
+		list.append((getConfigListEntry(_("Benutze MAC 00:80:E1:12:06:30 -- default"), "MAC1", "UMAC1", "46")))
+		list.append((getConfigListEntry(_("Benutze MAC 00:81:E1:12:06:30"), "MAC2", "UMAC2", "46")))
+		list.append((getConfigListEntry(_("Benutze MAC 00:82:E1:12:06:30"), "MAC3", "UMAC3", "46")))
+		list.append((getConfigListEntry(_("Benutze MAC 00:83:E1:12:06:30"), "MAC4", "UMAC4", "46")))
+		list.append((getConfigListEntry(_("Benutze MAC 00:84:E1:12:06:30"), "MAC5", "UMAC5", "46")))
 
 		Screen.__init__(self, session)
 		self["ETHMAC"] = MenuList(list)
@@ -191,26 +191,26 @@ class OVERCLOCK(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("---------- Boot Overclocking -----------", "", "", "46"))
-		list.append(("Aktivieren 266 Mhz -- default", "OVEROFF", "OVERCLOCKOFF", "46"))
-		list.append(("Aktivieren 300 Mhz", "300OVERON", "300OVERCLOCKON", "46"))
-		list.append(("Aktivieren 333 Mhz", "333OVERON", "333OVERCLOCKON", "46"))
-		list.append(("Aktivieren 366 Mhz", "366OVERON", "366OVERCLOCKON", "46"))
-		list.append(("Aktivieren 400 Mhz", "400OVERON", "400OVERCLOCKON", "46"))
-		list.append(("--------- Dauer Overclocking -----------", "", "", "46"))
-		list.append(("Aktivieren 300 Mhz", "300DAUEROVERON", "300daueron", "46"))
-		list.append(("Aktivieren 333 Mhz", "333DAUEROVERON", "333daueron", "46"))
-		list.append(("Aktivieren 366 Mhz", "366DAUEROVERON", "366daueron", "46"))
-		list.append(("Aktivieren 400 Mhz", "400DAUEROVERON", "400daueron", "46"))
-		list.append(("Deaktiviert Overclocking", "DAUEROVEROFF", "daueroff", "46"))
+		list.append((getConfigListEntry(_("---------- Boot Overclocking -----------"), "", "", "46")))
+		list.append((getConfigListEntry(_("Aktivieren 266 Mhz -- default"), "OVEROFF", "OVERCLOCKOFF", "46")))
+		list.append((getConfigListEntry(_("Aktivieren 300 Mhz"), "300OVERON", "300OVERCLOCKON", "46")))
+		list.append((getConfigListEntry(_("Aktivieren 333 Mhz"), "333OVERON", "333OVERCLOCKON", "46")))
+		list.append((getConfigListEntry(_("Aktivieren 366 Mhz"), "366OVERON", "366OVERCLOCKON", "46")))
+		list.append((getConfigListEntry(_("Aktivieren 400 Mhz"), "400OVERON", "400OVERCLOCKON", "46")))
+		list.append((getConfigListEntry(_("--------- Dauer Overclocking -----------"), "", "", "46")))
+		list.append((getConfigListEntry(_("Aktivieren 300 Mhz"), "300DAUEROVERON", "300daueron", "46")))
+		list.append((getConfigListEntry(_("Aktivieren 333 Mhz"), "333DAUEROVERON", "333daueron", "46")))
+		list.append((getConfigListEntry(_("Aktivieren 366 Mhz"), "366DAUEROVERON", "366daueron", "46")))
+		list.append((getConfigListEntry(_("Aktivieren 400 Mhz"), "400DAUEROVERON", "400daueron", "46")))
+		list.append((getConfigListEntry(_("Deaktiviert Overclocking"), "DAUEROVEROFF", "daueroff", "46")))
 		list.append(("----------------------------------------", "", "", "46"))
-		list.append(("Overclock Frequence Check", "OCCHECK", "check", "46"))
+		list.append((getConfigListEntry(_("Overclock Frequence Check"), "OCCHECK", "check", "46")))
 		list.append(("----------------------------------------", "", "", "46"))
-		list.append(("Das Overclocking geschieht auf eigene", "", "", "46"))
-		list.append(("Gefahr, jeder muss selber wissen was er", "", "", "46"))
-		list.append(("seiner Box Antut, getestet sind diese ", "", "", "46"))
-		list.append(("Einstellungen, dennoch kann es sich bei", "", "", "46"))
-		list.append(("jeder Box anders Verhalten oder Auswirken !", "", "", "46"))
+		list.append((getConfigListEntry(_("Das Overclocking geschieht auf eigene"), "", "", "46")))
+		list.append((getConfigListEntry(_("Gefahr, jeder muss selber wissen was er"), "", "", "46")))
+		list.append((getConfigListEntry(_("seiner Box Antut, getestet sind diese "), "", "", "46")))
+		list.append((getConfigListEntry(_("Einstellungen, dennoch kann es sich bei"), "", "", "46")))
+		list.append((getConfigListEntry(_("jeder Box anders Verhalten oder Auswirken !"), "", "", "46")))
 		
 		Screen.__init__(self, session)
 		self["OVERCLOCK"] = MenuList(list)
@@ -286,13 +286,13 @@ class SWAPPART(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("------------ Swap Aktivieren -------------", "", "", "46"))
-		list.append(("Swap Partition Aktivieren -- default", "swapdev", "swapdevan", "46"))
-		list.append(("Ramzswap Aktivieren", "ramzswap", "ramzswapan", "46"))
-		list.append(("Swapfile auf HDD Aktivieren", "swaphdd", "hddswapan", "46"))
-		list.append(("------------ Swap Anlegen -------------", "", "", "46"))
-		list.append(("Swapfile auf HDD Erstellen", "swapfileerstellen", "hddswaperstellen", "46"))
-		list.append(("Swappartition /dev/sda3 Formatieren", "swapfileerstellensda", "hddswaperstellensda", "46"))
+		list.append((getConfigListEntry(_("------------ Swap Aktivieren -------------"), "", "", "46")))
+		list.append((getConfigListEntry(_("Swap Partition Aktivieren -- default"), "swapdev", "swapdevan", "46")))
+		list.append((getConfigListEntry(_("Ramzswap Aktivieren"), "ramzswap", "ramzswapan", "46")))
+		list.append((getConfigListEntry(_("Swapfile auf HDD Aktivieren"), "swaphdd", "hddswapan", "46")))
+		list.append((getConfigListEntry(_("------------ Swap Anlegen -------------"), "", "", "46")))
+		list.append((getConfigListEntry(_("Swapfile auf HDD Erstellen"), "swapfileerstellen", "hddswaperstellen", "46")))
+		list.append((getConfigListEntry(_("Swappartition /dev/sda3 Formatieren"), "swapfileerstellensda", "hddswaperstellensda", "46")))
 		
 		Screen.__init__(self, session)
 		self["SWAPPART"] = MenuList(list)
@@ -343,8 +343,8 @@ class SAMBASET(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("Samba AN", "SAMBAAN", "an", "46"))
-		list.append(("Samba AUS", "SAMBAAUS", "aus", "46"))
+		list.append((getConfigListEntry(_("Samba AN"), "SAMBAAN", "an", "46")))
+		list.append((getConfigListEntry(_("Samba AUS"), "SAMBAAUS", "aus", "46")))
 		
 		Screen.__init__(self, session)
 		self["SAMBASET"] = MenuList(list)
@@ -386,10 +386,10 @@ class OPENSET(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("OpenVPN Client Aktivieren", "VPNAN", "an", "46"))
-		list.append(("OpenVPN Client Deaktivieren", "VPNAUS", "aus", "46"))
-		list.append(("OpenVPN Client Autostart Aktivieren", "VPNAUTOAN", "vpnaan", "46"))
-		list.append(("OpenVPN Client Autostart Deaktivieren", "VPNAUTOAUS", "vpnaaus", "46"))
+		list.append((getConfigListEntry(_("OpenVPN Client Aktivieren"), "VPNAN", "an", "46")))
+		list.append((getConfigListEntry(_("OpenVPN Client Deaktivieren"), "VPNAUS", "aus", "46")))
+		list.append((getConfigListEntry(_("OpenVPN Client Autostart Aktivieren"), "VPNAUTOAN", "vpnaan", "46")))
+		list.append((getConfigListEntry(_("OpenVPN Client Autostart Deaktivieren"), "VPNAUTOAUS", "vpnaaus", "46")))
 		
 		Screen.__init__(self, session)
 		self["OPENSET"] = MenuList(list)
@@ -443,10 +443,10 @@ class UPNPSET(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("UPNP Client Aktivieren", "UPNPAN", "an", "46"))
-		list.append(("UPNP Client Deaktivieren", "UPNPAUS", "aus", "46"))
-		list.append(("UPNP Client Autostart Aktivieren", "UPNPAUTOAN", "upnpaan", "46"))
-		list.append(("UPNP Client Autostart Deaktivieren", "UPNPAUTOAUS", "upnpaaus", "46"))
+		list.append((getConfigListEntry(_("UPNP Client Aktivieren"), "UPNPAN", "an", "46")))
+		list.append((getConfigListEntry(_("UPNP Client Deaktivieren"), "UPNPAUS", "aus", "46")))
+		list.append((getConfigListEntry(_("UPNP Client Autostart Aktivieren"), "UPNPAUTOAN", "upnpaan", "46")))
+		list.append((getConfigListEntry(_("UPNP Client Autostart Deaktivieren"), "UPNPAUTOAUS", "upnpaaus", "46")))
 		
 		Screen.__init__(self, session)
 		self["UPNPSET"] = MenuList(list)
@@ -500,11 +500,11 @@ class WOLSET(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("WakeOnLan AN", "WOLAN", "an", "46"))
-		list.append(("WakeOnLan AUS", "WOLAUS", "aus", "46"))
-		list.append(("MAC Adresse", "mac", "macaddresse", "46"))
-		list.append(("Port", "WOLMACPORT", "macport", "46"))
-		list.append(("Zeit in Sec fuer wiederholung", "WOLTIME", "mactime", "46"))
+		list.append((getConfigListEntry(_("WakeOnLan AN"), "WOLAN", "an", "46")))
+		list.append((getConfigListEntry(_("WakeOnLan AUS"), "WOLAUS", "aus", "46")))
+		list.append((getConfigListEntry(_("MAC Adresse"), "mac", "macaddresse", "46")))
+		list.append((getConfigListEntry(_("Port"), "WOLMACPORT", "macport", "46")))
+		list.append((getConfigListEntry(_("Zeit in Sec fuer wiederholung"), "WOLTIME", "mactime", "46")))
 		
 		Screen.__init__(self, session)
 		self["WOLSET"] = MenuList(list)
@@ -650,12 +650,12 @@ class TIMESET(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("Display Reset", "display", "displayreset", "46"))
-		list.append(("Display Uhr Aktivieren", "an", "an1", "46"))
-		list.append(("Display Uhr Deaktivieren", "aus", "aus1", "46"))
-		list.append(("Sommerzeit Einstellen", "sommer", "sommer1", "46"))
-		list.append(("Winterzeit Einstellen", "winter", "winter1", "46"))
-		list.append(("Display Auschalt Anzeige", "ausmachen", "boxoff", "46"))
+		list.append((getConfigListEntry(_("Display Reset"), "display", "displayreset", "46")))
+		list.append((getConfigListEntry(_("Display Uhr Aktivieren"), "an", "an1", "46")))
+		list.append((getConfigListEntry(_("Display Uhr Deaktivieren"), "aus", "aus1", "46")))
+		list.append((getConfigListEntry(_("Sommerzeit Einstellen"), "sommer", "sommer1", "46")))
+		list.append((getConfigListEntry(_("Winterzeit Einstellen"), "winter", "winter1", "46")))
+		list.append((getConfigListEntry(_("Display Auschalt Anzeige"), "ausmachen", "boxoff", "46")))
 		
 		Screen.__init__(self, session)
 		self["TIMESET"] = MenuList(list)
@@ -713,10 +713,10 @@ class BOXOFF(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("Anzeige von Turn OFF", "turnoff", "turnoff", "46"))
-		list.append(("Anzeige von Turno OFF und Datum", "offdate", "offdate1", "46"))
-		list.append(("Anzeige von Datum", "date", "date1", "46"))
-		list.append(("Display Deaktivieren", "aus", "aus1", "46"))
+		list.append((getConfigListEntry(_("Anzeige von Turn OFF"), "turnoff", "turnoff", "46")))
+		list.append((getConfigListEntry(_("Anzeige von Turno OFF und Datum"), "offdate", "offdate1", "46")))
+		list.append((getConfigListEntry(_("Anzeige von Datum"), "date", "date1", "46")))
+		list.append((getConfigListEntry(_("Display Deaktivieren"), "aus", "aus1", "46")))
 		
 		Screen.__init__(self, session)
 		self["BOXOFF"] = MenuList(list)
@@ -767,21 +767,21 @@ class EMU(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("Stoppt laufende Emus", "stop", "emustop", "46"))
-		list.append(("------------- Single Emu ------------", "", "", "46"))
-		list.append(("Start oder Restart Mg-Camd", "mgstart", "mgcamd", "46"))
-		list.append(("Start oder Restart OS-Cam", "oscam", "oscamd", "46"))
-		list.append(("Start oder Restart Vizcam", "vizcam", "vizcamd", "46"))
-		list.append(("Start oder Restart MBox", "mbox", "mbox1", "46"))
-		list.append(("Start oder Restart Incubus", "incubus", "incubus1", "46"))
-		list.append(("Start oder Restart Camd3", "camd3", "camd31", "46"))
-		list.append(("-------------- Dual Emu -------------", "", "", "46"))
-		list.append(("Start Dual Emu", "dual", "dualmode", "46"))
-		list.append(("------------- Emu Watchdog ----------", "", "", "46"))
-		list.append(("Watchdog Einschalten", "watchon", "watchon1", "46"))
-		list.append(("Watchdog Ausschalten", "watchoff", "watchoff1", "46"))
-		list.append(("------------- Keys Updater ----------", "", "", "46"))
-		list.append(("SoftCam KeyUpdater OS-Cam MG-Camd", "softcam", "softcam1", "46"))
+		list.append((getConfigListEntry(_("Stoppt laufende Emus"), "stop", "emustop", "46")))
+		list.append((getConfigListEntry(_("------------- Single Emu ------------"), "", "", "46")))
+		list.append((getConfigListEntry(_("Start oder Restart Mg-Camd"), "mgstart", "mgcamd", "46")))
+		list.append((getConfigListEntry(_("Start oder Restart OS-Cam"), "oscam", "oscamd", "46")))
+		list.append((getConfigListEntry(_("Start oder Restart Vizcam"), "vizcam", "vizcamd", "46")))
+		list.append((getConfigListEntry(_("Start oder Restart MBox"), "mbox", "mbox1", "46")))
+		list.append((getConfigListEntry(_("Start oder Restart Incubus"), "incubus", "incubus1", "46")))
+		list.append((getConfigListEntry(_("Start oder Restart Camd3"), "camd3", "camd31", "46")))
+		list.append((getConfigListEntry(_("-------------- Dual Emu -------------"), "", "", "46")))
+		list.append((getConfigListEntry(_("Start Dual Emu"), "dual", "dualmode", "46")))
+		list.append((getConfigListEntry(_("------------- Emu Watchdog ----------"), "", "", "46")))
+		list.append((getConfigListEntry(_("Watchdog Einschalten"), "watchon", "watchon1", "46")))
+		list.append((getConfigListEntry(_("Watchdog Ausschalten"), "watchoff", "watchoff1", "46")))
+		list.append((getConfigListEntry(_("------------- Keys Updater ----------"), "", "", "46")))
+		list.append((getConfigListEntry(_("SoftCam KeyUpdater OS-Cam MG-Camd"), "softcam", "softcam1", "46")))
 		
 		Screen.__init__(self, session)
 		self["EMU"] = MenuList(list)
@@ -852,11 +852,11 @@ class EMUDUAL(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("Stoppt laufenden Emu", "stop", "emustop", "46"))
-		list.append(("Start oder Restart Mg-Camd", "mgstart2", "mgcamd", "46"))
-		list.append(("Start oder Restart MBox", "mbox2", "mbox1", "46"))
-		list.append(("Start oder Restart Incubus", "incubus2", "incubus1", "46"))
-		list.append(("Start oder Restart Camd3", "camd32", "camd31", "46"))
+		list.append((getConfigListEntry(_("Stoppt laufenden Emu"), "stop", "emustop", "46")))
+		list.append((getConfigListEntry(_("Start oder Restart Mg-Camd"), "mgstart2", "mgcamd", "46")))
+		list.append((getConfigListEntry(_("Start oder Restart MBox"), "mbox2", "mbox1", "46")))
+		list.append((getConfigListEntry(_("Start oder Restart Incubus"), "incubus2", "incubus1", "46")))
+		list.append((getConfigListEntry(_("Start oder Restart Camd3"), "camd32", "camd31", "46")))
 		
 		Screen.__init__(self, session)
 		self["EMUDUAL"] = MenuList(list)
@@ -881,6 +881,7 @@ class EMUDUAL(Screen):
 
 			elif selection[1] == "incubus2":
 				self.prombt("/var/config/emu/start-incubus2.sh; echo 2 > /var/emu/emudual.sh")
+
 
 			elif selection[1] == "camd32":
 				self.prombt("/var/config/emu/start-camd32.sh; echo 2 > /var/emu/emudual")
@@ -909,12 +910,12 @@ class SYSTEM(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("Netzwerk Infos", "netstat", "com_one", "46"))
-		list.append(("Geladen Module Anzeigen", "lsmod", "runlsmod", "46"))
-		list.append(("Freier Speicher", "free", "runfree", "46"))
-		list.append(("Online Update", "ONLINE", "UPDATE", "46"))
-		list.append(("Image Version Infomation", "IMG", "IMGVER", "46"))
-		list.append(("Letztes FSCK Log Anzeigen", "FSCK", "LOG", "46"))
+		list.append((getConfigListEntry(_("Netzwerk Infos"), "netstat", "com_one", "46")))
+		list.append((getConfigListEntry(_("Geladen Module Anzeigen"), "lsmod", "runlsmod", "46")))
+		list.append((getConfigListEntry(_("Freier Speicher"), "free", "runfree", "46")))
+		list.append((getConfigListEntry(_("Online Update"), "ONLINE", "UPDATE", "46")))
+		list.append((getConfigListEntry(_("Image Version Infomation"), "IMG", "IMGVER", "46")))
+		list.append((getConfigListEntry(_("Letztes FSCK Log Anzeigen"), "FSCK", "LOG", "46")))
 		
 		Screen.__init__(self, session)
 		self["SYSTEM"] = MenuList(list)
@@ -970,10 +971,10 @@ class BACKUP(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("System Full Backup erstellen", "backupsys", "sback", "46"))
-		list.append(("System Install Backup erstellen", "backupinstallsys", "sback", "46"))
-		list.append(("Kanal-listen Sichern", "ksave", "save", "46"))
-		list.append(("Kanal-listen Installieren", "kinstall", "install", "46"))
+		list.append((getConfigListEntry(_("System Full Backup erstellen"), "backupsys", "sback", "46")))
+		list.append((getConfigListEntry(_("System Install Backup erstellen"), "backupinstallsys", "sback", "46")))
+		list.append((getConfigListEntry(_("Kanal-listen Sichern"), "ksave", "save", "46")))
+		list.append((getConfigListEntry(_("Kanal-listen Installieren"), "kinstall", "install", "46")))
 		
 		Screen.__init__(self, session)
 		self["BACKUP"] = MenuList(list)
@@ -1022,21 +1023,21 @@ class TUNER(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("------ VIP1 Tuner Treiber ---------", "", "", "46"))
-		list.append(("ST-Tuner Opti,VIP1,VIP2", "tuner", "tunervip1", "46"))
-		list.append(("RB-Tuner Opti,VIP1", "tuner2", "tunervip", "46"))
-		list.append(("VIP1 Kabel Tuner", "tuner1kabel", "tunervip1kabel", "46"))
-		list.append(("VIP1 DVB-T Tuner", "tuner1dvbt", "tunervipdvbt", "46"))
-		list.append(("------ VIP1v2 Tuner Treiber ---------", "", "", "46"))
-		list.append(("Sharp Tuner VIP1v2", "tunervip1v2", "tunervip1v2vip2", "46"))
-		list.append(("LG Kabel Tuner VIP1v2", "tunervip1v2kabel", "tunervip1v2kabel", "46"))
-		list.append(("Sharp DVB-T Tuner VIP1v2", "tunervip1v2dvbt", "tunervip1v2dvbt", "46"))
-		list.append(("------ VIP2 Tuner Treiber ---------", "", "", "46"))
-		list.append(("Sharp Tuner VIP2", "tunervip2", "tunervip2vip2", "46"))
-		list.append(("Sharp DVB-S2 und Kabel LG VIP2", "tuners2lg", "tuners2lgvip2", "46"))
-		list.append(("2x Kabel LG VIP2", "tuner2xlg", "tuner2xlgvip2", "46"))
-		list.append(("Kabel LG und DVB-T VIP2", "tunerlgdvbt", "tunerlgdvbtvip2", "46"))
-		list.append(("Sharp DVB-S2 und DVB-T VIP2", "tunerdvbs2dvbt", "tunerdvbs2dvbtvip2", "46"))
+		list.append((getConfigListEntry(_("------ VIP1 Tuner Treiber ---------"), "", "", "46")))
+		list.append((getConfigListEntry(_("ST-Tuner Opti,VIP1,VIP2"), "tuner", "tunervip1", "46")))
+		list.append((getConfigListEntry(_("RB-Tuner Opti,VIP1"), "tuner2", "tunervip", "46")))
+		list.append((getConfigListEntry(_("VIP1 Kabel Tuner"), "tuner1kabel", "tunervip1kabel", "46")))
+		list.append((getConfigListEntry(_("VIP1 DVB-T Tuner"), "tuner1dvbt", "tunervipdvbt", "46")))
+		list.append((getConfigListEntry(_("------ VIP1v2 Tuner Treiber ---------"), "", "", "46")))
+		list.append((getConfigListEntry(_("Sharp Tuner VIP1v2"), "tunervip1v2", "tunervip1v2vip2", "46")))
+		list.append((getConfigListEntry(_("LG Kabel Tuner VIP1v2"), "tunervip1v2kabel", "tunervip1v2kabel", "46")))
+		list.append((getConfigListEntry(_("Sharp DVB-T Tuner VIP1v2"), "tunervip1v2dvbt", "tunervip1v2dvbt", "46")))
+		list.append((getConfigListEntry(_("------ VIP2 Tuner Treiber ---------"), "", "", "46")))
+		list.append((getConfigListEntry(_("Sharp Tuner VIP2"), "tunervip2", "tunervip2vip2", "46")))
+		list.append((getConfigListEntry(_("Sharp DVB-S2 und Kabel LG VIP2"), "tuners2lg", "tuners2lgvip2", "46")))
+		list.append((getConfigListEntry(_("2x Kabel LG VIP2"), "tuner2xlg", "tuner2xlgvip2", "46")))
+		list.append((getConfigListEntry(_("Kabel LG und DVB-T VIP2"), "tunerlgdvbt", "tunerlgdvbtvip2", "46")))
+		list.append((getConfigListEntry(_("Sharp DVB-S2 und DVB-T VIP2"), "tunerdvbs2dvbt", "tunerdvbs2dvbtvip2", "46")))
 
 		
 		Screen.__init__(self, session)
@@ -1122,26 +1123,26 @@ class BENUTZER(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("------- CCcam Client ---------", "", "", "46"))
-		list.append(("Benutzername eingeben", "benutzername", "name", "46"))
-		list.append(("Passwort eingeben", "password", "pass", "46"))
-		list.append(("IP oder Dyndns eingeben", "dyndns", "dyn", "46"))
-		list.append(("CCcam Port", "cccam", "ccc", "46"))
-		list.append(("------- Newcamd Client ---------", "", "", "46"))
-		list.append(("Benutzername eingeben", "benutzername", "name", "46"))
-		list.append(("Passwort eingeben", "password", "pass", "46"))
-		list.append(("IP oder Dyndns eingeben", "dyndns", "dyn", "46"))
-		list.append(("MG-Camd Port1", "mgport1", "mg1", "46"))
-		list.append(("MG-Camd Port2", "mgport2", "mg2", "46"))
-		list.append(("-------- Camd3 Client ----------", "", "", "46"))
-		list.append(("Benutzername eingeben", "benutzername", "name", "46"))
-		list.append(("Passwort eingeben", "password", "pass", "46"))
-		list.append(("IP oder Dyndns eingeben", "dyndns", "dyn", "46"))
-		list.append(("Camd3 Port", "camd3", "cam", "46"))
-		list.append(("--- Generelle Einstellungen ----", "", "", "46"))
-		list.append(("Client Protocol", "server", "serv", "46"))
-		list.append(("Emu Config Daten erstellen", "emudaten", "emuconf", "46"))
-		list.append(("Fernbedienung waehlen", "fbw", "fernb", "46"))
+		list.append((getConfigListEntry(_("------- CCcam Client ---------"), "", "", "46")))
+		list.append((getConfigListEntry(_("Benutzername eingeben"), "benutzername", "name", "46")))
+		list.append((getConfigListEntry(_("Passwort eingeben"), "password", "pass", "46")))
+		list.append((getConfigListEntry(_("IP oder Dyndns eingeben"), "dyndns", "dyn", "46")))
+		list.append((getConfigListEntry(_("CCcam Port"), "cccam", "ccc", "46")))
+		list.append((getConfigListEntry(_("------- Newcamd Client ---------"), "", "", "46")))
+		list.append((getConfigListEntry(_("Benutzername eingeben"), "benutzername", "name", "46")))
+		list.append((getConfigListEntry(_("Passwort eingeben"), "password", "pass", "46")))
+		list.append((getConfigListEntry(_("IP oder Dyndns eingeben"), "dyndns", "dyn", "46")))
+		list.append((getConfigListEntry(_("MG-Camd Port1"), "mgport1", "mg1", "46")))
+		list.append((getConfigListEntry(_("MG-Camd Port2"), "mgport2", "mg2", "46")))
+		list.append((getConfigListEntry(_("-------- Camd3 Client ----------"), "", "", "46")))
+		list.append((getConfigListEntry(_("Benutzername eingeben"), "benutzername", "name", "46")))
+		list.append((getConfigListEntry(_("Passwort eingeben"), "password", "pass", "46")))
+		list.append((getConfigListEntry(_("IP oder Dyndns eingeben"), "dyndns", "dyn", "46")))
+		list.append((getConfigListEntry(_("Camd3 Port"), "camd3", "cam", "46")))
+		list.append((getConfigListEntry(_("--- Generelle Einstellungen ----"), "", "", "46")))
+		list.append((getConfigListEntry(_("Client Protocol"), "server", "serv", "46")))
+		list.append((getConfigListEntry(_("Emu Config Daten erstellen"), "emudaten", "emuconf", "46")))
+		list.append((getConfigListEntry(_("Fernbedienung waehlen"), "fbw", "fernb", "46")))
 		
 		Screen.__init__(self, session)
 		self["BENUTZER"] = MenuList(list)
@@ -1208,13 +1209,13 @@ class FERNB(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("ArgusVIP neue FB Rotes Blinken", "ArgusVIPneu", "vipneu", "46"))
-		list.append(("ArgusVIP neue FB Gruenes Blinken", "ArgusVIPneugruen", "vipneugruen", "46"))
-		list.append(("ArgusVIP alte FB Rotes Blinken", "ArgusVIPalt", "vipalt", "46"))
-		list.append(("ArgusVIP alte FB Gruenes Blinken", "ArgusVIPaltgruen", "vipaltgruen", "46"))
-		list.append(("Opticum FB", "Opticum", "opti", "46"))
-		list.append(("Pingolux FB", "Pingolux", "pingo", "46"))
-		list.append(("System Neustart", "neustart", "neu", "46"))
+		list.append((getConfigListEntry(_("ArgusVIP neue FB Rotes Blinken"), "ArgusVIPneu", "vipneu", "46")))
+		list.append((getConfigListEntry(_("ArgusVIP neue FB Gruenes Blinken"), "ArgusVIPneugruen", "vipneugruen", "46")))
+		list.append((getConfigListEntry(_("ArgusVIP alte FB Rotes Blinken"), "ArgusVIPalt", "vipalt", "46")))
+		list.append((getConfigListEntry(_("ArgusVIP alte FB Gruenes Blinken"), "ArgusVIPaltgruen", "vipaltgruen", "46")))
+		list.append((getConfigListEntry(_("Opticum FB"), "Opticum", "opti", "46")))
+		list.append((getConfigListEntry(_("Pingolux FB"), "Pingolux", "pingo", "46")))
+		list.append((getConfigListEntry(_("System Neustart"), "neustart", "neu", "46")))
 		
 		Screen.__init__(self, session)
 		self["FERNB"] = MenuList(list)
@@ -1367,8 +1368,8 @@ class SERVER(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("CCcam Client Aktivieren", "CCCAM", "", "46"))
-		list.append(("NewCamd Client Aktivieren", "NEWCAMD", "name", "46"))
+		list.append((getConfigListEntry(_("CCcam Client Aktivieren"), "CCCAM", "", "46")))
+		list.append((getConfigListEntry(_("NewCamd Client Aktivieren"), "NEWCAMD", "name", "46")))
 		
 		Screen.__init__(self, session)
 		self["SERVER"] = MenuList(list)
@@ -1535,14 +1536,14 @@ class WLAN(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append(("W-Lan 8192cu.ko Treiber Modul", "1", "11", "46"))
-		list.append(("W-Lan 8712u.ko Treiber Modul", "2", "22", "46"))
-		list.append(("W-Lan rt2870sta.ko Treiber Modul", "3", "33", "46"))
-		list.append(("W-Lan rt3070sta.ko Treiber Modul", "4", "44", "46"))
-		list.append(("W-Lan rt5370sta.ko Treiber Modul", "5", "55", "46"))
-		list.append(("W-Lan rt73.ko Treiber Modul", "6", "66", "46"))
-		list.append(("W-Lan zydas.ko Treiber Modul", "7", "77", "46"))
-		list.append(("W-Lan Deaktivieren", "8", "88", "46"))
+		list.append((getConfigListEntry(_("W-Lan 8192cu.ko Treiber Modul"), "1", "11", "46")))
+		list.append((getConfigListEntry(_("W-Lan 8712u.ko Treiber Modul"), "2", "22", "46")))
+		list.append((getConfigListEntry(_("W-Lan rt2870sta.ko Treiber Modul"), "3", "33", "46")))
+		list.append((getConfigListEntry(_("W-Lan rt3070sta.ko Treiber Modul"), "4", "44", "46")))
+		list.append((getConfigListEntry(_("W-Lan rt5370sta.ko Treiber Modul"), "5", "55", "46")))
+		list.append((getConfigListEntry(_("W-Lan rt73.ko Treiber Modul"), "6", "66", "46")))
+		list.append((getConfigListEntry(_("W-Lan zydas.ko Treiber Modul"), "7", "77", "46")))
+		list.append((getConfigListEntry(_("W-Lan Deaktivieren"), "8", "88", "46")))
 
 		
 		Screen.__init__(self, session)
@@ -1687,6 +1688,7 @@ class MerlinDownloadBrowser(Screen):
 
 		self["actions"] = ActionMap(["WizardActions"], 
 		{
+
 			"ok": self.go,
 			"back": self.close,
 		})
@@ -1975,8 +1977,8 @@ class SYSBACKUP(Screen):
 		self["myText"].setText(self.text)
 		
 	def startbackup(self):
-		os.system("/var/config/system/backup.sh &")
 		self.close(None)
+		os.system("sleep 10; /var/config/system/backup.sh &")
 
 	def cancel(self):
 		print "\n[SYSBACKUP] cancel\n"
@@ -2012,8 +2014,8 @@ class SYSINSTALLBACKUP(Screen):
 		self["myText"].setText(self.text1)
 		
 	def startsysbackup(self):
-		os.system("/var/config/system/install_backup.sh &")
 		self.close(None)
+		os.system("sleep 10; /var/config/system/install_backup.sh &")
 
 	def cancel(self):
 		print "\n[SYSINSTALLBACKUP] cancel\n"
