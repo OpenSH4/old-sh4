@@ -1,0 +1,703 @@
+--- enigma2-nightly.org/po/de.po	2013-04-19 09:12:38.999930000 +0200
++++ enigma2-nightly/po/de.po	2013-07-20 22:02:59.161143524 +0200
+@@ -2140,11 +2140,17 @@
+ msgstr "Schnelles DiSEqC"
+ 
+ msgid "Fast Scan"
+-msgstr "Fast-Scan"
++msgstr "Schnell-Scan"
+ 
+ msgid "Fast epoch"
+ msgstr "Schnell Zeitraum"
+ 
++msgid "Choose Tuner"
++msgstr "Wähle Tuner"
++
++msgid "TeamCS Menu"
++msgstr "TeamCS Menü"
++
+ msgid "Fast forward speeds"
+ msgstr "Schnellvorlauf-Geschwindigkeiten"
+ 
+@@ -3679,7 +3685,7 @@
+ msgstr "Pluginverwaltung: Hilfe"
+ 
+ msgid "Plugins"
+-msgstr "Plugins"
++msgstr "Erweiterungen"
+ 
+ msgid "Polarisation"
+ msgstr "Polarisation"
+@@ -3754,7 +3760,7 @@
+ msgstr "INFO drücken für zusätzliche Informationen."
+ 
+ msgid "Press MENU on your remote control for additional options."
+-msgstr "Menu drücken für zusätzliche Optionen."
++msgstr "Menü drücken für zusätzliche Optionen."
+ 
+ msgid "Press OK on your remote control to continue."
+ msgstr "OK drücken zum Fortfahren."
+@@ -4072,6 +4078,31 @@
+ msgid "Restart network"
+ msgstr "Netzwerk neu starten"
+ 
++msgid "Add new network mount point"
++msgstr "Hinzufügen neuer Freigaben"
++
++msgid "AutoMountManager"
++msgstr "Auto Freigabe Manager"
++
++msgid "MountManager"
++msgstr "Freigaben Manager"
++
++msgid "NetworkBrowser"
++msgstr "Netzwerk Browser"
++
++msgid "Mountpoints management"
++msgstr "Freigaben Verwalten"
++
++msgid "User management"
++msgstr "Benutzer verwalten"
++
++
++msgid "Change hostname"
++msgstr "Boxname ändern"
++
++msgid "Press OK to select."
++msgstr "Ok Drücken zu Auswählen"
++
+ msgid "Restart test"
+ msgstr "Test wiederholen"
+ 
+@@ -4177,7 +4208,7 @@
+ msgstr "Satelliten-Ausrüstung"
+ 
+ msgid "Satellite equipment setup"
+-msgstr "Satellitenausrüstungseinstellungen"
++msgstr "Sat.Ausrüstungseinstellungen"
+ 
+ msgid "Satellite longitude:"
+ msgstr "Satelliten Längengrad:"
+@@ -7342,3 +7373,622 @@
+ 
+ msgid "zapped"
+ msgstr "umgeschaltet"
++
++msgid "Searching your network. Please wait..."
++msgstr "Durchsuche das Netzwerk. Bitte warten..."
++
++msgid "No network devices found!"
++msgstr "Keine Freigaben gefunden!"
++
++msgid "Network Neighbourhood"
++msgstr "Netzwerk Umgebung"
++
++msgid "Press OK to expand this host"
++msgstr "Drücken Sie OK um das Menü zu Erweitern"
++
++msgid "Mounts management"
++msgstr "Netzlaufwerke Verwalten"
++
++msgid "Rescan"
++msgstr "Neu Suchen"
++
++msgid "Press OK to mount this share!"
++msgstr "Drücke OK um das Laufwerk einzuhängen"
++
++msgid "Press OK to collapse this host"
++msgstr "Drücke OK um das Menü einzuklappen"
++
++msgid "Your network mount has been updated."
++msgstr "Ihre Netzwerk Freigabe wurde erfolgreich bearbeitet"
++
++msgid "Please wait for activation of your network mount..."
++msgstr "Bitte warten, ihr Netzwerk Freigabe wird Aktiviert"
++
++msgid "Your network mount has been activated."
++msgstr "Ihre Netzwerk Freigabe wurde Aktiviert"
++
++msgid  "Local share name"
++msgstr "Freigabe Type"
++
++msgid "Server share"
++msgstr "Server Freigabe"
++
++msgid "use as HDD replacement"
++msgstr "Als Festplatte Freigeben?"
++
++msgid "Press OK to edit selected settings."
++msgstr "Drücken Sie OK um die Einstellungen zu bearbeiten."
++
++msgid "Enter new hostname for your ArgusVIP"
++msgstr "Bitte geben Sie einen neuen Receiver Namen ein"
++
++msgid "Add a new NFS or CIFS mount point to your ArgusVIP."
++msgstr "Hinzufügen von NFS oder CIFS Freigaben."
++
++msgid "View, edit or delete mountpoints on your ArgusVIP."
++msgstr "Einsehen, Bearbeiten oder Löschen von Freigaben."
++
++msgid "View, edit or delete usernames and passwords for your network."
++msgstr "Einsehen, Bearbeiten oder Löschen von Benutzernamen und Passwörtern."
++
++msgid "Change the hostname of your ArgusVIP."
++msgstr "Ändern des Receiver Netzwerk Namens"
++
++msgid "UserManager"
++msgstr "Benutzer Menü"
++
++msgid "MountView"
++msgstr "Freigaben"
++
++msgid "MountEdit"
++msgstr "Freigaben Editor"
++
++msgid "Mount type"
++msgstr "Freigabe Type"
++
++msgid "Mount options"
++msgstr "Freigabe Optionen"
++
++msgid "Active"
++msgstr "Aktiv"
++
++msgid "Do you want to enter a username and password for this host?"
++msgstr "Möchten Sie Benutzername und Password für diese Freigabe eingeben?"
++
++msgid "Delete mount"
++msgstr "Freigabe Löschen"
++
++msgid "Mounted/\n"
++"Unmounted"
++msgstr "Eingehangen/\n"
++"Ausgehangen"
++
++msgid "Mount informations"
++msgstr "Freigabe Informationen"
++
++msgid "Active/\n"
++"Inactive"
++msgstr "Aktiviert/\n"
++"Deaktiviert"
++
++# TeamCS Menü
++msgid "Emu Menu"
++msgstr "Emu Menü"
++
++msgid "Addon Manager"
++msgstr "Erweiterungs Manager"
++
++msgid "Display Uhr Einstellen"
++msgstr "Display Uhr Einstellen"
++
++msgid "W-Lan Einstellungen"
++msgstr "W-Lan Einstellungen"
++
++msgid "Backup, Install Menu"
++msgstr "System Backup, Installations Menü"
++
++msgid "System Information"
++msgstr "System Information"
++
++msgid "Tuner Waehlen"
++msgstr "TV Tuner wählen"
++
++msgid "Tuner Menu"
++msgstr "TV Tuner Menü"
++
++msgid "Overclock Menu"
++msgstr "Übertaktungs Menü"
++
++msgid "AddOn Browser"
++msgstr "Erweiterungs Browser"
++
++msgid "W-Lan Menu"
++msgstr "W-Lan Menü"
++
++msgid "BackUp Menu"
++msgstr "BackUp Menü"
++
++msgid "System Infos"
++msgstr "System Informationen"
++
++msgid "Benutzerdaten Menu"
++msgstr "Benutzerdaten Menü"
++
++msgid "WakeOnLan Menu"
++msgstr "WakeOnLan Menü"
++
++msgid "UPNP Menu"
++msgstr "UPNP Menü"
++
++msgid "OPENVPN Menu"
++msgstr "OPENVPN Menü"
++
++msgid "Swap Menu"
++msgstr "Swap Menü"
++
++msgid "Mac Switch Menu"
++msgstr "Mac Switch Menü"
++
++msgid "NeutrinoHD2 wird beim naechsten Systemstart ausgefuehrt"
++msgstr "NeutrinoHD2 wird beim nächsten Systemstart ausgeführt"
++
++msgid "Benutzerdaten Einstellen"
++msgstr "Emu Benutzerdaten Einrichten"
++
++msgid "WakeOnLan Einstellen"
++msgstr "WakeOnLan Einstellen"
++
++msgid "UPNP Media-Server-Client"
++msgstr "UPNP Media-Server-Client"
++
++msgid "OpenVPN Client"
++msgstr "OpenVPN Client/Server"
++
++msgid "Samba Menu"
++msgstr "Samba Menü"
++
++msgid "Swap Einrichten"
++msgstr "Swap Verwalten"
++
++msgid "CPU Overclocking"
++msgstr "CPU Übertakten"
++
++msgid "ETH0 MAC Switcher"
++msgstr "Mac Adressen Verwalten"
++
++msgid "NeutrinoHD2 Subsystem Switch"
++msgstr "NeutrinoHD2 System wechsel"
++
++msgid "Benutze MAC 00:80:E1:12:06:30 -- default"
++msgstr "Benutze MAC 00:80:E1:12:06:30 -- Standart"
++
++msgid "Benutze MAC 00:81:E1:12:06:30"
++msgstr "Benutze MAC 00:81:E1:12:06:30"
++
++msgid "Benutze MAC 00:82:E1:12:06:30"
++msgstr "Benutze MAC 00:82:E1:12:06:30"
++
++msgid "Benutze MAC 00:83:E1:12:06:30"
++msgstr "Benutze MAC 00:83:E1:12:06:30"
++
++msgid "Benutze MAC 00:84:E1:12:06:30"
++msgstr "Benutze MAC 00:84:E1:12:06:30"
++
++msgid "---------- Boot Overclocking -----------"
++msgstr "---------- beim Boot Übertakten -----------"
++
++msgid "Aktivieren 266 Mhz -- default"
++msgstr "Aktivieren 266 Mhz -- default"
++
++msgid "Aktivieren 300 Mhz"
++msgstr "Aktivieren 300 Mhz"
++
++msgid "Aktivieren 333 Mhz"
++msgstr "Aktivieren 333 Mhz"
++
++msgid "Aktivieren 366 Mhz"
++msgstr "Aktivieren 366 Mhz"
++
++msgid "Aktivieren 400 Mhz"
++msgstr "Aktivieren 400 Mhz"
++
++msgid "--------- Dauer Overclocking -----------"
++msgstr "--------- Dauerhaftes Übertakten -----------"
++
++msgid "Deaktiviert Overclocking"
++msgstr "Deaktiviert das Übertakten"
++
++msgid "Overclock Frequence Check"
++msgstr "Taktfrequence Überprüfen"
++
++msgid "Das Overclocking geschieht auf eigene"
++msgstr "Das Overclocking geschieht auf eigene"
++
++msgid "Gefahr, jeder muss selber wissen was er"
++msgstr "Gefahr, jeder muss selber wissen was er"
++
++msgid "seiner Box Antut, getestet sind diese "
++msgstr "seiner Box Antut, getestet sind diese "
++
++msgid "Einstellungen, dennoch kann es sich bei"
++msgstr "Einstellungen, dennoch kann es sich bei"
++
++msgid "jeder Box anders Verhalten oder Auswirken !"
++msgstr "jeder Box anders Verhalten oder Auswirken !"
++
++msgid "------------ Swap Aktivieren -------------"
++msgstr "------------ Swap Aktivieren -------------"
++
++msgid "Swap Partition Aktivieren -- default"
++msgstr "Swap Partition Aktivieren -- Standart"
++
++msgid "Ramzswap Aktivieren"
++msgstr "Ramzswap Aktivieren"
++
++msgid "Swapfile auf HDD Aktivieren"
++msgstr "Swapfile auf HDD Aktivieren"
++
++msgid "------------ Swap Anlegen -------------"
++msgstr "------------ Swap Anlegen -------------"
++
++msgid "Swapfile auf HDD Erstellen"
++msgstr "Swapfile auf HDD Erstellen"
++
++msgid "Swappartition /dev/sda3 Formatieren"
++msgstr "Swappartition /dev/sda3 Formatieren"
++
++msgid "Samba AN"
++msgstr "Samba AN"
++
++msgid "Samba AUS"
++msgstr "Samba AUS"
++
++msgid "OpenVPN Client Aktivieren"
++msgstr "OpenVPN Client Aktivieren"
++
++msgid "OpenVPN Client Deaktivieren"
++msgstr "OpenVPN Client Deaktivieren"
++
++msgid "OpenVPN Client Autostart Aktivieren"
++msgstr "OpenVPN Client Autostart Aktivieren"
++
++msgid "OpenVPN Client Autostart Deaktivieren"
++msgstr "OpenVPN Client Autostart Deaktivieren"
++
++msgid "UPNP Client Aktivieren"
++msgstr "UPNP Client Aktivieren"
++
++msgid "UPNP Client Deaktivieren"
++msgstr "UPNP Client Deaktivieren"
++
++msgid "UPNP Client Autostart Aktivieren"
++msgstr "UPNP Client Autostart Aktivieren"
++
++msgid "UPNP Client Autostart Deaktivieren"
++msgstr "UPNP Client Autostart Deaktivieren"
++
++msgid "WakeOnLan AN"
++msgstr "WakeOnLan AN"
++
++msgid "WakeOnLan AUS"
++msgstr "WakeOnLan AUS"
++
++msgid "MAC Adresse"
++msgstr "MAC Adresse"
++
++msgid "Port"
++msgstr "Port"
++
++msgid "Zeit in Sec fuer wiederholung"
++msgstr "Zeit in Sec für wiederholung"
++
++msgid "Bitte die Zeit in Sec eingeben!"
++msgstr "Bitte die Zeit in Sec eingeben!"
++
++msgid "Bitte den Port eingeben!"
++msgstr "Bitte den Port eingeben!"
++
++msgid "Bitte die MAC Adresse eingeben!"
++msgstr "Bitte die MAC Adresse eingeben!"
++
++msgid "Display Reset"
++msgstr "Display Reset"
++
++msgid "Display Uhr Aktivieren"
++msgstr "Display Uhr Aktivieren"
++
++msgid "Display Uhr Deaktivieren"
++msgstr "Display Uhr Deaktivieren"
++
++msgid "Sommerzeit Einstellen"
++msgstr "Sommerzeit Einstellen"
++
++msgid "Winterzeit Einstellen"
++msgstr "Winterzeit Einstellen"
++
++msgid "Display Auschalt Anzeige"
++msgstr "Display Auschalt Anzeige"
++
++msgid "Anzeige von Turn OFF"
++msgstr "Anzeige von Turn OFF"
++
++msgid "Anzeige von Turno OFF und Datum"
++msgstr "Anzeige von Turno OFF und Datum"
++
++msgid "Anzeige von Datum"
++msgstr "Anzeige von Datum"
++
++msgid "Display Deaktivieren"
++msgstr "Display Deaktivieren"
++
++msgid "Stoppt laufende Emus"
++msgstr "Stoppt laufende Emus"
++
++msgid "------------- Single Emu ------------"
++msgstr "------------- Single Emu ------------"
++
++msgid "Start oder Restart Mg-Camd"
++msgstr "Start oder Restart Mg-Camd"
++
++msgid "Start oder Restart OS-Cam"
++msgstr "Start oder Restart OS-Cam"
++
++msgid "Start oder Restart Vizcam"
++msgstr "Start oder Restart Vizcam"
++
++msgid "Start oder Restart MBox"
++msgstr "Start oder Restart MBox"
++
++msgid "Start oder Restart Incubus"
++msgstr "Start oder Restart Incubus"
++
++msgid "Start oder Restart Camd3"
++msgstr "Start oder Restart Camd3"
++
++msgid "-------------- Dual Emu -------------"
++msgstr "-------------- Dual Emu -------------"
++
++msgid "Start Dual Emu"
++msgstr "Start Dual Emu"
++
++msgid "------------- Emu Watchdog ----------"
++msgstr "--------- Emu Überwachung ----------"
++
++msgid "Watchdog Einschalten"
++msgstr "Überwachung Einschalten"
++
++msgid "Watchdog Ausschalten"
++msgstr "Überwachung Ausschalten"
++
++msgid "------------- Keys Updater ----------"
++msgstr "-------- Schlüssel Updater ----------"
++
++msgid "SoftCam KeyUpdater OS-Cam MG-Camd"
++msgstr "SoftCam KeyUpdater OS-Cam MG-Camd"
++
++msgid "Netzwerk Infos"
++msgstr "Netzwerk Infos"
++
++msgid "Geladen Module Anzeigen"
++msgstr "Geladen Module Anzeigen"
++
++msgid "Freier Speicher"
++msgstr "Freier Speicher"
++
++msgid "Online Update"
++msgstr "Online Update"
++
++msgid "Image Version Infomation"
++msgstr "Image Version Infomation"
++
++msgid "Letztes FSCK Log Anzeigen"
++msgstr "Letztes FSCK Log Anzeigen"
++
++msgid "System Full Backup erstellen"
++msgstr "System Full Backup erstellen"
++
++msgid "System Install Backup erstellen"
++msgstr "System Install Backup erstellen"
++
++msgid "Kanal-listen Sichern"
++msgstr "Kanal-listen Sichern"
++
++msgid "Kanal-listen Installieren"
++msgstr "Kanal-listen Installieren"
++
++msgid "------ VIP1 Tuner Treiber ---------"
++msgstr "------ VIP1 Tuner Treiber ---------"
++
++msgid "ST-Tuner Opti,VIP1,VIP2"
++msgstr "ST-Tuner Opti,VIP1,VIP2"
++
++msgid "RB-Tuner Opti,VIP1"
++msgstr "RB-Tuner Opti,VIP1"
++
++msgid "VIP1 Kabel Tuner"
++msgstr "VIP1 Kabel Tuner"
++
++msgid "VIP1 DVB-T Tuner"
++msgstr "VIP1 DVB-T Tuner"
++
++msgid "------ VIP1v2 Tuner Treiber ---------"
++msgstr "------ VIP1v2 Tuner Treiber ---------"
++
++msgid "Sharp Tuner VIP1v2"
++msgstr "Sharp Tuner VIP1v2"
++
++msgid "LG Kabel Tuner VIP1v2"
++msgstr "LG Kabel Tuner VIP1v2"
++
++msgid "Sharp DVB-T Tuner VIP1v2"
++msgstr "Sharp DVB-T Tuner VIP1v2"
++
++msgid "------ VIP2 Tuner Treiber ---------"
++msgstr "------ VIP2 Tuner Treiber ---------"
++
++msgid "Sharp Tuner VIP2"
++msgstr "Sharp Tuner VIP2"
++
++msgid "Sharp DVB-S2 und Kabel LG VIP2"
++msgstr "Sharp DVB-S2 und Kabel LG VIP2"
++
++msgid "2x Kabel LG VIP2"
++msgstr "2x Kabel LG VIP2"
++
++msgid "Kabel LG und DVB-T VIP2"
++msgstr "Kabel LG und DVB-T VIP2"
++
++msgid "Sharp DVB-S2 und DVB-T VIP2"
++msgstr "Sharp DVB-S2 und DVB-T VIP2"
++
++msgid "------- CCcam Client ---------"
++msgstr "------- CCcam Client ---------"
++
++msgid "Benutzername eingeben"
++msgstr "Benutzername eingeben"
++
++msgid "Passwort eingeben"
++msgstr "Passwort eingeben"
++
++msgid "IP oder Dyndns eingeben"
++msgstr "IP oder Dyndns eingeben"
++
++msgid "CCcam Port"
++msgstr "CCcam Port"
++
++msgid "------- Newcamd Client ---------"
++msgstr "------- Newcamd Client ---------"
++
++msgid "MG-Camd Port1"
++msgstr "MG-Camd Port1"
++
++msgid "MG-Camd Port2"
++msgstr "MG-Camd Port2"
++
++msgid "-------- Camd3 Client ----------"
++msgstr "-------- Camd3 Client ----------"
++
++msgid "Camd3 Port"
++msgstr "Camd3 Port"
++
++msgid "--- Generelle Einstellungen ----"
++msgstr "--- Generelle Einstellungen ----"
++
++msgid "Client Protocol"
++msgstr "Client Protocol"
++
++msgid "Emu Config Daten erstellen"
++msgstr "Emu Config Daten erstellen"
++
++msgid "Fernbedienung waehlen"
++msgstr "Fernbedienung wählen"
++
++msgid "ArgusVIP neue FB Rotes Blinken"
++msgstr "ArgusVIP neue FB Rotes Blinken"
++
++msgid "ArgusVIP neue FB Gruenes Blinken"
++msgstr "ArgusVIP neue FB Gruenes Blinken"
++
++msgid "ArgusVIP alte FB Rotes Blinken"
++msgstr "ArgusVIP alte FB Rotes Blinken"
++
++msgid "ArgusVIP alte FB Gruenes Blinken"
++msgstr "ArgusVIP alte FB Gruenes Blinken"
++
++msgid "Opticum FB"
++msgstr "Opticum FB"
++
++msgid "Pingolux FB"
++msgstr "Pingolux FB"
++
++msgid "System Neustart"
++msgstr "System Neustart"
++
++msgid "Wollen Sie einen Benutzer eingeben?"
++msgstr "Wollen Sie einen Benutzer eingeben?"
++
++msgid "Wollen Sie ein Passwort eingeben?"
++msgstr "Wollen Sie ein Passwort eingeben?"
++
++msgid "Bitte geben Sie das Passwort ein!"
++msgstr "Bitte geben Sie das Passwort ein!"
++
++msgid "IP, DYNDNS eingeben?"
++msgstr "IP, DYNDNS eingeben?"
++
++msgid "Bitte IP, DYNDNS eingeben!"
++msgstr "Bitte IP, DYNDNS eingeben!"
++
++msgid "CCcam Client Aktivieren"
++msgstr "CCcam Client Aktivieren"
++
++msgid "NewCamd Client Aktivieren"
++msgstr "NewCamd Client Aktivieren"
++
++msgid "CCcam wurde als Client definiert"
++msgstr "CCcam wurde als Client definiert"
++
++msgid "Newcamd wurde als Client definiert"
++msgstr "Newcamd wurde als Client definiert"
++
++msgid "Wollen Sie den CCcam Port eingeben?"
++msgstr "Wollen Sie den CCcam Port eingeben?"
++
++msgid "Port eingeben !"
++msgstr "Port eingeben !"
++
++msgid "Wollen Sie einen MG-Camd Port eingeben?"
++msgstr "Wollen Sie einen MG-Camd Port eingeben?"
++
++msgid "Wollen Sie einen Camd3 Port eingeben?"
++msgstr "Wollen Sie einen Camd3 Port eingeben?"
++
++msgid "W-Lan 8192cu.ko Treiber Modul"
++msgstr "W-Lan 8192cu.ko Treiber Modul"
++
++msgid "W-Lan 8712u.ko Treiber Modul"
++msgstr "W-Lan 8712u.ko Treiber Modul"
++
++msgid "W-Lan rt2870sta.ko Treiber Modul"
++msgstr "W-Lan rt2870sta.ko Treiber Modul"
++
++msgid "W-Lan rt3070sta.ko Treiber Modul"
++msgstr "W-Lan rt3070sta.ko Treiber Modul"
++
++msgid "W-Lan rt5370sta.ko Treiber Modul"
++msgstr "W-Lan rt5370sta.ko Treiber Modul"
++
++msgid "W-Lan rt73.ko Treiber Modul"
++msgstr "W-Lan rt73.ko Treiber Modul"
++
++msgid "W-Lan zydas.ko Treiber Modul"
++msgstr "W-Lan zydas.ko Treiber Modul"
++
++msgid "W-Lan Deaktivieren"
++msgstr "W-Lan Deaktivieren"
++
++msgid "Search for network shares"
++msgstr "Nach Freigaben Suchen"
++
++msgid "Manage network shares"
++msgstr "Verwalten von Netzwerk Freigaben"
++
++msgid "Manage your network shares..."
++msgstr "Verwalten von Netzwerk Freigaben..."
++
++msgid "Search for network shares..."
++msgstr "Nach Freigaben Suchen..."
++
++msgid "Moechtest du folgendes\n"
++"Addon Downloaden\n"
++msgstr "Möchtest du folgendes\n"
++"Addon Downloaden\n"
++
++msgid "Moechtest du folgendes\n"
++"Addon Loeschen\n"
++msgstr "Möchtest du folgendes\n"
++"Addon Löschen\n"
++
++msgid "Neue Plugins gefunden..."
++msgstr "Neue Plugins gefunden..."
++

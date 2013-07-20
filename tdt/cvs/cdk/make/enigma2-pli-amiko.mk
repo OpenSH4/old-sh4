@@ -51,6 +51,7 @@ $(DEPDIR)/enigma2-pli-amiko.do_prepare:
 	cp -ra $(appsdir)/enigma2-nightly $(appsdir)/enigma2-nightly.org; \
 	cd $(appsdir)/enigma2-nightly && patch -p1 < "../../cdk/Patches/enigma2-pli-amiko.$$DIFF.diff"
 	cd $(appsdir)/enigma2-nightly && patch -p1 < "../../cdk/Patches/skin-pli-patch.diff"
+	cd $(appsdir)/enigma2-nightly && patch -p1 < "../../cdk/Patches/Enigma2-amiko-Language.patch"
 	cp -ra $(appsdir)/enigma2-nightly $(appsdir)/enigma2-nightly.patched
 	touch $@
 
