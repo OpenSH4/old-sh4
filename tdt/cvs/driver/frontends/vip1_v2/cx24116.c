@@ -1434,7 +1434,7 @@ static int cx24116_get_algo(struct dvb_frontend *fe)
 static struct dvb_frontend_ops cx24116_ops = {
 
 	.info = {
-		.name = "Conexant CX24116/CX24118",
+		.name = "Vip1v2 Tuner ->",
 		.type = FE_QPSK,
 		.frequency_min = 950000,
 		.frequency_max = 2150000,

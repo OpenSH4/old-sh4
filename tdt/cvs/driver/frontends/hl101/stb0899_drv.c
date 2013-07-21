@@ -1933,7 +1933,7 @@ static enum dvbfe_algo stb0899_frontend_algo(struct dvb_frontend *fe)
 static struct dvb_frontend_ops stb0899_ops = {
 
 	.info = {
-		.name				= "STB0899 Multistandard",
+		.name				= "Vip1 RB-Tuner ->",
 		.type				= FE_QPSK, /* with old API */
 		.frequency_min		= 950000,
 		.frequency_max 		= 2150000,

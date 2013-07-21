@@ -13,7 +13,7 @@
 #include "../base/ix7306.h"
 #include "zl10353.h"
 #include "../base/sharp6465.h"
-#include "../base/tda1002x.h"
+#include "tda1002x.h"
 #include "../base/lg031.h"
 
 #include <linux/platform_device.h>

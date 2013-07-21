@@ -5365,7 +5365,7 @@ err:
 static struct dvb_frontend_ops stv090x_ops = {
 
 	.info = {
-		.name				= "STV090x Multistandard",
+		.name				= "Vip2 Tuner ->",
 		.type				= FE_QPSK,
 		.frequency_min		= 950000,
 		.frequency_max 		= 2150000,
