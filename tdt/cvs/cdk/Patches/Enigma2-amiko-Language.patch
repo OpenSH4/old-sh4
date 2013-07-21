@@ -701,3 +701,519 @@
 +msgid "Neue Plugins gefunden..."
 +msgstr "Neue Plugins gefunden..."
 +
+--- enigma2-nightly.org/po/en.po	2013-04-19 09:12:39.011930000 +0200
++++ enigma2-nightly/po/en.po	2013-07-21 17:36:39.935916905 +0200
+@@ -7371,3 +7371,513 @@
+ 
+ #~ msgid "scan in progress - %d%% done!"
+ #~ msgstr "scan in progress - %d%% done!"
++
++# TeamCS Menü
++msgid "Emu Menu"
++msgstr "Emu Menu"
++
++msgid "Addon Manager"
++msgstr "Addon Manager"
++
++msgid "Display Uhr Einstellen"
++msgstr "Display Clock setting"
++
++msgid "W-Lan Einstellungen"
++msgstr "W-Lan setting"
++
++msgid "Backup, Install Menu"
++msgstr "System Backup, Installations Menu"
++
++msgid "System Information"
++msgstr "System Information"
++
++msgid "Tuner Waehlen"
++msgstr "Tuner Select"
++
++msgid "Tuner Menu"
++msgstr "Tuner Menu"
++
++msgid "Overclock Menu"
++msgstr "Overclock Menu"
++
++msgid "AddOn Browser"
++msgstr "AddOn Browser"
++
++msgid "W-Lan Menu"
++msgstr "W-Lan Menu"
++
++msgid "BackUp Menu"
++msgstr "BackUp Menu"
++
++msgid "System Infos"
++msgstr "System Informations"
++
++msgid "Benutzerdaten Menu"
++msgstr "User data Menu"
++
++msgid "WakeOnLan Menu"
++msgstr "WakeOnLan Menu"
++
++msgid "UPNP Menu"
++msgstr "UPNP Menu"
++
++msgid "OPENVPN Menu"
++msgstr "OPENVPN Menu"
++
++msgid "Swap Menu"
++msgstr "Swap Menu"
++
++msgid "Mac Switch Menu"
++msgstr "Mac Switch Menu"
++
++msgid "NeutrinoHD2 wird beim naechsten Systemstart ausgefuehrt"
++msgstr "NeutrinoHD2 is run at the next system start-up"
++
++msgid "Benutzerdaten Einstellen"
++msgstr "User data set"
++
++msgid "WakeOnLan Einstellen"
++msgstr "WakeOnLan setting"
++
++msgid "UPNP Media-Server-Client"
++msgstr "UPNP Media-Server-Client"
++
++msgid "OpenVPN Client"
++msgstr "OpenVPN Client/Server"
++
++msgid "Samba Menu"
++msgstr "Samba Menu"
++
++msgid "Swap Einrichten"
++msgstr "Swap Setting up"
++
++msgid "CPU Overclocking"
++msgstr "CPU Overclocking"
++
++msgid "ETH0 MAC Switcher"
++msgstr "Mac Address Manage"
++
++msgid "NeutrinoHD2 Subsystem Switch"
++msgstr "NeutrinoHD2 System change"
++
++msgid "Benutze MAC 00:80:E1:12:06:30 -- default"
++msgstr "Use MAC 00:80:E1:12:06:30 -- default"
++
++msgid "Benutze MAC 00:81:E1:12:06:30"
++msgstr "Use MAC 00:81:E1:12:06:30"
++
++msgid "Benutze MAC 00:82:E1:12:06:30"
++msgstr "Use MAC 00:82:E1:12:06:30"
++
++msgid "Benutze MAC 00:83:E1:12:06:30"
++msgstr "Use MAC 00:83:E1:12:06:30"
++
++msgid "Benutze MAC 00:84:E1:12:06:30"
++msgstr "Use MAC 00:84:E1:12:06:30"
++
++msgid "---------- Boot Overclocking -----------"
++msgstr "---------- Boot Overclocking   -----------"
++
++msgid "Aktivieren 266 Mhz -- default"
++msgstr "Enable 266 Mhz -- default"
++
++msgid "Aktivieren 300 Mhz"
++msgstr "Enable 300 Mhz"
++
++msgid "Aktivieren 333 Mhz"
++msgstr "Enable 333 Mhz"
++
++msgid "Aktivieren 366 Mhz"
++msgstr "Enable 366 Mhz"
++
++msgid "Aktivieren 400 Mhz"
++msgstr "Enable 400 Mhz"
++
++msgid "--------- Dauer Overclocking -----------"
++msgstr "--------- Duration Overclocking  -----------"
++
++msgid "Deaktiviert Overclocking"
++msgstr "Disabled Overclocking"
++
++msgid "Overclock Frequence Check"
++msgstr "Overclock Frequence Check"
++
++msgid "Das Overclocking geschieht auf eigene"
++msgstr "The overclocking is done on your own"
++
++msgid "Gefahr, jeder muss selber wissen was er"
++msgstr "Danger, everyone must themselves know what happen"
++
++msgid "seiner Box Antut, getestet sind diese "
++msgstr "his box does these are tested "
++
++msgid "Einstellungen, dennoch kann es sich bei"
++msgstr "Settings, but they may be at"
++
++msgid "jeder Box anders Verhalten oder Auswirken !"
++msgstr "each box different behavior or effect!"
++
++msgid "------------ Swap Aktivieren -------------"
++msgstr "------------ Swap Enable -------------"
++
++msgid "Swap Partition Aktivieren -- default"
++msgstr "Swap Partition Enable -- default"
++
++msgid "Ramzswap Aktivieren"
++msgstr "Ramzswap Enable"
++
++msgid "Swapfile auf HDD Aktivieren"
++msgstr "Swapfile to enable HDD"
++
++msgid "------------ Swap Anlegen -------------"
++msgstr "------------ Swap Equip -------------"
++
++msgid "Swapfile auf HDD Erstellen"
++msgstr "Swapfile on HDD create"
++
++msgid "Swappartition /dev/sda3 Formatieren"
++msgstr "Swappartition /dev/sda3 Format"
++
++msgid "Samba AN"
++msgstr "Samba ON"
++
++msgid "Samba AUS"
++msgstr "Samba OFF"
++
++msgid "OpenVPN Client Aktivieren"
++msgstr "OpenVPN Client Enable"
++
++msgid "OpenVPN Client Deaktivieren"
++msgstr "OpenVPN Client Disable"
++
++msgid "OpenVPN Client Autostart Aktivieren"
++msgstr "OpenVPN Client Autostart Enable"
++
++msgid "OpenVPN Client Autostart Deaktivieren"
++msgstr "OpenVPN Client Autostart Disable"
++
++msgid "UPNP Client Aktivieren"
++msgstr "UPNP Client Enable"
++
++msgid "UPNP Client Deaktivieren"
++msgstr "UPNP Client Disable"
++
++msgid "UPNP Client Autostart Aktivieren"
++msgstr "UPNP Client Autostart Enable"
++
++msgid "UPNP Client Autostart Deaktivieren"
++msgstr "UPNP Client Autostart Disable"
++
++msgid "WakeOnLan AN"
++msgstr "WakeOnLan ON"
++
++msgid "WakeOnLan AUS"
++msgstr "WakeOnLan OFF"
++
++msgid "MAC Adresse"
++msgstr "MAC Address"
++
++msgid "Port"
++msgstr "Port"
++
++msgid "Zeit in Sec fuer wiederholung"
++msgstr "Time in seconds for retry"
++
++msgid "Bitte die Zeit in Sec eingeben!"
++msgstr "Please enter the time in seconds!"
++
++msgid "Bitte den Port eingeben!"
++msgstr "Please enter the port!"
++
++msgid "Bitte die MAC Adresse eingeben!"
++msgstr "Please enter the MAC address!"
++
++msgid "Display Reset"
++msgstr "Display Reset"
++
++msgid "Display Uhr Aktivieren"
++msgstr "Display clock enable"
++
++msgid "Display Uhr Deaktivieren"
++msgstr "Display clock disable"
++
++msgid "Sommerzeit Einstellen"
++msgstr "Summer saving time adjustment"
++
++msgid "Winterzeit Einstellen"
++msgstr "Winter saving time adjustment"
++
++msgid "Display Auschalt Anzeige"
++msgstr "Display BoxOFF String"
++
++msgid "Anzeige von Turn OFF"
++msgstr "Display of turn OFF"
++
++msgid "Anzeige von Turno OFF und Datum"
++msgstr "Display date and Round OFF"
++
++msgid "Anzeige von Datum"
++msgstr "Display by date"
++
++msgid "Display Deaktivieren"
++msgstr "Display Disable"
++
++msgid "Stoppt laufende Emus"
++msgstr "Stops current emus"
++
++msgid "------------- Single Emu ------------"
++msgstr "------------- Single Emu ------------"
++
++msgid "Start oder Restart Mg-Camd"
++msgstr "Start or restart Mg-Camd"
++
++msgid "Start oder Restart OS-Cam"
++msgstr "Start or Restart OS-Cam"
++
++msgid "Start oder Restart Vizcam"
++msgstr "Start or Restart Vizcam"
++
++msgid "Start oder Restart MBox"
++msgstr "Start or Restart MBox"
++
++msgid "Start oder Restart Incubus"
++msgstr "Start or Restart Incubus"
++
++msgid "Start oder Restart Camd3"
++msgstr "Start or Restart Camd3"
++
++msgid "-------------- Dual Emu -------------"
++msgstr "-------------- Dual Emu -------------"
++
++msgid "Start Dual Emu"
++msgstr "Start Dual Emu"
++
++msgid "------------- Emu Watchdog ----------"
++msgstr "--------- Emu Watchdog----------"
++
++msgid "Watchdog Einschalten"
++msgstr "Watchdog switched on"
++
++msgid "Watchdog Ausschalten"
++msgstr "Watchdog switched off"
++
++msgid "------------- Keys Updater ----------"
++msgstr "-------- Keys Updater ----------"
++
++msgid "SoftCam KeyUpdater OS-Cam MG-Camd"
++msgstr "SoftCam KeyUpdater OS-Cam MG-Camd"
++
++msgid "Netzwerk Infos"
++msgstr "Network Infos"
++
++msgid "Geladen Module Anzeigen"
++msgstr "Loaded modules display"
++
++msgid "Freier Speicher"
++msgstr "Free space"
++
++msgid "Online Update"
++msgstr "Online Update"
++
++msgid "Image Version Infomation"
++msgstr "Image Version Infomation"
++
++msgid "Letztes FSCK Log Anzeigen"
++msgstr "Last FSCK log display"
++
++msgid "System Full Backup erstellen"
++msgstr "System Full Backup Create"
++
++msgid "System Install Backup erstellen"
++msgstr "System Install Backup Create"
++
++msgid "Kanal-listen Sichern"
++msgstr "Channel list backup"
++
++msgid "Kanal-listen Installieren"
++msgstr "Channel list install"
++
++msgid "------ VIP1 Tuner Treiber ---------"
++msgstr "------ VIP1 tuner driver ---------"
++
++msgid "ST-Tuner Opti,VIP1,VIP2"
++msgstr "ST-Tuner Opti,VIP1,VIP2"
++
++msgid "RB-Tuner Opti,VIP1"
++msgstr "RB-Tuner Opti,VIP1"
++
++msgid "VIP1 Kabel Tuner"
++msgstr "VIP1 Cabel Tuner"
++
++msgid "VIP1 DVB-T Tuner"
++msgstr "VIP1 DVB-T Tuner"
++
++msgid "------ VIP1v2 Tuner Treiber ---------"
++msgstr "------ VIP1v2 Tuner driver ---------"
++
++msgid "Sharp Tuner VIP1v2"
++msgstr "Sharp Tuner VIP1v2"
++
++msgid "LG Kabel Tuner VIP1v2"
++msgstr "LG Cabel Tuner VIP1v2"
++
++msgid "Sharp DVB-T Tuner VIP1v2"
++msgstr "Sharp DVB-T Tuner VIP1v2"
++
++msgid "------ VIP2 Tuner Treiber ---------"
++msgstr "------ VIP2 Tuner driver ---------"
++
++msgid "Sharp Tuner VIP2"
++msgstr "Sharp Tuner VIP2"
++
++msgid "Sharp DVB-S2 und Kabel LG VIP2"
++msgstr "Sharp DVB-S2 and Cabel LG VIP2"
++
++msgid "2x Kabel LG VIP2"
++msgstr "2x Cabel LG VIP2"
++
++msgid "Kabel LG und DVB-T VIP2"
++msgstr "Cabel LG and DVB-T VIP2"
++
++msgid "Sharp DVB-S2 und DVB-T VIP2"
++msgstr "Sharp DVB-S2 and DVB-T VIP2"
++
++msgid "------- CCcam Client ---------"
++msgstr "------- CCcam Client ---------"
++
++msgid "Benutzername eingeben"
++msgstr "Enter user name"
++
++msgid "Passwort eingeben"
++msgstr "Enter password"
++
++msgid "IP oder Dyndns eingeben"
++msgstr "Enter the IP or DynDNS"
++
++msgid "CCcam Port"
++msgstr "CCcam Port"
++
++msgid "------- Newcamd Client ---------"
++msgstr "------- Newcamd Client ---------"
++
++msgid "MG-Camd Port1"
++msgstr "MG-Camd Port1"
++
++msgid "MG-Camd Port2"
++msgstr "MG-Camd Port2"
++
++msgid "-------- Camd3 Client ----------"
++msgstr "-------- Camd3 Client ----------"
++
++msgid "Camd3 Port"
++msgstr "Camd3 Port"
++
++msgid "--- Generelle Einstellungen ----"
++msgstr "--- General settings ----"
++
++msgid "Client Protocol"
++msgstr "Client Protocol"
++
++msgid "Emu Config Daten erstellen"
++msgstr "Create EMU config data"
++
++msgid "Fernbedienung waehlen"
++msgstr "Select remote control"
++
++msgid "ArgusVIP neue FB Rotes Blinken"
++msgstr "ArgusVIP new FB red flashing"
++
++msgid "ArgusVIP neue FB Gruenes Blinken"
++msgstr "ArgusVIP of new FB green flashing"
++
++msgid "ArgusVIP alte FB Rotes Blinken"
++msgstr "ArgusVIP old FB red flashing"
++
++msgid "ArgusVIP alte FB Gruenes Blinken"
++msgstr "ArgusVIP of old FB green flashing"
++
++msgid "Opticum FB"
++msgstr "Opticum FB"
++
++msgid "Pingolux FB"
++msgstr "Pingolux FB"
++
++msgid "System Neustart"
++msgstr "System Restart"
++
++msgid "Wollen Sie einen Benutzer eingeben?"
++msgstr "Want to enter a user?"
++
++msgid "Wollen Sie ein Passwort eingeben?"
++msgstr "Want to enter a password?"
++
++msgid "Bitte geben Sie das Passwort ein!"
++msgstr "Please enter the password!"
++
++msgid "IP, DYNDNS eingeben?"
++msgstr "Enter IP, DYNDNS?"
++
++msgid "Bitte IP, DYNDNS eingeben!"
++msgstr "Please enter IP, DYNDNS!"
++
++msgid "CCcam Client Aktivieren"
++msgstr "CCcam Client Enable"
++
++msgid "NewCamd Client Aktivieren"
++msgstr "NewCamd Client Enable"
++
++msgid "CCcam wurde als Client definiert"
++msgstr "CCcam was defined as a client"
++
++msgid "Newcamd wurde als Client definiert"
++msgstr "Newcamd was defined as a client"
++
++msgid "Wollen Sie den CCcam Port eingeben?"
++msgstr "Want to enter the port of CCcam?"
++
++msgid "Port eingeben !"
++msgstr "Port type !"
++
++msgid "Wollen Sie einen MG-Camd Port eingeben?"
++msgstr "Want to enter a port of MG-Camd?"
++
++msgid "Wollen Sie einen Camd3 Port eingeben?"
++msgstr "Want to enter a Camd3 port?"
++
++msgid "W-Lan 8192cu.ko Treiber Modul"
++msgstr "WLAN 8192cu.ko driver module"
++
++msgid "W-Lan 8712u.ko Treiber Modul"
++msgstr "WLAN 8712u.ko driver module"
++
++msgid "W-Lan rt2870sta.ko Treiber Modul"
++msgstr "WLAN rt2870sta.ko driver module"
++
++msgid "W-Lan rt3070sta.ko Treiber Modul"
++msgstr "WLAN rt3070sta.ko driver module"
++
++msgid "W-Lan rt5370sta.ko Treiber Modul"
++msgstr "WLAN rt5370sta.ko driver module"
++
++msgid "W-Lan rt73.ko Treiber Modul"
++msgstr "WLAN rt73.ko driver module"
++
++msgid "W-Lan zydas.ko Treiber Modul"
++msgstr "WLAN zydas.ko driver module"
++
++msgid "W-Lan Deaktivieren"
++msgstr "WLAN disable"
++
++msgid "Moechtest du folgendes\n"
++"Addon Downloaden\n"
++msgstr "Do you want the following\n"
++"addon download\n"
++
++msgid "Moechtest du folgendes\n"
++"Addon Loeschen\n"
++msgstr "Do you want to\n"
++"delete the following addon\n"
++
++msgid "Neue Plugins gefunden..."
++msgstr "New plug-ins found..."
++
