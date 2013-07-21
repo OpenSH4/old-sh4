@@ -1217,3 +1217,506 @@
 +msgid "Neue Plugins gefunden..."
 +msgstr "New plug-ins found..."
 +
+--- enigma2-nightly.org/po/ru.po	2013-04-19 09:12:39.151931000 +0200
++++ enigma2-nightly/po/ru.po	2013-07-21 21:47:47.802634428 +0200
+@@ -7791,3 +7791,500 @@
+ 
+ #~ msgid "view recordings..."
+ #~ msgstr "просмотр записей..."
++
++# TeamCS Menü
++msgid "Emu Menu"
++msgstr "ЭВС меню"
++
++msgid "Addon Manager"
++msgstr "Менеджер расширений"
++
++msgid "Display Uhr Einstellen"
++msgstr "Oтображение Настройка часов"
++
++msgid "W-Lan Einstellungen"
++msgstr "Настройки беспроводного"
++
++msgid "Backup, Install Menu"
++msgstr "Cистема резервного копирования меню установки"
++
++msgid "System Information"
++msgstr "Системные сведения"
++
++msgid "Tuner Waehlen"
++msgstr "Выберите ТВ-тюнер" 
++
++msgid "Tuner Menu"
++msgstr "ТВ-тюнера меню"
++
++msgid "Overclock Menu"
++msgstr "меню разгона"
++
++msgid "AddOn Browser"
++msgstr "Расширение для браузера"
++
++msgid "W-Lan Menu"
++msgstr "беспроводноe меню"
++
++msgid "BackUp Menu"
++msgstr "меню резервного копирования"
++
++msgid "System Infos"
++msgstr "Системные сведения"
++
++msgid "Benutzerdaten Menu"
++msgstr "Данные пользователя меню"
++
++msgid "WakeOnLan Menu"
++msgstr "WakeOnLan меню"
++
++msgid "UPNP Menu"
++msgstr "UPNP меню"
++
++msgid "OPENVPN Menu"
++msgstr "OPENVPN меню"
++
++msgid "Swap Menu"
++msgstr "обмен меню"
++
++msgid "Mac Switch Menu"
++msgstr "переключение Mac меню"
++
++msgid "NeutrinoHD2 wird beim naechsten Systemstart ausgefuehrt"
++msgstr "NeutrinoHD2 выполнена при следующем запуске системы"
++
++msgid "Benutzerdaten Einstellen"
++msgstr "ЭВС пользовательских данных"
++
++msgid "WakeOnLan Einstellen"
++msgstr "Настройка WakeOnLan"
++
++msgid "UPNP Media-Server-Client"
++msgstr "UPnP Mедиа Cервер Клиент"
++
++msgid "OpenVPN Client"
++msgstr "OpenVPN клиент / сервер"
++
++msgid "Samba Menu"
++msgstr "Samba меню"
++
++msgid "Swap Einrichten"
++msgstr "Управление своп"
++
++msgid "CPU Overclocking"
++msgstr "разгон процессора"
++
++msgid "ETH0 MAC Switcher"
++msgstr "MAC-адресов Управление"
++
++msgid "NeutrinoHD2 Subsystem Switch"
++msgstr "NeutrinoHD2 системных изменений"
++
++msgid "Benutze MAC 00:80:E1:12:06:30 -- default"
++msgstr "Использовать MAC 00:80: E1: 12:06:30 - Стандарт"
++
++msgid "Benutze MAC 00:81:E1:12:06:30"
++msgstr "Использовать MAC 00:81: E1: 12:06:30"
++
++msgid "Benutze MAC 00:82:E1:12:06:30"
++msgstr "Использовать MAC 00:82: E1: 12:06:30"
++
++msgid "Benutze MAC 00:83:E1:12:06:30"
++msgstr "Использовать MAC 00:83: E1: 12:06:30"
++
++msgid "Benutze MAC 00:84:E1:12:06:30"
++msgstr "Использовать MAC 00:84: E1: 12:06:30"
++
++msgid "---------- Boot Overclocking -----------"
++msgstr "--------------------- разгона при загрузке"
++
++msgid "Aktivieren 266 Mhz -- default"
++msgstr "Включить 266 МГц - по умолчанию"
++
++msgid "Aktivieren 300 Mhz"
++msgstr "Включить 300 Mhz"
++
++msgid "Aktivieren 333 Mhz"
++msgstr "Включить 333 МГц"
++
++msgid "Aktivieren 366 Mhz"
++msgstr "Включить 366 МГц"
++
++msgid "Aktivieren 400 Mhz"
++msgstr "Включить 400 Mhz"
++
++msgid "--------- Dauer Overclocking -----------"
++msgstr "-------------------- Постоянный разгон"
++
++msgid "Deaktiviert Overclocking"
++msgstr "Отключить разгона"
++
++msgid "Overclock Frequence Check"
++msgstr "Проверить Taktfrequence"
++
++msgid "Das Overclocking geschieht auf eigene"
++msgstr "разгон делается на свой страх"
++
++msgid "Gefahr, jeder muss selber wissen was er"
++msgstr "опасности, каждый должен знать, что он сам"
++
++msgid "seiner Box Antut, getestet sind diese "
++msgstr "проверил свою коробку делает, чтобы эти"
++
++msgid "Einstellungen, dennoch kann es sich bei"
++msgstr "настройки, может быть в"
++
++msgid "jeder Box anders Verhalten oder Auswirken !"
++msgstr "каждый ящик или иное поведение влияет!"
++
++msgid "------------ Swap Aktivieren -------------"
++msgstr "Включение свопа -------------------------"
++
++msgid "Swap Partition Aktivieren -- default"
++msgstr "Включение раздела подкачки - Стандарт"
++
++msgid "Ramzswap Aktivieren"
++msgstr "Включить Ramzswap"
++
++msgid "Swapfile auf HDD Aktivieren"
++msgstr "Включение файл подкачки на жестком диске"
++
++msgid "------------ Swap Anlegen -------------"
++msgstr "Создание свопа -------------------------"
++
++msgid "Swapfile auf HDD Erstellen"
++msgstr "Создание файла подкачки на жестком диске"
++
++msgid "Swappartition /dev/sda3 Formatieren"
++msgstr "раздел подкачки / dev/sda3 формате"
++
++msgid "Samba AN"
++msgstr "Samba ON"
++
++msgid "Samba AUS"
++msgstr "Samba OFF"
++
++msgid "OpenVPN Client Aktivieren"
++msgstr "Включить OpenVPN клиент"
++
++msgid "OpenVPN Client Deaktivieren"
++msgstr "Отключить OpenVPN клиент"
++
++msgid "OpenVPN Client Autostart Aktivieren"
++msgstr "OpenVPN клиента запуске Enable"
++
++msgid "OpenVPN Client Autostart Deaktivieren"
++msgstr "OpenVPN клиент запуска Отключено"
++
++msgid "UPNP Client Aktivieren"
++msgstr "Включить UPNP клиент"
++
++msgid "UPNP Client Deaktivieren"
++msgstr "Отключите функцию UPnP клиент"
++
++msgid "UPNP Client Autostart Aktivieren"
++msgstr "Включить UPNP клиент запуске"
++
++msgid "UPNP Client Autostart Deaktivieren"
++msgstr "Отключить автозапуск UPnP Клиент"
++
++msgid "WakeOnLan AN"
++msgstr "WakeOnLan ON"
++
++msgid "WakeOnLan AUS"
++msgstr "WakeOnLan OFF"
++
++msgid "MAC Adresse"
++msgstr "MAC Aдрес"
++
++msgid "Port"
++msgstr "Порту"
++
++msgid "Zeit in Sec fuer wiederholung"
++msgstr "Время в п. для повторения"
++
++msgid "Bitte die Zeit in Sec eingeben!"
++msgstr "Пожалуйста, введите время в сек!"
++
++msgid "Bitte den Port eingeben!"
++msgstr "Пожалуйста, введите порт!"
++
++msgid "Bitte die MAC Adresse eingeben!"
++msgstr "Пожалуйста, введите МАС-адрес!"
++
++msgid "Display Reset"
++msgstr "Oбнуления показаний"
++
++msgid "Display Uhr Aktivieren"
++msgstr "Включите отображение часов"
++
++msgid "Display Uhr Deaktivieren"
++msgstr "Отключить дисплей часов"
++
++msgid "Sommerzeit Einstellen"
++msgstr "летнего времени"
++
++msgid "Winterzeit Einstellen"
++msgstr "Зимнего времени"
++
++msgid "Display Auschalt Anzeige"
++msgstr "выключение отображение"
++
++msgid "Anzeige von Turn OFF"
++msgstr "Отображение Отключите функцию"
++
++msgid "Anzeige von Turno OFF und Datum"
++msgstr "Отображение даты и Турно OFF"
++
++msgid "Anzeige von Datum"
++msgstr "отображение дата"
++
++msgid "Display Deaktivieren"
++msgstr "Отключить дисплей"
++
++msgid "Stoppt laufende Emus"
++msgstr "Завершение работы запущенных эму"
++
++msgid "------------- Single Emu ------------"
++msgstr "ЭВС ------------------------- один"
++
++msgid "Start oder Restart Mg-Camd"
++msgstr "начинать или возобновлять Mg Camd"
++
++msgid "Start oder Restart OS-Cam"
++msgstr "начинать или возобновлять OS-Cam"
++
++msgid "Start oder Restart Vizcam"
++msgstr "начинать или возобновлять Vizcam"
++
++msgid "Start oder Restart MBox"
++msgstr "начинать или возобновлять MBox"
++
++msgid "Start oder Restart Incubus"
++msgstr "начинать или возобновлять Incubus"
++
++msgid "Start oder Restart Camd3"
++msgstr "начинать или возобновлять camd3"
++
++msgid "-------------- Dual Emu -------------"
++msgstr "ЭВС --------------------------- двойной"
++
++msgid "Start Dual Emu"
++msgstr "Начать Двойной ЭВС"
++
++msgid "------------- Emu Watchdog ----------"
++msgstr "ЭВС мониторинга -------------------"
++
++msgid "Watchdog Einschalten"
++msgstr "Монитор власть"
++
++msgid "Watchdog Ausschalten"
++msgstr "монитор Off"
++
++msgid "------------- Keys Updater ----------"
++msgstr "------------------ Основные обновление"
++
++msgid "SoftCam KeyUpdater OS-Cam MG-Camd"
++msgstr "SoftCam KeyUpdater OS камерой MG САВО"
++
++msgid "Netzwerk Infos"
++msgstr "Информация о сети"
++
++msgid "Geladen Module Anzeigen"
++msgstr "загружено модули позволяют показывать"
++
++msgid "Freier Speicher"
++msgstr "свободном пространстве"
++
++msgid "Online Update"
++msgstr «Обновление»
++
++msgid "Image Version Infomation"
++msgstr "версии изображения детали"
++
++msgid "Letztes FSCK Log Anzeigen"
++msgstr "Последний дисплеев журнала FSCK"
++
++msgid "System Full Backup erstellen"
++msgstr "Создание полной резервной копии системы"
++
++msgid "System Install Backup erstellen"
++msgstr "Создание системы резервного копирования Установить"
++
++msgid "Kanal-listen Sichern"
++msgstr "Резервное копирование списка каналов"
++
++msgid "Kanal-listen Installieren"
++msgstr "списков каналов Установить"
++
++msgid "------ VIP1 Tuner Treiber ---------"
++msgstr "------ VIP1 Тюнер Драйвер ---------"
++
++msgid "ST-Tuner Opti,VIP1,VIP2"
++msgstr "ST-тюнер вариант, VIP1, VIP2"
++
++msgid "RB-Tuner Opti,VIP1"
++msgstr "RB-тюнер вариант, VIP1"
++
++msgid "VIP1 Kabel Tuner"
++msgstr "VIP1 кабелем тюнер"
++
++msgid "VIP1 DVB-T Tuner"
++msgstr "VIP1 DVB-T тюнер"
++
++msgid "------ VIP1v2 Tuner Treiber ---------"
++msgstr "------ VIP1v2 Тюнер Драйвер ---------"
++
++msgid "Sharp Tuner VIP1v2"
++msgstr "Sharp тюнер VIP1v2"
++
++msgid "LG Kabel Tuner VIP1v2"
++msgstr "LG кабелем тюнер VIP1v2"
++
++msgid "Sharp DVB-T Tuner VIP1v2"
++msgstr "Sharp DVB-T тюнер VIP1v2"
++
++msgid "------ VIP2 Tuner Treiber ---------"
++msgstr "------ VIP2 Тюнер Драйвер ---------"
++
++msgid "Sharp Tuner VIP2"
++msgstr "Sharp тюнер VIP2"
++
++msgid "Sharp DVB-S2 und Kabel LG VIP2"
++msgstr "DVB-S2, Sharp и LG Cable VIP2"
++
++msgid "2x Kabel LG VIP2"
++msgstr "Кабель 2x LG VIP2"
++
++msgid "Kabel LG und DVB-T VIP2"
++msgstr "Кабельно-LG DVB-T VIP2"
++
++msgid "Sharp DVB-S2 und DVB-T VIP2"
++msgstr "Sharp DVB-S2 и DVB-T VIP2"
++
++msgid "------- CCcam Client ---------"
++msgstr "---------------- CCcam клиент"
++
++msgid "Benutzername eingeben"
++msgstr "Введите Имя пользователя"
++
++msgid "Passwort eingeben"
++msgstr "Введите пароль"
++
++msgid "IP oder Dyndns eingeben"
++msgstr "Введите IP или DynDNS"
++
++msgid "CCcam Port"
++msgstr "CCcam порт"
++
++msgid "------- Newcamd Client ---------"
++msgstr "---------------- Newcamd клиент"
++
++msgid "MG-Camd Port1"
++msgstr "MG Camd Port1"
++
++msgid "MG-Camd Port2"
++msgstr "MG Camd Port2"
++
++msgid "-------- Camd3 Client ----------"
++msgstr "Клиент ------------------ camd3"
++
++msgid "Camd3 Port"
++msgstr "Порт camd3"
++
++msgid "--- Generelle Einstellungen ----"
++msgstr "Общие настройки -------"
++
++msgid "Client Protocol"
++msgstr "Клиент протокола"
++
++msgid "Emu Config Daten erstellen"
++msgstr "Создать Emu конфигурационные данные"
++
++msgid "Fernbedienung waehlen"
++msgstr "Выбора режима дистанционного управления"
++
++msgid "ArgusVIP neue FB Rotes Blinken"
++msgstr "ArgusVIP новых FB мигающий красный"
++
++msgid "ArgusVIP neue FB Gruenes Blinken"
++msgstr "ArgusVIP новых FB мигающий зеленый"
++
++msgid "ArgusVIP alte FB Rotes Blinken"
++msgstr "ArgusVIP старые FB мигающий красный"
++
++msgid "ArgusVIP alte FB Gruenes Blinken"
++msgstr "ArgusVIP старые FB мигающий зеленый"
++
++msgid "Opticum FB"
++msgstr "Opticum FB"
++
++msgid "Pingolux FB"
++msgstr "Pingolux FB"
++
++msgid "System Neustart"
++msgstr "Перезапуск системы"
++
++msgid "Wollen Sie einen Benutzer eingeben?"
++msgstr "Вы хотите, чтобы ввести пользователей?"
++
++msgid "Wollen Sie ein Passwort eingeben?"
++msgstr "Вы хотите, чтобы ввести пароль?"
++
++msgid "Bitte geben Sie das Passwort ein!"
++msgstr "Пожалуйста, введите пароль!"
++
++msgid "IP, DYNDNS eingeben?"
++msgstr "Ввод IP, динамический DNS?"
++
++msgid "Bitte IP, DYNDNS eingeben!"
++msgstr "Пожалуйста, введите IP DYNDNS!"
++
++msgid "CCcam Client Aktivieren"
++msgstr "Активировать CCcam клиент"
++
++msgid "NewCamd Client Aktivieren"
++msgstr "Включить клиента NewCamd"
++
++msgid "CCcam wurde als Client definiert"
++msgstr "CCcam определяется как клиент"
++
++msgid "Newcamd wurde als Client definiert"
++msgstr "Newcamd была определена в качестве клиента"
++
++msgid "Wollen Sie den CCcam Port eingeben?"
++msgstr "Вы хотите, чтобы войти в порт CCcam?"
++
++msgid "Port eingeben !"
++msgstr "Заходящих в порт!"
++
++msgid "Wollen Sie einen MG-Camd Port eingeben?"
++msgstr "Вы хотите, пистолет Camd порта введите"?
++
++msgid "Wollen Sie einen Camd3 Port eingeben?"
++msgstr "Вы хотите, чтобы ввести camd3 порт?"
++
++msgid "W-Lan 8192cu.ko Treiber Modul"
++msgstr "Драйвер беспроводного модуля 8192cu.ko"
++
++msgid "W-Lan 8712u.ko Treiber Modul"
++msgstr "Драйвер беспроводного модуля 8712u.ko"
++
++msgid "W-Lan rt2870sta.ko Treiber Modul"
++msgstr "Драйвер беспроводного модуля rt2870sta.ko"
++
++msgid "W-Lan rt3070sta.ko Treiber Modul"
++msgstr "Драйвер беспроводного модуля rt3070sta.ko"
++
++msgid "W-Lan rt5370sta.ko Treiber Modul"
++msgstr "Драйвер беспроводного модуля rt5370sta.ko"
++
++msgid "W-Lan rt73.ko Treiber Modul"
++msgstr "Драйвер беспроводного модуля rt73.ko"
++
++msgid "W-Lan zydas.ko Treiber Modul"
++msgstr "Драйвер беспроводного модуля zydas.ko"
++
++msgid "W-Lan Deaktivieren"
++msgstr "отключение беспроводных соединений"
++
