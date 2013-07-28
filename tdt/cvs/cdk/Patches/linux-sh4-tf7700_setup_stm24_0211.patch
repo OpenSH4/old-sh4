@@ -1,5 +1,5 @@
---- linux-sh4-2.6.32.16_stm24_0205/arch/sh/boards/mach-st/epld.c.org	2011-01-03 18:09:34.000000000 +0100
-+++ linux-sh4-2.6.32.16_stm24_0205/arch/sh/boards/mach-st/epld.c	2011-01-03 18:09:45.000000000 +0100
+--- linux-sh4-2.6.32.59_stm24_0211/arch/sh/boards/mach-st/epld.c.org	2011-01-03 18:09:34.000000000 +0100
++++ linux-sh4-2.6.32.59_stm24_0211/arch/sh/boards/mach-st/epld.c	2011-01-03 18:09:45.000000000 +0100
 @@ -9,7 +9,7 @@
  #include <linux/kernel.h>
  #include <linux/platform_device.h>
@@ -9,8 +9,8 @@
  
  #define DRIVER_NAME "epld"
  
---- linux-sh4-2.6.32.16_stm24_0205/arch/sh/boards/mach-mb448/mach.c.org	2011-01-03 13:49:54.000000000 +0100
-+++ linux-sh4-2.6.32.16_stm24_0205/arch/sh/boards/mach-mb448/mach.c	2011-01-03 23:24:43.000000000 +0100
+--- linux-sh4-2.6.32.59_stm24_0211/arch/sh/boards/mach-mb448/mach.c.org	2011-01-03 13:49:54.000000000 +0100
++++ linux-sh4-2.6.32.59_stm24_0211/arch/sh/boards/mach-mb448/mach.c	2011-01-03 23:24:43.000000000 +0100
 @@ -41,16 +41,18 @@
  
  	/* Set the ILC to route external interrupts to the the INTC */
@@ -33,8 +33,8 @@
  	.mv_setup		= mb448_setup,
  	.mv_nr_irqs		= NR_IRQS,
  	.mv_init_irq		= mb448_init_irq,
---- linux-sh4-2.6.32.16_stm24_0205/arch/sh/boards/mach-mb448/setup.c.org	2011-07-23 01:58:30.000000000 -0700
-+++ linux-sh4-2.6.32.16_stm24_0205/arch/sh/boards/mach-mb448/setup.c	2011-07-23 04:02:47.000000000 -0700
+--- linux-sh4-2.6.32.59_stm24_0211/arch/sh/boards/mach-mb448/setup.c.org	2011-07-23 01:58:30.000000000 -0700
++++ linux-sh4-2.6.32.59_stm24_0211/arch/sh/boards/mach-mb448/setup.c	2011-07-23 04:02:47.000000000 -0700
 @@ -20,17 +20,116 @@
  #include <linux/stm/platform.h>
  #include <linux/stm/stx7100.h>
@@ -78,7 +78,7 @@
 + 	"coredisplay-video",
 + 	"v4l2-video-buffers",
 + 	"gfx-memory",
-+ 	 "v4l2-coded-video-buffers", NULL };
++ 	"v4l2-coded-video-buffers", NULL };
 + 
 +const char *LMI_SYS_partalias[] = { "BPA2_Region0", "bigphysarea", NULL };
 + 
@@ -93,7 +93,7 @@
 +	  {
 +	          .name  = "LMI_SYS",
 +	          .start = 0,
-+	          .size  = 0x00f00000, #0x02600000
++	          .size  = 0x00f00000, //0x02600000
 +	          .flags = 0,
 +	          .aka   = LMI_SYS_partalias
 +	  }
@@ -155,7 +155,7 @@
  
  	stx7100_early_device_init();
  
-@@ -40,65 +139,121 @@
+@@ -40,74 +139,130 @@
  	stx7100_configure_asc(3, &(struct stx7100_asc_config) {
  			.hw_flow_control = 0,
  			.is_console = 0, });
@@ -236,7 +236,7 @@
 +	 },
 +	{
 +	 .name = "TF Kernel",
-+	 .size = 0x00300000,
++	 .size = 0x00500000,
 +	 .offset = MTDPART_OFS_NXTBLK,
 +	 },
 +	{
@@ -310,15 +310,18 @@
  };
  
  static int __init mb448_device_init(void)
-@@ -106,7 +261,7 @@
+ {
  	stx7100_configure_sata();
  
- 	stx7100_configure_ssc_i2c(0);
+-	stx7100_configure_ssc_i2c(0, NULL);
 -	stx7100_configure_ssc_spi(1, NULL);
+-	stx7100_configure_ssc_i2c(2, NULL);
++	stx7100_configure_ssc_i2c(0);
 +	stx7100_configure_ssc_i2c(1);
- 	stx7100_configure_ssc_i2c(2);
++	stx7100_configure_ssc_i2c(2);
  
  	stx7100_configure_usb();
+ 
 @@ -119,16 +274,14 @@
  			.mdio_bus_data = &stmmac_mdio_bus,
  		});
@@ -344,8 +347,8 @@
  
  	return platform_add_devices(mb448_devices,
  			ARRAY_SIZE(mb448_devices));
---- linux-sh4-2.6.32.16_stm24_0205/drivers/stm/stx7100_hispeed.c.org	2011-01-03 17:06:42.000000000 +0100
-+++ linux-sh4-2.6.32.16_stm24_0205/drivers/stm/stx7100_hispeed.c	2011-01-03 23:27:51.000000000 +0100
+--- linux-sh4-2.6.32.59_stm24_0211/drivers/stm/stx7100_hispeed.c.org	2011-01-03 17:06:42.000000000 +0100
++++ linux-sh4-2.6.32.59_stm24_0211/drivers/stm/stx7100_hispeed.c	2011-01-03 23:27:51.000000000 +0100
 @@ -190,7 +190,8 @@
  	 * option to select an inverted output from the TPS2052, so no
  	 * software work around is required.)
@@ -356,24 +359,53 @@
  	BUG_ON(stx7100_usb_pwr_gpio == STM_GPIO_INVALID);
  
  	return 0;
---- linux-sh4/drivers/stm/stx7100_comms.c.orig	2011-01-09 14:19:17.000000000 +0100
-+++ linux-sh4/drivers/stm/stx7100_comms.c	2011-01-09 14:19:52.000000000 +0100
-@@ -240,12 +240,12 @@
- 			STM_PAD_PIO_BIDIR_NAMED(3, 0, 1, "SCL"),
- 			STM_PAD_PIO_BIDIR_NAMED(3, 1, 1, "SDA"),
+--- linux-sh4-2.6.32.28_stm24_0211_orig/include/linux/stm/stx7100.h	2013-03-12 23:25:38.664652895 +0100
++++ linux-sh4/include/linux/stm/stx7100_orig.h	2013-03-09 16:58:47.000000000 +0100
+@@ -35,15 +35,12 @@
+ void stx7100_configure_asc(int asc, struct stx7100_asc_config *config);
+ 
+ 
+-struct stx7100_ssc_i2c_config {
+-	unsigned int fastmode:1;
+-};
+ struct stx7100_ssc_spi_config {
+ 	void (*chipselect)(struct spi_device *spi, int is_on);
+ };
+ /* SSC configure functions return I2C/SPI bus number */
+-int stx7100_configure_ssc_i2c(int ssc, struct stx7100_ssc_i2c_config *config);
+-int stx7100_configure_ssc_spi(int ssc, struct stx7100_ssc_spi_config *config);
++int stx7100_configure_ssc_i2c(int ssc);
++int stx7100_configure_ssc_spi(int ssc, struct stx7100_ssc_spi_config *config);
+ 
+ 
+ struct stx7100_lirc_config {
+--- linux-sh4-2.6.32.28_stm24_0211_orig/drivers/stm/stx7100_comms.c	2013-03-12 10:36:44.000000000 +0100
++++ linux-sh4/drivers/stm/stx7100_comms_orig.c	2013-03-12 19:59:20.000000000 +0100
+@@ -226,12 +226,10 @@
+ 			STM_PAD_PIO_BIDIR_NAMED(2, 0, 1, "SCL"),
+ 			STM_PAD_PIO_BIDIR_NAMED(2, 1, 1, "SDA"),
  		},
 -		.sysconfs_num = 2,
 +		.sysconfs_num = 1,
  		.sysconfs = (struct stm_pad_sysconf []) {
- 			/* SSC1_MUX_SEL = 0 (default assignment) */
- 			STM_PAD_SYS_CFG(7, 2, 2, 0),
- 			/* DVO_OUT_ON = 0 (SSC not DVO) */
+ 			/* SSC0_MUX_SEL = 0 (default assignment) */
+ 			STM_PAD_SYS_CFG(7, 1, 1, 0),
+-			/* DVO_OUT_ON = 0 (SSC not DVO) */
 -			STM_PAD_SYS_CFG(7, 10, 10, 0),
-+			//STM_PAD_SYS_CFG(7, 10, 10, 0),
  		},
  	},
- 	[2] = {
-@@ -344,7 +344,7 @@
+ 	[1] = {
+@@ -334,8 +332,7 @@
+ 
+ static int __initdata stx7100_ssc_configured[ARRAY_SIZE(stx7100_ssc_devices)];
+ 
+-int __init stx7100_configure_ssc_i2c(int ssc,
+-		struct stx7100_ssc_i2c_config *config)
++int __init stx7100_configure_ssc_i2c(int ssc)
+ {
+ 	static int i2c_busnum;
+ 	struct stm_plat_ssc_data *plat_data;
+@@ -345,13 +342,11 @@
  	BUG_ON(stx7100_ssc_configured[ssc]);
  	stx7100_ssc_configured[ssc] = 1;
  
@@ -382,3 +414,9 @@
  	stx7100_ssc_devices[ssc].id = i2c_busnum;
  
  	plat_data = stx7100_ssc_devices[ssc].dev.platform_data;
+ 	plat_data->pad_config = &stx7100_ssc_i2c_pad_configs[ssc];
+-	if (config)
+-		plat_data->i2c_fastmode = config->fastmode;
+ 
+ 	/* I2C bus number reservation (to prevent any hot-plug device
+ 	 * from using it) */
