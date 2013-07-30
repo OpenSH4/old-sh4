@@ -357,6 +357,8 @@ class SAMBASET(Screen):
 	def go(self):
 		print "okbuttonClick"
 		selection = self["SAMBASET"].getCurrent()
+
+
 		if selection is not None:
 			if selection[1] == "SAMBAAN":
 				os.system("echo an > /var/keys/Benutzerdaten/.system/samba")
@@ -393,6 +395,7 @@ class OPENSET(Screen):
 		
 		Screen.__init__(self, session)
 		self["OPENSET"] = MenuList(list)
+
 		self["myActionMap"] = ActionMap(["SetupActions"],
 		{
 			"ok": self.go,
@@ -975,6 +978,9 @@ class BACKUP(Screen):
 		list.append((getConfigListEntry(_("System Install Backup erstellen"), "backupinstallsys", "sback", "46")))
 		list.append((getConfigListEntry(_("Kanal-listen Sichern"), "ksave", "save", "46")))
 		list.append((getConfigListEntry(_("Kanal-listen Installieren"), "kinstall", "install", "46")))
+		list.append((getConfigListEntry(_("-------- Settings Download -------"), "", "", "46")))
+		list.append((getConfigListEntry(_("Piloten Kanallisten Download"), "piloten", "settings", "46")))
+
 		
 		Screen.__init__(self, session)
 		self["BACKUP"] = MenuList(list)
@@ -999,6 +1005,9 @@ class BACKUP(Screen):
 
 			elif selection[1] == "kinstall":
 				self.prombt("/var/config/tools/sender_install.sh")
+
+			elif selection[1] == "piloten":
+				self.prombt("/var/config/tools/piloten-settings.sh")
 		
 			else:
 				print "\n[BACKUP] cancel\n"
