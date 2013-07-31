@@ -6,11 +6,12 @@ echo " | Download Piloten Sender Settings für $SYSTEM"
 echo " | Vorbereitung ..."
 # Download Settings File
 if [ $SYSTEM = Enigma2 ]; then
-	LOCAL=/etc/enigma2
+	LOCAL=/etc/enigma2/
 else
-	LOCAL=/var/tuxbox/config/zapit
+	LOCAL=/var/tuxbox/config/zapit/
 fi
-wget http://dbs-clan.de/argus/settings/Piloten-Settings-$SYSTEM.tar.gz -O $LOCAL > /dev/null
+FILE=Piloten-Settings-$SYSTEM.tar.gz
+wget http://dbs-clan.de/argus/settings/Piloten-Settings-$SYSTEM.tar.gz -O $LOCAL$FILE > /dev/null
 # Pause
 sleep 2
 echo " | Installiere Settings..."
