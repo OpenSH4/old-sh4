@@ -96,7 +96,7 @@ static tButton cButtonsEdisionVip2[] = {
     {"SAT"            , "1D", KEY_SAT},
     {"STEPBACK"       , "55", KEY_PREVIOUS},
     {"STEPFORWARD"    , "D7", KEY_NEXT},
-    {"MARK"           , "9D", KEY_EPG},
+    {"MARK"           , "9D", KEY_MARK},
     {"TV/RADIO"       , "77", KEY_TV2}, //WE USE TV2 AS TV/RADIO SWITCH BUTTON
     {"USB"            , "9F", KEY_CLOSE},
     {"TIMER"          , "8D", KEY_TIME},

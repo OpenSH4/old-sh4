@@ -93,7 +93,7 @@ static tButton cButtonsSpideroxHL101[] = {
     {"SAT"            , "35", KEY_SAT},
     {"STEPBACK"       , "67", KEY_PREVIOUS},
     {"STEPFORWARD"    , "a7", KEY_NEXT},
-    {"MARK"           , "75", KEY_EPG},
+    {"MARK"           , "75", KEY_MARK},
     {"TV/RADIO"       , "9d", KEY_TV2}, //WE USE TV2 AS TV/RADIO SWITCH BUTTON
     {"USB"            , "2d", KEY_CLOSE},
     {"TIMER"          , "dd", KEY_TIME},

@@ -97,7 +97,7 @@ static tButton cButtonsSpideroxPINGULUX[] = {
     {"SAT"            , "0D", KEY_SAT},
     {"STEPBACK"       , "7B", KEY_PREVIOUS},
     {"STEPFORWARD"    , "E7", KEY_NEXT},
-    {"MARK"           , "75", KEY_EPG},
+    {"MARK"           , "75", KEY_MARK},
     {"TV/RADIO"       , "95", KEY_TV2}, //WE USE TV2 AS TV/RADIO SWITCH BUTTON
     {"USB"            , "DF", KEY_CLOSE},
     {"SLEEP"          , "65", KEY_TIME},

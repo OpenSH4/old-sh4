@@ -98,7 +98,7 @@ static tButton cButtonsSpideroxOpti[] = {
     {"SAT"            , "b5", KEY_SAT},
     {"STEPBACK"       , "95", KEY_PREVIOUS},
     {"STEPFORWARD"    , "55", KEY_NEXT},
-    {"MARK"           , "4f", KEY_EPG},
+    {"MARK"           , "4f", KEY_MARK},
     {"TV/RADIO"       , "2f", KEY_TV2}, //WE USE TV2 AS TV/RADIO SWITCH BUTTON
     {"USB"            , "a5", KEY_CLOSE},
     {"TIMER"          , "b7", KEY_TIME},

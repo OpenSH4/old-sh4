@@ -83,9 +83,15 @@
 #define KEY_F1           0x1a4
 #define KEY_RECALL       0x1a5
 #define KEY_VOR          0x1a6
+#define KEY_MARK         0x1a7
 
 
 #endif  /* !defined(KEY_OK)  */
+
+/* We have defined (KEY_OK) and use this later */
+/* Add for VIP Remotes New Keys here */
+#define KEY_MARK         0x1a7
+
 #endif  /* _INPUT_EXTENDED_H */
 
 
