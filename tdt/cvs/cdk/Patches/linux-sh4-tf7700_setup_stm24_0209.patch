@@ -93,7 +93,7 @@
 +	  {
 +	          .name  = "LMI_SYS",
 +	          .start = 0,
-+	          .size  = 0x00f00000, #0x02600000
++	          .size  = 0x00f00000, //0x02600000
 +	          .flags = 0,
 +	          .aka   = LMI_SYS_partalias
 +	  }
@@ -236,7 +236,7 @@
 +	 },
 +	{
 +	 .name = "TF Kernel",
-+	 .size = 0x00300000,
++	 .size = 0x00500000,
 +	 .offset = MTDPART_OFS_NXTBLK,
 +	 },
 +	{
