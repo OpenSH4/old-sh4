@@ -47,6 +47,7 @@
 #include "teamcsswap.h"
 #include "teamcsoverclock.h"
 #include "teamcsmac.h"
+#include "teamcsbackup.h"
 
 ////////////////////////////// Extra Menu ANFANG ////////////////////////////////////
 
@@ -102,6 +103,7 @@ int teamcs::exec(CMenuTarget* parent, const std::string &actionKey)
       teamcs->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCS_SWAP, true, "", new teamcsswap(), NULL, CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
       teamcs->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCS_OVERCLOCK, true, "", new teamcsoverclock(), NULL, CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
       teamcs->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCS_MAC, true, "", new teamcsmac(), NULL, CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
+      teamcs->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCS_BACKUP, true, "", new teamcsbackup(), NULL, CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
       teamcs->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCS_ENIGMA, true, "", this, "enigma", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
 
       teamcs->exec (NULL, "");
