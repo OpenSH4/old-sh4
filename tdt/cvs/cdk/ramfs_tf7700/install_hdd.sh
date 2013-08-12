@@ -1,6 +1,6 @@
 echo '   7'     > /dev/fpsmall
 echo "SAVE" > /dev/fplarge
-mount /dev/sda1 /rootfs
+mount /dev/sda2 /rootfs
 if [ -e /rootfs/etc/enigma2 ]; then
 	echo "Sichere Settings"
 	echo "Save" > /dev/fplarge
@@ -23,7 +23,31 @@ else
 	echo "checke SDA2"
 	cd /
 fi
-umount /dev/sda1
+umount /dev/sda2
+mount /dev/sdb2 /rootfs
+if [ -e /rootfs/etc/enigma2 ]; then
+	echo "Sichere Settings"
+	echo "Save" > /dev/fplarge
+	cd /rootfs/etc/enigma2
+	rm settings
+	tar -czvf /install/backup/E2Settings.tar.gz ./ > /dev/null 2>&1
+	cd /
+else
+	echo "keine Settings gefunden"
+	echo "checke SDA2"
+	cd /
+fi
+if [ -e /rootfs/var/keys ]; then
+	cd /rootfs/var/keys
+	tar -czvf /install/backup/keys.tar.gz ./ > /dev/null 2>&1
+	echo "done"
+	cd /
+else
+	echo "keine keys gefunden"
+	echo "checke SDA2"
+	cd /
+fi
+umount /dev/sdb2
 echo "done"
 echo '   6'     > /dev/fpsmall
 echo "FDISK" > /dev/fplarge
@@ -75,11 +99,12 @@ sync
 echo "Installiere RootFS ..."
 cd /hdd1
 tar -xf rootfs.tar.gz
+# setze Mountpoits für HDD
+cp /hdd1/var/config/fstab /etc/fstab
 sleep 5
 cd /
 cp /usb1/uImage /INTERN
 echo "hdd" > /INTERN/hdd
-#tar -xf *.tar.gz
 echo "Lösche RootFS Image File"
 sleep 5
 sync
@@ -113,6 +138,13 @@ sync
 umount $HDD"2"
 sleep 1
 umount $HDD"1"
+# erstelle Record Strucktur
+mount $HDD"4" /rootfs
+sleep 1
+mkdir /rootfs/movie
+mkdir /rootfs/audio
+mkdir /rootfs/picture
+umount $HDD"4"
 sleep 1
 echo '   1'     > /dev/fpsmall
 echo "FSCK" > /dev/fplarge

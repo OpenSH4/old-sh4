@@ -1,5 +1,9 @@
 echo '   7'     > /dev/fpsmall
 echo "SAVE" > /dev/fplarge
+# Switch to dev/sdb2 for Save Settings
+umount /dev/sdb1
+sleep 1
+mount /dev/sda2 /rootfs
 if [ -e /rootfs/etc/enigma2 ]; then
 	echo "Sichere Settings"
 	echo "Save" > /dev/fplarge
@@ -22,6 +26,33 @@ else
 	echo "checke SDA2"
 	cd /
 fi
+# nach Sicherung Umount
+umount /dev/sda2
+mount /dev/sdb2 /rootfs
+if [ -e /rootfs/etc/enigma2 ]; then
+	echo "Sichere Settings"
+	echo "Save" > /dev/fplarge
+	cd /rootfs/etc/enigma2
+	rm settings
+	tar -czvf /install/backup/E2Settings.tar.gz ./ > /dev/null 2>&1
+	cd /
+else
+	echo "keine Settings gefunden"
+	echo "checke SDA2"
+	cd /
+fi
+if [ -e /rootfs/var/keys ]; then
+	cd /rootfs/var/keys
+	tar -czvf /install/backup/keys.tar.gz ./ > /dev/null 2>&1
+	echo "done"
+	cd /
+else
+	echo "keine keys gefunden"
+	echo "checke SDA2"
+	cd /
+fi
+# nach Sicherung Umount
+umount /dev/sdb2
 echo "done"
 echo '   6'     > /dev/fpsmall
 echo "FDISK" > /dev/fplarge

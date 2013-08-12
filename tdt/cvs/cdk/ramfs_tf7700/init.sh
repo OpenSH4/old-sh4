@@ -44,42 +44,26 @@ for i in $(cat /proc/cmdline); do
 			;;
 	esac
 done
-# Quik FSCK Check
-if [ `tune2fs -l $usbroot | grep -i "Filesystem state" | awk '{ print $3 }'` == "clean" ]; then
-    echo "SDB1 OK"
-else
-    echo "FSCK SDB1 run" > /fsck.log
-    echo "FSCK SDB1" > /dev/fplarge
-    fsck.ext2 -f -y "${root}" >> /fsck.log
-    tune2fs -l "${root}" | grep -i "Filesystem state" >> /fsck.log
-fi
-if [ `tune2fs -l $usbrootfs | grep -i "Filesystem state" | awk '{ print $3 }'` == "clean" ]; then
-    echo "SDB2 OK"
-else
-    echo "FSCK SDB2 run" > /fsck.log
-    echo "FSCK SDB2" > /dev/fplarge
-    fsck.ext4 -f -y "${usbrootfs}" >> /fsck.log
-    tune2fs -l "${usbrootfs}" | grep -i "Filesystem state" >> /fsck.log
-fi
-if [ `tune2fs -l /dev/sda4 | grep -i "Filesystem state" | awk '{ print $3 }'` == "clean" ]; then
-    echo "SDB4 OK"
-else
-    echo "FSCK SDB4 run" > /fsck.log
-    echo "FSCK SDB4" > /dev/fplarge
-    fsck.ext4 -f -y "${record}" >> /fsck.log
-    tune2fs -l "${record}" | grep -i "Filesystem state" >> /fsck.log
-fi
-sleep 2
 #Mount the root device
 echo "Mount rootfs from HDD"
 mount $usbroot /rootfs
 if [ -e /rootfs/uImage ];then
 	echo "USB Mounted"
+	echo "IS USB" > /dev/fplarge
+	sleep 2
 	LAUFWERK=USB
+	DEVICES=SDB
 else
 	mount /dev/sda1 /rootfs
+	echo "IS HDD" > /dev/fplarge
+	sleep 2
 	LAUFWERK=HDD
+	DEVICES=SDA
 fi
+# Devices als Partition definiert
+DEVICES1=$DEVICES"1"
+DEVICES2=$DEVICES"2"
+DEVICES4=$DEVICES"4"
 
 # Checkt auf Updates oder Install Files
 if [ -e /rootfs/install ]; then
@@ -87,16 +71,20 @@ if [ -e /rootfs/install ]; then
 	if [ "$HDDINSTALL" = "hdd" ]; then
 		# Installiert auf Interner HDD
 		echo 'HDD INST'     > /dev/fplarge
+		sleep 2
 		cd /install
 		./install_hdd.sh
 	else
 		# Installiert auf Externen USB
 		echo 'USB INST'     > /dev/fplarge
+		sleep 2
 		umount $usbroot
 		cd /install
 		./install.sh
 	fi
 elif [ -e /rootfs/update ]; then
+	echo "UPDATE" > /dev/fplarge
+	sleep 2
 	cd /install
 	./update.sh
 fi
@@ -109,13 +97,38 @@ if [ -e /rootfs/hdd ]; then
 else
 	echo 'Ist USB ...'
 fi
+# umount für FSCK
 if [ $LAUFWERK = USB ]; then
 	umount /dev/sdb1
 else
 	echo "Mount interne HDD, Kein USB Mounted"
 	umount /dev/sda1
 fi
-
+# Quik FSCK Check
+if [ `tune2fs -l $usbroot | grep -i "Filesystem state" | awk '{ print $3 }'` == "clean" ]; then
+    echo "$DEVICES1 OK"
+else
+    echo "FSCK $DEVICES1 run" > /fsck.log
+    echo "FSCK $DEVICES1" > /dev/fplarge
+    fsck.ext2 -f -y "${root}" >> /fsck.log
+    tune2fs -l "${root}" | grep -i "Filesystem state" >> /fsck.log
+fi
+if [ `tune2fs -l $usbrootfs | grep -i "Filesystem state" | awk '{ print $3 }'` == "clean" ]; then
+    echo "$DEVICES2 OK"
+else
+    echo "FSCK $DEVICES2 run" > /fsck.log
+    echo "FSCK $DEVICES2" > /dev/fplarge
+    fsck.ext4 -f -y "${usbrootfs}" >> /fsck.log
+    tune2fs -l "${usbrootfs}" | grep -i "Filesystem state" >> /fsck.log
+fi
+if [ `tune2fs -l ${record} | grep -i "Filesystem state" | awk '{ print $3 }'` == "clean" ]; then
+    echo "$DEVICES4 OK"
+else
+    echo "FSCK $DEVICES4 run" > /fsck.log
+    echo "FSCK $DEVICES4" > /dev/fplarge
+    fsck.ext4 -f -y "${record}" >> /fsck.log
+    tune2fs -l "${record}" | grep -i "Filesystem state" >> /fsck.log
+fi
 echo "Mount USB Device"
 mount "${usbroot}" /usb1
 
