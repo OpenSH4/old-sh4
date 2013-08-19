@@ -38,5 +38,8 @@ echo "make yaud-enigma2-nightly"
 echo "make yaud-enigma2-pli-nightly"
 echo "make yaud-enigma2-pli-amiko"
 echo "make yaud-xbmc-nightly"
+echo "make yaud-ducktrick-multiimage"
+echo "----------------------------------------"
+echo "make yaud-oscam"
 echo "----------------------------------------"
 
