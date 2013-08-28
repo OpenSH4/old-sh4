@@ -680,7 +680,7 @@ error:
 static struct dvb_frontend_ops zl10353_ops = {
 
 	.info = {
-		.name				 = "Zarlink ZL10353 DVB-T",
+		.name				 = "Vip2 Tuner ->",
 		.type				 = FE_OFDM,
 		.frequency_min		 = 174000000,
 		.frequency_max		 = 862000000,

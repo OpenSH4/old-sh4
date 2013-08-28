@@ -1145,13 +1145,7 @@ static struct stv090x_reg stv0900_initval[] = {
 
 static struct stv090x_reg stv0903_initval[] = {
 	{ STV090x_OUTCFG,		0x00 },
-#if   defined(TUNER_IX7306)
 	{ STV090x_AGCRF1CFG,		0x10 },		// 0x10 for sharp7306, 0x11 for stb6110
-#elif defined(TUNER_STB6110)
-	{ STV090x_AGCRF1CFG,		0x11 },		// 0x10 for sharp7306, 0x11 for stb6110
-#else
-	#error "You must define tuner type..."
-#endif
 	{ STV090x_STOPCLK1,		0x48 },
 	{ STV090x_STOPCLK2,		0x14 },
 	{ STV090x_TSTTNR1,		0x27 },
@@ -4556,30 +4550,61 @@ err:
 	dprintk(FE_ERROR, 1, "I/O error");
 	return -1;
 }
+/* Wir setzen hier für jeden Tuner Separat die Spannung */
+/* Das setzen auf die früheren fe_rst fe_lnb_en ist hier*/
+/* nicht möglich da die funktion state->config es nicht */
+/* zulässt diese werte zu schreiben, das übergeben vom  */
+/* core zum stv090x verursacht ein segment fault ...    */
+/* Die Zahlen 5,7,2 und 0 entsprechen dem Shiftregister */
 
 enum { VOLTAGE_13 = 1, VOLTAGE_18  = 0 };
 enum { VOLTAGE_ON = 1, VOLTAGE_OFF = 0 };
 
-static int stv090x_set_voltage(struct dvb_frontend *fe, fe_sec_voltage_t voltage)
+int stv090x_set_voltage(struct dvb_frontend *fe, fe_sec_voltage_t voltage)
 {
-	struct stv090x_state *state = fe->demodulator_priv;
-
 	switch (voltage) {
 	case SEC_VOLTAGE_13:
-        printk("frontend %d: set_voltage_vertical \n", fe->id);
-        hc595_out (state->config->fe_lnb_en, VOLTAGE_ON);
-        hc595_out (state->config->fe_1318, VOLTAGE_13);
-		break;
+		if (fe->id == 0) {
+			printk("frontend %d: set_voltage_vertical (A) \n", fe->id);
+        		hc595_out (5, VOLTAGE_ON);
+        		hc595_out (7, VOLTAGE_13);
+			break;
+		} else if (fe->id == 1) {
+			printk("frontend %d: set_voltage_vertical (B) \n", fe->id);
+        		hc595_out (2, VOLTAGE_ON);
+        		hc595_out (0, VOLTAGE_13);
+			break;
+		} else {
+			printk("frontend %d: Kann nicht H/V Switch verwenden \n", fe->id);
+		}
 	case SEC_VOLTAGE_18:
-        printk("frontend %d: set_voltage_horizontal\n", fe->id);
-        hc595_out (state->config->fe_lnb_en, VOLTAGE_ON);
-        hc595_out (state->config->fe_1318, VOLTAGE_18);
-		break;
+		if (fe->id == 0) {
+        		printk("frontend %d: set_voltage_horizontal (A) \n", fe->id);
+	        	hc595_out (5, VOLTAGE_ON);
+	        	hc595_out (7, VOLTAGE_18);
+			break;
+		} else if (fe->id == 1) {
+	        	printk("frontend %d: set_voltage_horizontal (B) \n", fe->id);
+	        	hc595_out (2, VOLTAGE_ON);
+	        	hc595_out (0, VOLTAGE_18);
+			break;
+		} else {
+			printk("frontend %d: Kann nicht H/V Switch verwenden \n", fe->id);
+		}
 	case SEC_VOLTAGE_OFF:
-        printk("frontend %d: set_voltage_off\n", fe->id);
-        hc595_out (state->config->fe_lnb_en, VOLTAGE_OFF);
-		break;
+		if (fe->id == 0) {
+	        	printk("frontend %d: set_voltage_off (A) \n", fe->id);
+	        	hc595_out (5, VOLTAGE_OFF);
+			break;
+		} else if (fe->id == 1) {
+	        	printk("frontend %d: set_voltage_off (B)\n", fe->id);
+	        	hc595_out (2, VOLTAGE_OFF);
+			break;
+		} else {
+			printk("frontend %d: Kann nicht H/V Switch verwenden \n", fe->id);
+		}
 	default:
+		printk("frontend %d: Set default... \n", fe->id);
 		return -EINVAL;
 	}
 
@@ -5365,7 +5390,7 @@ err:
 static struct dvb_frontend_ops stv090x_ops = {
 
 	.info = {
-		.name				= "STV090x Multistandard",
+		.name				= "Vip2 Tuner ->",
 		.type				= FE_QPSK,
 		.frequency_min		= 950000,
 		.frequency_max 		= 2150000,

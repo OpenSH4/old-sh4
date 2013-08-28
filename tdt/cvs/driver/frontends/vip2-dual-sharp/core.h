@@ -37,19 +37,29 @@ struct tuner_config
 	int i2c_bus; /* i2c adapter number */
 	u8 i2c_addr; /* i2c address of the tuner */
 	u8 addr;     /* i2c address of the tuner */
-	u8 fe_rst;
-	u8 fe_lnb_en;
-	u8 fe_1318;
-	u8 fe_1419;
+	
+	u8 fe_rst_tuner_a; /* set voltage control of the Tuner A*/
+	u8 fe_rst_tuner_b; /* set voltage control of the Tuner B*/
 };
 
+enum Shiftregister_ix7306 {
+	FE1_1318 	= 0,
+	FE1_RST		= 1,
+	FE1_LNB_EN	= 2,
+	FE1_1419	= 3,
+	FE0_RST		= 4,
+	FE0_LNB_EN	= 5,
+	FE0_1419	= 6,
+	FE0_1318	= 7,
+};
 
 struct core_config
 {
-	struct tuner_config *tuner;
+	struct tuner_config 	*tuner;
 	struct i2c_adapter	*i2c_adap; /* i2c bus of the tuner */
-	u8			i2c_addr; /* i2c address of the tuner */
+	u8			*i2c_addr; /* i2c address of the tuner */
 	u8			i2c_addr_lnb_supply; /* i2c address of the lnb_supply */
+	u8 			addr;     /* i2c address of the tuner */
 	u8			vertical; /* i2c value */
 	u8			horizontal; /* i2c value */
 

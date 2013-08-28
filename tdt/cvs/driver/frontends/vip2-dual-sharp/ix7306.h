@@ -41,6 +41,13 @@ enum ix7306_bblpf {
 	IX7306_LPF_34,		/*   34 MHz */
 };
 
+enum ix7306_xtal {
+	IX7306_XTAL_2		= 2000000,
+	IX7306_XTAL_4		= 4000000,
+	IX7306_XTAL_8		= 8000000,
+	IX7306_XTAL_16		= 16000000,
+};
+
 enum ix7306_bbgain {
 	IX7306_GAIN_0dB = 1,	/*  0dB Att */
 	IX7306_GAIN_2dB,	/* -2dB Att */
@@ -53,12 +60,14 @@ struct ix7306_config {
 	enum ix7306_step 	step_size;
 	enum ix7306_bblpf	bb_lpf;
 	enum ix7306_bbgain	bb_gain;
+	enum ix7306_xtal	xtal;
 };
 
 int ix7306_get_frequency(struct dvb_frontend *fe, u32 *frequency);
 int ix7306_set_frequency(struct dvb_frontend *fe, u32 frequency);
 int ix7306_set_bandwidth(struct dvb_frontend *fe, u32 bandwidth);
 int ix7306_get_bandwidth(struct dvb_frontend *fe, u32 *bandwidth);
+int ix7306_get_status(struct dvb_frontend *fe, u32 *status);
 
 extern struct dvb_frontend *ix7306_attach(struct dvb_frontend *fe,
 					  const struct ix7306_config *config,

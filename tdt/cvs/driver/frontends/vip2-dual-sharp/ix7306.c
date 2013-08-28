@@ -24,6 +24,7 @@
 
 #include "dvb_frontend.h"
 #include "ix7306.h"
+#include "core.h"
 
 struct ix7306_state {
 	struct dvb_frontend		*fe;
@@ -409,7 +410,7 @@ static int ix7306_get_state(struct dvb_frontend *fe,
 	return err;
 }
 
-static int ix7306_get_status(struct dvb_frontend *fe, u32 *status)
+int ix7306_get_status(struct dvb_frontend *fe, u32 *status)
 {
 	struct ix7306_state *state = fe->tuner_priv;
 	u8 result[2];
