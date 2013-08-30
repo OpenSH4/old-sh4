@@ -396,10 +396,12 @@ static struct dvb_frontend *init_fe_device (struct dvb_adapter *adapter,
 struct tuner_config tuner_resources[] = {
 
         [0] = {
+                .adapter 	= 0, // brauch Kabel Tuner ?
                 .i2c_bus 	= 0,
           	.fe_rst_tuner_a 	= FE0_RST,
         },
         [1] = {
+                .adapter 	= 0, // brauch Kabel Tuner ?
                 .i2c_bus 	= 1,
           	.fe_rst_tuner_b 	= FE1_RST,
         },
