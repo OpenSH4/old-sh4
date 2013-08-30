@@ -27,7 +27,7 @@
 +      {
 +	      .name  = "LMI_SYS",
 +	      .start = 0,
-+	      .size  = 0x00f00000, //0x0260000 default
++	      .size  = 0x01700000, //Wir brauchen mehr Speicher fuer Dual Record
 +	      .flags = 0,
 +	      .aka   = LMI_SYS_partalias
 +      }
