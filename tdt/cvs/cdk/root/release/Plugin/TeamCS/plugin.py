@@ -1247,15 +1247,15 @@ class FERNB(Screen):
 				self.session.open(MessageBox,_("FB ArgusVIP alt Mode Gruen"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "ArgusVIPneu":
-				os.system("cp /etc/lircd_neu.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; echo vip2 > /var/config/boxtype")
+				os.system("cp /etc/lircd_neu.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_neu.conf /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP neu Mode Rot"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "ArgusVIPneugruen":
-				os.system("cp /etc/lircd_neu_gruen.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; echo vip2 > /var/config/boxtype")
+				os.system("cp /etc/lircd_neu_gruen.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_neu.conf /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP neu Mode Gruen"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "Opticum":
-				os.system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; echo opti > /var/config/boxtype")
+				os.system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_opti.conf /var/tuxbox/config/keymap.conf; echo opti > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB Opticum"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "Pingolux":
