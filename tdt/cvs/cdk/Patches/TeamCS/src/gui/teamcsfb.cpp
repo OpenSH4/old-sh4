@@ -95,7 +95,7 @@ int teamcsfb::exec(CMenuTarget* parent, const std::string &actionKey)
    {
       //CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
 
-      	system("cp /etc/lircd_neu.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype");
+      	system("cp /etc/lircd_neu.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_neu.conf /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype");
       	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "FB ArgusVIP neu Mode Rot");	
       	hintBox->paint();
 
@@ -111,7 +111,7 @@ int teamcsfb::exec(CMenuTarget* parent, const std::string &actionKey)
    else if (actionKey == "vipneugruen")
    {
 
-      	system("cp /etc/lircd_neu_gruen.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml;  rm -f /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype");
+      	system("cp /etc/lircd_neu_gruen.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml;  rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_neu.conf /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype");
       	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "FB ArgusVIP neu Mode Gruen");	
       	hintBox->paint();
 
@@ -127,7 +127,7 @@ int teamcsfb::exec(CMenuTarget* parent, const std::string &actionKey)
    else if (actionKey == "vipalt")
    {
 
-      	system("cp /etc/lircd_alt.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf; echo vip1 > /var/config/boxtype");
+      	system("cp /etc/lircd_alt.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf; echo vip1 > /var/config/boxtype");
       	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "FB ArgusVIP alt Mode Rot");	
       	hintBox->paint();
 
@@ -143,7 +143,7 @@ int teamcsfb::exec(CMenuTarget* parent, const std::string &actionKey)
    else if (actionKey == "vipaltgruen")
    {
 
-      	system("cp /etc/lircd_alt_gruen.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf; echo vip1 > /var/config/boxtype");
+      	system("cp /etc/lircd_alt_gruen.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf; echo vip1 > /var/config/boxtype");
       	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "FB ArgusVIP alt Mode Gruen");	
       	hintBox->paint();
 
@@ -160,7 +160,7 @@ int teamcsfb::exec(CMenuTarget* parent, const std::string &actionKey)
    {
       //CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
 
-      	system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; cp /var/tuxbox/config/keymap_opti.conf /var/tuxbox/config/keymap.conf; echo opti > /var/config/boxtype");
+      	system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_opti.conf /var/tuxbox/config/keymap.conf; echo opti > /var/config/boxtype");
       	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "FB Opticum");	
       	hintBox->paint();
 
