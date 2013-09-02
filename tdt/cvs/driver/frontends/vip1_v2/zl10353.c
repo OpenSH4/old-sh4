@@ -680,7 +680,7 @@ error:
 static struct dvb_frontend_ops zl10353_ops = {
 
 	.info = {
-		.name				 = "Vip1v2 Tuner ->",
+		.name				 = "Sharp6465 Plug&Play (VIP1v2) ",
 		.type				 = FE_OFDM,
 		.frequency_min		 = 174000000,
 		.frequency_max		 = 862000000,

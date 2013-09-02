@@ -5365,7 +5365,7 @@ err:
 static struct dvb_frontend_ops stv090x_ops = {
 
 	.info = {
-		.name				= "Vip1v2 Tuner ->",
+		.name				= "Sharp7306 Plug&Play (VIP1v2) ",
 		.type				= FE_QPSK,
 		.frequency_min		= 950000,
 		.frequency_max 		= 2150000,

@@ -4575,7 +4575,7 @@ int stv090x_set_voltage(struct dvb_frontend *fe, fe_sec_voltage_t voltage)
         		hc595_out (0, VOLTAGE_13);
 			break;
 		} else {
-			printk("frontend %d: Kann nicht H/V Switch verwenden \n", fe->id);
+			printk("frontend %d: Kann keinen V Switch verwenden \n", fe->id);
 		}
 	case SEC_VOLTAGE_18:
 		if (fe->id == 0) {
@@ -4589,7 +4589,7 @@ int stv090x_set_voltage(struct dvb_frontend *fe, fe_sec_voltage_t voltage)
 	        	hc595_out (0, VOLTAGE_18);
 			break;
 		} else {
-			printk("frontend %d: Kann nicht H/V Switch verwenden \n", fe->id);
+			printk("frontend %d: Kann keinen H Switch verwenden \n", fe->id);
 		}
 	case SEC_VOLTAGE_OFF:
 		if (fe->id == 0) {
@@ -4601,7 +4601,7 @@ int stv090x_set_voltage(struct dvb_frontend *fe, fe_sec_voltage_t voltage)
 	        	hc595_out (2, VOLTAGE_OFF);
 			break;
 		} else {
-			printk("frontend %d: Kann nicht H/V Switch verwenden \n", fe->id);
+			printk("frontend %d: Kann nicht deaktiviert werden \n", fe->id);
 		}
 	default:
 		printk("frontend %d: Set default... \n", fe->id);
@@ -5390,7 +5390,9 @@ err:
 static struct dvb_frontend_ops stv090x_ops = {
 
 	.info = {
-		.name				= "Vip2 Tuner ->",
+		/* Der Tuner Name kann fest eingetsellt werden da der VIP2 */
+		/* für jeden Tuner einen anderen Demodelator verwendet 	   */
+		.name				= "Sharp7306 Plug&Play (VIP2) ",
 		.type				= FE_QPSK,
 		.frequency_min		= 950000,
 		.frequency_max 		= 2150000,

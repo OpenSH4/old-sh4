@@ -575,7 +575,7 @@ error:
 static struct dvb_frontend_ops tda10023_ops = {
 
 	.info = {
-		.name = "Vip1v2 Tuner ->",
+		.name = "LG031 Plug&Play (VIP1v2) ",
 		.type = FE_QAM,
 		.frequency_stepsize = 62500,
 		.frequency_min =  47000000,

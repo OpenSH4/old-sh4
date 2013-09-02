@@ -5377,7 +5377,7 @@ err:
 static struct dvb_frontend_ops stv090x_ops = {
 
 	.info = {
-		.name				= "Vip1 ST-Tuner ->",
+		.name				= "STV6110 (VIP) (OPTICUM)",
 		.type				= FE_QPSK,
 		.frequency_min		= 950000,
 		.frequency_max 		= 2150000,

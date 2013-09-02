@@ -575,7 +575,9 @@ error:
 static struct dvb_frontend_ops tda10023_ops = {
 
 	.info = {
-		.name = "Vip2 Tuner ->",
+		/* Der Tuner Name kann fest eingetsellt werden da der VIP2 */
+		/* für jeden Tuner einen anderen Demodelator verwendet 	   */
+		.name = "LG031 Plug&Play (VIP2) ",
 		.type = FE_QAM,
 		.frequency_stepsize = 62500,
 		.frequency_min =  47000000,

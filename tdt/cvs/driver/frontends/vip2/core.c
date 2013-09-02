@@ -151,7 +151,6 @@ static const struct ix7306_config bs2s7hz7306a_config = {
 	.step_size 	= IX7306_STEP_1000,
 	.bb_lpf		= IX7306_LPF_12,
 	.bb_gain	= IX7306_GAIN_2dB,
-	.xtal		= IX7306_XTAL_4,
 };
 
 static struct zl10353_config ce6353_config = {
@@ -176,6 +175,7 @@ static struct tda10023_config philips_tda10023_config = {
 };
 
 static struct lg031_config lg_lg031_config = {
+	.name = "lg031",
 	.addr = I2C_ADDR_LG031,
 };
 
@@ -197,7 +197,6 @@ static struct dvb_frontend *frontend_get_by_type(struct core_config *cfg, int iD
 						if(dvb_attach(ix7306_attach, frontend, &bs2s7hz7306a_config, cfg->i2c_adap))
 						{
 							printk("%s: IX7306 attached\n", __FUNCTION__);
-							//stv090x_config.xtal		 	= IX7306_XTAL_4;
 							stv090x_config.tuner_set_frequency 	= ix7306_set_frequency;
 							stv090x_config.tuner_get_frequency 	= ix7306_get_frequency;
 							stv090x_config.tuner_set_bandwidth 	= ix7306_set_bandwidth;
@@ -233,6 +232,7 @@ static struct dvb_frontend *frontend_get_by_type(struct core_config *cfg, int iD
 						if(dvb_attach(sharp6465_attach, frontend, &s6465_config, cfg->i2c_adap))
 						{
 							printk("%s: SHARP6465 attached\n", __FUNCTION__);
+							
 						}
 						else
 						{
