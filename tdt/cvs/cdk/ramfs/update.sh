@@ -21,6 +21,11 @@ if [ $INSTALLED = $AKTUELL ]; then
 	# lösche Update start file
 	rm /rootfs/update
 	echo "done"
+	if [ -e /update/boot/uImage.gz ]; then
+	#cop new kernel files
+		cp /update/boot/uImage.gz /rootfs/boot/
+		rm /update/boot/uImage.gz
+	fi
 	# Setzt das Update State auf 0 für Updatecheck in Enigma2/NeutrinoHD
 	echo "0" > /update/var/config/update/state
 	echo "Fertig...." > /dev/vfd
