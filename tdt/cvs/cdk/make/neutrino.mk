@@ -350,7 +350,7 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 	echo " 0) Newest		- NHD2 libplayer3    			(Can fail due to outdated patch)"; \
 	echo " 1) Newest (TeamCS)	- NHD2 libplayer3 + TeamCS-Menu   	(Can fail due to outdated patch)"; \
 	echo " 2) inactive"; \
-	echo " 3) Sun,  04 August 2013	- NHD2 libplayer3 + TeamCS-Menu		(SVN 1571)"; \
+	echo " 3) Sun,  06 Sep 2013	- NHD2 libplayer3 + TeamCS-Menu		(SVN 1622)"; \
 	echo "========================================================================================================"; \
 	echo "Media Framwork : $(MEDIAFW) (MediaFW will always be libeplayer3 for NHD2)"; \
 	echo "External LCD   : $(EXTERNALLCD)"; \
@@ -358,7 +358,7 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 	[ "$$REPLY" == "0" ] && NHDselect=0; \
 	[ "$$REPLY" == "1" ] && NHDselect=1; \
 	[ "$$REPLY" == "2" ] && NHDselect=2; \
-	[ "$$REPLY" == "3" ] && NHDselect=3 && REVISION=1571; \
+	[ "$$REPLY" == "3" ] && NHDselect=3 && REVISION=1622; \
 	echo "Revision       : "$$REVISION; \
 	echo "";\
 	rm -rf $(appsdir)/neutrino-hd2-exp; \
@@ -370,7 +370,10 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 		svn co http://neutrinohd2.googlecode.com/svn/branches/nhd2-exp $(archivedir)/neutrino-hd2-exp.svn; \
 		cp -ra $(archivedir)/neutrino-hd2-exp.svn $(appsdir)/neutrino-hd2-exp; \
 		cp -ra $(appsdir)/neutrino-hd2-exp $(appsdir)/neutrino-hd2-exp.org; \
-		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-newest.diff"; \
+		$(if $(HL101)$(VIP1v2)$(VIP2v1),cd $(appsdir)/neutrino-hd2-exp && \ 
+		patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-newest.diff";) \
+                $(if $(TF7700),cd $(appsdir)/neutrino-hd2-exp && \
+		patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-newest-tf7700.diff";) \
 		cp -f $(buildprefix)/root/svn_version.h $(appsdir)/neutrino-hd2-exp/src/gui/ ;\
 		echo done && sleep 3 && cd $(buildprefix) && \
 		touch $@; \
@@ -381,8 +384,10 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 		svn co http://neutrinohd2.googlecode.com/svn/branches/nhd2-exp $(archivedir)/neutrino-hd2-exp.svn; \
 		cp -ra $(archivedir)/neutrino-hd2-exp.svn $(appsdir)/neutrino-hd2-exp; \
 		cp -ra $(appsdir)/neutrino-hd2-exp $(appsdir)/neutrino-hd2-exp.org; \
-		$(if $(HL101)$(VIP1v2)$(VIP2v1),cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-newest.diff";) \
-		$(if $(TF7700),cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-newest-tf7700.diff";) \
+		$(if $(HL101)$(VIP1v2)$(VIP2v1),cd $(appsdir)/neutrino-hd2-exp && \
+		patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-newest.diff";) \
+		$(if $(TF7700),cd $(appsdir)/neutrino-hd2-exp && \
+		patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-newest-tf7700.diff";) \
 		cp -f $(buildprefix)/root/svn_version.h $(appsdir)/neutrino-hd2-exp/src/gui/ ;\
 		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-teamcs.diff" && \
 		cp -rf $(buildprefix)/Patches/TeamCS/* $(appsdir)/neutrino-hd2-exp/ && \
@@ -396,7 +401,10 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 		svn co -r$$REVISION  http://neutrinohd2.googlecode.com/svn/branches/nhd2-exp $(archivedir)/neutrino-hd2-exp.svn; \
 		cp -ra $(archivedir)/neutrino-hd2-exp.svn $(appsdir)/neutrino-hd2-exp; \
 		cp -ra $(appsdir)/neutrino-hd2-exp $(appsdir)/neutrino-hd2-exp.org; \
-		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp.diff"; \
+		$(if $(HL101)$(VIP1v2)$(VIP2v1),cd $(appsdir)/neutrino-hd2-exp && \
+                patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp.diff";) \
+                $(if $(TF7700),cd $(appsdir)/neutrino-hd2-exp && \
+                patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp--tf7700.diff";) \
 		cp -f $(buildprefix)/root/svn_version.h $(appsdir)/neutrino-hd2-exp/src/gui/ ;\
 		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-teamcs.diff" && \
 		cp -rf $(buildprefix)/Patches/TeamCS/* $(appsdir)/neutrino-hd2-exp/ && \

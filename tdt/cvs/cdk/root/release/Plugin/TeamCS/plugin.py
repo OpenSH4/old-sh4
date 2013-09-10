@@ -104,8 +104,8 @@ class MyMenu(Screen):
 				self.session.open(OVERCLOCK)
 
 			elif selection[1] == "NHD2":
-				os.system("echo Neutrino > /var/config/subsystem; echo switch > /var/config/subswitch; sync")
-				self.session.open(MessageBox,_("NeutrinoHD2 wird beim naechsten Systemstart ausgefuehrt"), MessageBox.TYPE_INFO)
+				self.session.open(MessageBox,_("Starte NeutrinoHD2..."), MessageBox.TYPE_INFO)
+				os.system("/bin/sh /var/config/system/nhd_switch.sh &")
 
 			elif selection[1] == "wlan":
 				self.session.open(WLAN)
@@ -2045,3 +2045,4 @@ def Plugins(**kwargs):
 	return [
 		PluginDescriptor(name="TeamCS Menu", description="Das TeamCS Menu", where = PluginDescriptor.WHERE_PLUGINMENU, icon="../ihad_tut.png", fnc=main),
 		PluginDescriptor(name="TeamCS Menu", description="TeamCS Multi Menu", where = PluginDescriptor.WHERE_MENU, fnc=menu)]
+

@@ -11,7 +11,6 @@
     if [ ! -e /dev/hdmi_cec ]; then
        mknod -m 644 /dev/hdmi_cec c 149 0
     fi
-
     /etc/init.d/mountvirtfs start
     /etc/init.d/portmap start
 
@@ -22,53 +21,53 @@
     if [ -e /var/keys/Benutzerdaten/.system/overclock ]; then
        OVERCLOCK=`cat /var/keys/Benutzerdaten/.system/overclock`
        if [ "$OVERCLOCK" = "300on" ]; then
-    		echo "overclock Aktiviert"
-    		echo 25609 > /proc/cpu_frequ/pll0_ndiv_mdiv
+          echo "overclock Aktiviert"
+          echo 25609 > /proc/cpu_frequ/pll0_ndiv_mdiv
        elif [ "$OVERCLOCK" = "333on" ]; then
-    		echo "overclock Aktiviert"
-    		echo 9475 > /proc/cpu_frequ/pll0_ndiv_mdiv
+          echo "overclock Aktiviert"
+          echo 9475 > /proc/cpu_frequ/pll0_ndiv_mdiv
        elif [ "$OVERCLOCK" = "366on" ]; then
-    		echo "overclock Aktiviert"
-    		echo 31241 > /proc/cpu_frequ/pll0_ndiv_mdiv
+          echo "overclock Aktiviert"
+          echo 31241 > /proc/cpu_frequ/pll0_ndiv_mdiv
        elif [ "$OVERCLOCK" = "400on" ]; then
-    		echo "overclock Aktiviert"
-    		echo 22790 > /proc/cpu_frequ/pll0_ndiv_mdiv
+          echo "overclock Aktiviert"
+          echo 22790 > /proc/cpu_frequ/pll0_ndiv_mdiv
        elif [ "$OVERCLOCK" = "300daueron" ]; then
-    		echo "overclock Aktiviert"
-   		echo 25609 > /proc/cpu_frequ/pll0_ndiv_mdiv
+          echo "overclock Aktiviert"
+         echo 25609 > /proc/cpu_frequ/pll0_ndiv_mdiv
        elif [ "$OVERCLOCK" = "333daueron" ]; then
-    		echo "overclock Aktiviert"
-   		echo 9475 > /proc/cpu_frequ/pll0_ndiv_mdiv
+          echo "overclock Aktiviert"
+         echo 9475 > /proc/cpu_frequ/pll0_ndiv_mdiv
        elif [ "$OVERCLOCK" = "366daueron" ]; then
-    		echo "overclock Aktiviert"
-   		echo 31241 > /proc/cpu_frequ/pll0_ndiv_mdiv
+          echo "overclock Aktiviert"
+         echo 31241 > /proc/cpu_frequ/pll0_ndiv_mdiv
        elif [ "$OVERCLOCK" = "400daueron" ]; then
-    		echo "overclock Aktiviert"
-   		echo 22790 > /proc/cpu_frequ/pll0_ndiv_mdiv
+          echo "overclock Aktiviert"
+         echo 22790 > /proc/cpu_frequ/pll0_ndiv_mdiv
        elif [ "$OVERCLOCK" = "daueroff" ]; then
-    		echo "overclock Deaktiviert"
+          echo "overclock Deaktiviert"
        elif [ "$OVERCLOCK" = "overoff" ]; then
-    		echo "overclock Deaktiviert"
+          echo "overclock Deaktiviert"
        else
-		echo "Overclock OFF"
+      echo "Overclock OFF"
        fi
     else
-	echo "Overclock OFF -- Default"
+   echo "Overclock OFF -- Default"
     fi
 
     insmod $MODDIR/e2_proc.ko
 
     MAC=`cat /var/keys/Benutzerdaten/.system/mac`
     if [ "$MAC" = "1" ]; then
-	echo "use default MAC Adresse"
+   echo "use default MAC Adresse"
     elif [ "$MAC" = "2" ]; then
-	ifconfig eth0 hw ether 00:81:E1:12:06:30
+   ifconfig eth0 hw ether 00:81:E1:12:06:30
     elif [ "$MAC" = "3" ]; then
-	ifconfig eth0 hw ether 00:82:E1:12:06:30
+   ifconfig eth0 hw ether 00:82:E1:12:06:30
     elif [ "$MAC" = "4" ]; then
-	ifconfig eth0 hw ether 00:83:E1:12:06:30
+   ifconfig eth0 hw ether 00:83:E1:12:06:30
     elif [ "$MAC" = "5" ]; then
-	ifconfig eth0 hw ether 00:84:E1:12:06:30
+   ifconfig eth0 hw ether 00:84:E1:12:06:30
     fi
 
     # Filesystem Treiber ext3 ext4 ...
@@ -102,15 +101,15 @@
 
        echo "init stmfb"
        insmod $MODDIR/stmcore-display-stx7109c3.ko
-	
-	# Stellt den Boot Prozess je nach dem was Aktiviert wurde auf Scart oder HDMI um
+   
+   # Stellt den Boot Prozess je nach dem was Aktiviert wurde auf Scart oder HDMI um
        MODE=`cat /etc/enigma2/settings | grep Scart`
        if [ "$MODE" = "config.av.videoport=Scart" ]; then
-		echo "Scart Ausgang Aktviert"
-       		insmod $MODDIR/stmfb.ko display0=720x576-32@60:12m:pal:yuv:yuv;
+      echo "Scart Ausgang Aktviert"
+             insmod $MODDIR/stmfb.ko display0=720x576-32@60:12m:3m:pal:yuv:yuv;
        else
-		echo "HDMI Ausgang Aktviert"
-       		insmod $MODDIR/stmfb.ko display0=1280x720-32@60:12m:pal:yuv:yuv
+      echo "HDMI Ausgang Aktviert"
+             insmod $MODDIR/stmfb.ko display0=1280x720-32@60:12m:3m:pal:yuv:yuv
        fi
 
        echo "LOADING MODULES"
@@ -137,20 +136,20 @@
           echo "AVS Aktiviert -- VIP2"
         if [ -e /var/config/deepstandby ]; then
            DEEPSTANDBY=`cat /var/config/deepstandby`
-	   TIMESET=`cat /var/config/fp_control`
+      TIMESET=`cat /var/config/fp_control`
                 if [ "$DEEPSTANDBY" = "vip2" ]; then
-             		echo "Deepstandby OK"
-           	else
-             		echo "vip2" > /var/config/deepstandby
+                   echo "Deepstandby OK"
+              else
+                   echo "vip2" > /var/config/deepstandby
           fi
-		if [ "$TIMESET" = "aotom" ]; then
-             		echo "Timeset OK"
-           	else
-             		echo "aotom" > /var/config/fp_control
-          	fi
+      if [ "$TIMESET" = "aotom" ]; then
+                   echo "Timeset OK"
+              else
+                   echo "aotom" > /var/config/fp_control
+             fi
         else
            echo "vip2" > /var/config/deepstandby
-	   echo "aotom" > /var/config/fp_control
+      echo "aotom" > /var/config/fp_control
         fi
              insmod $MODDIR/avs.ko type=vip2_avs
         dual=yes
@@ -158,20 +157,20 @@
           echo "AVS Aktiviert -- VIP2"
         if [ -e /var/config/deepstandby ]; then
            DEEPSTANDBY=`cat /var/config/deepstandby`
-	   TIMESET=`cat /var/config/fp_control`
+      TIMESET=`cat /var/config/fp_control`
                 if [ "$DEEPSTANDBY" = "vip2" ]; then
-             		echo "Deepstandby OK"
-           	else
-             		echo "vip2" > /var/config/deepstandby
-          	fi
-		if [ "$TIMESET" = "aotom" ]; then
-             		echo "Timeset OK"
-           	else
-             		echo "aotom" > /var/config/fp_control
-          	fi
+                   echo "Deepstandby OK"
+              else
+                   echo "vip2" > /var/config/deepstandby
+             fi
+      if [ "$TIMESET" = "aotom" ]; then
+                   echo "Timeset OK"
+              else
+                   echo "aotom" > /var/config/fp_control
+             fi
         else
            echo "vip2" > /var/config/deepstandby
-	   echo "aotom" > /var/config/fp_control
+      echo "aotom" > /var/config/fp_control
         fi
              insmod $MODDIR/avs.ko type=vip2_avs
         dual=yes
@@ -179,20 +178,20 @@
           echo "AVS Aktiviert -- VIP2"
         if [ -e /var/config/deepstandby ]; then
            DEEPSTANDBY=`cat /var/config/deepstandby`
-	   TIMESET=`cat /var/config/fp_control`
+      TIMESET=`cat /var/config/fp_control`
                 if [ "$DEEPSTANDBY" = "vip2" ]; then
-             		echo "Deepstandby OK"
-           	else
-             		echo "vip2" > /var/config/deepstandby
-          	fi
-		if [ "$TIMESET" = "aotom" ]; then
-             		echo "Timeset OK"
-           	else
-             		echo "aotom" > /var/config/fp_control
-          	fi
+                   echo "Deepstandby OK"
+              else
+                   echo "vip2" > /var/config/deepstandby
+             fi
+      if [ "$TIMESET" = "aotom" ]; then
+                   echo "Timeset OK"
+              else
+                   echo "aotom" > /var/config/fp_control
+             fi
         else
            echo "vip2" > /var/config/deepstandby
-	   echo "aotom" > /var/config/fp_control
+      echo "aotom" > /var/config/fp_control
         fi
              insmod $MODDIR/avs.ko type=vip2_avs
         dual=yes
@@ -200,20 +199,20 @@
           echo "AVS Aktiviert -- VIP2"
         if [ -e /var/config/deepstandby ]; then
            DEEPSTANDBY=`cat /var/config/deepstandby`
-	   TIMESET=`cat /var/config/fp_control`
+      TIMESET=`cat /var/config/fp_control`
                 if [ "$DEEPSTANDBY" = "vip2" ]; then
-             		echo "Deepstandby OK"
-           	else
-             		echo "vip2" > /var/config/deepstandby
-          	fi
-		if [ "$TIMESET" = "aotom" ]; then
-             		echo "Timeset OK"
-           	else
-             		echo "aotom" > /var/config/fp_control
-          	fi
+                   echo "Deepstandby OK"
+              else
+                   echo "vip2" > /var/config/deepstandby
+             fi
+      if [ "$TIMESET" = "aotom" ]; then
+                   echo "Timeset OK"
+              else
+                   echo "aotom" > /var/config/fp_control
+             fi
         else
            echo "vip2" > /var/config/deepstandby
-	   echo "aotom" > /var/config/fp_control
+      echo "aotom" > /var/config/fp_control
         fi
              insmod $MODDIR/avs.ko type=vip2_avs
         dual=yes
@@ -221,20 +220,20 @@
           echo "AVS Aktiviert -- VIP2"
         if [ -e /var/config/deepstandby ]; then
            DEEPSTANDBY=`cat /var/config/deepstandby`
-	   TIMESET=`cat /var/config/fp_control`
+      TIMESET=`cat /var/config/fp_control`
                 if [ "$DEEPSTANDBY" = "vip2" ]; then
-             		echo "Deepstandby OK"
-           	else
-             		echo "vip2" > /var/config/deepstandby
-          	fi
-		if [ "$TIMESET" = "aotom" ]; then
-             		echo "Timeset OK"
-           	else
-             		echo "aotom" > /var/config/fp_control
-          	fi
+                   echo "Deepstandby OK"
+              else
+                   echo "vip2" > /var/config/deepstandby
+             fi
+      if [ "$TIMESET" = "aotom" ]; then
+                   echo "Timeset OK"
+              else
+                   echo "aotom" > /var/config/fp_control
+             fi
         else
            echo "vip2" > /var/config/deepstandby
-	   echo "aotom" > /var/config/fp_control
+      echo "aotom" > /var/config/fp_control
         fi
              insmod $MODDIR/avs.ko type=vip2_avs
         dual=yes
@@ -242,140 +241,140 @@
           echo "AVS Aktiviert -- VIP1"
         if [ -e /var/config/deepstandby ]; then
            DEEPSTANDBY=`cat /var/config/deepstandby`
-	   TIMESET=`cat /var/config/fp_control`
+      TIMESET=`cat /var/config/fp_control`
                 if [ "$DEEPSTANDBY" = "vip" ]; then
-             		echo "Deepstandby OK"
-           	else
-             		echo "vip" > /var/config/deepstandby
-          	fi
-		if [ "$TIMESET" = "proton" ]; then
-             		echo "Timeset OK"
-           	else
-             		echo "proton" > /var/config/fp_control
-          	fi
+                   echo "Deepstandby OK"
+              else
+                   echo "vip" > /var/config/deepstandby
+             fi
+      if [ "$TIMESET" = "proton" ]; then
+                   echo "Timeset OK"
+              else
+                   echo "proton" > /var/config/fp_control
+             fi
         else
            echo "vip" > /var/config/deepstandby
-	   echo "proton" > /var/config/fp_control
+      echo "proton" > /var/config/fp_control
         fi
              insmod $MODDIR/avs.ko type=stv6418 #vip1_avs ist Inkompatiebel mit dem Opticum, kein Audio und Scart Out!!!
        elif [ "$tuner" = "vip1kabel" ]; then
           echo "AVS Aktiviert -- VIP1"
         if [ -e /var/config/deepstandby ]; then
            DEEPSTANDBY=`cat /var/config/deepstandby`
-	   TIMESET=`cat /var/config/fp_control`
+      TIMESET=`cat /var/config/fp_control`
                 if [ "$DEEPSTANDBY" = "vip" ]; then
              echo "Deepstandby OK"
            else
              echo "vip" > /var/config/deepstandby
           fi
-		if [ "$TIMESET" = "proton" ]; then
-             		echo "Timeset OK"
-           	else
-             		echo "proton" > /var/config/fp_control
-          	fi
+      if [ "$TIMESET" = "proton" ]; then
+                   echo "Timeset OK"
+              else
+                   echo "proton" > /var/config/fp_control
+             fi
         else
            echo "vip" > /var/config/deepstandby
-	   echo "proton" > /var/config/fp_control
+      echo "proton" > /var/config/fp_control
         fi
              insmod $MODDIR/avs.ko type=stv6418 #vip1_avs ist Inkompatiebel mit dem Opticum, kein Audio und Scart Out!!!
        elif [ "$tuner" = "vip1dvbt" ]; then
           echo "AVS Aktiviert -- VIP1"
         if [ -e /var/config/deepstandby ]; then
            DEEPSTANDBY=`cat /var/config/deepstandby`
-	   TIMESET=`cat /var/config/fp_control`
+      TIMESET=`cat /var/config/fp_control`
                 if [ "$DEEPSTANDBY" = "vip" ]; then
-             		echo "Deepstandby OK"
-           	else
-             		echo "vip" > /var/config/deepstandby
+                   echo "Deepstandby OK"
+              else
+                   echo "vip" > /var/config/deepstandby
           fi
-		if [ "$TIMESET" = "proton" ]; then
-             		echo "Timeset OK"
-           	else
-             		echo "proton" > /var/config/fp_control
-          	fi
+      if [ "$TIMESET" = "proton" ]; then
+                   echo "Timeset OK"
+              else
+                   echo "proton" > /var/config/fp_control
+             fi
         else
            echo "vip" > /var/config/deepstandby
-	   echo "proton" > /var/config/fp_control
+      echo "proton" > /var/config/fp_control
         fi
              insmod $MODDIR/avs.ko type=stv6418 #vip1_avs ist Inkompatiebel mit dem Opticum, kein Audio und Scart Out!!!
        elif [ "$tuner" = "vip1v2" ]; then
           echo "AVS Aktiviert -- VIP1v2"
         if [ -e /var/config/deepstandby ]; then
            DEEPSTANDBY=`cat /var/config/deepstandby`
-	   TIMESET=`cat /var/config/fp_control`
+      TIMESET=`cat /var/config/fp_control`
                 if [ "$DEEPSTANDBY" = "vip2" ]; then
-             		echo "Deepstandby OK"
-           	else
-             		echo "vip2" > /var/config/deepstandby
-          	fi
-		if [ "$TIMESET" = "aotom" ]; then
-             		echo "Timeset OK"
-           	else
-             		echo "aotom" > /var/config/fp_control
-          	fi
+                   echo "Deepstandby OK"
+              else
+                   echo "vip2" > /var/config/deepstandby
+             fi
+      if [ "$TIMESET" = "aotom" ]; then
+                   echo "Timeset OK"
+              else
+                   echo "aotom" > /var/config/fp_control
+             fi
         else
            echo "vip2" > /var/config/deepstandby
-	   echo "aotom" > /var/config/fp_control
+      echo "aotom" > /var/config/fp_control
         fi
              insmod $MODDIR/avs.ko type=vip1_avs
        elif [ "$tuner" = "vip1v2kabel" ]; then
           echo "AVS Aktiviert -- VIP1v2"
         if [ -e /var/config/deepstandby ]; then
            DEEPSTANDBY=`cat /var/config/deepstandby`
-	   TIMESET=`cat /var/config/fp_control`
+      TIMESET=`cat /var/config/fp_control`
                 if [ "$DEEPSTANDBY" = "vip2" ]; then
-             		echo "Deepstandby OK"
-           	else
-             		echo "vip2" > /var/config/deepstandby
-          	fi
-		if [ "$TIMESET" = "aotom" ]; then
-             		echo "Timeset OK"
-           	else
-             		echo "aotom" > /var/config/fp_control
-          	fi
+                   echo "Deepstandby OK"
+              else
+                   echo "vip2" > /var/config/deepstandby
+             fi
+      if [ "$TIMESET" = "aotom" ]; then
+                   echo "Timeset OK"
+              else
+                   echo "aotom" > /var/config/fp_control
+             fi
         else
            echo "vip2" > /var/config/deepstandby
-	   echo "aotom" > /var/config/fp_control
+      echo "aotom" > /var/config/fp_control
         fi
              insmod $MODDIR/avs.ko type=vip1_avs
        elif [ "$tuner" = "vip1v2dvbt" ]; then
           echo "AVS Aktiviert -- VIP1v2"
         if [ -e /var/config/deepstandby ]; then
            DEEPSTANDBY=`cat /var/config/deepstandby`
-	   TIMESET=`cat /var/config/fp_control`
+      TIMESET=`cat /var/config/fp_control`
                 if [ "$DEEPSTANDBY" = "vip2" ]; then
-             		echo "Deepstandby OK"
-           	else
-             		echo "vip2" > /var/config/deepstandby
-          	fi
-		if [ "$TIMESET" = "aotom" ]; then
-             		echo "Timeset OK"
-           	else
-             		echo "aotom" > /var/config/fp_control
-          	fi
+                   echo "Deepstandby OK"
+              else
+                   echo "vip2" > /var/config/deepstandby
+             fi
+      if [ "$TIMESET" = "aotom" ]; then
+                   echo "Timeset OK"
+              else
+                   echo "aotom" > /var/config/fp_control
+             fi
         else
            echo "vip2" > /var/config/deepstandby
-	   echo "aotom" > /var/config/fp_control
+      echo "aotom" > /var/config/fp_control
         fi
              insmod $MODDIR/avs.ko type=vip1_avs
        elif [ "$tuner" = "rbvip" ]; then
           echo "AVS Aktiviert -- VIP1"
         if [ -e /var/config/deepstandby ]; then
            DEEPSTANDBY=`cat /var/config/deepstandby`
-	   TIMESET=`cat /var/config/fp_control`
+      TIMESET=`cat /var/config/fp_control`
                 if [ "$DEEPSTANDBY" = "vip" ]; then
-             		echo "Deepstandby OK"
-           	else
-             		echo "vip" > /var/config/deepstandby
-          	fi
-		if [ "$TIMESET" = "proton" ]; then
-             		echo "Timeset OK"
-           	else
-             		echo "proton" > /var/config/fp_control
-          	fi
+                   echo "Deepstandby OK"
+              else
+                   echo "vip" > /var/config/deepstandby
+             fi
+      if [ "$TIMESET" = "proton" ]; then
+                   echo "Timeset OK"
+              else
+                   echo "proton" > /var/config/fp_control
+             fi
         else
            echo "vip" > /var/config/deepstandby
-	   echo "proton" > /var/config/fp_control
+      echo "proton" > /var/config/fp_control
         fi
              insmod $MODDIR/avs.ko type=stv6418 #vip1_avs ist Inkompatiebel mit dem Opticum, kein Audio und Scart Out!!!
        else
@@ -423,7 +422,7 @@
     if [ -e /var/keys/Benutzerdaten/.system/tuner ]; then
        tuner=`cat /var/keys/Benutzerdaten/.system/tuner`
        if [ "$tuner" = "vip2" ]; then
-           insmod $MODDIR/fe-core-vip2-dual-sharp.ko demod1=stv090x tuner1=sharp7306 demod2=stv090x tuner2=sharp7306 ;
+       insmod $MODDIR/fe-core-vip2.ko demod1=stv090x tuner1=sharp7306 demod2=stv090x tuner2=sharp7306 ;
           echo "Tuner Aktiviert -- 2x Sharp gesetzt"
        elif [ "$tuner" = "s2lgvip" ]; then
            insmod $MODDIR/fe-core-vip2.ko demod1=stv090x tuner1=sharp7306 demod2=tda10023 tuner2=lg031 ;
@@ -467,7 +466,14 @@
              echo "Tuner Aktiviert -- Default ST-Tuner"
     fi
        echo "init drivers"
-       insmod $MODDIR/cimax.ko
+       # Cimax Modul für Vip2 ohne CI Module laden
+       if [ "$dual" = "yes" ]; then
+          echo "Load Vip2 no CI Modul Treiber"
+          insmod $MODDIR/cimax_vip2.ko
+       else
+          echo "Load CI Modul Treiber"
+               insmod $MODDIR/cimax.ko
+       fi
        echo "np-PTI Laden..."
        insmod $MODDIR/pti.ko videoMem=5632 # Maximaler wert für VideoMemory
        echo "NP- Fertig"
@@ -504,16 +510,7 @@
        echo "Kartenslots Aktivieren ..."
        insmod $MODDIR/smartcard.ko debug=100
        insmod $MODDIR/cec.ko activemode=1
-    if [ -e /var/config/subsystem ]; then
-       SYSTEM=`cat /var/config/subsystem`
-          if [ "$SYSTEM" = "Neutrino" ]; then
-             insmod $MODDIR/bpamem.ko
-          else
-             echo "Neutrino nicht Aktiv.. Modul nicht benoetigt"
-          fi
-    else
-       echo "System nicht gesetzt"
-    fi
+       insmod $MODDIR/bpamem.ko
 
     if [ -e /var/keys/Benutzerdaten/.system/openvpn ]; then
       ##### OpenVPN benoetigtes TUN dev #####
@@ -908,31 +905,32 @@
           /var/config/system/start_script.sh &
     if [ -e /var/keys/Benutzerdaten/.system/overclock ]; then
        if [ "$OVERCLOCK" = "300on" ]; then
-        	echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
+           echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
        elif [ "$OVERCLOCK" = "333on" ]; then
-        	echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
+           echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
        elif [ "$OVERCLOCK" = "366on" ]; then
-        	echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
+           echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
        elif [ "$OVERCLOCK" = "400on" ]; then
-        	echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
+           echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
        elif [ "$OVERCLOCK" = "300daueron" ]; then
-		echo "Dauer Overclocking -- CPU Stable freq. 300 Mhz"
+      echo "Dauer Overclocking -- CPU Stable freq. 300 Mhz"
        elif [ "$OVERCLOCK" = "333daueron" ]; then
-		echo "Dauer Overclocking -- CPU Stable freq. 333 Mhz"
+      echo "Dauer Overclocking -- CPU Stable freq. 333 Mhz"
        elif [ "$OVERCLOCK" = "366daueron" ]; then
-		echo "Dauer Overclocking -- CPU Stable freq. 366 Mhz"
+      echo "Dauer Overclocking -- CPU Stable freq. 366 Mhz"
        elif [ "$OVERCLOCK" = "400daueron" ]; then
-		echo "Dauer Overclocking -- CPU Stable freq. 400 Mhz"
+      echo "Dauer Overclocking -- CPU Stable freq. 400 Mhz"
        else
-		echo "Overclock OFF"
+      echo "Overclock OFF"
        fi
     else
-	echo "Overclock OFF -- Default"
+   echo "Overclock OFF -- Default"
     fi
 
     if [ -e /var/config/subsystem ]; then
        SYSTEM=`cat /var/config/subsystem`
           if [ "$SYSTEM" = "Neutrino" ]; then
+        killall -9 dvbtest
              /usr/local/bin/neutrino
           else
              /usr/local/bin/enigma2
@@ -940,86 +938,107 @@
     else
           /usr/local/bin/enigma2
     fi
-          rtv=$?
-          echo "e2 ended <- RTV: " $rtv
-          case "$rtv" in
-          0) echo "0"
-      	     SYSTEM=`cat /var/config/subsystem`
-             if [ "$SYSTEM" = "Neutrino" ]; then
-		echo "SHUTDOWN"
-             	echo "Shutdown" > /dev/vfd
-  	     	MODE=`cat /var/config/mode`
-  	     	echo "$MODE" > /var/config/boxoff
-	     	echo "shutdown" > /var/config/shutdown/reboot
-	     	sleep 6
-             	init 4
-	     else
-		if [ -e /var/config/subswitch ]; then
-			echo "SHUTDOWN"
-             		echo "Shutdown" > /dev/vfd
-  	     		MODE=`cat /var/config/mode`
-  	     		echo "$MODE" > /var/config/boxoff
-	     		echo "shutdown" > /var/config/shutdown/reboot
-	     		sleep 6
-             		init 4
-		else
-             		echo "E2 ERROR"
-             		echo "Neustart" > /dev/vfd
-  	     		MODE=`cat /var/config/mode`
-  	     		echo "$MODE" > /var/config/boxoff
-	     		echo "reboot" > /var/config/shutdown/reboot
-	     		sleep 2
-             		init 4
-		fi
-	     fi
-	     echo "DONE";;
-          1) echo "1"
-      	     SYSTEM=`cat /var/config/subsystem`
-             if [ "$SYSTEM" = "Neutrino" ]; then
-             	echo "REBOOT"
-  	     	MODE=`cat /var/config/mode`
-  	     	echo "$MODE" > /var/config/boxoff
-	     	echo "reboot" > /var/config/shutdown/reboot
-	     	sleep 2
-	     	init 4
-	     else
-		if [ -e /var/config/subswitch ]; then
-             		echo "REBOOT"
-  	     		MODE=`cat /var/config/mode`
-  	     		echo "$MODE" > /var/config/boxoff
-	     		echo "reboot" > /var/config/shutdown/reboot
-	     		sleep 2
-	     		init 4
-		else
-             		echo "SHUTDOWN"
-  	     		MODE=`cat /var/config/mode`
-  	     		echo "$MODE" > /var/config/boxoff
-	     		echo "shutdown" > /var/config/shutdown/reboot
-	     		sleep 6
-	     		init 4
-		fi
-	     fi
-	     echo "DONE";;
-          2) echo "2"
-             echo "REBOOT"
-             echo "Neustart" > /dev/vfd
-	     echo "reboot" > /var/config/shutdown/reboot
-	     sleep 2
-             init 4;;
-          3) echo "3"
-             echo "E2 RESTART"
-             echo "0" > /proc/progress
-	     echo "DONE";;
-          *) echo "*"
-             echo "ERROR"
-             echo "Neustart" > /dev/vfd
-	     echo "reboot" > /var/config/shutdown/reboot
-	     sleep 2
-             init 4;;
-          esac
-       done
-    #never reached
-    echo "REBOOT VIP" > /dev/vfd
-    echo "REBOOT VIP"
-    sync
-    init 6
+              rtv=$?
+              echo "e2 ended <- RTV: " $rtv
+              case "$rtv" in
+              0) echo "0"
+                 SWITCH=`cat /var/config/system/switch`
+                 if [ $SWITCH = yes ]; then
+                      echo "GUI SWITCH AKTIV"
+                      # gui_neustart Skript killt alle anderen autostart Scripte
+            # weil das autostart Script ebenfalls neu gestartet wird
+            /var/config/system/gui_neustart.sh &
+                      # hier warten wir 10 sec um dem Script für den start zeit zu geben
+                      sleep 10
+                 else
+                  SYSTEM=`cat /var/config/subsystem`
+                  if [ "$SYSTEM" = "Neutrino" ]; then
+                    echo "SHUTDOWN"
+                    echo "Shutdown" > /dev/vfd
+                    MODE=`cat /var/config/mode`
+                    echo "$MODE" > /var/config/boxoff
+                    echo "shutdown" > /var/config/shutdown/reboot
+                    sleep 6
+                    init 4
+                 else
+                  if [ -e /var/config/subswitch ]; then
+                    echo "SHUTDOWN"
+                    echo "Shutdown" > /dev/vfd
+                    MODE=`cat /var/config/mode`
+                    echo "$MODE" > /var/config/boxoff
+                    echo "shutdown" > /var/config/shutdown/reboot
+                    sleep 6
+                    init 4
+                 else
+                    echo "E2 ERROR"
+                    echo "Neustart" > /dev/vfd
+                    MODE=`cat /var/config/mode`
+                    echo "$MODE" > /var/config/boxoff
+                    echo "reboot" > /var/config/shutdown/reboot
+                    sleep 2
+                    init 4
+                 fi
+               fi
+       fi
+            echo "DONE";;
+              1) echo "1"
+                 SYSTEM=`cat /var/config/subsystem`
+                 if [ "$SYSTEM" = "Neutrino" ]; then
+                    echo "REBOOT"
+                    MODE=`cat /var/config/mode`
+                    echo "$MODE" > /var/config/boxoff
+                    echo "reboot" > /var/config/shutdown/reboot
+                    sleep 2
+                    init 4
+                else
+                if [ -e /var/config/subswitch ]; then
+                    echo "REBOOT"
+                    MODE=`cat /var/config/mode`
+                    echo "$MODE" > /var/config/boxoff
+                    echo "reboot" > /var/config/shutdown/reboot
+                    sleep 2
+                    init 4
+                else
+                    echo "SHUTDOWN"
+                    MODE=`cat /var/config/mode`
+                    echo "$MODE" > /var/config/boxoff
+                    echo "shutdown" > /var/config/shutdown/reboot
+                    sleep 6
+                    init 4
+                fi
+            fi
+            echo "DONE";;
+              2) echo "2"
+                 echo "REBOOT"
+                 echo "Neustart" > /dev/vfd
+                 echo "reboot" > /var/config/shutdown/reboot
+                 sleep 2
+                 init 4;;
+              3) echo "3"
+                 echo "E2 RESTART"
+                 echo "0" > /proc/progress
+            echo "DONE";;
+              *) echo "*"
+                 SWITCH=`cat /var/config/system/switch`
+                 if [ $SWITCH = yes ]; then
+                      echo "GUI SWITCH AKTIV"
+                      # gui_neustart Skript killt alle anderen autostart Scripte
+            # weil das autostart Script ebenfalls neu gestartet wird
+            /var/config/system/gui_neustart.sh &
+                      # hier warten wir 10 sec um dem Script für den start zeit zu geben
+                      sleep 10
+                 else
+                      echo "ERROR"
+                      echo "Neustart" > /dev/vfd
+                      echo "reboot" > /var/config/shutdown/reboot
+                      sleep 2
+                      init 4
+                fi
+                echo "DONE";;
+              esac
+           done
+#never reached
+echo "REBOOT VIP" > /dev/vfd
+echo "REBOOT VIP"
+sync
+init 6

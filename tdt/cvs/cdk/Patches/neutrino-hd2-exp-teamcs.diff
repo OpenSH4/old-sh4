@@ -1,6 +1,6 @@
---- neutrino-hd2-exp/data/locale/deutsch.locale	2013-08-04 12:56:06.000000000 +0200
-+++ neutrino-hd2-exp/data/locale/deutsch.locale	2013-08-04 13:19:38.000000000 +0200
-@@ -1604,6 +1604,125 @@ keybinding.savekeymap_hint keymap wird g
+--- neutrino-hd2-exp/data/locale/deutsch.locale	2013-09-01 20:37:09.000000000 +0200
++++ neutrino-hd2-exp/data/locale/deutsch.locale	2013-09-08 15:24:03.000000000 +0200
+@@ -1605,6 +1605,125 @@ keybinding.savekeymap_hint keymap wird g
  
  audiomenu.volumebar_audiosteps Lautstärke Schrittweite
  
@@ -124,11 +124,11 @@
 +teamcsbackup.ch_download Piloten Kanallisten Download
 +
  webtv.head WebTV
- 
- menu.hint_ytplay Wiedergabe von ausgewählten Youtube Feeds
---- neutrino-hd2-exp/data/locale/english.locale	2013-08-04 12:56:06.000000000 +0200
-+++ neutrino-hd2-exp/data/locale/english.locale	2013-08-04 13:19:38.000000000 +0200
-@@ -1603,6 +1603,125 @@ keybinding.savekeymap_hint Saving keymap
+ webtvchannellist.nonefound Es wurden keine WebTV Kanäle gefunden!
+ webtvchannellist.info Info
+--- neutrino-hd2-exp/data/locale/english.locale	2013-09-01 20:37:08.000000000 +0200
++++ neutrino-hd2-exp/data/locale/english.locale	2013-09-08 15:24:03.000000000 +0200
+@@ -1604,6 +1604,125 @@ keybinding.savekeymap_hint Saving keymap
  
  audiomenu.volumebar_audiosteps Volume Step Size
  
@@ -252,10 +252,10 @@
 +teamcsbackup.ch_download Piloten Channellist Download
 +
  webtv.head WebTV
- 
- menu.hint_ytplay Play selected youtube feeds
---- neutrino-hd2-exp/src/system/locals.h	2013-08-04 12:56:05.000000000 +0200
-+++ neutrino-hd2-exp/src/system/locals.h	2013-08-04 13:19:38.000000000 +0200
+ webtvchannellist.nonefound No WebTV channels were found!
+ webtvchannellist.info Info
+--- neutrino-hd2-exp/src/system/locals.h	2013-09-01 20:37:08.000000000 +0200
++++ neutrino-hd2-exp/src/system/locals.h	2013-09-08 15:24:03.000000000 +0200
 @@ -556,6 +556,8 @@ typedef enum {
  	LOCALE_MAINMENU_SHUTDOWN,
  	LOCALE_MAINMENU_SLEEPTIMER,
@@ -393,10 +393,10 @@
 +	LOCALE_TEAMCSBACKUP_CH_DOWNLOAD,
 +
  	LOCALE_WEBTV_HEAD,
- 	
- 	//youtube
---- neutrino-hd2-exp/src/system/locals_intern.h	2013-08-04 12:56:05.000000000 +0200
-+++ neutrino-hd2-exp/src/system/locals_intern.h	2013-08-04 13:19:38.000000000 +0200
+ 	LOCALE_WEBTVCHANNELLIST_NONEFOUND,
+ 	LOCALE_WEBTV_INFO,
+--- neutrino-hd2-exp/src/system/locals_intern.h	2013-09-01 20:37:08.000000000 +0200
++++ neutrino-hd2-exp/src/system/locals_intern.h	2013-09-08 15:24:03.000000000 +0200
 @@ -556,6 +556,8 @@ const char * locale_real_names[] = {
  	"mainmenu.shutdown",
  	"mainmenu.sleeptimer",
@@ -534,11 +534,11 @@
 +	"teamcsbackup.ch_download",
 +	
  	"webtv.head",
- 	
- 	// youtube
---- neutrino-hd2-exp/src/neutrino.cpp	2013-08-04 12:56:05.000000000 +0200
-+++ neutrino-hd2-exp/src/neutrino.cpp	2013-08-04 13:19:38.000000000 +0200
-@@ -4374,7 +4374,10 @@ void CNeutrinoApp::standbyMode( bool bOn
+ 	"webtvchannellist.nonefound",
+ 	"webtvchannellist.info",
+--- neutrino-hd2-exp/src/neutrino.cpp	2013-09-08 15:23:29.000000000 +0200
++++ neutrino-hd2-exp/src/neutrino.cpp	2013-09-08 15:24:03.000000000 +0200
+@@ -4382,7 +4382,10 @@ void CNeutrinoApp::standbyMode( bool bOn
  #endif		
  		
  		// show time in vfd
@@ -550,7 +550,7 @@
  		
  		//if(videoDecoder)
  		//	videoDecoder->SetInput(INPUT_SCART);
-@@ -4454,6 +4457,7 @@ void CNeutrinoApp::standbyMode( bool bOn
+@@ -4462,6 +4465,7 @@ void CNeutrinoApp::standbyMode( bool bOn
  		// video wake up
  		//if(videoDecoder)
  		//	videoDecoder->SetInput(INPUT_ENCODER);
@@ -558,8 +558,8 @@
  
  		g_Sectionsd->setPauseScanning(false);
  		g_Sectionsd->setServiceChanged(live_channel_id&0xFFFFFFFFFFFFULL, true );
---- neutrino-hd2-exp/src/gui/Makefile.am	2013-08-04 13:27:12.000000000 +0200
-+++ neutrino-hd2-exp/src/gui/Makefile.am	2013-08-04 13:23:22.000000000 +0200
+--- neutrino-hd2-exp/src/gui/Makefile.am	2013-09-08 15:28:37.000000000 +0200
++++ neutrino-hd2-exp/src/gui/Makefile.am	2013-09-08 15:24:03.000000000 +0200
 @@ -8,6 +8,9 @@ svn_version.h:
  	else \
  		rm svn_version.h; echo '#define BUILT_DATE "'`date`'"' > svn_version.h ; \
@@ -580,8 +580,8 @@
  
  if ENABLE_UPNP
  libneutrino_gui2_a_SOURCES += upnpbrowser.cpp
---- neutrino-hd2-exp/src/neutrino_menue.cpp	2013-08-04 12:56:06.000000000 +0200
-+++ neutrino-hd2-exp/src/neutrino_menue.cpp	2013-08-04 13:19:38.000000000 +0200
+--- neutrino-hd2-exp/src/neutrino_menue.cpp	2013-09-01 20:37:08.000000000 +0200
++++ neutrino-hd2-exp/src/neutrino_menue.cpp	2013-09-08 15:24:03.000000000 +0200
 @@ -113,6 +113,8 @@
  #include "gui/upnpbrowser.h"
  #endif
@@ -604,5 +604,5 @@
 +       #endif
 +
  	// vcr-scart
- #if defined (ENABLE_SCART)
- 	mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_SCARTMODE, true, NULL, this, "scart", CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, "scart", LOCALE_HELPTEXT_SCART ));
+ //#if defined (ENABLE_SCART)
+ //	mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_MAINMENU_SCARTMODE, true, NULL, this, "scart", CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, "scart", LOCALE_HELPTEXT_SCART ));

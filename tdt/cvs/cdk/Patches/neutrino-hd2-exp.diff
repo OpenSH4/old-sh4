@@ -710,7 +710,7 @@
  
 --- neutrino-hd2-exp.org/src/gui/Makefile.am	2013-02-01 20:28:48.465181387 +0100
 +++ neutrino-hd2-exp/src/gui/Makefile.am	2013-02-01 20:51:33.353237972 +0100
-@@ -1,7 +1,7 @@
+@@ -3,7 +3,7 @@
  BUILT_SOURCES  = svn_version.h
  
  svn_version.h:
