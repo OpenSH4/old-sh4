@@ -130,7 +130,7 @@ int teamcs::exec(CMenuTarget* parent, const std::string &actionKey)
    else if (actionKey == "enigma")
    {
         //system("echo Enigma2 > /var/config/subsystem; echo switch > /var/config/subswitch");
-	system("/var/config/system/e2_switch.sh");
+	system("/var/config/system/e2_switch.sh &");
         CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Starte Enigma2...");
         hintBox->paint();
 
