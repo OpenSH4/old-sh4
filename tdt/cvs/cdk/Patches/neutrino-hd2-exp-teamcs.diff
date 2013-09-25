@@ -1,6 +1,6 @@
 --- neutrino-hd2-exp/data/locale/deutsch.locale	2013-09-01 20:37:09.000000000 +0200
 +++ neutrino-hd2-exp/data/locale/deutsch.locale	2013-09-08 15:24:03.000000000 +0200
-@@ -1605,6 +1605,125 @@ keybinding.savekeymap_hint keymap wird g
+@@ -1605,6 +1605,126 @@ keybinding.savekeymap_hint keymap wird g
  
  audiomenu.volumebar_audiosteps Lautstärke Schrittweite
  
@@ -76,6 +76,7 @@
 +teamcstuner.vip2kabellg2 2x Kabel LG VIP2
 +teamcstuner.vip2lgkabeldvbt Kabel LG und DVB-T VIP2
 +teamcstuner.vip2sharpdvbt Sharp DVB-S2 und DVB-T VIP2
++teamcstuner.autotuner Tuner Autodetect
 +	
 +teamcsfb.vipneu ArgusVIP neue FB Rotes Blinken
 +teamcsfb.vipneugruen ArgusVIP neue FB Gruenes Blinken
@@ -128,7 +129,7 @@
  webtvchannellist.info Info
 --- neutrino-hd2-exp/data/locale/english.locale	2013-09-01 20:37:08.000000000 +0200
 +++ neutrino-hd2-exp/data/locale/english.locale	2013-09-08 15:24:03.000000000 +0200
-@@ -1604,6 +1604,125 @@ keybinding.savekeymap_hint Saving keymap
+@@ -1604,6 +1604,126 @@ keybinding.savekeymap_hint Saving keymap
  
  audiomenu.volumebar_audiosteps Volume Step Size
  
@@ -204,6 +205,7 @@
 +teamcstuner.vip2kabellg2 2x Cable LG VIP2
 +teamcstuner.vip2lgkabeldvbt Cable LG und DVB-T VIP2
 +teamcstuner.vip2sharpdvbt Sharp DVB-S2 und DVB-T VIP2
++teamcstuner.autotuner Tuner Autodetect
 +	
 +teamcsfb.vipneu ArgusVIP new RC (red signal)
 +teamcsfb.vipneugruen ArgusVIP new RC (green signal)
@@ -274,7 +276,7 @@
  	
  	LOCALE_MISCSETTINGS_LOGOSDIR,
  	
-@@ -1617,6 +1621,120 @@ typedef enum {
+@@ -1617,6 +1621,121 @@ typedef enum {
  	
  	LOCALE_AUDIOMENU_VOLUMEBAR_AUDIOSTEPS,
  	
@@ -345,6 +347,7 @@
 +	LOCALE_TEAMCSTUNER_VIP2_KABELLG2,
 +	LOCALE_TEAMCSTUNER_VIP2_LGKABEL_DVBT,
 +	LOCALE_TEAMCSTUNER_VIP2_DVBS2SHARP_DVBT,
++       LOCALE_TEAMCSTUNER_AUTOTUNER,
 +	
 +	LOCALE_TEAMCSFB_VIPNEU,
 +	LOCALE_TEAMCSFB_VIPNEUGRUEN,
@@ -415,7 +418,7 @@
  	
  	"miscsettings.logosdir",
  	
-@@ -1617,6 +1621,120 @@ const char * locale_real_names[] = {
+@@ -1617,6 +1621,121 @@ const char * locale_real_names[] = {
  	
  	"audiomenu.volumebar_audiosteps",
  	
@@ -486,6 +489,7 @@
 +	"teamcstuner.vip2kabellg2",
 +	"teamcstuner.vip2lgkabeldvbt",
 +	"teamcstuner.vip2sharpdvbt",
++       "teamcstuner.autotuner",
 +	
 +	"teamcsfb.vipneu",
 +	"teamcsfb.vipneugruen",

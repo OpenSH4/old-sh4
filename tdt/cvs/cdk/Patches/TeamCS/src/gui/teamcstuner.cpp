@@ -77,7 +77,7 @@ int teamcstuner::exec(CMenuTarget* parent, const std::string &actionKey)
 	teamcstuner->addItem(GenericMenuBack);
         teamcstuner->addItem( new CMenuSeparator(CMenuSeparator::LINE) );
 
-      teamcstuner->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSTUNER_STTUNER, true, "", this, "sttuner", CRCInput::RC_red, NEUTRINO_ICON_BUTTON_RED, "nix", LOCALE_HELPTEXT_NIX));
+/*      teamcstuner->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSTUNER_STTUNER, true, "", this, "sttuner", CRCInput::RC_red, NEUTRINO_ICON_BUTTON_RED, "nix", LOCALE_HELPTEXT_NIX));
       teamcstuner->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSTUNER_RBTUNER, true, "", this, "rbtuner", CRCInput::RC_green, NEUTRINO_ICON_BUTTON_GREEN, "nix", LOCALE_HELPTEXT_NIX));
       teamcstuner->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSTUNER_VIP1_KABEL, true, "", this, "vip1kabel", CRCInput::RC_yellow, NEUTRINO_ICON_BUTTON_YELLOW, "nix", LOCALE_HELPTEXT_NIX));
       teamcstuner->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSTUNER_VIP1_DVBT, true, "", this, "vip1dvbt", CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, "nix", LOCALE_HELPTEXT_NIX));
@@ -88,7 +88,8 @@ int teamcstuner::exec(CMenuTarget* parent, const std::string &actionKey)
       teamcstuner->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSTUNER_VIP2_DVBS2SHARP_LGKABEL, true, "vip2sharplg", this, "vip2sharplg", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
       teamcstuner->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSTUNER_VIP2_KABELLG2, true, "", this, "vip2kabellg2", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
       teamcstuner->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSTUNER_VIP2_LGKABEL_DVBT, true, "", this, "vip2lgkabeldvbt", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
-      teamcstuner->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSTUNER_VIP2_DVBS2SHARP_DVBT, true, "", this, "vip2sharpdvbt", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
+      teamcstuner->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSTUNER_VIP2_DVBS2SHARP_DVBT, true, "", this, "vip2sharpdvbt", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX)); */
+	teamcstuner->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSTUNER_AUTOTUNER, true, "", this, "autotuner", CRCInput::RC_red, NEUTRINO_ICON_BUTTON_RED, "nix", LOCALE_HELPTEXT_NIX));
 
       teamcstuner->exec (NULL, "");
       teamcstuner->hide ();
@@ -288,6 +289,18 @@ int teamcstuner::exec(CMenuTarget* parent, const std::string &actionKey)
 
       	hintBox->hide();
       	delete hintBox;
+   }
+   else if (actionKey == "autotuner")
+   {
+        cprompt = popen("/bin/autoswitch -b; /bin/autoswitch -t", "r");
+                while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
+                {
+                strcat(cprompthint,ctext);
+                }
+        pclose(cprompt);
+
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
+
    }
 
    return res;
