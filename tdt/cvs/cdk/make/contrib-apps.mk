@@ -802,7 +802,7 @@ $(DEPDIR)/%hotplug_e2: $(DEPDIR)/hotplug_e2.do_compile
 $(DEPDIR)/grab.do_prepare: bootstrap libpng libjpeg @DEPENDS_grab@
 	@PREPARE_grab@
 	git clone git://git.code.sf.net/p/openpli/aio-grab;
-	cd aio-grab && patch -p1 < $(buildprefix)/Patches/aio-grab-ADD_ST_SUPPORT.patch \
+	cd aio-grab && git checkout "75812d" &&  patch -p1 < $(buildprefix)/Patches/aio-grab-ADD_ST_SUPPORT.patch \
 	&& patch -p1 < $(buildprefix)/Patches/aio-grab-ADD_ST_FRAMESYNC_SUPPORT.patch
 	touch $@
 

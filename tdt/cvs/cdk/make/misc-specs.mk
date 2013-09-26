@@ -148,6 +148,12 @@ $(OPENSSL_RPM) $(OPENSSL_DEV_RPM): \
 		$(if $(OPENSSL_SPEC_PATCH),Patches/$(OPENSSL_SPEC_PATCH)) \
 		$(if $(OPENSSL_PATCHES),$(OPENSSL_PATCHES:%=Patches/%)) \
 		$(archivedir)/$(STLINUX)-target-$(OPENSSL)-$(OPENSSL_VERSION).src.rpm
+	@echo "----------------------------------------------------------------"
+	@echo "| If Script can't locate find.pl                               |"
+	@echo "| Copy    own_build/perl/find.pl    to     /usr/lib/perl...    |"
+	@echo "| Because in newer Versions there is no find.pl                |"
+	@echo "----------------------------------------------------------------"
+#	sudo cp $(buildprefix)/own_build/perl/find.pl /usr/lib/perl*/site_perl/*/*/
 	rpm $(DRPM) --nosignature -Uhv $(lastword $^) && \
 	$(if $(OPENSSL_SPEC_PATCH),( cd SPECS && patch -p1 $(OPENSSL_SPEC) < $(buildprefix)/Patches/$(OPENSSL_SPEC_PATCH) ) &&) \
 	$(if $(OPENSSL_PATCHES),cp $(OPENSSL_PATCHES:%=Patches/%) SOURCES/ &&) \
