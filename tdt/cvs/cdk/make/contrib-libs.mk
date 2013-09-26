@@ -1873,6 +1873,7 @@ $(DEPDIR)/gst_plugins_base.do_compile: $(DEPDIR)/gst_plugins_base.do_prepare
 		--disable-gnome_vfs \
 		--disable-pango \
 		--disable-vorbis \
+		--disable-ivorbis \
 		--disable-x \
 		--disable-examples \
 		--disable-oggtest \
