@@ -373,6 +373,10 @@ int getModel()
             vBoxType = Pingulux;
         else if(!strncasecmp(vName,"vip2", 7))
             vBoxType = Vip2;
+        else if(!strncasecmp(vName,"mce2005", 7))
+            vBoxType = Mce2005;
+        else if(!strncasecmp(vName,"techno", 7))
+            vBoxType = TTUSBIR;
         else if(!strncasecmp(vName,"hdbox", 5))
             vBoxType = HdBox;
         else if(!strncasecmp(vName,"atevio7500", 5))
