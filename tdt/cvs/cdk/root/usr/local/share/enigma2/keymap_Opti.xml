@@ -136,9 +136,7 @@
 	<map context="InfobarActions">
 		<key id="KEY_PLAY" mapto="showMovies" flags="m" />
 		<key id="KEY_ARCHIVE" mapto="showMovies" flags="m" />
-		<!--key id="KEY_BLUE" mapto="toogleTvRadio" flags="m" /-->
 		<key id="KEY_BLUE" mapto="showRadio" flags="m" />
-		<key id="KEY_TV2" mapto="toogleTvRadio" flags="m" />
 		<key id="KEY_TV2" mapto="showTv" flags="m" />
                <key id="KEY_RIGHT" mapto="volumeUp" flags="mr" />
                <key id="KEY_LEFT" mapto="volumeDown" flags="mr" />
@@ -317,10 +315,10 @@
 	</map>
 
 	<map context="TvRadioActions">
-		<key id="KEY_0" mapto="keyTV" flags="m" />
-		<key id="KEY_SAT" mapto="keyRadio" flags="m" />
-		<key id="KEY_TV2" mapto="keyTV" flags="m" />
-		<key id="KEY_RADIO" mapto="keyRadio" flags="m" />
+		<key id="KEY_0" mapto="showTV" flags="m" />
+		<key id="KEY_SAT" mapto="showRadio" flags="m" />
+		<key id="KEY_TV2" mapto="showTV" flags="m" />
+		<key id="KEY_RADIO" mapto="showRadio" flags="m" />
 	</map>
 
 	<map context="TimerEditActions">
