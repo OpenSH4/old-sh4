@@ -1,14 +1,15 @@
---- neutrino-hd2-exp.org/src/driver/vfd.cpp	2013-04-22 10:13:02.967204000 +0200
-+++ neutrino-hd2-exp/src/driver/vfd.cpp	2013-04-23 19:48:49.066943614 +0200
-@@ -43,19 +43,14 @@
+diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cpp
+--- neutrino-hd2-exp/src/driver/vfd.cpp	2013-10-31 17:12:47.000000000 +0100
++++ neutrino-hd2-exp/src/driver/vfd.cpp	2013-10-31 17:43:30.000000000 +0100
+@@ -45,19 +45,14 @@
  #include <system/debug.h>
  
  
--#if defined(PLATFORM_SPARK7162)
+-#if defined (PLATFORM_SPARK7162)
  static struct aotom_ioctl_data aotom_data;
 -#endif
  
--#if defined(PLATFORM_KATHREIN) || defined(PLATFORM_SPARK7162)
+-#if defined (PLATFORM_KATHREIN) || defined (PLATFORM_SPARK7162)
  static bool usb_icon = false;
  static bool timer_icon = false;
  static bool hdd_icon = false;
@@ -16,11 +17,11 @@
  
  //konfetti: let us share the device with evremote and fp_control
  //it does currently not support more than one user (see e.g. micom)
--#ifdef __sh__
+-#if defined (__sh__)
  bool blocked = false;
  
  void CVFD::openDevice()
-@@ -85,41 +80,20 @@
+@@ -87,41 +82,20 @@ void CVFD::closeDevice()
  	
  	fd = -1;
  }
@@ -63,7 +64,7 @@
  	
  	text[0] = 0;
  	clearClock = 0;
-@@ -129,10 +103,7 @@
+@@ -131,10 +105,7 @@ CVFD::CVFD()
  
  CVFD::~CVFD()
  { 
@@ -75,7 +76,7 @@
  }
  
  CVFD * CVFD::getInstance()
-@@ -171,15 +142,7 @@
+@@ -173,15 +144,7 @@ void CVFD::count_down()
  
  void CVFD::wake_up() 
  {
@@ -92,17 +93,17 @@
  }
  
  void * CVFD::TimeThread(void *)
-@@ -215,9 +178,6 @@
+@@ -217,9 +180,6 @@ void CVFD::init()
  	}
  	
  	// set led color
 -#if defined (PLATFORM_GIGABLUE)
--	vfd_led(1);  //0:off, 1:blue, 2:red, 3:purple
+-	vfd_led(LED_BLUE);  //0:off, 1:blue, 2:red, 3:purple
 -#endif
  }
  
  void CVFD::setlcdparameter(int dimm, const int power)
-@@ -240,7 +200,6 @@
+@@ -242,7 +202,6 @@ void CVFD::setlcdparameter(int dimm, con
  
  	dprintf(DEBUG_DEBUG, "CVFD::setlcdparameter dimm %d power %d\n", dimm, power);
  	
@@ -110,7 +111,7 @@
          struct vfd_ioctl_data data;
  	data.start_address = dimm;
  	
-@@ -253,19 +212,7 @@
+@@ -255,19 +214,7 @@ void CVFD::setlcdparameter(int dimm, con
  	if( ioctl(fd, VFDBRIGHTNESS, &data) < 0)  
  		perror("VFDBRIGHTNESS");
  	
@@ -131,7 +132,7 @@
  }
  
  void CVFD::setlcdparameter(void)
-@@ -342,12 +289,7 @@
+@@ -344,12 +291,7 @@ void CVFD::showTime(bool force)
  			if(force || ((hour != t->tm_hour) || (minute != t->tm_min))) 
  			{
  				hour = t->tm_hour;
@@ -145,7 +146,7 @@
  				ShowText(timestr);
  			}
  		} 
-@@ -452,35 +394,22 @@
+@@ -454,35 +396,22 @@ void CVFD::setMode(const MODES m, const
  	switch (m) 
  	{
  		case MODE_TVRADIO:	
@@ -186,7 +187,7 @@
  			ShowIcon(VFD_ICON_HD, false);
  			ShowIcon(VFD_ICON_DOLBY, false);
  			//showTime();      /* "showclock = true;" implies that "showTime();" does a "displayUpdate();" */
-@@ -498,21 +427,18 @@
+@@ -500,21 +429,18 @@ void CVFD::setMode(const MODES m, const
  			break;
  
  		case MODE_SHUTDOWN:
@@ -212,7 +213,7 @@
  			showclock = true;
  			showTime(true);      	/* "showclock = true;" implies that "showTime();" does a "displayUpdate();" */
  						/* "showTime()" clears the whole lcd in MODE_STANDBY */
-@@ -577,7 +503,6 @@
+@@ -579,7 +505,6 @@ void CVFD::setPower(int power)
  	if(!has_lcd || is4digits) 
  		return;
  
@@ -220,7 +221,7 @@
  	struct vfd_ioctl_data data;
  	data.start_address = power;
  	
-@@ -587,7 +512,13 @@
+@@ -589,7 +514,13 @@ void CVFD::setPower(int power)
  		perror("VFDPWRLED");
  	
  	closeDevice();
@@ -235,7 +236,7 @@
  }
  
  int CVFD::getPower()
-@@ -642,35 +573,15 @@
+@@ -644,35 +575,15 @@ void CVFD::Unlock()
  
  void CVFD::Clear()
  {
@@ -272,7 +273,7 @@
  }
  
  void CVFD::ClearIcons()				/* switcht all VFD Icons off		*/
-@@ -678,33 +589,16 @@
+@@ -680,33 +591,16 @@ void CVFD::ClearIcons()				/* switcht al
  	if(!has_lcd || is4digits) 
  		return;
  	
@@ -308,7 +309,7 @@
  void CVFD::ShowDiskLevel()
  {
  	int hdd_icons[9] ={24, 23, 21, 20, 19, 18, 17, 16, 22};
-@@ -733,21 +627,16 @@
+@@ -735,21 +629,16 @@ void CVFD::ShowDiskLevel()
  
  	}
  }
@@ -332,7 +333,7 @@
  	switch (icon)
  	{
  		case VFD_ICON_USB:
-@@ -756,31 +645,18 @@
+@@ -758,31 +647,18 @@ void CVFD::ShowIcon(vfd_icon icon, bool
  		case VFD_ICON_CLOCK:
  			timer_icon = show;
  			break;
@@ -366,7 +367,7 @@
  	struct vfd_ioctl_data data;
  
  	data.data[0] = (icon - 1) & 0x1F;
-@@ -788,13 +664,7 @@
+@@ -790,13 +666,7 @@ void CVFD::ShowIcon(vfd_icon icon, bool
  	
  	if( ioctl(fd, VFDICONDISPLAYONOFF, &data) < 0)
  		perror("VFDICONDISPLAYONOFF");
@@ -380,13 +381,11 @@
  }
  
  void * CVFD::ThreadScrollText(void * arg)
-@@ -893,84 +763,21 @@
- 			text.replace(pos, 2, std::string(repl));
+@@ -896,89 +766,20 @@ void CVFD::ShowText(const char * str)
  		}
  	}
--	 
+ 	 
 -#if defined (__sh__)	 
-+	  
  	openDevice();
  	
  	if( write(fd , text.c_str(), len > 16? 16 : len ) < 0)
@@ -418,11 +417,18 @@
 -	
 -	//closeDevice();
 -#endif	
--}
+ }
  
--void CVFD::vfd_led(int led)
--{
--	dprintf(DEBUG_NORMAL, "%s\n", __FUNCTION__);
+ void CVFD::vfd_led(int led)
+ {
+-	const char *VFDLED[] = {
+-		"VFD_OFF",
+-		"VFD_BLUE",
+-		"VFD_RED",
+-		"VFD_PURPLE"
+-	};
+-	
+-	dprintf(DEBUG_NORMAL, "CVFD::vfd_led: %s\n", VFDLED[led]);
 -	
 -#if defined (PLATFORM_GIGABLUE)  
 -	FILE * f;
@@ -432,14 +438,13 @@
 -	fprintf(f, "%d", led);
 -	fclose(f);
 -#endif	
- }
- 
+-}
+-
 -void CVFD::setFPTime(void)
-+void CVFD::vfd_led(int led)
- {
+-{
 -	if(!has_lcd)
 -		return;
- 
+-
 -#ifdef __sh__
 -	openDevice();
 -	
@@ -464,11 +469,13 @@
 -	closeDevice();
 -#endif
  }
--
--
--
---- neutrino-hd2-exp.org/src/driver/vfd.h	2013-04-22 10:13:02.403201000 +0200
-+++ neutrino-hd2-exp/src/driver/vfd.h	2013-04-23 19:56:16.865164127 +0200
+ 
+ 
+Nur in neutrino-hd2-exp/src/driver: vfd.cpp.orig.
+Nur in neutrino-hd2-exp/src/driver: vfd.cpp.rej.
+diff -upr neutrino-hd2-exp/src/driver/vfd.h neutrino-hd2-exp/src/driver/vfd.h
+--- neutrino-hd2-exp/src/driver/vfd.h	2013-10-31 17:12:47.000000000 +0100
++++ neutrino-hd2-exp/src/driver/vfd.h	2013-10-31 17:13:13.000000000 +0100
 @@ -33,12 +33,7 @@
  #include <pthread.h>
  #include <string>
@@ -482,7 +489,7 @@
  /* SAB Triple VFD Icons								*/
  /* taken from aotom_main.h, with these numbers the Icons on Spark7162		*/
  /* will work right ( hopefully all Models )					*/
-@@ -131,114 +126,6 @@
+@@ -131,114 +126,6 @@ typedef enum
  	VFD_ICON_STANDBY	= VFD_SPARK_CYCLE	
  } vfd_icon;
  
@@ -597,7 +604,7 @@
  #define VFDBRIGHTNESS         0xc0425a03
  #define VFDPWRLED             0xc0425a04 /* added by zeroone, also used in fp_control/global.h ; set PowerLed Brightness on HDBOX*/
  #define VFDDRIVERINIT         0xc0425a08
-@@ -263,60 +150,8 @@
+@@ -263,60 +150,8 @@ typedef enum
  #define VFDSETTIMEMODE        0xc0425b03
  #define VFDDISPLAYCLR	      0xc0425b00
  
@@ -659,7 +666,7 @@
  struct set_mode_s {
  	int compat; /* 0 = compatibility mode to vfd driver; 1 = nuvoton mode */
  };
-@@ -361,23 +196,12 @@
+@@ -361,23 +196,12 @@ struct aotom_ioctl_data {
  	} u;
  };
  
@@ -683,7 +690,7 @@
  
  
  class CVFD
-@@ -472,12 +296,9 @@
+@@ -480,12 +304,9 @@ class CVFD
  		void Unlock();
  		void Clear();
  		void ClearIcons();
@@ -697,7 +704,7 @@
  		void ShowText(const char * str);
  
  		void ShowScrollText(char * str);
-@@ -489,10 +310,8 @@
+@@ -497,10 +318,8 @@ class CVFD
  		
  		void vfd_led(int led);
  		
