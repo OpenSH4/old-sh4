@@ -53,6 +53,8 @@ include make/enigma2-plugins.mk
 # Include enigma2-pli-amiko gui targets
 include make/enigma2-pli-amiko.mk
 
+include make/release_neutrino_nightly.mk
+
 # Include neutrino gui targets
 include make/neutrino.mk
 
