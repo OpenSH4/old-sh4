@@ -89,32 +89,8 @@ yaud-none: \
 #
 # YAUD
 #
-yaud-neutrino: yaud-none lirc stslave \
-		boot-elf remote firstboot neutrino release_neutrino
-	@TUXBOX_YAUD_CUSTOMIZE@
-
-yaud-neutrino-twin: yaud-none lirc stslave \
-		boot-elf remote firstboot neutrino-twin release_neutrino_nightly
-	@TUXBOX_YAUD_CUSTOMIZE@
-
-yaud-neutrino-mp: yaud-none lirc stslave \
-		boot-elf remote firstboot neutrino-mp release_neutrino_nightly
-	@TUXBOX_YAUD_CUSTOMIZE@
-
-yaud-neutrino-mp-exp: yaud-none lirc stslave \
-		boot-elf remote firstboot neutrino-mp-exp release_neutrino_nightly
-	@TUXBOX_YAUD_CUSTOMIZE@
-
 yaud-neutrino-hd2-exp: yaud-none lirc stslave \
 		boot-elf remote firstboot neutrino-hd2-exp release_neutrino_nightly
-	@TUXBOX_YAUD_CUSTOMIZE@
-
-yaud-enigma2-pli-nightly: yaud-none host_python lirc \
-		boot-elf remote firstboot enigma2-pli-nightly enigma2-plugins release e2-pli-plugins
-	@TUXBOX_YAUD_CUSTOMIZE@
-
-yaud-enigma2-nightly: yaud-none host_python lirc stslave \
-		boot-elf remote firstboot enigma2-nightly release
 	@TUXBOX_YAUD_CUSTOMIZE@
 
 yaud-enigma2-pli-amiko: yaud-none host_python lirc \
@@ -124,9 +100,6 @@ yaud-enigma2-pli-amiko: yaud-none host_python lirc \
 yaud-ducktrick-multiimage: yaud-none host_python lirc \
 		boot-elf remote stslave firstboot neutrino-hd2-exp enigma2-pli-amiko enigma2-plugins e2-pli-plugins \
 		release_ducktrick
-	@TUXBOX_YAUD_CUSTOMIZE@
-
-yaud-xbmc-nightly: yaud-none host_python boot-elf firstboot xbmc-nightly release_xbmc
 	@TUXBOX_YAUD_CUSTOMIZE@
 
 yaud-oscam: yaud-none oscam
