@@ -15,6 +15,9 @@ endif
 ifdef HL101
 cimax-objs += cimax/cimax.o
 obj-m += cimax.o
+# vip2 no Ci Treiber
+cimax-objs += cimax/cimax_vip2.o
+obj-m += cimax_vip2.o
 endif
 
 
