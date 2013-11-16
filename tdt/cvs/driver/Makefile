@@ -22,7 +22,6 @@ include $(CONFIGFILE)
 
 ifdef HL101
 CCFLAGSY += -DHL101
-endif
 else
 CFLAGS += $(CCFLAGSY)
 endif
