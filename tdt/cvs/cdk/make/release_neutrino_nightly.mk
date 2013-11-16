@@ -28,6 +28,364 @@ release_neutrino_common_utils:
 	ln -s ../init.d/reboot $(prefix)/release_neutrino/etc/rc.d/rc6.d/S90reboot
 
 #
+# release_cube_common
+#
+release_neutrino_cube_common:
+	cp $(buildprefix)/root/release/halt_cuberevo $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(buildprefix)/root/release/reboot_cuberevo $(prefix)/release_neutrino/etc/init.d/reboot
+	chmod 777 $(prefix)/release_neutrino/etc/init.d/reboot
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release_neutrino/boot/video.elf
+	cp $(targetprefix)/bin/eeprom $(prefix)/release_neutrino/bin
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/ipbox/micom.ko $(prefix)/release_neutrino/lib/modules/
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl2108,avl6222,cx21143}.fw
+	rm -f $(prefix)/release_neutrino/bin/tffpctl
+	rm -f $(prefix)/release_neutrino/bin/vfdctl
+	rm -f $(prefix)/release_neutrino/bin/evremote
+	rm -f $(prefix)/release_neutrino/bin/tfd2mtd
+
+#
+# release_cube_common_tunner
+#
+release_neutrino_cube_common_tunner:
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/multituner/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/kernel/drivers/media/dvb/frontends/dvb-pll.ko $(prefix)/release_neutrino/lib/modules/
+
+#
+# release_cuberevo_9500hd
+#
+release_neutrino_cuberevo_9500hd: release_neutrino_common_utils release_neutrino_cube_common release_neutrino_cube_common_tunner
+	echo "cuberevo-9500hd" > $(prefix)/release_neutrino/etc/hostname
+
+#
+# release_cuberevo_2000hd
+#
+release_neutrino_cuberevo_2000hd: release_neutrino_common_utils release_neutrino_cube_common release_neutrino_cube_common_tunner
+	echo "cuberevo-2000hd" > $(prefix)/release_neutrino/etc/hostname
+
+#
+# release_cuberevo_250hd
+#
+release_neutrino_cuberevo_250hd: release_neutrino_common_utils release_neutrino_cube_common release_neutrino_cube_common_tunner
+	echo "cuberevo-250hd" > $(prefix)/release_neutrino/etc/hostname
+
+#
+# release_cuberevo_mini_fta
+#
+release_neutrino_cuberevo_mini_fta: release_neutrino_common_utils release_neutrino_cube_common release_neutrino_cube_common_tunner
+	echo "cuberevo-mini-fta" > $(prefix)/release_neutrino/etc/hostname
+
+#
+# release_cuberevo_mini2
+#
+release_neutrino_cuberevo_mini2: release_neutrino_common_utils release_neutrino_cube_common release_neutrino_cube_common_tunner
+	echo "cuberevo-mini2" > $(prefix)/release_neutrino/etc/hostname
+
+#
+# release_cuberevo_mini
+#
+release_neutrino_cuberevo_mini: release_neutrino_common_utils release_neutrino_cube_common release_neutrino_cube_common_tunner
+	echo "cuberevo-mini" > $(prefix)/release_neutrino/etc/hostname
+
+#
+# release_classic
+#
+release_neutrino_classic: release_neutrino_common_utils release_neutrino_cube_common release_neutrino_cube_common_tunner
+	echo "classic" > $(prefix)/release_neutrino/etc/hostname
+
+#
+# release_common_ipbox
+#
+release_neutrino_common_ipbox:
+	cp $(buildprefix)/root/release/halt_ipbox $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/siinfo/siinfo.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/root/release/fstab_ipbox $(prefix)/release_neutrino/etc/fstab
+	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release_neutrino/boot/video.elf
+	cp -dp $(buildprefix)/root/etc/lircd_ipbox.conf $(prefix)/release_neutrino/etc/lircd.conf
+	cp -p $(buildprefix)/root/release/lircd_ipbox $(prefix)/release_neutrino/usr/bin/lircd
+	rm -f $(prefix)/release_neutrino/lib/firmware/*
+	rm -f $(prefix)/release_neutrino/lib/modules/boxtype.ko
+	rm -f $(prefix)/release_neutrino/lib/modules/bpamem.ko
+	rm -f $(prefix)/release_neutrino/lib/modules/ramzswap.ko
+	rm -f $(prefix)/release_neutrino/lib/modules/simu_button.ko
+	rm -f $(prefix)/release_neutrino/lib/modules/stmvbi.ko
+	rm -f $(prefix)/release_neutrino/lib/modules/stmvout.ko
+	rm -f $(prefix)/release_neutrino/bin/gotosleep
+	rm -f $(prefix)/release_neutrino/etc/network/interfaces
+	echo "config.usage.hdd_standby=0" >> $(prefix)/release_neutrino/etc/enigma2/settings
+
+#
+# release_ipbox9900
+#
+release_neutrino_ipbox9900: release_neutrino_common_utils release_neutrino_common_ipbox
+	echo "ipbox9900" > $(prefix)/release_neutrino/etc/hostname
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/ipbox99xx/micom.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/rmu/rmu.ko $(prefix)/release_neutrino/lib/modules/
+	cp -p $(buildprefix)/root/release/tvmode_ipbox $(prefix)/release_neutrino/usr/bin/tvmode
+
+#
+# release_ipbox99
+#
+release_neutrino_ipbox99: release_neutrino_common_utils release_neutrino_common_ipbox
+	echo "ipbox99" > $(prefix)/release_neutrino/etc/hostname
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/ipbox99xx/micom.ko $(prefix)/release_neutrino/lib/modules/
+	cp -p $(buildprefix)/root/release/tvmode_ipbox $(prefix)/release_neutrino/usr/bin/tvmode
+
+#
+# release_ipbox55
+#
+release_neutrino_ipbox55: release_neutrino_common_utils release_neutrino_common_ipbox
+	echo "ipbox55" > $(prefix)/release_neutrino/etc/hostname
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/ipbox55/front.ko $(prefix)/release_neutrino/lib/modules/
+	cp -p $(buildprefix)/root/release/tvmode_ipbox55 $(prefix)/release_neutrino/usr/bin/tvmode
+
+#
+# release_ufs910
+#
+release_neutrino_ufs910: release_neutrino_common_utils
+	echo "ufs910" > $(prefix)/release_neutrino/etc/hostname
+	cp $(buildprefix)/root/release/halt_ufs $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/vfd/vfd.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7100.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7100.elf $(prefix)/release_neutrino/boot/video.elf
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,stv6306}.fw
+	mv $(prefix)/release_neutrino/lib/firmware/dvb-fe-cx21143.fw $(prefix)/release_neutrino/lib/firmware/dvb-fe-cx24116.fw
+	rm $(prefix)/release_neutrino/lib/firmware/component_7105_pdk7105.fw
+	rm $(prefix)/release_neutrino/lib/firmware/component_7111_mb618.fw
+	cp -dp $(targetprefix)/etc/lircd.conf $(prefix)/release_neutrino/etc/
+	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release_neutrino/usr/bin/
+	rm -f $(prefix)/release_neutrino/bin/vdstandby
+	rm -f $(prefix)/release_neutrino/bin/eeprom
+
+#
+# release_ufs912
+#
+release_neutrino_ufs912: release_neutrino_common_utils
+	echo "ufs912" > $(prefix)/release_neutrino/etc/hostname
+	cp $(buildprefix)/root/release/halt_ufs912 $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/micom/micom.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7111.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7111.elf $(prefix)/release_neutrino/boot/video.elf
+	cp $(targetprefix)/boot/audio_7111.elf $(prefix)/release_neutrino/boot/audio.elf
+	mv $(prefix)/release_neutrino/lib/firmware/component_7111_mb618.fw $(prefix)/release_neutrino/lib/firmware/component.fw
+	rm $(prefix)/release_neutrino/lib/firmware/component_7105_pdk7105.fw
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
+	rm -f $(prefix)/release_neutrino/bin/evremote
+	rm -f $(prefix)/release_neutrino/bin/gotosleep
+	rm -f $(prefix)/release_neutrino/bin/eeprom
+
+#
+# release_ufs913
+#
+release_neutrino_ufs913: release_neutrino_common_utils
+	echo "ufs913" > $(prefix)/release_neutrino/etc/hostname
+	cp $(buildprefix)/root/release/halt_ufs912 $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/micom/micom.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/multituner/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7105.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7105.elf $(prefix)/release_neutrino/boot/video.elf
+	cp $(targetprefix)/boot/audio_7105.elf $(prefix)/release_neutrino/boot/audio.elf
+	mv $(prefix)/release_neutrino/lib/firmware/component_7105_pdk7105.fw $(prefix)/release_neutrino/lib/firmware/component.fw
+	rm $(prefix)/release_neutrino/lib/firmware/component_7111_mb618.fw
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl2108,cx24116,cx21143,stv6306}.fw
+	rm -f $(prefix)/release_neutrino/bin/evremote
+	rm -f $(prefix)/release_neutrino/bin/gotosleep
+	rm -f $(prefix)/release_neutrino/bin/eeprom
+
+#
+# release_ufs922
+#
+release_neutrino_ufs922: release_neutrino_common_utils
+	echo "ufs922" > $(prefix)/release_neutrino/etc/hostname
+	cp $(buildprefix)/root/release/halt_ufs $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/micom/micom.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/ufs922_fan/fan_ctrl.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release_neutrino/boot/video.elf
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl6222,cx24116}.fw
+	rm -f $(prefix)/release_neutrino/bin/evremote
+	rm -f $(prefix)/release_neutrino/bin/gotosleep
+	rm -f $(prefix)/release_neutrino/bin/eeprom
+
+#
+# release_spark
+#
+release_neutrino_spark: release_neutrino_common_utils
+	echo "spark" > $(prefix)/release_neutrino/etc/hostname
+	cp $(buildprefix)/root/release/halt_spark $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom/aotom.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/lnb/lnb.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7111.ko $(prefix)/release_neutrino/lib/modules/
+	[ -e $(buildprefix)/root/release/encrypt_spark$(KERNELSTMLABEL).ko ] && cp $(buildprefix)/root/release/encrypt_spark$(KERNELSTMLABEL).ko $(prefix)/release_neutrino/lib/modules/encrypt.ko || true
+	cp $(targetprefix)/boot/video_7111.elf $(prefix)/release_neutrino/boot/video.elf
+	cp $(targetprefix)/boot/audio_7111.elf $(prefix)/release_neutrino/boot/audio.elf
+	mv $(prefix)/release_neutrino/lib/firmware/component_7111_mb618.fw $(prefix)/release_neutrino/lib/firmware/component.fw
+	rm $(prefix)/release_neutrino/lib/firmware/component_7105_pdk7105.fw
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
+	rm -f $(prefix)/release_neutrino/bin/evremote
+	rm -f $(prefix)/release_neutrino/bin/gotosleep
+	rm -f $(prefix)/release_neutrino/bin/vdstandby
+	rm -f $(prefix)/release_neutrino/bin/eeprom
+	cp -dp $(buildprefix)/root/etc/lircd_spark.conf $(prefix)/release_neutrino/etc/lircd.conf
+	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release_neutrino/usr/bin/
+	cp -f $(buildprefix)/root/sbin/flash_* $(prefix)/release_neutrino/sbin
+	cp -f $(buildprefix)/root/sbin/nand* $(prefix)/release_neutrino/sbin
+
+#
+# release_spark7162
+#
+release_neutrino_spark7162: release_neutrino_common_utils
+	echo "spark7162" > $(prefix)/release_neutrino/etc/hostname
+	cp $(buildprefix)/root/release/halt_spark7162 $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom/aotom.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7105.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/i2c_spi/i2s.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7105.elf $(prefix)/release_neutrino/boot/video.elf
+	cp $(targetprefix)/boot/audio_7105.elf $(prefix)/release_neutrino/boot/audio.elf
+	mv $(prefix)/release_neutrino/lib/firmware/component_7105_pdk7105.fw $(prefix)/release_neutrino/lib/firmware/component.fw
+	rm -f $(prefix)/release_neutrino/lib/firmware/component_7111_mb618.fw
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
+	rm -f $(prefix)/release_neutrino/bin/evremote
+	rm -f $(prefix)/release_neutrino/bin/gotosleep
+	rm -f $(prefix)/release_neutrino/bin/vdstandby
+	rm -f $(prefix)/release_neutrino/bin/eeprom
+	cp -dp $(buildprefix)/root/etc/lircd_spark7162.conf $(prefix)/release_neutrino/etc/lircd.conf
+	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release_neutrino/usr/bin/
+	cp -f $(buildprefix)/root/sbin/flashcp $(prefix)/release_neutrino/sbin
+	cp -f $(buildprefix)/root/sbin/flash_* $(prefix)/release_neutrino/sbin
+	cp -f $(buildprefix)/root/sbin/nand* $(prefix)/release_neutrino/sbin
+
+#
+# release_fortis_hdbox
+#
+release_neutrino_fortis_hdbox: release_neutrino_common_utils
+	echo "fortis" > $(prefix)/release_neutrino/etc/hostname
+	cp $(buildprefix)/root/release/halt_fortis_hdbox $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/nuvoton/nuvoton.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release_neutrino/boot/video.elf
+	rm -f $(prefix)/release_neutrino/lib/firmware/component_7111_mb618.fw
+	rm -f $(prefix)/release_neutrino/lib/firmware/component_7105_pdk7105.fw
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
+	rm -f $(prefix)/release_neutrino/bin/evremote
+	rm -f $(prefix)/release_neutrino/bin/eeprom
+
+#
+# release_atevio7500
+#
+release_neutrino_atevio7500: release_neutrino_common_utils
+	echo "atevio7500" > $(prefix)/release_neutrino/etc/hostname
+	cp $(buildprefix)/root/release/halt_fortis_hdbox $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/nuvoton/nuvoton.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/multituner/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7105.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7105.elf $(prefix)/release_neutrino/boot/video.elf
+	cp $(targetprefix)/boot/audio_7105.elf $(prefix)/release_neutrino/boot/audio.elf
+	mv $(prefix)/release_neutrino/lib/firmware/component_7105_pdk7105.fw $(prefix)/release_neutrino/lib/firmware/component.fw
+	rm -f $(prefix)/release_neutrino/lib/firmware/component_7111_mb618.fw
+	cp $(targetprefix)/lib/firmware/dvb-fe-avl2108.fw $(prefix)/release_neutrino/lib/firmware/
+	cp $(targetprefix)/lib/firmware/dvb-fe-stv6306.fw $(prefix)/release_neutrino/lib/firmware/
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl6222,cx24116,cx21143}.fw
+	rm -f $(prefix)/release_neutrino/bin/evremote
+	rm -f $(prefix)/release_neutrino/lib/modules/boxtype.ko
+	rm -f $(prefix)/release_neutrino/lib/modules/mpeg2hw.ko
+	rm -f $(prefix)/release_neutrino/bin/eeprom
+
+#
+# release_octagon1008
+#
+release_neutrino_octagon1008: release_neutrino_common_utils
+	echo "octagon1008" > $(prefix)/release_neutrino/etc/hostname
+	cp $(buildprefix)/root/release/halt_octagon1008 $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/nuvoton/nuvoton.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release_neutrino/boot/video.elf
+	cp $(targetprefix)/lib/firmware/dvb-fe-avl2108.fw $(prefix)/release_neutrino/lib/firmware/
+	cp $(targetprefix)/lib/firmware/dvb-fe-stv6306.fw $(prefix)/release_neutrino/lib/firmware/
+	rm -f $(prefix)/release_neutrino/lib/firmware/component_7111_mb618.fw
+	rm -f $(prefix)/release_neutrino/lib/firmware/component_7105_pdk7105.fw
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl6222,cx24116,cx21143}.fw
+	rm -f $(prefix)/release_neutrino/bin/evremote
+	rm -f $(prefix)/release_neutrino/bin/eeprom
+
+#
+# release_hs7810a
+#
+release_neutrino_hs7810a: release_neutrino_common_utils
+	echo "hs7810a" > $(prefix)/release_neutrino/etc/hostname
+	cp $(buildprefix)/root/release/halt_hs7810a $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/nuvoton/nuvoton.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/lnb/lnb.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7111.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7111.elf $(prefix)/release_neutrino/boot/video.elf
+	cp $(targetprefix)/boot/audio_7111.elf $(prefix)/release_neutrino/boot/audio.elf
+	mv $(prefix)/release_neutrino/lib/firmware/component_7111_mb618.fw $(prefix)/release_neutrino/lib/firmware/component.fw
+	rm $(prefix)/release_neutrino/lib/firmware/component_7105_pdk7105.fw
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
+	rm -f $(prefix)/release_neutrino/bin/evremote
+	rm -f $(prefix)/release_neutrino/bin/gotosleep
+
+#
+# release_hs7110
+#
+release_neutrino_hs7110: release_neutrino_common_utils
+	echo "hs7110" > $(prefix)/release_neutrino/etc/hostname
+	cp $(buildprefix)/root/release/halt_hs7110 $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/nuvoton/nuvoton.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/lnb/lnb.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7111.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7111.elf $(prefix)/release_neutrino/boot/video.elf
+	cp $(targetprefix)/boot/audio_7111.elf $(prefix)/release_neutrino/boot/audio.elf
+	mv $(prefix)/release_neutrino/lib/firmware/component_7111_mb618.fw $(prefix)/release_neutrino/lib/firmware/component.fw
+	rm $(prefix)/release_neutrino/lib/firmware/component_7105_pdk7105.fw
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
+	rm -f $(prefix)/release_neutrino/bin/evremote
+	rm -f $(prefix)/release_neutrino/bin/gotosleep
+
+#
+# release_whitebox
+#
+release_neutrino_whitebox: release_neutrino_common_utils
+	echo "whitebox" > $(prefix)/release_neutrino/etc/hostname
+	cp $(buildprefix)/root/release/halt_whitebox $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/nuvoton/nuvoton.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/lnb/lnb.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7111.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7111.elf $(prefix)/release_neutrino/boot/video.elf
+	cp $(targetprefix)/boot/audio_7111.elf $(prefix)/release_neutrino/boot/audio.elf
+	mv $(prefix)/release_neutrino/lib/firmware/component_7111_mb618.fw $(prefix)/release_neutrino/lib/firmware/component.fw
+	rm $(prefix)/release_neutrino/lib/firmware/component_7105_pdk7105.fw
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
+	rm -f $(prefix)/release_neutrino/bin/evremote
+	rm -f $(prefix)/release_neutrino/bin/gotosleep
+
+#
 # release_hl101
 #
 release_neutrino_hl101: release_neutrino_common_utils
@@ -91,6 +449,86 @@ release_neutrino_hl101: release_neutrino_common_utils
 	rm -rf $(prefix)/release_neutrino/var/httpd
 	cd $(prefix)/release_neutrino/var/ && ln -sf ../usr/share/tuxbox/neutrino/httpd .
 	
+
+#
+# release_adb_box
+#
+release_neutrino_adb_box: release_neutrino_common_utils
+	echo "Adb_Box" > $(prefix)/release_neutrino/etc/hostname
+	cp $(buildprefix)/root/release/halt_adb_box $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/adb_box_vfd/vfd.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7100.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/adb_box_fan/cooler.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cec_adb_box/cec_ctrl.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/dvbt/as102/dvb-as102.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7100.elf $(prefix)/release_neutrino/boot/video.elf
+	cp $(buildprefix)/root/firmware/as102_data1_st.hex $(prefix)/release_neutrino/lib/firmware/
+	cp $(buildprefix)/root/firmware/as102_data2_st.hex $(prefix)/release_neutrino/lib/firmware/
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl6222,cx24116,cx21143}.fw
+	cp -f $(buildprefix)/root/release/fstab_adb_box $(prefix)/release_neutrino/etc/fstab
+	cp -dp $(buildprefix)/root/etc/lircd_adb_box.conf $(prefix)/release_neutrino/etc/lircd.conf
+	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release_neutrino/usr/bin/lircd
+	rm -f $(prefix)/release_neutrino/bin/evremote
+	rm -f $(prefix)/release_neutrino/bin/gotosleep
+
+#
+# release_vip1_v2
+#
+release_neutrino_vip1_v2: release_neutrino_common_utils
+	echo "Edision-v2" > $(prefix)/release_neutrino/etc/hostname
+	cp $(buildprefix)/root/release/halt_vip2 $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom/aotom.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release_neutrino/boot/video.elf
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
+	cp -f $(buildprefix)/root/release/fstab_vip2 $(prefix)/release_neutrino/etc/fstab
+	cp -f $(targetprefix)/sbin/shutdown $(prefix)/release_neutrino/sbin/
+	cp $(targetprefix)/bin/stslave $(prefix)/release_neutrino/bin
+	cp -dp $(targetprefix)/etc/lircd.conf $(prefix)/release_neutrino/etc/
+	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release_neutrino/usr/bin/
+	rm -f $(prefix)/release_neutrino/bin/evremote
+	rm -f $(prefix)/release_neutrino/bin/gotosleep
+
+#
+# release_vip2_v1
+#
+release_neutrino_vip2_v1: release_neutrino_vip1_v2
+	echo "Edision-v1" > $(prefix)/release_neutrino/etc/hostname
+
+#
+# release_hs5101
+#
+release_neutrino_hs5101: release_neutrino_common_utils
+	echo "hs5101" > $(prefix)/release_neutrino/etc/hostname
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/button_hs5101/button.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/vfd_hs5101/vfd.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7100.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7100.elf $(prefix)/release_neutrino/boot/video.elf
+	cp -dp $(targetprefix)/etc/lircd.conf $(prefix)/release_neutrino/etc/
+	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release_neutrino/usr/bin/
+	rm -f $(prefix)/release_neutrino/lib/firmware/dvb-fe-{avl2108,avl6222,cx21143,stv6306}.fw
+	rm -f $(prefix)/release_neutrino/bin/vdstandby
+
+#
+# release_tf7700
+#
+release_neutrino_tf7700: release_neutrino_common_utils
+	echo "tf7700" > $(prefix)/release_neutrino/etc/hostname
+	cp $(buildprefix)/root/release/halt_tf7700 $(prefix)/release_neutrino/etc/init.d/halt
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/halt
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/tffp/tffp.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release_neutrino/lib/modules/
+	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release_neutrino/boot/video.elf
+	cp -f $(buildprefix)/root/release/fstab_tf7700 $(prefix)/release_neutrino/etc/fstab
+	cp -f $(targetprefix)/sbin/shutdown $(prefix)/release_neutrino/sbin/
+	rm -f $(prefix)/release_neutrino/bin/gotosleep
+
 
 #
 # release_base
@@ -192,6 +630,20 @@ release_neutrino_base:
 	cp $(buildprefix)/root/release/getfb.awk $(prefix)/release_neutrino/etc/init.d/ && \
 	cp -p $(targetprefix)/usr/bin/ffmpeg $(prefix)/release_neutrino/sbin/ && \
 	cp -dp $(targetprefix)/sbin/mkfs $(prefix)/release_neutrino/sbin/
+
+if !ENABLE_UFS910
+if !ENABLE_UFS922
+	cp -dp $(targetprefix)/sbin/jfs_fsck $(prefix)/release_neutrino/sbin/ && \
+	ln -sf /sbin/jfs_fsck $(prefix)/release_neutrino/sbin/fsck.jfs && \
+	cp -dp $(targetprefix)/sbin/jfs_mkfs $(prefix)/release_neutrino/sbin/ && \
+	ln -sf /sbin/jfs_mkfs $(prefix)/release_neutrino/sbin/mkfs.jfs && \
+	cp -dp $(targetprefix)/sbin/jfs_tune $(prefix)/release_neutrino/sbin/
+endif
+endif
+
+	cp -dp $(buildprefix)/root/etc/inittab$(if $(FORTIS_HDBOX)$(OCTAGON1008)$(CUBEREVO_MINI2),_ttyAS1) $(prefix)/release_neutrino/etc/inittab
+	cp $(buildprefix)/root/etc/fw_env.config$(if $(ATEVIO7500),_$(ATEVIO7500))$(if $(FORTIS_HDBOX),_$(FORTIS_HDBOX))$(if $(OCTAGON1008),_$(OCTAGON1008))$(if $(TF7700),_$(TF7700))$(if $(UFS910),_$(UFS910))$(if $(UFS912),_$(UFS912))$(if $(UFS913),_$(UFS913))$(if $(UFS922),_$(UFS922))$(if $(ADB_BOX),_$(ADB_BOX))$(if $(IPBOX9900),_$(IPBOX9900))$(if $(IPBOX99),_$(IPBOX99))$(if $(IPBOX55),_$(IPBOX55)) $(prefix)/release_neutrino/etc/fw_env.config
+
 #
 # Player
 #
@@ -241,7 +693,13 @@ endif
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/multicom/mme/mme_host.ko $(prefix)/release_neutrino/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/simu_button/simu_button.ko $(prefix)/release_neutrino/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmfb.ko $(prefix)/release_neutrino/lib/modules/
-
+if !ENABLE_VIP2_V1
+if !ENABLE_SPARK
+if !ENABLE_SPARK7162
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cic/*.ko $(prefix)/release_neutrino/lib/modules/
+endif
+endif
+endif
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/button/button.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/button/button.ko $(prefix)/release_neutrino/lib/modules || true
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cec/cec.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cec/cec.ko $(prefix)/release_neutrino/lib/modules || true
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cpu_frequ/cpu_frequ.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cpu_frequ/cpu_frequ.ko $(prefix)/release_neutrino/lib/modules || true
@@ -257,6 +715,9 @@ endif
 	[ -e $(kernelprefix)/linux-sh4/fs/fuse/fuse.ko ] && cp $(kernelprefix)/linux-sh4/fs/fuse/fuse.ko $(prefix)/release_neutrino/lib/modules || true
 	[ -e $(kernelprefix)/linux-sh4/fs/ntfs/ntfs.ko ] && cp $(kernelprefix)/linux-sh4/fs/ntfs/ntfs.ko $(prefix)/release_neutrino/lib/modules || true
 	[ -e $(kernelprefix)/linux-sh4/fs/cifs/cifs.ko ] && cp $(kernelprefix)/linux-sh4/fs/cifs/cifs.ko $(prefix)/release_neutrino/lib/modules || true
+if !ENABLE_UFS910
+	[ -e $(kernelprefix)/linux-sh4/fs/jfs/jfs.ko ] && cp $(kernelprefix)/linux-sh4/fs/jfs/jfs.ko $(prefix)/release_neutrino/lib/modules || true
+endif
 	[ -e $(kernelprefix)/linux-sh4/fs/nfsd/nfsd.ko ] && cp $(kernelprefix)/linux-sh4/fs/nfsd/nfsd.ko $(prefix)/release_neutrino/lib/modules || true
 	[ -e $(kernelprefix)/linux-sh4/fs/exportfs/exportfs.ko ] && cp $(kernelprefix)/linux-sh4/fs/exportfs/exportfs.ko $(prefix)/release_neutrino/lib/modules || true
 	[ -e $(kernelprefix)/linux-sh4/fs/nfs_common/nfs_acl.ko ] && cp $(kernelprefix)/linux-sh4/fs/nfs_common/nfs_acl.ko $(prefix)/release_neutrino/lib/modules || true
@@ -310,6 +771,14 @@ endif
 	cp -aR $(targetprefix)/var/tuxbox/config/* $(prefix)/release_neutrino/var/tuxbox/config
 	cp -aR $(buildprefix)/root/usr/local/share/config/zapit $(prefix)/release_neutrino/var/tuxbox/config
 	cp $(buildprefix)/root/etc/tuxbox/tuxtxt2.conf $(prefix)/release_neutrino/var/tuxbox/config/tuxtxt
+if !ENABLE_CUBEREVO_MINI2
+if !ENABLE_ATEVIO7500
+if !ENABLE_SPARK7162
+	rm -f $(prefix)/release_neutrino/var/tuxbox/config/cables.xml
+	rm -f $(prefix)/release_neutrino/var/tuxbox/config/terrestrial.xml
+endif
+endif
+endif
 
 #
 # iso-codes
