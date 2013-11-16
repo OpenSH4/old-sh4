@@ -12,12 +12,7 @@ include make/hostapps.mk
 # Include bootstrap targets (SPECS derived)
 include make/bootstrap.mk
 
-# Include u-boot targets
-if ENABLE_TF7700
-include make/tf_u-boot.mk
-else
 include make/u-boot.mk
-endif
 
 # Target for building and install own independ ccache for tuxbox-cdk
 include make/ccache.mk
@@ -55,18 +50,8 @@ include make/e2-pli-plugins.mk
 # Include enigma2 plugins targets
 include make/enigma2-plugins.mk
 
-# Include enigma2-pli-nightly gui targets
-include make/enigma2-pli-nightly.mk
-
-# Include enigma2-pli-nightly gui targets
-include make/enigma2-nightly.mk
-
 # Include enigma2-pli-amiko gui targets
 include make/enigma2-pli-amiko.mk
-
-
-# Include xbmc-nightly gui targets
-include make/xbmc-nightly.mk
 
 # Include neutrino gui targets
 include make/neutrino.mk
@@ -92,10 +77,6 @@ include make/release.mk
 include make/release_ducktrick.mk
 
 include make/release_neutrino.mk
-
-include make/release_neutrino_nightly.mk
-
-include make/release_xbmc.mk
 
 include make/oscam.mk
 
