@@ -67,7 +67,7 @@
 #include "dvb_net.h"
 #include "dvb_ca_en50221.h"
 
-#include "cimax.h"
+#include "cimax_vip2.h"
 
 //#define  my_debug
 
