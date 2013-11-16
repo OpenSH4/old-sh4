@@ -197,12 +197,12 @@ unsigned long reg_bank4 = 0;
  */
 #define EMIB_BANK_EN 	0x0060
 
-static struct cimax_core ci_core;
-static struct cimax_state ci_state;
+static struct cimax_vip2_core ci_core;
+static struct cimax_vip2_state ci_state;
 
 /* EMI Banks End ************************************ */
 
-static int cimax_read_attribute_mem(struct dvb_ca_en50221 *ca, int slot, int address);
+static int cimax_vip2_read_attribute_mem(struct dvb_ca_en50221 *ca, int slot, int address);
 
 /* ************************** */
 /* konfetti ->cimax control   */
@@ -210,7 +210,7 @@ static int cimax_read_attribute_mem(struct dvb_ca_en50221 *ca, int slot, int add
 
 #if defined(FORTIS_HDBOX) || defined(VIP1_V2) || defined(OCTAGON1008) || defined(CLASSIC)
 static int
-cimax_writeregN (struct cimax_state *state, u8 * data, u16 len)
+cimax_vip2_writeregN (struct cimax_vip2_state *state, u8 * data, u16 len)
 {
   int 	ret = -EREMOTEIO;
   struct i2c_msg msg;
@@ -246,7 +246,7 @@ error:
 }
 #endif
 
-static int cimax_writereg(struct cimax_state* state, int reg, int data)
+static int cimax_vip2_writereg(struct cimax_vip2_state* state, int reg, int data)
 {
 	u8 buf[] = { reg, data };
 	struct i2c_msg msg = { .addr = state->i2c_addr,
@@ -268,7 +268,7 @@ static int cimax_writereg(struct cimax_state* state, int reg, int data)
 	return 0;
 }
 
-static int cimax_readreg(struct cimax_state* state, u8 reg)
+static int cimax_vip2_readreg(struct cimax_vip2_state* state, u8 reg)
 {
 	int ret;
 	u8 b0[] = { reg };
@@ -302,7 +302,7 @@ void getCiSource(int slot, int* source)
 #if defined(TF7700) || defined(FORTIS_HDBOX) || defined(VIP1_V2) || defined(CLASSIC)
   int val;
 
-  val = cimax_readreg(&ci_state, 0x11);
+  val = cimax_vip2_readreg(&ci_state, 0x11);
   val &= 0x20;
 
   if(slot == 0)
@@ -351,7 +351,7 @@ int setCiSource(int slot, int source)
      (source < 0) || (source > 1))
     return -1;
 
-  val = cimax_readreg(&ci_state, 0x11);
+  val = cimax_vip2_readreg(&ci_state, 0x11);
   if(slot != source)
   {
     /* send stream A through module B and stream B through module A */
@@ -372,13 +372,13 @@ int setCiSource(int slot, int source)
 #endif
   }
 
-  return cimax_writereg(&ci_state, 0x11, val);
+  return cimax_vip2_writereg(&ci_state, 0x11, val);
 #else
   return 0;
 #endif
 }
 
-void setDestination(struct cimax_state *state, int slot)
+void setDestination(struct cimax_vip2_state *state, int slot)
 {
    int result = 0;
    int loop = 0;
@@ -389,19 +389,19 @@ void setDestination(struct cimax_state *state, int slot)
    if (slot == 0)
    {
       /* read destination register */
-      result = cimax_readreg(state, 0x17);
+      result = cimax_vip2_readreg(state, 0x17);
 
       while ((result & 0x2) == 0)
       {
            /* disable module b if this was selected before */
            result = result & ~0x4; 
-           cimax_writereg(state, 0x17, result | 0x2);
+           cimax_vip2_writereg(state, 0x17, result | 0x2);
 
 	        /* try it first time without sleep */
            if (loop > 0) msleep(10);
 	  
 			/* destination: modul a */
-		   result = cimax_readreg(state, 0x17);
+		   result = cimax_vip2_readreg(state, 0x17);
 		  
 			dprintk("%s (slot = %d, loop = %d): result = 0x%x\n", __func__, slot,loop, result);
 	  
@@ -416,19 +416,19 @@ void setDestination(struct cimax_state *state, int slot)
    } else
    {
 	  /* read destination register */
-	  result = cimax_readreg(state, 0x17);
+	  result = cimax_vip2_readreg(state, 0x17);
 
 	  while ((result & 0x4) == 0)
 	  {
 		  /* disable module a if this was selected before */
 		  result = result & ~0x2; 
-		  cimax_writereg(state, 0x17, result | 0x4);
+		  cimax_vip2_writereg(state, 0x17, result | 0x4);
 	  
 		  /* try it first time without sleep */
 		  if (loop > 0) msleep(10);
 	  
 		  /* destination: modul b */
-		  result = cimax_readreg(state, 0x17);
+		  result = cimax_vip2_readreg(state, 0x17);
 
 		   dprintk("%s (slot = %d, loop = %d): result = 0x%x\n", __func__, slot,loop,result);
 
@@ -444,9 +444,9 @@ void setDestination(struct cimax_state *state, int slot)
    dprintk("%s (slot = %d)<\n", __func__, slot);
 }
 
-static int cimax_poll_slot_status(struct dvb_ca_en50221 *ca, int slot, int open)
+static int cimax_vip2_poll_slot_status(struct dvb_ca_en50221 *ca, int slot, int open)
 {
-   struct cimax_state *state = ca->data;
+   struct cimax_vip2_state *state = ca->data;
    int    slot_status = 0;
    int ctrlReg[2] = {0x00, 0x09};
 
@@ -455,13 +455,13 @@ static int cimax_poll_slot_status(struct dvb_ca_en50221 *ca, int slot, int open)
    if ((slot < 0) || (slot > 1))
 	   return 0;
 
-   slot_status = cimax_readreg(state, ctrlReg[slot]) & 0x01;
+   slot_status = cimax_vip2_readreg(state, ctrlReg[slot]) & 0x01;
 
    if (slot_status)
    {
       if (state->module_status[slot] & SLOTSTATUS_RESET)
       {
-          unsigned int result = cimax_read_attribute_mem(ca, slot, 0); 
+          unsigned int result = cimax_vip2_read_attribute_mem(ca, slot, 0); 
 
           dprintk("result = 0x%02x\n", result);
 
@@ -506,9 +506,9 @@ static int cimax_poll_slot_status(struct dvb_ca_en50221 *ca, int slot, int open)
    return slot_status;
 }
 
-static int cimax_slot_reset(struct dvb_ca_en50221 *ca, int slot)
+static int cimax_vip2_slot_reset(struct dvb_ca_en50221 *ca, int slot)
 {
-	struct cimax_state *state = ca->data;
+	struct cimax_vip2_state *state = ca->data;
 
 	dprintk("%s >\n", __FUNCTION__);
 
@@ -516,46 +516,46 @@ static int cimax_slot_reset(struct dvb_ca_en50221 *ca, int slot)
 
 	if (slot == 0)
 	{
-		int result = cimax_readreg(state, 0x00);
+		int result = cimax_vip2_readreg(state, 0x00);
 
 		/* only reset if modul is present */
 		if (result & 0x01)
 		{
-			result = cimax_readreg(state, 0x00);
+			result = cimax_vip2_readreg(state, 0x00);
 			printk("%s: result = 0x%x\n", __func__, result);
-			cimax_writereg(state, 0x00, result | 0x80);
+			cimax_vip2_writereg(state, 0x00, result | 0x80);
 
 #if !defined(FORTIS_HDBOX) && !defined(OCTAGON1008)
-			cimax_writereg(state, 0x17, 0x0);
+			cimax_vip2_writereg(state, 0x17, 0x0);
 #endif
 			msleep(60);
 			
 			/* reset "rst" bit */
-			result = cimax_readreg(state, 0x00);
-			cimax_writereg(state, 0x00, result & ~0x80);
+			result = cimax_vip2_readreg(state, 0x00);
+			cimax_vip2_writereg(state, 0x00, result & ~0x80);
 
 			dprintk(KERN_ERR "Reset Module A\n");
 		}
 	}
 	else
 	{
-		int result = cimax_readreg(state, 0x09);
+		int result = cimax_vip2_readreg(state, 0x09);
 
 		/* only reset if modul is present */
 		if (result & 0x01)
 		{
-			result = cimax_readreg(state, 0x09);
+			result = cimax_vip2_readreg(state, 0x09);
 			printk("%s: result = 0x%x\n", __func__, result);
-			cimax_writereg(state, 0x09, result | 0x80);
+			cimax_vip2_writereg(state, 0x09, result | 0x80);
 			
 #if !defined(FORTIS_HDBOX) && !defined(OCTAGON1008)
-			cimax_writereg(state, 0x17, 0x0);
+			cimax_vip2_writereg(state, 0x17, 0x0);
 #endif
 			msleep(60);
 
 			/* reset "rst" bit */
-			result = cimax_readreg(state, 0x09);
-			cimax_writereg(state, 0x09, result & ~0x80);
+			result = cimax_vip2_readreg(state, 0x09);
+			cimax_vip2_writereg(state, 0x09, result & ~0x80);
 
 			dprintk(KERN_ERR "Reset Module B\n");
 		}
@@ -566,9 +566,9 @@ static int cimax_slot_reset(struct dvb_ca_en50221 *ca, int slot)
 	return 0;
 }
 
-static int cimax_read_attribute_mem(struct dvb_ca_en50221 *ca, int slot, int address)
+static int cimax_vip2_read_attribute_mem(struct dvb_ca_en50221 *ca, int slot, int address)
 {
-	struct cimax_state *state = ca->data;
+	struct cimax_vip2_state *state = ca->data;
 	int res = 0;
 	int result;
 
@@ -576,10 +576,10 @@ static int cimax_read_attribute_mem(struct dvb_ca_en50221 *ca, int slot, int add
 
 	if (slot == 0)
 	{
-	   result = cimax_readreg(state, 0x00);
+	   result = cimax_vip2_readreg(state, 0x00);
 
 	   if (result & 0xC) 
-		   cimax_writereg(state, 0x00, (result & ~0xC));
+		   cimax_vip2_writereg(state, 0x00, (result & ~0xC));
 
 	   setDestination(state, slot);
 
@@ -595,11 +595,11 @@ static int cimax_read_attribute_mem(struct dvb_ca_en50221 *ca, int slot, int add
     }
 	else
 	{
-	   result = cimax_readreg(state, 0x09);
+	   result = cimax_vip2_readreg(state, 0x09);
 
 	   /* delete bit 3/4 ->access to attribute mem */
 	   if (result & 0xC) 
-		   cimax_writereg(state, 0x09, (result & ~0xC));
+		   cimax_vip2_writereg(state, 0x09, (result & ~0xC));
 
 	   setDestination(state, slot);
 
@@ -626,20 +626,20 @@ static int cimax_read_attribute_mem(struct dvb_ca_en50221 *ca, int slot, int add
 	return res;
 }
 
-static int cimax_write_attribute_mem(struct dvb_ca_en50221 *ca, int slot, int address, u8 value)
+static int cimax_vip2_write_attribute_mem(struct dvb_ca_en50221 *ca, int slot, int address, u8 value)
 {
-	struct cimax_state *state = ca->data;
+	struct cimax_vip2_state *state = ca->data;
 	int result;
 	
 	dprintk("%s > slot = %d, address = %d, value = %d\n", __FUNCTION__, slot, address, value);
 
 	if (slot == 0)
 	{
-	   result = cimax_readreg(state, 0x00);
+	   result = cimax_vip2_readreg(state, 0x00);
 
 	   /* delete bit 3/4 ->access to attribute mem */
 	   if (result & 0xC) 
-		   cimax_writereg(state, 0x00, (result & ~0xC));
+		   cimax_vip2_writereg(state, 0x00, (result & ~0xC));
 
 	   setDestination(state, slot);
 
@@ -654,11 +654,11 @@ static int cimax_write_attribute_mem(struct dvb_ca_en50221 *ca, int slot, int ad
     }
 	else
 	{
-	   result = cimax_readreg(state, 0x09);
+	   result = cimax_vip2_readreg(state, 0x09);
 
 	   /* bit 3/4 loeschen ->access to attribute mem */
 	   if (result & 0xC) 
-		   cimax_writereg(state, 0x09, (result & ~0xC));
+		   cimax_vip2_writereg(state, 0x09, (result & ~0xC));
 
 	   setDestination(state, slot);
 
@@ -674,9 +674,9 @@ static int cimax_write_attribute_mem(struct dvb_ca_en50221 *ca, int slot, int ad
 	return 0;
 }
 
-static int cimax_read_cam_control(struct dvb_ca_en50221 *ca, int slot, u8 address)
+static int cimax_vip2_read_cam_control(struct dvb_ca_en50221 *ca, int slot, u8 address)
 {
-	struct cimax_state *state = ca->data;
+	struct cimax_vip2_state *state = ca->data;
 	int res = 0;
 	int result;
 	
@@ -684,13 +684,13 @@ static int cimax_read_cam_control(struct dvb_ca_en50221 *ca, int slot, u8 addres
 
 	if (slot == 0)
 	{
-	   result = cimax_readreg(state, 0x00);
+	   result = cimax_vip2_readreg(state, 0x00);
 
 	   /* FIXME: handle "result" ->is the module really present */
 
 	   /* access i/o mem (bit 3)*/
 		if (!(result & 0x4))
-			cimax_writereg(state, 0x00, (result & ~0xC) | 0x4);
+			cimax_vip2_writereg(state, 0x00, (result & ~0xC) | 0x4);
 
 		setDestination(state, slot);
 
@@ -705,13 +705,13 @@ static int cimax_read_cam_control(struct dvb_ca_en50221 *ca, int slot, u8 addres
     }
 	else
 	{
-	   result = cimax_readreg(state, 0x09);
+	   result = cimax_vip2_readreg(state, 0x09);
 
 	   /* FIXME: handle "result" ->is the module really present */
 	   /* access i/o mem (bit 3) */
 
 	   if (!(result & 0x4))
-		   cimax_writereg(state, 0x09, (result & ~0xC) | 0x4);
+		   cimax_vip2_writereg(state, 0x09, (result & ~0xC) | 0x4);
 
 	   setDestination(state, slot);
 
@@ -745,9 +745,9 @@ static int cimax_read_cam_control(struct dvb_ca_en50221 *ca, int slot, u8 addres
 	return res;
 }
 
-static int cimax_write_cam_control(struct dvb_ca_en50221 *ca, int slot, u8 address, u8 value)
+static int cimax_vip2_write_cam_control(struct dvb_ca_en50221 *ca, int slot, u8 address, u8 value)
 {
-	struct cimax_state *state = ca->data;
+	struct cimax_vip2_state *state = ca->data;
 	int result;
 	
 	dprintk("%s > slot = %d, address = %d, value = %d\n", __FUNCTION__, slot, address, value);
@@ -764,12 +764,12 @@ static int cimax_write_cam_control(struct dvb_ca_en50221 *ca, int slot, u8 addre
 
 	if (slot == 0)
 	{
-	   result = cimax_readreg(state, 0x00);
+	   result = cimax_vip2_readreg(state, 0x00);
 
 	   /* FIXME: handle "result" ->is the module really present */
 	   /* access to i/o mem */
 	   if (!(result & 0x4))
-		   cimax_writereg(state, 0x00, (result & ~0xC) | 0x4);
+		   cimax_vip2_writereg(state, 0x00, (result & ~0xC) | 0x4);
 
 		setDestination(state, slot);
 
@@ -783,12 +783,12 @@ static int cimax_write_cam_control(struct dvb_ca_en50221 *ca, int slot, u8 addre
 	 }
 	 else
 	 {
-		result = cimax_readreg(state, 0x09);
+		result = cimax_vip2_readreg(state, 0x09);
 
 		/* FIXME: handle "result" ->is the module really present */
 		/* access to i/o mem */
 		if (!(result & 0x4))
-			cimax_writereg(state, 0x09, (result & ~0xC) | 0x4);
+			cimax_vip2_writereg(state, 0x09, (result & ~0xC) | 0x4);
 
 		setDestination(state, slot);
 
@@ -804,41 +804,41 @@ static int cimax_write_cam_control(struct dvb_ca_en50221 *ca, int slot, u8 addre
 	return 0;
 }
 
-static int cimax_slot_shutdown(struct dvb_ca_en50221 *ca, int slot)
+static int cimax_vip2_slot_shutdown(struct dvb_ca_en50221 *ca, int slot)
 {
-	//struct cimax_state *state = ca->data;
+	//struct cimax_vip2_state *state = ca->data;
 	dprintk("%s > slot = %d\n", __FUNCTION__, slot);
 
 	/*Power control : (@18h); quatsch slot shutdown ->0x17*/
 	return 0;
 }
 
-static int cimax_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
+static int cimax_vip2_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
 {
-	struct cimax_state *state = ca->data;
+	struct cimax_vip2_state *state = ca->data;
 
 	dprintk("%s > slot = %d\n", __FUNCTION__, slot);
 
 	if (slot == 0)
 	{
 	   /* das read back der register ist gleichzeitig unser sleep! */	
-	   int result = cimax_readreg(state, 0x00);
+	   int result = cimax_vip2_readreg(state, 0x00);
 	   
 #if !defined(FORTIS_HDBOX) && !defined(OCTAGON1008)
-	   cimax_writereg(state, 0x00, 0x23);
+	   cimax_vip2_writereg(state, 0x00, 0x23);
 	   
 	   printk("%s: writing 0x%x\n", __func__, 0x23);
 #elif !defined(OCTAGON1008)
-	   cimax_writereg(state, 0x00, result | 0x20);
+	   cimax_vip2_writereg(state, 0x00, result | 0x20);
 #else
-	   cimax_writereg(state, 0x00, result | 0x21);
+	   cimax_vip2_writereg(state, 0x00, result | 0x21);
 #endif
 	   
-	   result = cimax_readreg(state, 0x00);
+	   result = cimax_vip2_readreg(state, 0x00);
 
 	   printk("%s: writing 0x%x\n", __func__, result | 0x40);
-	   cimax_writereg(state, 0x00, result | 0x40);
-	   result = cimax_readreg(state, 0x00);
+	   cimax_vip2_writereg(state, 0x00, result | 0x40);
+	   result = cimax_vip2_readreg(state, 0x00);
 
 	   printk("%s: result 0x%x\n", __func__, result);
 
@@ -847,22 +847,22 @@ static int cimax_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
 	} 
 	else
 	{
-	   int result = cimax_readreg(state, 0x09);
+	   int result = cimax_vip2_readreg(state, 0x09);
 
 #if !defined(FORTIS_HDBOX) && !defined(OCTAGON1008)
-	   cimax_writereg(state, 0x09, 0x23);
+	   cimax_vip2_writereg(state, 0x09, 0x23);
 	   printk("%s: writing 0x%x\n", __func__, 0x23);
 #elif !defined(OCTAGON1008)
-	   cimax_writereg(state, 0x09, result | 0x20);
+	   cimax_vip2_writereg(state, 0x09, result | 0x20);
 #else
-	   cimax_writereg(state, 0x09, result | 0x21);
+	   cimax_vip2_writereg(state, 0x09, result | 0x21);
 #endif
 
-	   result = cimax_readreg(state, 0x09);
+	   result = cimax_vip2_readreg(state, 0x09);
 
 	   printk("%s: writing 0x%x\n", __func__, result | 0x40);
-	   cimax_writereg(state, 0x09, result | 0x40);
-	   result = cimax_readreg(state, 0x09);
+	   cimax_vip2_writereg(state, 0x09, result | 0x40);
+	   result = cimax_vip2_readreg(state, 0x09);
 
 	   printk("%s: result 0x%x\n", __func__, result);
 
@@ -875,8 +875,8 @@ static int cimax_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
 
 int init_ci_controller(struct dvb_adapter* dvb_adap)
 {
-	struct cimax_state *state = &ci_state;
-	struct cimax_core *core = &ci_core;
+	struct cimax_vip2_state *state = &ci_state;
+	struct cimax_vip2_core *core = &ci_core;
 	int result;
 
 	dprintk("init_cimax >\n");
@@ -901,15 +901,15 @@ int init_ci_controller(struct dvb_adapter* dvb_adap)
 	/* register CI interface */
 	core->ca.owner = THIS_MODULE;
 
-	core->ca.read_attribute_mem 	= cimax_read_attribute_mem;
-	core->ca.write_attribute_mem 	= cimax_write_attribute_mem;
-	core->ca.read_cam_control 	= cimax_read_cam_control;
-	core->ca.write_cam_control 	= cimax_write_cam_control;
-	core->ca.slot_shutdown 		= cimax_slot_shutdown;
-	core->ca.slot_ts_enable 	= cimax_slot_ts_enable;
+	core->ca.read_attribute_mem 	= cimax_vip2_read_attribute_mem;
+	core->ca.write_attribute_mem 	= cimax_vip2_write_attribute_mem;
+	core->ca.read_cam_control 	= cimax_vip2_read_cam_control;
+	core->ca.write_cam_control 	= cimax_vip2_write_cam_control;
+	core->ca.slot_shutdown 		= cimax_vip2_slot_shutdown;
+	core->ca.slot_ts_enable 	= cimax_vip2_slot_ts_enable;
 
-	core->ca.slot_reset 		= cimax_slot_reset;
-	core->ca.poll_slot_status 	= cimax_poll_slot_status;
+	core->ca.slot_reset 		= cimax_vip2_slot_reset;
+	core->ca.poll_slot_status 	= cimax_vip2_poll_slot_status;
 
 	state->core 			= core;
 	core->ca.data 			= state;
@@ -955,7 +955,7 @@ int init_ci_controller(struct dvb_adapter* dvb_adap)
 #endif
 
 	/* cimax reset */
-	cimax_writereg(state, 0x1f, 0x80);
+	cimax_vip2_writereg(state, 0x1f, 0x80);
 
 #if defined(FORTIS_HDBOX) || defined(VIP1_V2) || defined(CLASSIC)
 	u8 sequence[] =
@@ -965,7 +965,7 @@ int init_ci_controller(struct dvb_adapter* dvb_adap)
 	  0x01
 	};
 
-	cimax_writeregN(state, sequence, 33);
+	cimax_vip2_writeregN(state, sequence, 33);
 
 #elif defined(OCTAGON1008)
 	u8 sequence[] =
@@ -974,131 +974,131 @@ int init_ci_controller(struct dvb_adapter* dvb_adap)
 	  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x03, 0x06, 0x00, 0x03,
 	  0x01 /* ->0x1f = 0x01 = lock ->so after this most registers are not accessible */
 	};
-	cimax_writeregN(state, sequence, 33);
+	cimax_vip2_writeregN(state, sequence, 33);
 #endif
  
 #if !defined(FORTIS_HDBOX) && !defined(OCTAGON1008)
 	/* Modul A auto activation */	
-	cimax_writereg(state, 0x00, 0x02);
+	cimax_vip2_writereg(state, 0x00, 0x02);
 
 	/* Modul B auto activation */	
-	cimax_writereg(state, 0x09, 0x02);
+	cimax_vip2_writereg(state, 0x09, 0x02);
 #else
-	cimax_writereg(state, 0x00, 0x00);
-	cimax_writereg(state, 0x09, 0x00);
+	cimax_vip2_writereg(state, 0x00, 0x00);
+	cimax_vip2_writereg(state, 0x09, 0x00);
 #endif
 
 #if defined(TF7700)
 	/* Powercontrol: VCLVL ->VCC pin active-low (LOCK muss 0 sein) */
-	cimax_writereg(state, 0x18, 0x80);
+	cimax_vip2_writereg(state, 0x18, 0x80);
 #elif defined(FORTIS_HDBOX) || defined(OCTAGON1008)
-	cimax_writereg(state, 0x18, 0x21);
+	cimax_vip2_writereg(state, 0x18, 0x21);
 #else
 	/* Powercontrol: VCLVL ->VCC pin active-high (LOCK muss 0 sein) */
-	cimax_writereg(state, 0x18, 0x40);	
+	cimax_vip2_writereg(state, 0x18, 0x40);	
 #endif
 
 #if !defined(FORTIS_HDBOX) && !defined(OCTAGON1008)
 	/* Destination Select: Select modul A */
-	cimax_writereg(state, 0x17, 0x02);
+	cimax_vip2_writereg(state, 0x17, 0x02);
 
 #if defined(TF7700)
 	/* memory access cycle for Modul A: set all to 250ns */
-	cimax_writereg(state, 0x05, 0x33);
+	cimax_vip2_writereg(state, 0x05, 0x33);
 
 	/* memory access cycle for Modul B: set all to 250ns */
-	cimax_writereg(state, 0x0E, 0x33);
+	cimax_vip2_writereg(state, 0x0E, 0x33);
 #else
 	/* memory access cycle for Modul A: set all to 100ns */
-	cimax_writereg(state, 0x05, 0x00);
+	cimax_vip2_writereg(state, 0x05, 0x00);
 
 	/* memory access cycle for Modul B: set all to 100ns */
-	cimax_writereg(state, 0x0E, 0x00);
+	cimax_vip2_writereg(state, 0x0E, 0x00);
 
 	/* interrupt output register: ITDRV: INT buffer is push-pull (LOCK 0) */
-	cimax_writereg(state, 0x1c, 0x04);
+	cimax_vip2_writereg(state, 0x1c, 0x04);
 #endif
 
 	/* interrupt mask register: set all to mask */
-	cimax_writereg(state, 0x1b, 0x00);
+	cimax_vip2_writereg(state, 0x1b, 0x00);
 
 #if defined(TF7700)
 	/* UCSG2 Register: */
-	cimax_writereg(state, 0x1e, 0x03);
+	cimax_vip2_writereg(state, 0x1e, 0x03);
 
 	/* UCSG1 Register: */
-	cimax_writereg(state, 0x1d, 0x00);
+	cimax_vip2_writereg(state, 0x1d, 0x00);
 #else
 	/* UCSG2 Register: */
-	cimax_writereg(state, 0x1e, 0x00);
+	cimax_vip2_writereg(state, 0x1e, 0x00);
 
 	/* UCSG1 Register: */
-	cimax_writereg(state, 0x1d, 0x00);
+	cimax_vip2_writereg(state, 0x1d, 0x00);
 
 	/* Auto select mask high external  */
-	cimax_writereg(state, 0x12, 0x00);
+	cimax_vip2_writereg(state, 0x12, 0x00);
 #endif
 
 	/* Auto select mask high module a */
-	cimax_writereg(state, 0x01, 0x00);
+	cimax_vip2_writereg(state, 0x01, 0x00);
 
 #if defined(TF7700)
 	/* Auto select mask low module a */
-	cimax_writereg(state, 0x02, 0x01);
+	cimax_vip2_writereg(state, 0x02, 0x01);
 #else
 	/* Auto select mask low module a */
-	cimax_writereg(state, 0x02, 0x1c);
+	cimax_vip2_writereg(state, 0x02, 0x1c);
 #endif
 
 	/* Auto select pattern high module a */
-	cimax_writereg(state, 0x03, 0x00);
+	cimax_vip2_writereg(state, 0x03, 0x00);
 
 #if defined(TF7700)
 	/* Auto select pattern low module a */
-	cimax_writereg(state, 0x04, 0x00);
+	cimax_vip2_writereg(state, 0x04, 0x00);
 #else
 	/* Auto select pattern low module a */
-	cimax_writereg(state, 0x04, 0x04);
+	cimax_vip2_writereg(state, 0x04, 0x04);
 #endif
 
 	/* Auto select mask high module b */
-	cimax_writereg(state, 0x0a, 0x00);
+	cimax_vip2_writereg(state, 0x0a, 0x00);
 
 #if defined(TF7700)
 	/* Auto select mask low module b */
-	cimax_writereg(state, 0x0b, 0x01);
+	cimax_vip2_writereg(state, 0x0b, 0x01);
 #else
 	/* Auto select mask low module b */
-	cimax_writereg(state, 0x0b, 0x1c);
+	cimax_vip2_writereg(state, 0x0b, 0x1c);
 #endif
 
 	/* Auto select pattern high module b */
-	cimax_writereg(state, 0x0c, 0x00);
+	cimax_vip2_writereg(state, 0x0c, 0x00);
 
 #if defined(TF7700)
 	/* Auto select pattern low module b */
-	cimax_writereg(state, 0x0d, 0x01);
+	cimax_vip2_writereg(state, 0x0d, 0x01);
 #else
 	/* Auto select pattern low module b */
-	cimax_writereg(state, 0x0d, 0x08);
+	cimax_vip2_writereg(state, 0x0d, 0x08);
 #endif
 
 #if defined(TF7700)
 	/* set twin mode */
-	cimax_writereg(state, 0x11, 0x80);
+	cimax_vip2_writereg(state, 0x11, 0x80);
 #endif
 
 	/* LOCK */
-	cimax_writereg(state, 0x1f, 0x01);
+	cimax_vip2_writereg(state, 0x1f, 0x01);
 
 #endif /* !fortis_hdbox && !octagon  */
 
 #if defined(TF7700) || defined(FORTIS_HDBOX) || defined(OCTAGON1008)
 	/* POWER ON */
-	cimax_writereg(state, 0x18, 0x21);
+	cimax_vip2_writereg(state, 0x18, 0x21);
 #else
 	/* POWER ON */
-	cimax_writereg(state, 0x18, 0x01);
+	cimax_vip2_writereg(state, 0x18, 0x01);
 #endif
 
 	ctrl_outl(0x0, reg_config + EMI_LCK);
@@ -1241,19 +1241,19 @@ EXPORT_SYMBOL(getCiSource);
 /* konfetti: End cimax */
 /* ******************** */
 
-int __init cimax_init(void)
+int __init cimax_vip2_init(void)
 {
     printk("cimax loaded\n");
     return 0;
 }
 
-void __exit cimax_exit(void)
+void __exit cimax_vip2_exit(void)
 {  
    printk("cimax unloaded\n");
 }
 
-module_init             (cimax_init);
-module_exit             (cimax_exit);
+module_init             (cimax_vip2_init);
+module_exit             (cimax_vip2_exit);
 
 MODULE_DESCRIPTION      ("CI Controller");
 MODULE_AUTHOR           ("Dagobert");
