@@ -64,3 +64,4 @@ fe-core-vip1v2-objs += base/lg031.o
 fe-core-vip1v2-objs += vip1_v2/core.o
 obj-m += fe-core-vip1v2.o 
 endif
+endif
