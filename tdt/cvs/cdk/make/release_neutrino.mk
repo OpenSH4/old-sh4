@@ -131,7 +131,6 @@ $(DEPDIR)/%release_neutrino:
 	$(if $(IPBOX99),cp $(targetprefix)/boot/audio.elf $(prefix)/release_neutrino/boot/audio.elf &&) \
 	$(if $(IPBOX55),cp $(targetprefix)/boot/audio.elf $(prefix)/release_neutrino/boot/audio.elf &&) \
 \
-	cp -a $(targetprefix)/dev/* $(prefix)/release_neutrino/dev/ && \
 	cp -dp $(targetprefix)/etc/fstab $(prefix)/release_neutrino/etc/ && \
 	cp -dp $(targetprefix)/etc/group $(prefix)/release_neutrino/etc/ && \
 	cp -dp $(targetprefix)/etc/host.conf $(prefix)/release_neutrino/etc/ && \
