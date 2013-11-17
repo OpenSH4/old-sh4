@@ -89,7 +89,7 @@ release_hl101: release_common_utils
 	cp -f $(buildprefix)/root/release/converter/*.py $(prefix)/release/usr/lib/enigma2/python/Components/Converter/
 	cp -f $(buildprefix)/root/release/switchoff $(prefix)/release/etc/init.d/
 	cp -f $(buildprefix)/root/release/converter/render/*.py $(prefix)/release/usr/lib/enigma2/python/Components/Renderer/
-	cp -f $(buildprefix)/usr/bin/grab $(prefix)/release_neutrino/usr/bin/ && \
+	cp -f $(prefix)/cdkroot/usr/bin/grab $(prefix)/release/usr/bin/ && \
 	mkdir $(prefix)/release/var/keys
 	mkdir $(prefix)/release/var/keys/Benutzerdaten
 	mkdir $(prefix)/release/var/keys/Benutzerdaten/.emu
