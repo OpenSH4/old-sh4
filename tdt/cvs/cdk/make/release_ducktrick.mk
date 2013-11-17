@@ -5,7 +5,7 @@
 #
 # release_common_utils
 #
-release_common_utils:
+release_ducktrick_common_utils:
 #	remove the slink to busybox
 	rm -f $(prefix)/release_ducktrick/sbin/halt
 	cp -f $(targetprefix)/sbin/halt $(prefix)/release_ducktrick/sbin/
@@ -28,393 +28,9 @@ release_common_utils:
 	ln -s ../init.d/reboot $(prefix)/release_ducktrick/etc/rc.d/rc6.d/S90reboot
 
 #
-# release_cube_common und Classic Release
-#
-release_cube_common:
-	cp $(buildprefix)/root/release/halt_cuberevo $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(buildprefix)/root/release/reboot_cuberevo $(prefix)/release_ducktrick/etc/init.d/reboot
-	chmod 777 $(prefix)/release_ducktrick/etc/init.d/reboot
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7100.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(buildprefix)/root/firmware/classic/video.elf $(prefix)/release_ducktrick/boot/video.elf
-	cp $(buildprefix)/root/firmware/classic/audio.elf $(prefix)/release_ducktrick/boot/audio.elf
-	cp $(targetprefix)/bin/eeprom $(prefix)/release_ducktrick/bin
-	cp -f $(buildprefix)/linux-sh4/drivers/net/wireless/rt2x00/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp -f $(buildprefix)/linux-sh4/drivers/net/wireless/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp -f $(buildprefix)/linux-sh4/drivers/net/wireless/zd1211rw/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp -f $(buildprefix)/linux-sh4/fs/cachefiles/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp -f $(buildprefix)/linux-sh4/fs/cifs/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp -f $(buildprefix)/linux-sh4/fs/fat/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp -f $(buildprefix)/linux-sh4/fs/fscache/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp -f $(buildprefix)/linux-sh4/fs/isofs/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp -f $(buildprefix)/linux-sh4/fs/ntfs/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp -f $(buildprefix)/linux-sh4/fs/udf/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp -f $(buildprefix)/linux-sh4/drivers/usb/serial/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release_ducktrick/usr/bin/
-	mkdir -p $(prefix)/release_ducktrick/var/run/lirc
-	mkdir -p $(prefix)/release_ducktrick/var/config
-	cp -dp $(buildprefix)/root/etc/lircd_classic.conf $(prefix)/release_ducktrick/etc/lircd.conf
-	cp -dp $(buildprefix)/root/etc/boxtype_remote $(prefix)/release_ducktrick/var/config/boxtype
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl2108,avl6222,cx21143}.fw
-	rm -f $(prefix)/release_ducktrick/bin/tffpctl
-	rm -f $(prefix)/release_ducktrick/bin/vfdctl
-	rm -f $(prefix)/release_ducktrick/bin/evremote
-	rm -f $(prefix)/release_ducktrick/bin/tfd2mtd
-
-#
-# release_cube_common_tunner und Classic Tuner Module
-#
-release_cube_common_tunner:
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-
-#
-# release_cuberevo_9500hd
-#
-release_cuberevo_9500hd: release_common_utils release_cube_common release_cube_common_tunner
-	echo "cuberevo-9500hd" > $(prefix)/release_ducktrick/etc/hostname
-
-#
-# release_cuberevo_2000hd
-#
-release_cuberevo_2000hd: release_common_utils release_cube_common release_cube_common_tunner
-	echo "cuberevo-2000hd" > $(prefix)/release_ducktrick/etc/hostname
-
-#
-# release_cuberevo_250hd
-#
-release_cuberevo_250hd: release_common_utils release_cube_common release_cube_common_tunner
-	echo "cuberevo-250hd" > $(prefix)/release_ducktrick/etc/hostname
-
-#
-# release_cuberevo_mini_fta
-#
-release_cuberevo_mini_fta: release_common_utils release_cube_common release_cube_common_tunner
-	echo "cuberevo-mini-fta" > $(prefix)/release_ducktrick/etc/hostname
-
-#
-# release_cuberevo_mini2
-#
-release_cuberevo_mini2: release_common_utils release_cube_common release_cube_common_tunner
-	echo "cuberevo-mini2" > $(prefix)/release_ducktrick/etc/hostname
-
-#
-# release_cuberevo_mini
-#
-release_cuberevo_mini: release_common_utils release_cube_common release_cube_common_tunner
-	echo "cuberevo-mini" > $(prefix)/release_ducktrick/etc/hostname
-
-#
-# release_classic
-#
-release_classic: release_common_utils release_cube_common release_cube_common_tunner
-	echo "classic" > $(prefix)/release_ducktrick/etc/hostname
-
-#
-# release_common_ipbox
-#
-release_common_ipbox:
-	cp $(buildprefix)/root/release/halt_ipbox $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/siinfo/siinfo.ko $(prefix)/release_ducktrick/lib/modules/
-	cp -f $(buildprefix)/root/release/fstab_ipbox $(prefix)/release_ducktrick/etc/fstab
-	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release_ducktrick/boot/video.elf
-	cp -dp $(buildprefix)/root/etc/lircd_ipbox.conf $(prefix)/release_ducktrick/etc/lircd.conf
-	cp -p $(buildprefix)/root/release/lircd_ipbox $(prefix)/release_ducktrick/usr/bin/lircd
-	mkdir -p $(prefix)/release_ducktrick/var/run/lirc
-	rm -f $(prefix)/release_ducktrick/lib/firmware/*
-	rm -f $(prefix)/release_ducktrick/lib/modules/boxtype.ko
-	rm -f $(prefix)/release_ducktrick/lib/modules/bpamem.ko
-	rm -f $(prefix)/release_ducktrick/lib/modules/lzo*.ko
-	rm -f $(prefix)/release_ducktrick/lib/modules/ramzswap.ko
-	rm -f $(prefix)/release_ducktrick/lib/modules/simu_button.ko
-	rm -f $(prefix)/release_ducktrick/lib/modules/stmvbi.ko
-	rm -f $(prefix)/release_ducktrick/lib/modules/stmvout.ko
-	rm -f $(prefix)/release_ducktrick/bin/gotosleep
-	rm -f $(prefix)/release_ducktrick/etc/network/interfaces
-	echo "config.usage.hdd_standby=0" >> $(prefix)/release_ducktrick/etc/enigma2/settings
-
-#
-# release_ipbox9900
-#
-release_ipbox9900: release_common_utils release_common_ipbox
-	echo "ipbox9900" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/ipbox99xx/micom.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/rmu/rmu.ko $(prefix)/release_ducktrick/lib/modules/
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_ipbox.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-	cp -p $(buildprefix)/root/release/tvmode_ipbox $(prefix)/release_ducktrick/usr/bin/tvmode
-
-#
-# release_ipbox99
-#
-release_ipbox99: release_common_utils release_common_ipbox
-	echo "ipbox99" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/ipbox99xx/micom.ko $(prefix)/release_ducktrick/lib/modules/
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_ipbox.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-	cp -p $(buildprefix)/root/release/tvmode_ipbox $(prefix)/release_ducktrick/usr/bin/tvmode
-
-#
-# release_ipbox55
-#
-release_ipbox55: release_common_utils release_common_ipbox
-	echo "ipbox55" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/ipbox55/front.ko $(prefix)/release_ducktrick/lib/modules/
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_ipbox.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-	cp -p $(buildprefix)/root/release/tvmode_ipbox55 $(prefix)/release_ducktrick/usr/bin/tvmode
-
-#
-# release_ufs910
-#
-release_ufs910: release_common_utils
-	echo "ufs910" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(buildprefix)/root/release/halt_ufs $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/vfd/vfd.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7100.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/boot/video_7100.elf $(prefix)/release_ducktrick/boot/video.elf
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,stv6306}.fw
-	mv $(prefix)/release_ducktrick/lib/firmware/dvb-fe-cx21143.fw $(prefix)/release_ducktrick/lib/firmware/dvb-fe-cx24116.fw
-	cp -dp $(targetprefix)/etc/lircd.conf $(prefix)/release_ducktrick/etc/
-	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release_ducktrick/usr/bin/
-	mkdir -p $(prefix)/release_ducktrick/var/run/lirc
-	rm -f $(prefix)/release_ducktrick/bin/vdstandby
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_ufs910.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-
-#
-# release_ufs912
-#
-release_ufs912: release_common_utils
-	echo "ufs912" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(buildprefix)/root/release/halt_ufs912 $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/micom/micom.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7111.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/boot/video_7111.elf $(prefix)/release_ducktrick/boot/video.elf
-	cp $(targetprefix)/boot/audio_7111.elf $(prefix)/release_ducktrick/boot/audio.elf
-	mv $(prefix)/release_ducktrick/lib/firmware/component_7111_mb618.fw $(prefix)/release_ducktrick/lib/firmware/component.fw
-	rm $(prefix)/release_ducktrick/lib/firmware/component_7105_pdk7105.fw
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
-	rm -f $(prefix)/release_ducktrick/bin/evremote
-	rm -f $(prefix)/release_ducktrick/bin/gotosleep
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_ufs912.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-
-#
-# release_ufs913
-#
-release_ufs913: release_common_utils
-	echo "ufs913" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(buildprefix)/root/release/halt_ufs912 $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/micom/micom.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/multituner/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7105.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/boot/video_7105.elf $(prefix)/release_ducktrick/boot/video.elf
-	cp $(targetprefix)/boot/audio_7105.elf $(prefix)/release_ducktrick/boot/audio.elf
-	mv $(prefix)/release_ducktrick/lib/firmware/component_7105_pdk7105.fw $(prefix)/release_ducktrick/lib/firmware/component.fw
-	rm $(prefix)/release_ducktrick/lib/firmware/component_7111_mb618.fw
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl2108,cx24116,cx21143,stv6306}.fw
-	rm -f $(prefix)/release_ducktrick/bin/evremote
-	rm -f $(prefix)/release_ducktrick/bin/gotosleep
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_ufs912.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-
-#
-# release_ufs922
-#
-release_ufs922: release_common_utils
-	echo "ufs922" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(buildprefix)/root/release/halt_ufs $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/micom/micom.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/ufs922_fan/fan_ctrl.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release_ducktrick/boot/video.elf
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl6222,cx24116}.fw
-	rm -f $(prefix)/release_ducktrick/bin/evremote
-	rm -f $(prefix)/release_ducktrick/bin/gotosleep
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_ufs910.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-
-#
-# release_spark
-#
-release_spark: release_common_utils
-	echo "spark" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(buildprefix)/root/release/halt_spark $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom/aotom.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/lnb/lnb.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7111.ko $(prefix)/release_ducktrick/lib/modules/
-	[ -e $(buildprefix)/root/release/encrypt_spark$(KERNELSTMLABEL).ko ] && cp $(buildprefix)/root/release/encrypt_spark$(KERNELSTMLABEL).ko $(prefix)/release_ducktrick/lib/modules/encrypt.ko || true
-	cp $(targetprefix)/boot/video_7111.elf $(prefix)/release_ducktrick/boot/video.elf
-	cp $(targetprefix)/boot/audio_7111.elf $(prefix)/release_ducktrick/boot/audio.elf
-	mv $(prefix)/release_ducktrick/lib/firmware/component_7111_mb618.fw $(prefix)/release_ducktrick/lib/firmware/component.fw
-	rm $(prefix)/release_ducktrick/lib/firmware/component_7105_pdk7105.fw
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
-	rm -f $(prefix)/release_ducktrick/bin/evremote
-	rm -f $(prefix)/release_ducktrick/bin/gotosleep
-	rm -f $(prefix)/release_ducktrick/bin/vdstandby
-	cp -dp $(buildprefix)/root/etc/lircd_spark.conf $(prefix)/release_ducktrick/etc/lircd.conf
-	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release_ducktrick/usr/bin/
-	mkdir -p $(prefix)/release_ducktrick/var/run/lirc
-	cp -f $(buildprefix)/root/sbin/flash_* $(prefix)/release_ducktrick/sbin
-	cp -f $(buildprefix)/root/sbin/nand* $(prefix)/release_ducktrick/sbin
-	cp $(targetprefix)/usr/local/share/fonts/* $(prefix)/release_ducktrick/usr/share/fonts/
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_spark.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-
-#
-# release_spark7162
-#
-release_spark7162: release_common_utils
-	echo "spark7162" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(buildprefix)/root/release/halt_spark $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom/aotom.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7105.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-	if [ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/i2c_spi/i2s.ko ]; then \
-		cp -f $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/i2c_spi/i2s.ko $(prefix)/release_ducktrick/lib/modules/; \
-	fi
-	cp $(targetprefix)/boot/video_7105.elf $(prefix)/release_ducktrick/boot/video.elf
-	cp $(targetprefix)/boot/audio_7105.elf $(prefix)/release_ducktrick/boot/audio.elf
-	mv $(prefix)/release_ducktrick/lib/firmware/component_7105_pdk7105.fw $(prefix)/release_ducktrick/lib/firmware/component.fw
-	rm -f $(prefix)/release_ducktrick/lib/firmware/component_7111_mb618.fw
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
-	rm -f $(prefix)/release_ducktrick/bin/evremote
-	rm -f $(prefix)/release_ducktrick/bin/gotosleep
-	rm -f $(prefix)/release_ducktrick/bin/vdstandby
-	cp -dp $(buildprefix)/root/etc/lircd_spark7162.conf $(prefix)/release_ducktrick/etc/lircd.conf
-	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release_ducktrick/usr/bin/
-	mkdir -p $(prefix)/release_ducktrick/var/run/lirc
-	cp -f $(buildprefix)/root/sbin/flashcp $(prefix)/release_ducktrick/sbin
-	cp -f $(buildprefix)/root/sbin/flash_* $(prefix)/release_ducktrick/sbin
-	cp -f $(buildprefix)/root/sbin/nand* $(prefix)/release_ducktrick/sbin
-	cp $(targetprefix)/usr/local/share/fonts/* $(prefix)/release_ducktrick/usr/share/fonts/
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_spark.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-
-#
-# release_fortis_hdbox
-#
-release_fortis_hdbox: release_common_utils
-	echo "fortis" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(buildprefix)/root/release/halt_fortis_hdbox $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/nuvoton/nuvoton.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release_ducktrick/boot/video.elf
-	rm -f $(prefix)/release_ducktrick/lib/firmware/component_7111_mb618.fw
-	rm -f $(prefix)/release_ducktrick/lib/firmware/component_7105_pdk7105.fw
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
-	rm -f $(prefix)/release_ducktrick/bin/evremote
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_ufs910.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-
-#
-# release_atevio7500
-#
-release_atevio7500: release_common_utils
-	echo "atevio7500" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(buildprefix)/root/release/halt_fortis_hdbox $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/nuvoton/nuvoton.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/multituner/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7105.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/boot/video_7105.elf $(prefix)/release_ducktrick/boot/video.elf
-	cp $(targetprefix)/boot/audio_7105.elf $(prefix)/release_ducktrick/boot/audio.elf
-	mv $(prefix)/release_ducktrick/lib/firmware/component_7105_pdk7105.fw $(prefix)/release_ducktrick/lib/firmware/component.fw
-	rm -f $(prefix)/release_ducktrick/lib/firmware/component_7111_mb618.fw
-	cp $(targetprefix)/lib/firmware/dvb-fe-avl2108.fw $(prefix)/release_ducktrick/lib/firmware/
-	cp $(targetprefix)/lib/firmware/dvb-fe-stv6306.fw $(prefix)/release_ducktrick/lib/firmware/
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl6222,cx24116,cx21143}.fw
-	rm -f $(prefix)/release_ducktrick/bin/evremote
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_ufs910.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-
-#
-# release_octagon1008
-#
-release_octagon1008: release_common_utils
-	echo "octagon1008" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(buildprefix)/root/release/halt_octagon1008 $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/nuvoton/nuvoton.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release_ducktrick/boot/video.elf
-	cp $(targetprefix)/lib/firmware/dvb-fe-avl2108.fw $(prefix)/release_ducktrick/lib/firmware/
-	cp $(targetprefix)/lib/firmware/dvb-fe-stv6306.fw $(prefix)/release_ducktrick/lib/firmware/
-	rm -f $(prefix)/release_ducktrick/lib/firmware/component_7111_mb618.fw
-	rm -f $(prefix)/release_ducktrick/lib/firmware/component_7105_pdk7105.fw
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl6222,cx24116,cx21143}.fw
-	rm -f $(prefix)/release_ducktrick/bin/evremote
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_ufs910.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-
-#
-# release_hs7810a
-#
-release_hs7810a: release_common_utils
-	echo "hs7810a" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(buildprefix)/root/release/halt_hs7810a $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/nuvoton/nuvoton.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/lnb/lnb.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7111.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/boot/video_7111.elf $(prefix)/release_ducktrick/boot/video.elf
-	cp $(targetprefix)/boot/audio_7111.elf $(prefix)/release_ducktrick/boot/audio.elf
-	mv $(prefix)/release_ducktrick/lib/firmware/component_7111_mb618.fw $(prefix)/release_ducktrick/lib/firmware/component.fw
-	rm $(prefix)/release_ducktrick/lib/firmware/component_7105_pdk7105.fw
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
-	rm -f $(prefix)/release_ducktrick/bin/evremote
-	rm -f $(prefix)/release_ducktrick/bin/gotosleep
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_ufs910.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-
-#
-# release_hs7110
-#
-release_hs7110: release_common_utils
-	echo "hs7110" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(buildprefix)/root/release/halt_hs7110 $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/nuvoton/nuvoton.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/lnb/lnb.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7111.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/boot/video_7111.elf $(prefix)/release_ducktrick/boot/video.elf
-	cp $(targetprefix)/boot/audio_7111.elf $(prefix)/release_ducktrick/boot/audio.elf
-	mv $(prefix)/release_ducktrick/lib/firmware/component_7111_mb618.fw $(prefix)/release_ducktrick/lib/firmware/component.fw
-	rm $(prefix)/release_ducktrick/lib/firmware/component_7105_pdk7105.fw
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
-	rm -f $(prefix)/release_ducktrick/bin/evremote
-	rm -f $(prefix)/release_ducktrick/bin/gotosleep
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_ufs910.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-
-#
-# release_whitebox
-#
-release_whitebox: release_common_utils
-	echo "whitebox" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(buildprefix)/root/release/halt_whitebox $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/nuvoton/nuvoton.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/lnb/lnb.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-sti7111.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/boot/video_7111.elf $(prefix)/release_ducktrick/boot/video.elf
-	cp $(targetprefix)/boot/audio_7111.elf $(prefix)/release_ducktrick/boot/audio.elf
-	mv $(prefix)/release_ducktrick/lib/firmware/component_7111_mb618.fw $(prefix)/release_ducktrick/lib/firmware/component.fw
-	rm $(prefix)/release_ducktrick/lib/firmware/component_7105_pdk7105.fw
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
-	rm -f $(prefix)/release_ducktrick/bin/evremote
-	rm -f $(prefix)/release_ducktrick/bin/gotosleep
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_ufs910.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-
-#
 # release_hl101 Opticum9500 Vip1 Vip1v2 Vip2 
 #
-release_hl101: release_common_utils
+release_ducktrick_hl101: release_ducktrick_common_utils
 	echo "ArgusVIP" > $(prefix)/release_ducktrick/etc/hostname
 	cp $(buildprefix)/root/release/halt_hl101 $(prefix)/release_ducktrick/etc/init.d/halt
 	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
@@ -524,92 +140,6 @@ release_hl101: release_common_utils
 	cd $(prefix)/release_ducktrick/usr/share/tuxbox && \
 	ln -s ../../local/share/neutrino $(prefix)/release_ducktrick/usr/share/tuxbox/ && \
 	cd $(buildprefix)
-
-#
-# release_adb_box
-#
-release_adb_box: release_common_utils
-	echo "Adb_Box" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(buildprefix)/root/release/halt_adb_box $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/adb_box_vfd/vfd.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7100.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/adb_box_fan/cooler.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cec_adb_box/cec_ctrl.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/dvbt/as102/dvb-as102.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/boot/video_7100.elf $(prefix)/release_ducktrick/boot/video.elf
-	cp $(buildprefix)/root/firmware/as102_data1_st.hex $(prefix)/release_ducktrick/lib/firmware/
-	cp $(buildprefix)/root/firmware/as102_data2_st.hex $(prefix)/release_ducktrick/lib/firmware/
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl6222,cx24116,cx21143}.fw
-	cp -f $(buildprefix)/root/release/fstab_adb_box $(prefix)/release_ducktrick/etc/fstab
-	cp -dp $(buildprefix)/root/etc/lircd_adb_box.conf $(prefix)/release_ducktrick/etc/lircd.conf
-	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release_ducktrick/usr/bin/lircd
-	mkdir -p $(prefix)/release_ducktrick/var/run/lirc
-	rm -f $(prefix)/release_ducktrick/bin/evremote
-	rm -f $(prefix)/release_ducktrick/bin/vdstandby
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_adb_box.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-
-#
-# release_vip1_v2
-#
-release_vip1_v2: release_common_utils
-	echo "Edision-v2" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(buildprefix)/root/release/halt_vip2 $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom/aotom.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release_ducktrick/boot/video.elf
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl2108,avl6222,cx24116,cx21143,stv6306}.fw
-	cp -f $(buildprefix)/root/release/fstab_vip2 $(prefix)/release_ducktrick/etc/fstab
-	cp -f $(targetprefix)/sbin/shutdown $(prefix)/release_ducktrick/sbin/
-	cp $(targetprefix)/bin/stslave $(prefix)/release_ducktrick/bin
-	cp -dp $(targetprefix)/etc/lircd.conf $(prefix)/release_ducktrick/etc/
-	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release_ducktrick/usr/bin/
-	mkdir -p $(prefix)/release_ducktrick/var/run/lirc
-	rm -f $(prefix)/release_ducktrick/bin/vdstandby
-	cp $(targetprefix)/usr/local/share/fonts/* $(prefix)/release_ducktrick/usr/local/share/fonts/
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_vip2.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-
-#
-# release_vip2_v1
-#
-release_vip2_v1: release_vip1_v2
-	echo "Edision-v1" > $(prefix)/release_ducktrick/etc/hostname
-
-#
-# release_hs5101
-#
-release_hs5101: release_common_utils
-	echo "hs5101" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/button_hs5101/button.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/vfd_hs5101/vfd.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7100.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/boot/video_7100.elf $(prefix)/release_ducktrick/boot/video.elf
-	cp -dp $(targetprefix)/etc/lircd.conf $(prefix)/release_ducktrick/etc/
-	cp -p $(targetprefix)/usr/bin/lircd $(prefix)/release_ducktrick/usr/bin/
-	mkdir -p $(prefix)/release_ducktrick/var/run/lirc
-	rm -f $(prefix)/release_ducktrick/lib/firmware/dvb-fe-{avl2108,avl6222,cx21143,stv6306}.fw
-	rm -f $(prefix)/release_ducktrick/bin/vdstandby
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_ufs910.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
-
-#
-# release_tf7700
-#
-release_tf7700: release_common_utils
-	echo "tf7700" > $(prefix)/release_ducktrick/etc/hostname
-	cp $(buildprefix)/root/release/halt_tf7700 $(prefix)/release_ducktrick/etc/init.d/halt
-	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/tffp/tffp.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release_ducktrick/lib/modules/
-	cp $(targetprefix)/boot/video_7109.elf $(prefix)/release_ducktrick/boot/video.elf
-	cp -f $(buildprefix)/root/release/fstab_tf7700 $(prefix)/release_ducktrick/etc/fstab
-	cp -f $(targetprefix)/sbin/shutdown $(prefix)/release_ducktrick/sbin/
-	rm -f $(prefix)/release_ducktrick/bin/vdstandby
-	cp -f $(buildprefix)/root/usr/local/share/enigma2/keymap_tf7700.xml $(prefix)/release_ducktrick/usr/local/share/enigma2/keymap.xml
 
 #
 # release_base
@@ -774,13 +304,7 @@ release_ducktrick_base:
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/multicom/mme/mme_host.ko $(prefix)/release_ducktrick/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/simu_button/simu_button.ko $(prefix)/release_ducktrick/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmfb.ko $(prefix)/release_ducktrick/lib/modules/
-if !ENABLE_VIP2_V1
-if !ENABLE_SPARK
-if !ENABLE_SPARK7162
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cic/*.ko $(prefix)/release_ducktrick/lib/modules/
-endif
-endif
-endif
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/button/button.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/button/button.ko $(prefix)/release_ducktrick/lib/modules || true
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cec/cec.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cec/cec.ko $(prefix)/release_ducktrick/lib/modules || true
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cpu_frequ/cpu_frequ.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cpu_frequ/cpu_frequ.ko $(prefix)/release_ducktrick/lib/modules || true
@@ -1054,35 +578,6 @@ endif
 	fi
 
 #
-# DIRECTFB
-#
-	if [ -d $(prefix)/release_ducktrick/usr/lib/directfb-1.4-5 ]; then \
-		rm -rf $(prefix)/release_ducktrick/usr/lib/directfb-1.4-5/gfxdrivers/*.{a,o,la}; \
-		rm -rf $(prefix)/release_ducktrick/usr/lib/directfb-1.4-5/inputdrivers/*; \
-		cp -a $(targetprefix)/usr/lib/directfb-1.4-5/inputdrivers/libdirectfb_enigma2remote.so $(prefix)/release_ducktrick/usr/lib/directfb-1.4-5/inputdrivers/; \
-		cp -a $(targetprefix)/usr/lib/directfb-1.4-5/inputdrivers/libdirectfb_linux_input.so $(prefix)/release_ducktrick/usr/lib/directfb-1.4-5/inputdrivers/; \
-		rm -rf $(prefix)/release_ducktrick/usr/lib/directfb-1.4-5/systems/*.{a,o,la}; \
-		rm -rf $(prefix)/release_ducktrick/usr/lib/directfb-1.4-5/systems/libdirectfb_dummy.so; \
-		rm -rf $(prefix)/release_ducktrick/usr/lib/directfb-1.4-5/systems/libdirectfb_fbdev.so; \
-		rm -rf $(prefix)/release_ducktrick/usr/lib/directfb-1.4-5/wm/*.{a,o,la}; \
-		rm -rf $(prefix)/release_ducktrick/usr/lib/directfb-1.4-5/interfaces/IDirectFBFont/*.{a,o,la}; \
-		rm -rf $(prefix)/release_ducktrick/usr/lib/directfb-1.4-5/interfaces/IDirectFBImageProvider/*.{a,o,la}; \
-		rm -rf $(prefix)/release_ducktrick/usr/lib/directfb-1.4-5/interfaces/IDirectFBVideoProvider/*.{a,o,la}; \
-	fi
-	if [ -d $(prefix)/release_ducktrick/usr/lib/icu ]; then \
-		rm -rf $(prefix)/release_ducktrick/usr/lib/icu; \
-	fi
-	if [ -d $(prefix)/release_ducktrick/usr/lib/glib-2.0 ]; then \
-		rm -rf $(prefix)/release_ducktrick/usr/lib/glib-2.0; \
-	fi
-	if [ -d $(prefix)/release_ducktrick/usr/lib/gio ]; then \
-		rm -rf $(prefix)/release_ducktrick/usr/lib/gio; \
-	fi
-	if [ -d $(prefix)/release_ducktrick/usr/lib/enchant ]; then \
-		rm -rf $(prefix)/release_ducktrick/usr/lib/enchant; \
-	fi
-
-#
 # GRAPHLCD
 #
 	if [ -e $(prefix)/release_ducktrick/usr/lib/libglcddrivers.so ]; then \
@@ -1096,7 +591,7 @@ endif
 		cp -f $(targetprefix)/usr/sbin/minidlna $(prefix)/release_ducktrick/usr/sbin/; \
 	fi
 
-release_install:
+release_ducktrick_install:
 	rm -rf $(prefix)/release_ducktrick_install || true
 	$(INSTALL_DIR) $(prefix)/release_ducktrick_install && \
 	mkdir $(prefix)/release_ducktrick_install/boot 
@@ -1108,8 +603,8 @@ release_install:
 # The main target depends on the model.
 # IMPORTANT: it is assumed that only one variable is set. Otherwise the target name won't be resolved.
 #
-$(DEPDIR)/release_ducktrick: \
-$(DEPDIR)/%release_ducktrick: release_ducktrick_base release_$(TF7700)$(HL101)$(VIP1_V2)$(VIP2_V1)$(UFS910)$(UFS912)$(UFS913)$(SPARK)$(SPARK7162)$(UFS922)$(OCTAGON1008)$(FORTIS_HDBOX)$(ATEVIO7500)$(HS7810A)$(HS7110)$(WHITEBOX)$(CLASSIC)$(CUBEREVO_MINI)$(CUBEREVO_MINI2)$(CUBEREVO_MINI_FTA)$(CUBEREVO_250HD)$(CUBEREVO_2000HD)$(CUBEREVO_9500HD)$(HOMECAST5101)$(IPBOX9900)$(IPBOX99)$(IPBOX55)$(ADB_BOX) release_install
+$(DEPDIR)/release_ducktrick_ducktrick: \
+$(DEPDIR)/%release_ducktrick: release_ducktrick_base release_ducktrick_$(TF7700)$(HL101)$(VIP1_V2)$(VIP2_V1)$(UFS910)$(UFS912)$(UFS913)$(SPARK)$(SPARK7162)$(UFS922)$(OCTAGON1008)$(FORTIS_HDBOX)$(ATEVIO7500)$(HS7810A)$(HS7110)$(WHITEBOX)$(CLASSIC)$(CUBEREVO_MINI)$(CUBEREVO_MINI2)$(CUBEREVO_MINI_FTA)$(CUBEREVO_250HD)$(CUBEREVO_2000HD)$(CUBEREVO_9500HD)$(HOMECAST5101)$(IPBOX9900)$(IPBOX99)$(IPBOX55)$(ADB_BOX) release_install
 	touch $@
 
 #
