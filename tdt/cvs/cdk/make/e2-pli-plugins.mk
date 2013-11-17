@@ -9,16 +9,6 @@ $(DEPDIR)/e2-pli-plugins.do_prepare:
 	[ -d "$(archivedir)/e2-pli-plugins.git" ] || \
 	git clone -b $$HEAD $$REPO $(archivedir)/e2-pli-plugins.git; \
 	cp -ra $(archivedir)/e2-pli-plugins.git $(appsdir)/e2-pli-plugins; \
-	REVISION2=""; \
-	HEAD2="develop"; \
-	DIFF2="0"; \
-	REPO2="git://github.com/technic/iptvdream.git"; \
-	rm -rf $(appsdir)/iptvdream; \
-	[ -d "$(archivedir)/iptvdream.git" ] && \
-	(cd $(archivedir)/iptvdream.git; git pull ; git checkout HEAD2; cd "$(buildprefix)";); \
-	[ -d "$(archivedir)/iptvdream.git" ] || \
-	git clone -b $$HEAD2 $$REPO2 $(archivedir)/iptvdream.git; \
-	cp -ra $(archivedir)/iptvdream.git $(appsdir)/iptvdream; \
 	touch $@
 
 $(appsdir)/e2-pli-plugins/config.status: e2-pli-plugins.do_prepare
@@ -38,27 +28,9 @@ $(appsdir)/e2-pli-plugins/config.status: e2-pli-plugins.do_prepare
 			PY_PATH=$(targetprefix)/usr \
 			$(PLATFORM_CPPFLAGS) $(E_CONFIG_OPTS) \
 			CXXFLAGS=-I$(targetprefix)/usr/include/enigma2
-	cd $(appsdir)/iptvdream/build && \
-		autoreconf -i -I$(hostprefix)/share/aclocal && \
-		sed -e 's|#!/usr/bin/python|#!$(hostprefix)/bin/python|' -i xml2po.py && \
-		$(BUILDENV) \
-		./configure \
-			--host=$(target) \
-			--datadir=/usr/share \
-			--libdir=/usr/lib \
-			--prefix=/usr \
-			--sysconfdir=/etc \
-			--with-sysroot=$(targetprefix) \
-			STAGING_INCDIR=$(hostprefix)/usr/include \
-			STAGING_LIBDIR=$(hostprefix)/usr/lib \
-			PY_PATH=$(targetprefix)/usr \
-			$(PLATFORM_CPPFLAGS) $(E_CONFIG_OPTS) \
-			CXXFLAGS=-I$(targetprefix)/usr/include/enigma2
 
 $(DEPDIR)/e2-pli-plugins.do_compile: $(appsdir)/e2-pli-plugins/config.status
 	cd $(appsdir)/e2-pli-plugins && \
-		$(MAKE) all
-	cd $(appsdir)/iptvdream/build && \
 		$(MAKE) all
 	touch $@
 
@@ -73,12 +45,6 @@ $(DEPDIR)/e2-pli-plugins: e2-pli-plugins.do_prepare e2-pli-plugins.do_compile
 	tar --format=oldgnu -czf $(prefix)/e2-pli-plugins/_Addon-Manager_/$$plugin.tar.gz *; \
 	echo "Erstelle Archiv fuer $$plugin"; \
 	done <$(buildprefix)/make/_Plugin-Script/plugins.list
-#	iptvdream
-	$(MAKE) -C $(appsdir)/iptvdream/build install DESTDIR=$(prefix)/e2-pli-plugins/iptvdream; \
-	cd $(prefix)/e2-pli-plugins/iptvdream && \
-	tar --format=oldgnu -czf $(prefix)/e2-pli-plugins/_Addon-Manager_/iptvdream.tar.gz *; \
-	echo "Erstelle Archiv fuer iptvdream"; \
-	cd $(buildprefix) && \
 	touch $@
 
 e2-pli-plugins-clean:
