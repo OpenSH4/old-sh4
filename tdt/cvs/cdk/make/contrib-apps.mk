@@ -819,8 +819,11 @@ $(DEPDIR)/grab.do_compile: grab.do_prepare
 
 $(DEPDIR)/grab: \
 $(DEPDIR)/%grab: $(DEPDIR)/grab.do_compile
+	$(MAKE) -C $(buildprefix)/aio-grab install DESTDIR=$(buildprefix)/../../tufsbox/bin/
 	cd aio-grab && \
 	@DISTCLEANUP_grab@
+	rm -rf aio-grab
+	rm .deps/grab*
 	[ "x$*" = "x" ] && touch $@ || true
 
 #
