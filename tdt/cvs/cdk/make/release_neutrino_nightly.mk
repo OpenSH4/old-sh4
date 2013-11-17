@@ -583,7 +583,6 @@ release_neutrino_base:
 	cp -f $(buildprefix)/root/release/makedev $(prefix)/release_neutrino/etc/init.d/ && \
 	cp $(targetprefix)/boot/uImage $(prefix)/release_neutrino/boot/ && \
 	cp $(targetprefix)/boot/audio.elf $(prefix)/release_neutrino/boot/audio.elf && \
-	cp -a $(targetprefix)/dev/* $(prefix)/release_neutrino/dev/ && \
 	cp -dp $(targetprefix)/etc/fstab $(prefix)/release_neutrino/etc/ && \
 	cp -dp $(targetprefix)/etc/group $(prefix)/release_neutrino/etc/ && \
 	cp -dp $(targetprefix)/etc/host.conf $(prefix)/release_neutrino/etc/ && \
