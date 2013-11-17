@@ -197,7 +197,6 @@ release_ducktrick_base:
 	cp -f $(buildprefix)/root/release/makedev $(prefix)/release_ducktrick/etc/init.d/ && \
 	cp $(targetprefix)/boot/uImage $(prefix)/release_ducktrick/boot/ && \
 	cp $(targetprefix)/boot/audio.elf $(prefix)/release_ducktrick/boot/audio.elf && \
-	cp -a $(targetprefix)/dev/* $(prefix)/release_ducktrick/dev/ && \
 	cp -dp $(targetprefix)/etc/fstab $(prefix)/release_ducktrick/etc/ && \
 	cp -dp $(targetprefix)/etc/group $(prefix)/release_ducktrick/etc/ && \
 	cp -dp $(targetprefix)/etc/host.conf $(prefix)/release_ducktrick/etc/ && \
