@@ -1614,7 +1614,7 @@ $(DEPDIR)/pilimaging.do_compile: $(DEPDIR)/pilimaging.do_prepare
 		echo 'FREETYPE_ROOT = "$(targetprefix)/usr/lib", "$(targetprefix)/usr/include"' >> setup_site.py && \
 		CC='$(target)-gcc' LDSHARED='$(target)-gcc -shared' \
 		PYTHONPATH=$(targetprefix)$(PYTHON_DIR)/site-packages \
-		$(hostprefix)/bin/python ./setup.py build \
+		$(hostprefix)/bin/python ./setup.py build && \
 		cd $(buildprefix) && patch -p1 < "$(buildprefix)/Patches/imaging.diff"
 	touch $@
 
