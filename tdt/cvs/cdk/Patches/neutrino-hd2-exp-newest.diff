@@ -1,4 +1,3 @@
-diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cpp
 --- neutrino-hd2-exp/src/driver/vfd.cpp	2013-10-31 17:12:47.000000000 +0100
 +++ neutrino-hd2-exp/src/driver/vfd.cpp	2013-10-31 17:43:30.000000000 +0100
 @@ -45,19 +45,14 @@
@@ -21,7 +20,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  bool blocked = false;
  
  void CVFD::openDevice()
-@@ -87,52 +82,16 @@
+@@ -87,60 +82,16 @@
  	
  	fd = -1;
  }
@@ -32,7 +31,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  CVFD::CVFD()
  {
  	// vfd
--#if defined (PLATFORM_GENERIC)
+-#if defined (USE_OPENGL)
 -	has_lcd = 0;
 -#else
  	has_lcd = 1;
@@ -55,7 +54,15 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
 -	}
 -#endif
 -
--#if !defined (__sh__) && !defined (PLATFORM_COOLSTREAM) && !defined (PLATFORM_GIGABLUE) && !defined (PLATFORM_GENERIC)
+-#if defined (PLATFORM_GIGABLUE)
+-	fd = open("/proc/vfd", O_RDWR);
+-		
+-	if(fd < 0)
+-	{
+-		perror("/proc/vfd");
+-		has_lcd = 0;
+-	}
+-#elif !defined (__sh__) && !defined (PLATFORM_COOLSTREAM) && !defined (USE_OPENGL)
 -	fd = open("/dev/dbox/oled0", O_RDWR);
 -	
 -	if(fd < 0) 
@@ -74,11 +81,11 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  	
  	text[0] = 0;
  	clearClock = 0;
-@@ -140,12 +99,6 @@
+@@ -148,12 +99,6 @@
  
  CVFD::~CVFD()
  { 
--#if !defined (__sh__) && !defined (PLATFORM_COOLSTREAM) && !defined (PLATFORM_GIGABLUE) && !defined (PLATFORM_GENERIC)
+-#if !defined (__sh__) && !defined (PLATFORM_COOLSTREAM) && !defined (USE_OPENGL)
 -	if(fd > 0)
 -		close(fd);
 -	
@@ -87,7 +94,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  }
  
  CVFD * CVFD::getInstance()
-@@ -184,15 +137,6 @@
+@@ -192,15 +137,6 @@
  
  void CVFD::wake_up() 
  {
@@ -103,7 +110,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  }
  
  void * CVFD::TimeThread(void *)
-@@ -228,12 +172,6 @@
+@@ -236,12 +172,6 @@
  	}
  	
  	// set led color
@@ -116,7 +123,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  }
  
  void CVFD::setlcdparameter(int dimm, const int power)
-@@ -256,7 +194,6 @@
+@@ -264,7 +194,6 @@
  
  	dprintf(DEBUG_DEBUG, "CVFD::setlcdparameter dimm %d power %d\n", dimm, power);
  	
@@ -124,7 +131,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
          struct vfd_ioctl_data data;
  	data.start_address = dimm;
  	
-@@ -269,19 +206,7 @@
+@@ -277,12 +206,7 @@
  	if( ioctl(fd, VFDBRIGHTNESS, &data) < 0)  
  		perror("VFDBRIGHTNESS");
  	
@@ -132,20 +139,13 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
 -#elif defined (PLATFORM_COOLSTREAM)
 -	int ret = ioctl(fd, IOC_VFD_SET_BRIGHT, dimm);
 -	if(ret < 0)
--		perror("IOC_VFD_SET_BRIGHT");
--#elif defined (PLATFORM_GIGABLUE)  
--	FILE * f;
--	if((f = fopen("/proc/stb/fp/oled_brightness", "w")) == NULL) 
--		return;
--	
--	fprintf(f, "%d", dimm);
--	fclose(f);	
+-		perror("IOC_VFD_SET_BRIGHT");	
 -#endif		
 +	closeDevice();	
  }
  
  void CVFD::setlcdparameter(void)
-@@ -331,12 +256,7 @@
+@@ -332,12 +256,7 @@
  			if(force || ((hour != t->tm_hour) || (minute != t->tm_min))) 
  			{
  				hour = t->tm_hour;
@@ -159,7 +159,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  				ShowText(timestr);
  			}
  		} 
-@@ -442,34 +362,20 @@
+@@ -443,34 +362,20 @@
  	{
  		case MODE_TVRADIO:	
  			showServicename(servicename);
@@ -196,7 +196,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  			ShowIcon(VFD_ICON_HD, false);
  			ShowIcon(VFD_ICON_DOLBY, false);
  			//showTime();      /* "showclock = true;" implies that "showTime();" does a "displayUpdate();" */
-@@ -490,18 +396,14 @@
+@@ -491,18 +396,14 @@
  			//Clear();
  			/* clear all symbols */
  			ClearIcons();
@@ -216,7 +216,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  			showclock = true;
  			showTime(true);      	/* "showclock = true;" implies that "showTime();" does a "displayUpdate();" */
  						/* "showTime()" clears the whole lcd in MODE_STANDBY */
-@@ -572,7 +474,6 @@
+@@ -573,7 +474,6 @@
  	if(!has_lcd || is4digits) 
  		return;
  
@@ -224,7 +224,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  	struct vfd_ioctl_data data;
  	data.start_address = power;
  	
-@@ -582,7 +483,6 @@
+@@ -583,7 +483,6 @@
  		perror("VFDPWRLED");
  	
  	closeDevice();
@@ -232,7 +232,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  }
  
  int CVFD::getPower()
-@@ -592,7 +492,7 @@
+@@ -593,7 +492,7 @@
  
  void CVFD::togglePower(void)
  {
@@ -241,7 +241,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  		return;
  
  	last_toggle_state_power = 1 - last_toggle_state_power;
-@@ -601,7 +501,7 @@
+@@ -602,7 +501,7 @@
  
  void CVFD::setMuted(bool mu)
  {
@@ -250,7 +250,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  		return;
  	
  	muted = mu;	
-@@ -609,19 +509,19 @@
+@@ -610,19 +509,19 @@
  
  void CVFD::resume()
  {
@@ -273,7 +273,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  		return;
  
  	creat("/tmp/vfd.locked", 0);
-@@ -629,7 +529,7 @@
+@@ -630,7 +529,7 @@
  
  void CVFD::Unlock()
  {
@@ -282,7 +282,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  		return;
  
  	unlink("/tmp/vfd.locked");
-@@ -637,37 +537,16 @@
+@@ -638,37 +537,16 @@
  
  void CVFD::Clear()
  {
@@ -321,7 +321,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  }
  
  void CVFD::ClearIcons()				/* switcht all VFD Icons off		*/
-@@ -675,33 +554,16 @@
+@@ -676,33 +554,16 @@
  	if(!has_lcd || is4digits) 
  		return;
  	
@@ -357,7 +357,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  void CVFD::ShowDiskLevel()
  {
  	int hdd_icons[9] ={24, 23, 21, 20, 19, 18, 17, 16, 22};
-@@ -730,21 +592,13 @@
+@@ -731,21 +592,13 @@
  
  	}
  }
@@ -379,7 +379,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  	switch (icon)
  	{
  		case VFD_ICON_USB:
-@@ -753,31 +607,17 @@
+@@ -754,31 +607,17 @@
  		case VFD_ICON_CLOCK:
  			timer_icon = show;
  			break;
@@ -412,7 +412,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  	struct vfd_ioctl_data data;
  
  	data.data[0] = (icon - 1) & 0x1F;
-@@ -785,13 +625,8 @@
+@@ -786,13 +625,8 @@
  	
  	if( ioctl(fd, VFDICONDISPLAYONOFF, &data) < 0)
  		perror("VFDICONDISPLAYONOFF");
@@ -427,7 +427,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  }
  
  void CVFD::ShowText(const char * str)
-@@ -833,84 +668,28 @@
+@@ -834,76 +668,28 @@
  			text.replace(pos, 2, std::string(repl));
  		}
  	}
@@ -440,15 +440,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  		perror("write to vfd failed");
  	
  	closeDevice();
--#elif defined (PLATFORM_GIGABLUE)	
--	FILE *f;
--	if((f = fopen("/proc/vfd", "w")) == NULL) 
--		return;
--	
--	fprintf(f,"%s", str);
--	
--	fclose(f);
--#elif defined (PLATFORM_ODIN)
+-#elif defined (PLATFORM_ODIN) || defined (PLATFORM_GIGABLUE)
 -	if( write(fd, text.c_str(), len > 4? 4 : len ) < 0)
 -		perror("write to vfd failed");
 -#else
@@ -515,7 +507,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  }
  
  void CVFD::vfd_symbol_circle(int cir)
-@@ -921,18 +700,6 @@
+@@ -914,18 +700,6 @@
  	};
  	
  	dprintf(DEBUG_NORMAL, "CVFD::vfd_symbol_circle: %s\n", VFDCIRCLE[cir]);
@@ -534,7 +526,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  }
  
  void CVFD::setFPTime(void)
-@@ -940,7 +707,6 @@
+@@ -933,7 +707,6 @@
  	if(!has_lcd)
  		return;
  
@@ -542,7 +534,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  	openDevice();
  	
  	char timebuf[6];
-@@ -962,7 +728,6 @@
+@@ -955,7 +728,6 @@
  		perror("VFDPWRLED");
  	
  	closeDevice();
@@ -550,7 +542,7 @@ diff -upr neutrino-hd2-exp/src/driver/vfd.cpp neutrino-hd2-exp/src/driver/vfd.cp
  }
  
  void CVFD::LCDshowText(int pos)
-@@ -975,4 +740,4 @@
+@@ -968,4 +740,4 @@
  						
  		ShowText(tmp); // UTF-8
  	}
