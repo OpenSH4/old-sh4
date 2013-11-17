@@ -1,0 +1,35 @@
+--- Imaging-1.1.7.orig/libImaging/JpegEncode.c	2009-11-01 21:59:55.000000000 +0100
++++ Imaging-1.1.7/libImaging/JpegEncode.c	2013-11-17 18:33:14.113085698 +0100
+@@ -99,8 +99,8 @@
+ 	/* Setup compression context (very similar to the decoder) */
+ 	context->cinfo.err = jpeg_std_error(&context->error.pub);
+ 	context->error.pub.error_exit = error;
+-	jpeg_create_compress(&context->cinfo);
+-	jpeg_buffer_dest(&context->cinfo, &context->destination);
++	/*jpeg_create_compress(&context->cinfo);
++	jpeg_buffer_dest(&context->cinfo, &context->destination);*/
+ 
+         context->extra_offset = 0;
+ 
+@@ -277,7 +277,7 @@
+ ImagingJpegVersion(void)
+ {
+     static char version[20];
+-    sprintf(version, "%d.%d", JPEG_LIB_VERSION / 10, JPEG_LIB_VERSION % 10);
++//    sprintf(version, "%d.%d", JPEG_LIB_VERSION / 10, JPEG_LIB_VERSION % 10);
+     return version;
+ }
+ 
+--- Imaging-1.1.7.orig/libImaging/JpegDecode.c	2013-11-17 18:30:36.080302056 +0100
++++ Imaging-1.1.7/libImaging/JpegDecode.c	2013-11-17 18:31:00.656423922 +0100
+@@ -133,8 +133,8 @@
+ 	context->cinfo.err = jpeg_std_error(&context->error.pub);
+ 	context->error.pub.error_exit = error;
+ 	context->error.pub.output_message = output;
+-	jpeg_create_decompress(&context->cinfo);
+-	jpeg_buffer_src(&context->cinfo, &context->source);
++	/*jpeg_create_decompress(&context->cinfo);
++	jpeg_buffer_src(&context->cinfo, &context->source);*/
+ 
+ 	/* Ready to decode */
+ 	state->state = 1;
