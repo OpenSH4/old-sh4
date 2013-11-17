@@ -92,6 +92,7 @@ release_ducktrick_hl101: release_ducktrick_common_utils
 	cp -f $(buildprefix)/root/release/converter/*.py $(prefix)/release_ducktrick/usr/lib/enigma2/python/Components/Converter/
 	cp -f $(buildprefix)/root/release/switchoff $(prefix)/release_ducktrick/etc/init.d/
 	cp -f $(buildprefix)/root/release/converter/render/*.py $(prefix)/release_ducktrick/usr/lib/enigma2/python/Components/Renderer/
+	cp -f $(buildprefix)/usr/bin/grab $(prefix)/release_neutrino/usr/bin/ && \
 	mkdir $(prefix)/release_ducktrick/var/keys
 	mkdir $(prefix)/release_ducktrick/var/keys/Benutzerdaten
 	mkdir $(prefix)/release_ducktrick/var/keys/Benutzerdaten/.emu

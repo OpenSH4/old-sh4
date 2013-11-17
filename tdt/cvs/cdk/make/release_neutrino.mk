@@ -172,6 +172,7 @@ $(DEPDIR)/%release_neutrino:
 	cp $(buildprefix)/root/release/networking $(prefix)/release_neutrino/etc/init.d/ && \
 	cp $(buildprefix)/root/release/getfb.awk $(prefix)/release_neutrino/etc/init.d/ && \
 	cp $(buildprefix)/root/bootscreen/bootlogo.mvi $(prefix)/release_neutrino/boot/ && \
+	cp -f $(buildprefix)/usr/bin/grab $(prefix)/release_neutrino/usr/bin/ && \
 	cp -rd $(targetprefix)/lib/* $(prefix)/release_neutrino/lib/ && \
 	rm -f $(prefix)/release_neutrino/lib/*.a && \
 	rm -f $(prefix)/release_neutrino/lib/*.o && \
