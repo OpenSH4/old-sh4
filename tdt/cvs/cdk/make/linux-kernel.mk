@@ -6,17 +6,6 @@ CUBEMOD=$(CUBEREVO)$(CUBEREVO_MINI)$(CUBEREVO_MINI2)$(CUBEREVO_MINI_FTA)$(CUBERE
 #
 # Patches Kernel 24
 #
-if ENABLE_P0207
-PATCH_STR=_0207
-endif
-
-if ENABLE_P0209
-PATCH_STR=_0209
-endif
-
-if ENABLE_P0210
-PATCH_STR=_0210
-endif
 
 if ENABLE_P0211
 PATCH_STR=_0211
@@ -46,77 +35,6 @@ COMMONPATCHES_24 = \
 		$(if $(P0207),linux-sh4-sti7100_missing_clk_alias_stm24$(PATCH_STR).patch) \
 		$(if $(P0209),linux-sh4-directfb_stm24$(PATCH_STR).patch)
 
-TF7700PATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-tf7700_setup_stm24$(PATCH_STR).patch \
-		linux-usbwait123_stm24.patch \
-		linux-sh4-stmmac_stm24$(PATCH_STR).patch \
-		linux-sh4-i2c-st40-pio_stm24$(PATCH_STR).patch \
-		linux-sh4-sata-v06_stm24$(PATCH_STR).patch
-
-UFS910PATCHES_24 = $(COMMONPATCHES_24) \
-		stx7100_fdma_fix_stm24$(PATCH_STR).patch \
-		sata_32bit_fix_stm24$(PATCH_STR).patch \
-		sata_stx7100_B4Team_fix_stm24$(PATCH_STR).patch \
-		linux-sh4-ufs910_setup_stm24$(PATCH_STR).patch \
-		linux-usbwait123_stm24.patch \
-		linux-sh4-ufs910_reboot_stm24.patch \
-		linux-sh4-smsc911x_dma_stm24$(PATCH_STR).patch \
-		linux-sh4-i2c-st40-pio_stm24$(PATCH_STR).patch \
-		linux-sh4-pcm_noise_fix_stm24$(PATCH_STR).patch
-
-UFS912PATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-ufs912_setup_stm24$(PATCH_STR).patch \
-		linux-sh4-stmmac_stm24$(PATCH_STR).patch \
-		linux-sh4-lmb_stm24$(PATCH_STR).patch \
-		$(if $(P0207),linux-sh4-i2c-stm-downgrade_stm24$(PATCH_STR).patch)
-
-UFS913PATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-ufs913_setup_stm24$(PATCH_STR).patch \
-		linux-sh4-lmb_stm24$(PATCH_STR).patch
-
-OCTAGON1008PATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-octagon1008_setup_stm24$(PATCH_STR).patch \
-		linux-usbwait123_stm24.patch \
-		linux-sh4-stmmac_stm24$(PATCH_STR).patch \
-		linux-sh4-i2c-st40-pio_stm24$(PATCH_STR).patch
-
-ATEVIO7500PATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-lmb_stm24$(PATCH_STR).patch \
-		linux-sh4-atevio7500_setup_stm24$(PATCH_STR).patch \
-		linux-sh4-stmmac_stm24$(PATCH_STR).patch
-
-HS7810APATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-lmb_stm24$(PATCH_STR).patch \
-		linux-sh4-hs7810a_setup_stm24$(PATCH_STR).patch \
-		linux-sh4-stmmac_stm24$(PATCH_STR).patch \
-		linux-sh4-i2c-stm-downgrade_stm24$(PATCH_STR).patch
-
-HS7110PATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-stmmac_stm24$(PATCH_STR).patch \
-		linux-sh4-lmb_stm24$(PATCH_STR).patch \
-		linux-sh4-hs7110_setup_stm24$(PATCH_STR).patch \
-		$(if $(P0207)$(P0209),linux-sh4-i2c-stm-downgrade_stm24$(PATCH_STR).patch) \
-		linux-squashfs-downgrade-stm24$(PATCH_STR)-to-stm23.patch \
-		linux-squashfs3.0_lzma_stm24.patch \
-		linux-squashfs-downgrade-stm24-2.6.25.patch \
-		linux-squashfs-downgrade-stm24-rm_d_alloc_anon.patch
-
-WHITEBOXPATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-stmmac_stm24$(PATCH_STR).patch \
-		linux-sh4-lmb_stm24$(PATCH_STR).patch \
-		linux-sh4-whitebox_setup_stm24$(PATCH_STR).patch \
-		linux-sh4-i2c-stm-downgrade_stm24$(PATCH_STR).patch \
-		linux-squashfs-downgrade-stm24$(PATCH_STR)-to-stm23.patch \
-		linux-squashfs3.0_lzma_stm24.patch \
-		linux-squashfs-downgrade-stm24-2.6.25.patch \
-		linux-squashfs-downgrade-stm24-rm_d_alloc_anon.patch
-
-UFS922PATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-ufs922_setup_stm24$(PATCH_STR).patch \
-		linux-sh4-stmmac_stm24$(PATCH_STR).patch \
-		linux-sh4-i2c-st40-pio_stm24$(PATCH_STR).patch \
-		$(if $(P0207)$(P0209)$(P0211),linux-sh4-fortis_hdbox_i2c_st40_stm24$(PATCH_STR).patch)
-
 HL101_PATCHES_24 = $(COMMONPATCHES_24) \
 		linux-sh4-hl101_setup_stm24$(PATCH_STR).patch \
 		linux-usbwait123_stm24.patch \
@@ -127,76 +45,6 @@ HL101_PATCHES_24 = $(COMMONPATCHES_24) \
 		$(if $(P0211),stx7100_p0211.patch) \
 		$(if $(P0211),gpio_p0211.patch)
 
-CLASSIC_PATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-classic_setup_stm24$(PATCH_STR).patch \
-		linux-usbwait123_stm24.patch \
-		linux-sh4-stmmac_stm24$(PATCH_STR).patch \
-		linux-sh4-i2c-st40-pio_stm24$(PATCH_STR).patch \
-		$(if $(P0207),linux-sh4-fortis_hdbox_i2c_st40_stm24$(PATCH_STR).patch) \
-		$(if $(P0211),mb442.patch) \
-		$(if $(P0211),stx7100_p0211.patch) \
-		$(if $(P0211),gpio_p0211.patch) \
-		$(if $(P0207),dm9000.patch)
-
-VIP2_PATCHES_24  = $(COMMONPATCHES_24) \
-		linux-sh4-vip2_setup_stm24$(PATCH_STR).patch \
-		linux-usbwait123_stm24.patch \
-		linux-sh4-stmmac_stm24$(PATCH_STR).patch \
-		linux-sh4-i2c-st40-pio_stm24$(PATCH_STR).patch \
-		$(if $(P0207),linux-sh4-fortis_hdbox_i2c_st40_stm24$(PATCH_STR).patch)
-
-SPARK_PATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-stmmac_stm24$(PATCH_STR).patch \
-		linux-sh4-lmb_stm24$(PATCH_STR).patch \
-		linux-sh4-spark_setup_stm24$(PATCH_STR).patch \
-		$(if $(P0207),linux-sh4-i2c-stm-downgrade_stm24$(PATCH_STR).patch) \
-		$(if $(P0209),linux-sh4-linux_yaffs2_stm24_0209.patch) \
-		$(if $(P0207)$(P0209),linux-sh4-lirc_stm.patch) \
-		$(if $(P0210)$(P0211),linux-sh4-lirc_stm_stm24$(PATCH_STR).patch) \
-		$(if $(P0211),af901x-NXP-TDA18218.patch) \
-		dvb-as102.patch
-
-SPARK7162_PATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-stmmac_stm24$(PATCH_STR).patch \
-		linux-sh4-lmb_stm24$(PATCH_STR).patch \
-		linux-sh4-spark7162_setup_stm24$(PATCH_STR).patch
-
-FORTISPATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-fortis_hdbox_setup_stm24$(PATCH_STR).patch \
-		linux-usbwait123_stm24.patch \
-		linux-sh4-stmmac_stm24$(PATCH_STR).patch \
-		linux-sh4-i2c-st40-pio_stm24$(PATCH_STR).patch \
-		$(if $(P0207)$(P0209),linux-sh4-fortis_hdbox_i2c_st40_stm24$(PATCH_STR).patch)
-
-ADB_BOXPATCHES_24 = $(COMMONPATCHES_24) \
-		stx7100_fdma_fix_stm24$(PATCH_STR).patch \
-		sata_32bit_fix_stm24$(PATCH_STR).patch \
-		linux-sh4-adb_box_setup_stm24$(PATCH_STR).patch \
-		linux-usbwait123_stm24.patch \
-		linux-sh4-ufs910_reboot_stm24.patch \
-		linux-sh4-i2c-st40-pio_stm24$(PATCH_STR).patch \
-		linux-sh4-pcm_noise_fix_stm24$(PATCH_STR).patch
-
-IPBOX9900PATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-ipbox9900_setup_stm24$(PATCH_STR).patch \
-		linux-sh4-i2c-st40-pio_stm24$(PATCH_STR).patch \
-		linux-sh4-ipbox_bdinfo_stm24$(PATCH_STR).patch \
-		linux-sh4-ipbox_dvb_ca_stm24$(PATCH_STR).patch
-
-IPBOX99PATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-ipbox99_setup_stm24$(PATCH_STR).patch \
-		linux-sh4-i2c-st40-pio_stm24$(PATCH_STR).patch \
-		linux-sh4-ipbox_bdinfo_stm24$(PATCH_STR).patch
-
-IPBOX55PATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-ipbox55_setup_stm24$(PATCH_STR).patch \
-		linux-sh4-i2c-st40-pio_stm24$(PATCH_STR).patch \
-		linux-sh4-ipbox_bdinfo_stm24$(PATCH_STR).patch
-
-CUBEREVOPATCHES_24 = $(COMMONPATCHES_24) \
-		linux-sh4-$(CUBEMOD)_setup_stm24$(PATCH_STR).patch \
-		linux-sh4-i2c-st40-pio_stm24$(PATCH_STR).patch \
-		linux-sh4-cuberevo_rtl8201_stm24$(PATCH_STR).patch
 
 KERNELPATCHES_24 = \
 		$(if $(UFS910),$(UFS910PATCHES_24)) \
@@ -235,22 +83,11 @@ $(DEPDIR)/kernel-headers: linux-kernel.do_prepare
 	touch $@
 
 KERNELHEADERS := linux-kernel-headers
-if ENABLE_P0207
-KERNELHEADERS_VERSION := 2.6.32.16-44
-else
-if ENABLE_P0209
-KERNELHEADERS_VERSION := 2.6.32.46-45
-else
-if ENABLE_P0210
-KERNELHEADERS_VERSION := 2.6.32.46-45
-else
+
 if ENABLE_P0211
 KERNELHEADERS_VERSION := 2.6.32.46-45
 else
 KERNELHEADERS_VERSION := 2.6.32.10_stm24_0201-42
-endif
-endif
-endif
 endif
 
 KERNELHEADERS_SPEC := stm-target-kernel-headers-kbuild.spec
@@ -289,22 +126,9 @@ DEBUG_STR=
 endif !DEBUG
 
 HOST_KERNEL := host-kernel
-if ENABLE_P0207
-HOST_KERNEL_VERSION := 2.6.32.28$(KERNELSTMLABEL)-$(KERNELLABEL)
-else
-if ENABLE_P0209
-HOST_KERNEL_VERSION := 2.6.32.46$(KERNELSTMLABEL)-$(KERNELLABEL)
-else
-if ENABLE_P0210
-HOST_KERNEL_VERSION := 2.6.32.57$(KERNELSTMLABEL)-$(KERNELLABEL)
-else
-if ENABLE_P0211
+
 HOST_KERNEL_VERSION := 2.6.32.59$(KERNELSTMLABEL)-$(KERNELLABEL)
-else
-endif
-endif
-endif
-endif
+
 
 HOST_KERNEL_SPEC := stm-$(HOST_KERNEL)-sh4.spec
 HOST_KERNEL_SPEC_PATCH :=
@@ -338,11 +162,7 @@ $(DEPDIR)/linux-kernel.do_prepare: \
 	rm $(KERNEL_DIR)/.config
 	touch $@
 
-if ENABLE_GRAPHICFWDIRECTFB
-GRAPHICFWDIRECTFB_SED_CONF=-i s"/^\# CONFIG_BPA2_DIRECTFBOPTIMIZED is not set/CONFIG_BPA2_DIRECTFBOPTIMIZED=y/"
-else
 GRAPHICFWDIRECTFB_SED_CONF=-i s"/^CONFIG_BPA2_DIRECTFBOPTIMIZED=y/\# CONFIG_BPA2_DIRECTFBOPTIMIZED is not set/"
-endif
 
 NFS_FLASH_SED_CONF=$(foreach param,XCONFIG_NFS_FS XCONFIG_LOCKD XCONFIG_SUNRPC,-e s"/^.*$(param)[= ].*/$(param)=m/")
 
