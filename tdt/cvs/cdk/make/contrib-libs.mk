@@ -1609,13 +1609,13 @@ $(DEPDIR)/pilimaging.do_prepare: bootstrap lcms python @DEPENDS_pilimaging@
 
 $(DEPDIR)/pilimaging.do_compile: $(DEPDIR)/pilimaging.do_prepare
 	cd @DIR_pilimaging@ && \
+		patch -p1 < "$(buildprefix)/Patches/imaging.diff" && \
 		echo 'JPEG_ROOT = "$(targetprefix)/usr/lib", "$(targetprefix)/usr/include"' > setup_site.py && \
 		echo 'ZLIB_ROOT = "$(targetprefix)/usr/lib", "$(targetprefix)/usr/include"' >> setup_site.py && \
 		echo 'FREETYPE_ROOT = "$(targetprefix)/usr/lib", "$(targetprefix)/usr/include"' >> setup_site.py && \
 		CC='$(target)-gcc' LDSHARED='$(target)-gcc -shared' \
 		PYTHONPATH=$(targetprefix)$(PYTHON_DIR)/site-packages \
-		$(hostprefix)/bin/python ./setup.py build && \
-		cd $(buildprefix) && patch -p1 < "$(buildprefix)/Patches/imaging.diff"
+		$(hostprefix)/bin/python ./setup.py build
 	touch $@
 
 $(DEPDIR)/pilimaging: \
