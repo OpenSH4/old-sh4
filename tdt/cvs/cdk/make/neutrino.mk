@@ -64,8 +64,6 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 		cp -ra $(appsdir)/neutrino-hd2-exp $(appsdir)/neutrino-hd2-exp.org; \
 		$(if $(HL101)$(VIP1v2)$(VIP2v1),cd $(appsdir)/neutrino-hd2-exp && \ 
 		patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-newest.diff";) \
-                $(if $(TF7700),cd $(appsdir)/neutrino-hd2-exp && \
-		patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-newest-tf7700.diff";) \
 		cp -f $(buildprefix)/root/svn_version.h $(appsdir)/neutrino-hd2-exp/src/gui/ ;\
 		echo done && sleep 3 && cd $(buildprefix) && \
 		touch $@; \
@@ -78,8 +76,6 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 		cp -ra $(appsdir)/neutrino-hd2-exp $(appsdir)/neutrino-hd2-exp.org; \
 		$(if $(HL101)$(VIP1v2)$(VIP2v1),cd $(appsdir)/neutrino-hd2-exp && \
 		patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-newest.diff";) \
-		$(if $(TF7700),cd $(appsdir)/neutrino-hd2-exp && \
-		patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-newest-tf7700.diff";) \
 		cp -f $(buildprefix)/root/svn_version.h $(appsdir)/neutrino-hd2-exp/src/gui/ ;\
 		cd $(appsdir)/neutrino-hd2-exp && patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-teamcs.diff" && \
 		cp -rf $(buildprefix)/Patches/TeamCS/* $(appsdir)/neutrino-hd2-exp/ && \
@@ -122,6 +118,7 @@ $(appsdir)/neutrino-hd2-exp/config.status:
 			$(N_CONFIG_SILENT) \
 			$(N_CONFIG_FREESAT) \
 			$(N_CONFIG_GRAPHLCD) \
+			--enable-netzkino \
 			--enable-radiotext \
 			--with-boxtype=$(NHD2_BOXTYPE) \
 			--with-libdir=/usr/lib \
