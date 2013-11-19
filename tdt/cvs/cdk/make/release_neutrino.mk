@@ -1297,6 +1297,9 @@ if ENABLE_PLAYER191
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/pti_np/pti.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/pti_np/pti.ko $(prefix)/release_neutrino/lib/modules/ || true
 
 	find $(prefix)/release_neutrino/lib/modules/ -name '*.ko' -exec sh4-linux-strip --strip-unneeded {} \;
+	mkdir $(prefix)/release_neutrino/lib/modules/2.6.32.59_stm24_0211/; \
+	cp -a $(buildprefix)/root/release/lib/modules/2.6.32.59_stm24_0211/modules.dep $(prefix)/release_neutrino/lib/modules/2.6.32.59_stm24_0211/; \
+	mv $(prefix)/release_neutrino/lib/modules/*.ko $(prefix)/release_neutrino/lib/modules/2.6.32.59_stm24_0211 || true \;
 	cd $(targetprefix)/lib/modules/$(KERNELVERSION)/extra && \
 	for mod in \
 		sound/pseudocard/pseudocard.ko \

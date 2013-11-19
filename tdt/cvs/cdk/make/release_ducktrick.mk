@@ -334,6 +334,9 @@ release_ducktrick_base:
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/rtl8192cu/8192cu.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/rtl8192cu/8192cu.ko $(prefix)/release_ducktrick/lib/modules || true
 
 	find $(prefix)/release_ducktrick/lib/modules/ -name '*.ko' -exec sh4-linux-strip --strip-unneeded {} \;
+	mkdir $(prefix)/release_ducktrick/lib/modules/2.6.32.59_stm24_0211/; \
+	cp -a $(buildprefix)/root/release/lib/modules/2.6.32.59_stm24_0211/modules.dep $(prefix)/release_ducktrick/lib/modules/2.6.32.59_stm24_0211/; \
+	mv $(prefix)/release_ducktrick/lib/modules/*.ko $(prefix)/release_ducktrick/lib/modules/2.6.32.59_stm24_0211 || true \;
 
 #
 # lib usr/lib
