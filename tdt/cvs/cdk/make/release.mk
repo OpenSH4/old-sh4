@@ -533,9 +533,9 @@ release_base:
 			cp -a $(targetprefix)/usr/lib/gstreamer-0.10/libgstsubsink.so $(prefix)/release/usr/lib/gstreamer-0.10/; \
 		fi; \
 		sh4-linux-strip --strip-unneeded $(prefix)/release/usr/lib/gstreamer-0.10/*; \
-		mkdir $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/; \
-		cp -a $(buildprefix)/root/release/lib/modules/2.6.32.59_stm24_0211/modules.dep $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/; \
-		mv $(prefix)/release/lib/modules/*.ko $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/; \
+		mkdir $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/ \;
+		cp -a $(buildprefix)/root/release/lib/modules/2.6.32.59_stm24_0211/modules.dep $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/ \;
+		mv $(prefix)/release/lib/modules/*.ko $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/ \;
 
 	fi
 
