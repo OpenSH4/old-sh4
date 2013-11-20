@@ -26,6 +26,10 @@ if [ $INSTALLED = $AKTUELL ]; then
 		cp /update/boot/uImage.gz /rootfs/boot/
 		rm /update/boot/uImage.gz
 	fi
+	if [ -e /update/tmp/update.sh ]; then
+	#so we can run a update Skript for remove or delate Files ;)
+		/update/tmp/update.sh
+	fi
 	# Setzt das Update State auf 0 für Updatecheck in Enigma2/NeutrinoHD
 	echo "0" > /update/var/config/update/state
 	echo "Fertig...." > /dev/vfd
