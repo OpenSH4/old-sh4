@@ -343,7 +343,7 @@ elif [ "$1" = "Lirc" ]; then
     if [ -e /var/etc/firstboot ]; then
        echo "FB Switch Startet first..."
        echo "Lade Lirc STM-Default Treiber ..."
-       insmod /lib/modules/lirc_stm.ko	
+       modprobe lirc_stm.ko	
     else
     	if [ -e /var/config/system/remote ]; then
 		    REMOTE=`cat /var/config/system/remote`
@@ -352,10 +352,10 @@ elif [ "$1" = "Lirc" ]; then
        			modprobe lirc_ttusbir.ko
 		    elif [ "$REMOTE" = "mce2005" ]; then
 			echo "Lade MCE2005 USB Treiber ..."
-			insmod /lib/modules/lirc_mceusb2.ko
+			modprobe lirc_mceusb2.ko
 		    else
 			echo "Lade Lirc STM-Default Treiber ..."
-			insmod /lib/modules/lirc_stm.ko
+			modprobe lirc_stm.ko
 		    fi
 	else
 		echo "Lade Lirc STM-Default Treiber ..."
