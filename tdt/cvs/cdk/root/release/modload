@@ -12,6 +12,22 @@ if [ "$1" = "Filesystem" ]; then
 	modprobe vfat.ko
 	modprobe cifs.ko
 	modprobe cachefiles.ko
+	modprobe ext3.ko:
+	modprobe jbd.ko
+	modprobe nls_ascii.ko
+	modprobe nls_cp1250.ko
+	modprobe nls_cp1251.ko
+	modprobe nls_cp437.ko
+	modprobe nls_cp850.ko
+	modprobe nls_cp855.ko
+	modprobe nls_cp866.ko
+	modprobe nls_iso8859-1.ko
+	modprobe nls_iso8859-2.ko
+	modprobe nls_iso8859-5.ko
+	modprobe nls_koi8-r.ko
+	modprobe nls_koi8-ru.ko
+	modprobe nls_koi8-u.ko
+	modprobe nls_utf8.ko
 	echo "Fertig"
 elif [ "$1" = "Automount" ]; then
     # start automounter with umount timeout of 5 seconds
@@ -311,6 +327,8 @@ elif [ "$1" = "Wlan" ]; then
     ### Aktiviert euren W-Lan treiber
     if [ -e /var/keys/Benutzerdaten/.system/wlan ]; then
        WLAN=`cat /var/keys/Benutzerdaten/.system/wlan`
+	modprobe mac80211.ko
+	modprobe cfg80211.ko
        if [ "$WLAN" = "1" ]; then
           echo "W-Lan Modul -- 8192cu geladen ..."
           modprobe 8192cu.ko
