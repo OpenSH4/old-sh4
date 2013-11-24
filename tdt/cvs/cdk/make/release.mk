@@ -76,6 +76,27 @@ release_hl101: release_common_utils
 	cp -f $(buildprefix)/linux-sh4/fs/ntfs/*.ko $(prefix)/release/lib/modules/
 	cp -f $(buildprefix)/linux-sh4/fs/udf/*.ko $(prefix)/release/lib/modules/
 	cp -f $(buildprefix)/linux-sh4/drivers/usb/serial/*.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/drivers/char/lirc/lirc_mceusb2.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/drivers/char/lirc/lirc_stm.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/drivers/char/lirc/lirc_ttusbir.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/ext3/ext3.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/jbd/jbd.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_ascii.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_cp1250.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_cp1251.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_cp437.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_cp850.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_cp855.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_cp866.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_iso8859-1.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_iso8859-2.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_iso8859-5.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_koi8-r.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_koi8-ru.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_koi8-u.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_utf8.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/net/mac80211/mac80211.ko $(prefix)/release/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/net/wireless/cfg80211.ko $(prefix)/release/lib/modules/
 	cp -R $(buildprefix)/root/release/Plugin/* $(prefix)/release/usr/lib/enigma2/python/Plugins/Extensions/
 	cp -R $(buildprefix)/root/release/Skin/* $(prefix)/release/usr/local/share/enigma2/
 	cp -f $(buildprefix)/root/release/settings $(prefix)/release/etc/enigma2/
@@ -101,7 +122,7 @@ release_hl101: release_common_utils
 	ln -s $(prefix)/release/etc/init.d/switchoff $(prefix)/release/etc/rc.d/rc4.d/S60switchoff
 	mkdir $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/
 	cp -a $(buildprefix)/root/release/lib/modules/2.6.32.59_stm24_0211/modules.dep $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/
-	cd $(prefix)/release/lib/modules/*.ko $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/
+	cp $(prefix)/release/lib/modules/*.ko $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/
 	rm $(prefix)/release/lib/modules/*.ko
 #
 # release_base

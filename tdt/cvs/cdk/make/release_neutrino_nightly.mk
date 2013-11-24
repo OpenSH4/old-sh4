@@ -83,6 +83,27 @@ release_neutrino_hl101: release_neutrino_common_utils
 	cp -f $(buildprefix)/linux-sh4/fs/ntfs/*.ko $(prefix)/release_neutrino/lib/modules/
 	cp -f $(buildprefix)/linux-sh4/fs/udf/*.ko $(prefix)/release_neutrino/lib/modules/
 	cp -f $(buildprefix)/linux-sh4/drivers/usb/serial/*.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/drivers/char/lirc/lirc_mceusb2.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/drivers/char/lirc/lirc_stm.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/drivers/char/lirc/lirc_ttusbir.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/ext3/ext3.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/jbd/jbd.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_ascii.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_cp1250.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_cp1251.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_cp437.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_cp850.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_cp855.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_cp866.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_iso8859-1.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_iso8859-2.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_iso8859-5.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_koi8-r.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_koi8-ru.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_koi8-u.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/fs/nls/nls_utf8.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/net/mac80211/mac80211.ko $(prefix)/release_neutrino/lib/modules/
+	cp -f $(buildprefix)/linux-sh4/net/wireless/cfg80211.ko $(prefix)/release_neutrino/lib/modules/
 	cp -Prf $(buildprefix)/root/root_neutrino/var/tuxbox/config/keymap_opti.conf $(prefix)/release_neutrino/var/tuxbox/config/
 	cp -Prf $(buildprefix)/root/root_neutrino/usr/share/tuxbox/neutrino/httpd \
 	$(prefix)/release_neutrino/usr/share/tuxbox/neutrino/
