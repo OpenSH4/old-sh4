@@ -137,6 +137,10 @@ release_ducktrick_hl101: release_ducktrick_common_utils
 #	TODO: Channellist ....
 	cp -aR $(buildprefix)/root/usr/local/share/config/* $(prefix)/release_ducktrick/var/tuxbox/config/
 	cp -aR $(targetprefix)/usr/share/tuxbox/neutrino $(prefix)/release_ducktrick/usr/local/share/
+	mkdir $(prefix)/release_ducktrick/lib/modules/2.6.32.59_stm24_0211/
+	cp -aR $(buildprefix)/root/release/lib/modules/2.6.32.59_stm24_0211/modules.dep $(prefix)/release_ducktrick/lib/modules/2.6.32.59_stm24_0211/
+	cp $(prefix)/release_ducktrick/lib/modules/*.ko $(prefix)/release_ducktrick/lib/modules/2.6.32.59_stm24_0211
+        rm $(prefix)/release_ducktrick/lib/modules/*.ko
 	mkdir $(prefix)/release_ducktrick/usr/share/tuxbox
 	cd $(prefix)/release_ducktrick/usr/share/tuxbox && \
 	ln -s ../../local/share/neutrino $(prefix)/release_ducktrick/usr/share/tuxbox/ && \
@@ -336,10 +340,6 @@ release_ducktrick_base:
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/rtl8192cu/8192cu.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/rtl8192cu/8192cu.ko $(prefix)/release_ducktrick/lib/modules || true
 
 	find $(prefix)/release_ducktrick/lib/modules/ -name '*.ko' -exec sh4-linux-strip --strip-unneeded {} \;
-	mkdir $(prefix)/release_ducktrick/lib/modules/2.6.32.59_stm24_0211/; \
-	cp -a $(buildprefix)/root/release/lib/modules/2.6.32.59_stm24_0211/modules.dep $(prefix)/release_ducktrick/lib/modules/2.6.32.59_stm24_0211/; \
-	mv $(prefix)/release_ducktrick/lib/modules/*.ko $(prefix)/release_ducktrick/lib/modules/2.6.32.59_stm24_0211 || true \;
-
 #
 # lib usr/lib
 #
