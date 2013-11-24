@@ -1,0 +1,535 @@
+#!/bin/sh
+#
+if [ "$1" = "Filesystem" ]; then
+	# Filesystem Treiber ext3 ext4 ...
+	echo "Lade Filesystem Treiber fat vfat  ..."
+	modprobe fat.ko
+	modprobe fscache.ko
+	modprobe isofs.ko
+	modprobe msdos.ko
+	modprobe ntfs.ko
+	modprobe udf.ko
+	modprobe vfat.ko
+	modprobe cifs.ko
+	modprobe cachefiles.ko
+	echo "Fertig"
+elif [ "$1" = "Automount" ]; then
+    # start automounter with umount timeout of 5 seconds
+    modprobe autofs4.ko
+    /usr/sbin/automount --timeout=5 /autofs file /etc/auto.hotplug
+    /usr/sbin/automount --timeout=5 /media/net file /etc/auto.network
+elif [ "$1" = "Embx" ]; then
+       echo "init embx"
+       modprobe embxshell.ko
+       modprobe embxmailbox.ko mailbox0=0xb9211000:136:set2 mailbox1=0xb9212000:0 ;
+       modprobe embxshm.ko mailbox0=shm:0:7:0x60000000:0:256:256:0:1024:0xa4000000:0x10000000 ;
+       modprobe mme_host.ko transport0=shm
+elif [ "$1" = "Overclock" ]; then
+    modprobe cpu_frequ.ko
+    if [ -e /var/keys/Benutzerdaten/.system/overclock ]; then
+       OVERCLOCK=`cat /var/keys/Benutzerdaten/.system/overclock`
+       if [ "$OVERCLOCK" = "300on" ]; then
+    		echo "overclock Aktiviert"
+    		echo 25609 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "333on" ]; then
+    		echo "overclock Aktiviert"
+    		echo 9475 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "366on" ]; then
+    		echo "overclock Aktiviert"
+    		echo 31241 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "400on" ]; then
+    		echo "overclock Aktiviert"
+    		echo 22790 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "300daueron" ]; then
+    		echo "overclock Aktiviert"
+   		echo 25609 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "333daueron" ]; then
+    		echo "overclock Aktiviert"
+   		echo 9475 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "366daueron" ]; then
+    		echo "overclock Aktiviert"
+   		echo 31241 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "400daueron" ]; then
+    		echo "overclock Aktiviert"
+   		echo 22790 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "daueroff" ]; then
+    		echo "overclock Deaktiviert"
+       elif [ "$OVERCLOCK" = "overoff" ]; then
+    		echo "overclock Deaktiviert"
+       else
+		echo "Overclock OFF"
+       fi
+    else
+	echo "Overclock OFF -- Default"
+    fi
+elif [ "$1" = "Mac" ]; then
+    MAC=`cat /var/keys/Benutzerdaten/.system/mac`
+    if [ "$MAC" = "1" ]; then
+	echo "use default MAC Adresse"
+    elif [ "$MAC" = "2" ]; then
+	ifconfig eth0 hw ether 00:81:E1:12:06:30
+    elif [ "$MAC" = "3" ]; then
+	ifconfig eth0 hw ether 00:82:E1:12:06:30
+    elif [ "$MAC" = "4" ]; then
+	ifconfig eth0 hw ether 00:83:E1:12:06:30
+    elif [ "$MAC" = "5" ]; then
+	ifconfig eth0 hw ether 00:84:E1:12:06:30
+    fi
+elif [ "$1" = "E2_proc" ]; then
+	modprobe e2_proc.ko
+elif [ "$1" = "Virtfs" ]; then
+    /etc/init.d/mountvirtfs start
+    /etc/init.d/portmap start
+
+    echo "Starting DEBUG Interface"
+    /etc/init.d/mountall start
+elif [ "$1" = "Telnet" ]; then
+       /etc/init.d/hostname start
+
+       echo "starting telnetd"
+       /usr/sbin/telnetd -l /bin/login
+elif [ "$1" = "Stmfb-firmware" ]; then
+       echo "init stmfb"
+       modprobe stmcore-display-stx7109c3.ko
+	
+	# Stellt den Boot Prozess je nach dem was Aktiviert wurde auf Scart oder HDMI um
+       MODE=`cat /etc/enigma2/settings | grep Scart`
+       if [ "$MODE" = "config.av.videoport=Scart" ]; then
+		echo "Scart Ausgang Aktviert"
+       		modprobe stmfb.ko display0=720x576-32@60:12m:3m:pal:yuv:yuv;
+       else
+		echo "HDMI Ausgang Aktviert"
+       		modprobe stmfb.ko display0=1280x720-32@60:20m:3m:pal:yuv:yuv
+       fi
+
+       echo "LOADING MODULES"
+
+       if [ ! -e /boot/audio.elf ]; then
+          echo "FW MISSING!!!"
+       fi
+
+       echo "load a firmware"
+       /bin/ustslave /dev/st231-1 /boot/audio.elf
+       echo "load v firmware"
+       /bin/ustslave /dev/st231-0 /boot/video.elf
+elif [ "$1" = "Avs" ]; then
+       BOXTYPE=`cat /var/config/system/tunerboxtype`
+       echo "init AVS"
+       if [ -e /var/etc/firstboot ]; then
+		echo "Load Fake AVS - Firstboot"
+		modprobe avs.ko type=fake_avs
+       else
+       sleep 1
+       if [ $BOXTYPE = vip2 ]; then
+          echo "AVS Aktiviert -- VIP2"
+        if [ -e /var/config/deepstandby ]; then
+           DEEPSTANDBY=`cat /var/config/deepstandby`
+	   TIMESET=`cat /var/config/fp_control`
+                if [ "$DEEPSTANDBY" = "vip2" ]; then
+             		echo "Deepstandby OK"
+           	else
+             		echo "vip2" > /var/config/deepstandby
+                fi
+		if [ "$TIMESET" = "aotom" ]; then
+             		echo "Timeset OK"
+           	else
+             		echo "aotom" > /var/config/fp_control
+          	fi
+        else
+           echo "vip2" > /var/config/deepstandby
+	   echo "aotom" > /var/config/fp_control
+        fi
+        modprobe avs.ko type=vip2_avs
+        dual=yes
+       elif [ $BOXTYPE = vip1 ]; then
+          echo "AVS Aktiviert -- VIP1"
+          if [ -e /var/config/deepstandby ]; then
+               DEEPSTANDBY=`cat /var/config/deepstandby`
+	       TIMESET=`cat /var/config/fp_control`
+               if [ "$DEEPSTANDBY" = "vip" ]; then
+                     echo "Deepstandby OK"
+               else
+                     echo "vip" > /var/config/deepstandby
+               fi
+	       if [ "$TIMESET" = "proton" ]; then
+             	     echo "Timeset OK"
+               else
+             	     echo "proton" > /var/config/fp_control
+               fi
+          else
+               echo "vip" > /var/config/deepstandby
+	       echo "proton" > /var/config/fp_control
+        fi
+               modprobe avs.ko type=stv6418
+        elif [ $BOXTYPE = vip1v2 ]; then
+             echo "AVS Aktiviert -- VIP1v2"
+             if [ -e /var/config/deepstandby ]; then
+                DEEPSTANDBY=`cat /var/config/deepstandby`
+	        TIMESET=`cat /var/config/fp_control`
+                if [ "$DEEPSTANDBY" = "vip2" ]; then
+             		echo "Deepstandby OK"
+           	else
+             		echo "vip2" > /var/config/deepstandby
+          	fi
+		if [ "$TIMESET" = "aotom" ]; then
+             		echo "Timeset OK"
+           	else
+             		echo "aotom" > /var/config/fp_control
+          	fi
+         else
+                echo "vip2" > /var/config/deepstandby
+	        echo "aotom" > /var/config/fp_control
+         fi
+                modprobe avs.ko type=vip1_avs
+        fi
+	fi
+elif [ "$1" = "Player2-stuff" ]; then
+       player=`cat /proc/stb/player/version`
+       player=`cat /proc/stb/player/version | awk '{ print substr( $0, length($0) - 2, length($0) ) }'`
+       echo "init player $player"
+
+       modprobe mmelog.ko
+       modprobe mpeg2hw.ko mmeName=MPEG2_TRANSFORMER1
+       modprobe ksound.ko
+       modprobe kreplay.ko
+       modprobe silencegen.ko
+       modprobe pcm_transcoder.ko
+       modprobe p2div64.ko
+       modprobe stm_v4l2.ko
+       if [ $player -gt 131 ]; then
+       modprobe stmvout.ko
+       modprobe stmvbi.ko
+       fi
+       modprobe pseudocard.ko
+elif [ "$1" = "Tuner" ]; then
+       BOXTYPE=`cat /var/config/system/tunerboxtype`
+       echo "init frontends"
+       ### Laed den Gesetzten Tuner Treiber
+       if [ $BOXTYPE = vip1 ]; then
+            DEMOD1=`cat /var/keys/Benutzerdaten/.system/demod1`
+            TUNER1=`cat /var/keys/Benutzerdaten/.system/tuner1`
+	    sleep 1
+            modprobe fe-core.ko demod=$DEMOD1 tuner=$TUNER1 ;
+       elif [ $BOXTYPE = vip1v2 ]; then
+            DEMOD1=`cat /var/keys/Benutzerdaten/.system/demod1`
+            TUNER1=`cat /var/keys/Benutzerdaten/.system/tuner1`
+	    sleep 1
+            modprobe fe-core-vip1v2.ko demod=$DEMOD1 tuner=$TUNER1 ;
+       elif [ $BOXTYPE = vip2 ]; then
+            TUNER1=`cat /var/keys/Benutzerdaten/.system/tuner1`
+       	    TUNER2=`cat /var/keys/Benutzerdaten/.system/tuner2`
+            DEMOD1=`cat /var/keys/Benutzerdaten/.system/demod1`
+            DEMOD2=`cat /var/keys/Benutzerdaten/.system/demod2`
+	    sleep 1
+	    modprobe fe-core-vip2.ko demod1=$DEMOD1 tuner1=$TUNER1 demod2=$DEMOD2 tuner2=$TUNER2 ;
+       fi
+elif [ "$1" = "Cimax" ]; then
+       echo "init drivers"
+       # Cimax Modul für Vip2 ohne CI Module laden
+       BOXTYPE=`cat /var/config/system/tunerboxtype`
+       if [ $BOXTYPE = vip2 ]; then
+	       echo "Load Vip2 no CI Modul Treiber"
+	       modprobe cimax_vip2.ko
+       else
+	       echo "Load CI Modul Treiber"
+               modprobe cimax.ko
+       fi
+elif [ "$1" = "Tuner-stuff" ]; then
+       echo "np-PTI Laden..."
+       modprobe pti.ko videoMem=5632 # Maximaler wert für VideoMemory
+       echo "NP- Fertig"
+
+       player=`cat /proc/stb/player/version`
+       player=`cat /proc/stb/player/version | awk '{ print substr( $0, length($0) - 2, length($0) ) }'`
+       if [ $player -gt 131 ]; then
+       modprobe stm_monitor.ko
+       modprobe stmsysfs.ko
+           modprobe stmdvb.ko
+       else
+       modprobe stmdvb.ko
+       modprobe stm_monitor.ko
+       fi   
+elif [ "$1" = "Player2" ]; then
+     echo "player2"
+       modprobe player2.ko discardlateframe=0 noaudiosync=0 useoldaudiofw=1
+     echo "player fertig"
+       modprobe sth264pp.ko
+       modprobe stmalloc.ko
+       modprobe platform.ko
+elif [ "$1" = "Swap" ]; then
+    if [ -e /var/config/SWAP ]; then
+    SWAPFILE=`cat /var/config/SWAP`
+       if [ "$SWAPFILE" = "ramzswap" ]; then
+             modprobe lzo1x_compress.ko
+             modprobe lzo1x_decompress.ko
+             echo "RamZswap Laden ..."
+             modprobe ramzswap.ko disksize_kb=30123
+       elif [ "$SWAPFILE" = "swapfile" ]; then
+          echo "Lade SwapFile"
+       elif [ "$SWAPFILE" = "swapdev" ]; then
+          echo "Lade Swap /dev"
+       fi
+    else
+       echo "Lade Swap /dev"
+    fi
+elif [ "$1" = "Smartcard" ]; then
+       BOXTYPE=`cat /var/config/system/tunerboxtype`
+       echo "Kartenslots Aktivieren ..."
+    if [ -e /var/etc/firstboot ]; then
+	echo "no Smartcard Aktiv"
+    else
+    if [ $BOXTYPE = vip1 ]; then
+       modprobe smartcard.ko debug=100
+    elif [ $BOXTYPE = vip1v2 ]; then
+       modprobe smartcard.ko debug=100
+    elif [ $BOXTYPE = vip2 ]; then
+       modprobe smartcard-vip2.ko debug=100
+    fi
+    fi
+elif [ "$1" = "Cec" ]; then
+    modprobe cec.ko activemode=1
+elif [ "$1" = "Bpamem" ]; then
+     modprobe bpamem.ko
+elif [ "$1" = "Tun" ]; then
+    if [ -e /var/keys/Benutzerdaten/.system/openvpn ]; then
+      ##### OpenVPN benoetigtes TUN dev #####
+       if [ ! -e /dev/net/tun ]; then
+          echo "erstelle tun /dev fuer OpenVPN"
+          mkdir -p /dev/net
+          mknod /dev/net/tun c 10 200
+          chmod 600 /dev/net/tun
+          echo "FERTIG"
+       else
+          echo "TUN /dev vorhanden ... FERTIG"
+       fi
+          echo "Lade tun.ko fuer OpenVPN ..."
+          modprobe tun.ko
+    else
+       echo "Device /dev/net/tun nicht erstellt und tun.ko Modul nicht geladen... OpenVPN deaktiviert"
+    fi
+elif [ "$1" = "Wlan" ]; then
+    ### Aktiviert euren W-Lan treiber
+    if [ -e /var/keys/Benutzerdaten/.system/wlan ]; then
+       WLAN=`cat /var/keys/Benutzerdaten/.system/wlan`
+       if [ "$WLAN" = "1" ]; then
+          echo "W-Lan Modul -- 8192cu geladen ..."
+          modprobe 8192cu.ko
+       elif [ "$WLAN" = "2" ]; then
+          echo "W-Lan Modul -- 8712u geladen ..."
+          modprobe 8712u.ko
+       elif [ "$WLAN" = "3" ]; then
+          echo "W-Lan Modul -- rt2870sta geladen ..."
+          modprobe rt2870sta.ko
+       elif [ "$WLAN" = "4" ]; then
+          echo "W-Lan Modul -- rt3070sta geladen ..."
+          modprobe rt3070sta.ko
+       elif [ "$WLAN" = "5" ]; then
+          echo "W-Lan Modul -- rt5370sta geladen ..."
+          modprobe rt5370sta.ko
+       elif [ "$WLAN" = "6" ]; then
+          echo "W-Lan Modul -- rt73usb geladen ..."
+          modprobe rt2x00lib.ko
+          modprobe rt2x00usb.ko
+          modprobe rt73usb.ko
+       elif [ "$WLAN" = "7" ]; then
+          echo "W-Lan Modul -- zydas geladen ..."
+          modprobe zd1211rw.ko
+       fi
+    fi
+elif [ "$1" = "Lirc" ]; then
+    if [ -e /var/keys/Benutzerdaten/.system/fernbedienung ]; then
+    ### Laed eure Fernbedienung
+       echo "init lircd"
+    if [ -e /var/etc/firstboot ]; then
+       echo "FB Switch Startet first..."
+       echo "Lade Lirc STM-Default Treiber ..."
+       insmod /lib/modules/lirc_stm.ko	
+    else
+    	if [ -e /var/config/system/remote ]; then
+		    REMOTE=`cat /var/config/system/remote`
+		    if [ "$REMOTE" = "techno" ]; then
+			echo "Lade TechnoTrend USB Treiber ..."
+       			modprobe lirc_ttusbir.ko
+		    elif [ "$REMOTE" = "mce2005" ]; then
+			echo "Lade MCE2005 USB Treiber ..."
+			insmod /lib/modules/lirc_mceusb2.ko
+		    else
+			echo "Lade Lirc STM-Default Treiber ..."
+			insmod /lib/modules/lirc_stm.ko
+		    fi
+	else
+		echo "Lade Lirc STM-Default Treiber ..."
+		insmod /lib/modules/lirc_stm.ko				
+	fi
+       /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
+    fi
+    fi
+    ### Laed eure Fernbedienung
+    if [ -e /var/etc/firstboot ]; then
+    echo "FB Switch Startet first..."
+    else
+    if [ -e /var/keys/Benutzerdaten/.system/fernbedienung ]; then
+    fb=`cat /var/keys/Benutzerdaten/.system/fernbedienung`
+       if [ "$fb" = "neu" ]; then
+          echo "Fernbedienung NEU geladen"
+            /bin/evremote2 -x vip2 &
+       elif [ "$fb" = "alt" ]; then
+          echo "Fernbedienung ALT geladen"
+          /bin/evremote2 -x vip1 &
+       elif [ "$fb" = "opti" ]; then
+          echo "Fernbedienung OPTI geladen"
+          /bin/evremote2 -x opti &
+       elif [ "$fb" = "Pingulux" ]; then
+          echo "Fernbedienung Pingulux geladen"
+          /bin/evremote2 -x Pingulux &
+       elif [ "$fb" = "mce2005" ]; then
+          echo "Fernbedienung MediaCenter geladen"
+          /bin/evremote2 -x MediaCenter &
+       elif [ "$fb" = "techno" ]; then
+          echo "Fernbedienung TechnoTrend geladen"
+          /bin/evremote2 -x TechnoTrend &
+       fi
+    fi
+    fi
+elif [ "$1" = "Netapps" ]; then
+       /etc/init.d/vsftpd start
+       /usr/sbin/inetd
+elif [ "$1" = "Mountswap" ]; then
+    if [ -e /var/config/SWAP ]; then
+    SWAPFILE=`cat /var/config/SWAP`
+       if [ "$SWAPFILE" = "ramzswap" ]; then
+             mknod /dev/ramzswap0 b 253 0 >/dev/null 2>&1
+             swapon /dev/ramzswap0
+       elif [ "$SWAPFILE" = "swapfile" ]; then
+          swapon /hdd/swap0
+       elif [ "$SWAPFILE" = "swapdev" ]; then
+             swapon /dev/sda3
+       fi
+    else
+       swapon /dev/sda3
+    fi
+elif [ "$1" = "Dhcp" ]; then
+       NFS=`grep -c nfs /proc/cmdline`
+       if [ "$NFS" -eq "1" ]; then
+          echo "Booting from nfs, don't set network"
+       else
+          if [ -e /etc/network/interfaces ]; then
+        ip addr flush eth0
+        /etc/init.d/networking stop
+        DHCP=`grep -c dhcp /etc/network/interfaces`
+        if [ "$DHCP" -eq "1" ]; then
+           echo "Starting dhcp"
+               /etc/init.d/udhcpc start
+        fi
+        /etc/init.d/networking start &
+          fi
+       fi
+
+       touch /dev/.udev
+elif [ "$1" = "Cleanup" ]; then
+    ### loescht ueberreste des Wlans
+    if [ -e /var/run/wpa_supplicant ]; then
+          echo "Loesche old W-Lan settings"
+          rm -rf /var/run/wpa_supplicant
+          echo "DONE"
+    fi
+    ###### Den Muel entsorgen ####
+    if [ -e /.Trash-1000 ]; then
+        echo "Loesche alten Muell"
+        rm -rf /.Trash-1000
+        echo "Fertig"
+    fi
+    if [ -e /.Trash-0 ]; then
+        echo "Loesche neuen Muell"
+        rm -rf /.Trash-0
+        echo "Fertig"
+    fi
+elif [ "$1" = "Clockdown" ]; then
+    if [ -e /var/keys/Benutzerdaten/.system/overclock ]; then
+       OVERCLOCK=`cat /var/keys/Benutzerdaten/.system/overclock`
+       if [ "$OVERCLOCK" = "300on" ]; then
+        	echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "333on" ]; then
+        	echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "366on" ]; then
+        	echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "400on" ]; then
+        	echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv
+       elif [ "$OVERCLOCK" = "300daueron" ]; then
+		echo "Dauer Overclocking -- CPU Stable freq. 300 Mhz"
+       elif [ "$OVERCLOCK" = "333daueron" ]; then
+		echo "Dauer Overclocking -- CPU Stable freq. 333 Mhz"
+       elif [ "$OVERCLOCK" = "366daueron" ]; then
+		echo "Dauer Overclocking -- CPU Stable freq. 366 Mhz"
+       elif [ "$OVERCLOCK" = "400daueron" ]; then
+		echo "Dauer Overclocking -- CPU Stable freq. 400 Mhz"
+       else
+		echo "Overclock OFF"
+       fi
+    else
+	echo "Overclock OFF -- Default"
+    fi
+elif [ "$1" = "Upnp" ]; then
+          ##### UPNP Verzeichniss Fix ####
+       if [ ! -e /hdd/upnp ]; then
+          echo "symlink zu /upnp erstellen"
+          ln -s /upnp /hdd/upnp
+          echo "Fertig"
+       fi
+elif [ "$1" = "Bootlogo" ]; then
+    if [ -e /var/config/subsystem ]; then
+       SYSTEM=`cat /var/config/subsystem`
+       if [ "$SYSTEM" = "Neutrino" ]; then
+          /usr/local/bin/dvbtest -4 -f l /boot/NeutrinoHD.mp4 &
+       else
+          /usr/local/bin/dvbtest -4 -f l /boot/Enigma2.mp4 &
+       fi
+    else
+       /usr/local/bin/dvbtest -4 -f l /boot/Enigma2.mp4 &
+    fi
+
+       stfbcontrol a 0
+elif [ "$1" = "Systemcheck" ]; then
+    if [ -e /var/config/subsystem ]; then
+       SYSTEM=`cat /var/config/subsystem`
+       if [ "$SYSTEM" = "Neutrino" ]; then
+          echo "Duck-Trick Image" > /dev/vfd
+          echo "LOADING NHD2"
+       else
+          echo "Duck-Trick Image" > /dev/vfd
+          echo "LOADING E2"
+       fi
+    else
+       echo "Duck-Trick Image" > /dev/vfd
+       echo "LOADING E2"
+    fi
+elif [ "$1" = "Firstboot" ]; then
+	if [ "$2" = "step1" ]; then
+    		if [ -e /var/etc/firstboot ]; then
+       			echo "Load CI Modul Treiber"
+       			# wir ladn das Cimax im Firstboot früher um pin 2.5 Tuner und I2C 0x40 zu Aktivieren
+       			modprobe cimax.ko
+       			sleep 3
+       			# Boxtype Check für Vip2 um Tuner zu Finden
+       			/bin/autoswitch -b
+    		fi
+	elif [ "$2" = "step2" ]; then
+    		if [ -e /var/etc/firstboot ]; then
+       			# Tuner Scan
+       			echo "Scan Tuner" > /dev/vfd
+       			/bin/autoswitch -t
+    		fi
+	elif [ "$2" = "step3" ]; then
+    		# ADD AutoFB Switch
+    		if [ -e /var/etc/firstboot ]; then
+			/bin/autoswitch -r
+			sleep 3
+   	 		# ADD Scart/HDMI Switch
+			/bin/autoswitch -v
+			echo "Reboot..." > /dev/vfd
+        		echo "reboot" > /var/config/shutdown/reboot
+        		sleep 2
+        		init 4
+    		fi
+	fi
+fi

@@ -20,14 +20,14 @@
 +      {
 +	      .name  = "LMI_VID",
 +	      .start = 0x10800000, 
-+	      .size  = 0x04800000, //57344 KB by 0x03800000, 106496 KB by 0x06800000
++	      .size  = 0x03800000, //57344 KB by 0x03800000, 106496 KB by 0x06800000
 +	      .flags = 0,
 +	      .aka   = LMI_VID_partalias
 +      },
 +      {
 +	      .name  = "LMI_SYS",
 +	      .start = 0,
-+	      .size  = 0x01700000, //Wir brauchen mehr Speicher fuer Dual Record
++	      .size  = 0x01900000, //Maximum
 +	      .flags = 0,
 +	      .aka   = LMI_SYS_partalias
 +      }
