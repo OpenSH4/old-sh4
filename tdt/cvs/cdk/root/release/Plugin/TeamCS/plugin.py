@@ -104,8 +104,8 @@ class MyMenu(Screen):
 				self.session.open(OVERCLOCK)
 
 			elif selection[1] == "NHD2":
-				self.session.open(MessageBox,_("Starte NeutrinoHD2..."), MessageBox.TYPE_INFO)
-				os.system("/bin/sh /var/config/system/nhd_switch.sh &")
+				self.session.open(MessageBox,_("Enigma2 wird beendet, NeutrinoHD2 wird gestartet... Bitte warten"), MessageBox.TYPE_INFO)
+				os.system("/var/config/system/nhd_switch.sh &")				
 
 			elif selection[1] == "wlan":
 				self.session.open(WLAN)
@@ -357,6 +357,7 @@ class SAMBASET(Screen):
 	def go(self):
 		print "okbuttonClick"
 		selection = self["SAMBASET"].getCurrent()
+
 
 
 		if selection is not None:
@@ -778,6 +779,7 @@ class EMU(Screen):
 		list.append((getConfigListEntry(_("Start oder Restart MBox"), "mbox", "mbox1", "46")))
 		list.append((getConfigListEntry(_("Start oder Restart Incubus"), "incubus", "incubus1", "46")))
 		list.append((getConfigListEntry(_("Start oder Restart Camd3"), "camd3", "camd31", "46")))
+		list.append((getConfigListEntry(_("Start oder Restart GBox"), "gbox", "gbox1", "46")))
 		list.append((getConfigListEntry(_("-------------- Dual Emu -------------"), "", "", "46")))
 		list.append((getConfigListEntry(_("Start Dual Emu"), "dual", "dualmode", "46")))
 		list.append((getConfigListEntry(_("------------- Emu Watchdog ----------"), "", "", "46")))
@@ -812,6 +814,9 @@ class EMU(Screen):
 
 			elif selection[1] == "mbox":
 				self.prombt("/var/config/emu/start-mbox.sh; echo 1 > /var/emu/emudual")
+
+			elif selection[1] == "gbox":
+				self.prombt("/var/config/emu/start-gbox.sh; echo 1 > /var/emu/emudual")
 
 			elif selection[1] == "incubus":
 				self.prombt("/var/config/emu/start-incubus.sh; echo 1 > /var/emu/emudual.sh")
@@ -1032,21 +1037,22 @@ class TUNER(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
-		list.append((getConfigListEntry(_("------ VIP1 Tuner Treiber ---------"), "", "", "46")))
-		list.append((getConfigListEntry(_("ST-Tuner Opti,VIP1,VIP2"), "tuner", "tunervip1", "46")))
-		list.append((getConfigListEntry(_("RB-Tuner Opti,VIP1"), "tuner2", "tunervip", "46")))
-		list.append((getConfigListEntry(_("VIP1 Kabel Tuner"), "tuner1kabel", "tunervip1kabel", "46")))
-		list.append((getConfigListEntry(_("VIP1 DVB-T Tuner"), "tuner1dvbt", "tunervipdvbt", "46")))
-		list.append((getConfigListEntry(_("------ VIP1v2 Tuner Treiber ---------"), "", "", "46")))
-		list.append((getConfigListEntry(_("Sharp Tuner VIP1v2"), "tunervip1v2", "tunervip1v2vip2", "46")))
-		list.append((getConfigListEntry(_("LG Kabel Tuner VIP1v2"), "tunervip1v2kabel", "tunervip1v2kabel", "46")))
-		list.append((getConfigListEntry(_("Sharp DVB-T Tuner VIP1v2"), "tunervip1v2dvbt", "tunervip1v2dvbt", "46")))
-		list.append((getConfigListEntry(_("------ VIP2 Tuner Treiber ---------"), "", "", "46")))
-		list.append((getConfigListEntry(_("Sharp Tuner VIP2"), "tunervip2", "tunervip2vip2", "46")))
-		list.append((getConfigListEntry(_("Sharp DVB-S2 und Kabel LG VIP2"), "tuners2lg", "tuners2lgvip2", "46")))
-		list.append((getConfigListEntry(_("2x Kabel LG VIP2"), "tuner2xlg", "tuner2xlgvip2", "46")))
-		list.append((getConfigListEntry(_("Kabel LG und DVB-T VIP2"), "tunerlgdvbt", "tunerlgdvbtvip2", "46")))
-		list.append((getConfigListEntry(_("Sharp DVB-S2 und DVB-T VIP2"), "tunerdvbs2dvbt", "tunerdvbs2dvbtvip2", "46")))
+		#list.append((getConfigListEntry(_("------ VIP1 Tuner Treiber ---------"), "", "", "46")))
+		#list.append((getConfigListEntry(_("ST-Tuner Opti,VIP1,VIP2"), "tuner", "tunervip1", "46")))
+		#list.append((getConfigListEntry(_("RB-Tuner Opti,VIP1"), "tuner2", "tunervip", "46")))
+		#list.append((getConfigListEntry(_("VIP1 Kabel Tuner"), "tuner1kabel", "tunervip1kabel", "46")))
+		#list.append((getConfigListEntry(_("VIP1 DVB-T Tuner"), "tuner1dvbt", "tunervipdvbt", "46")))
+		#list.append((getConfigListEntry(_("------ VIP1v2 Tuner Treiber ---------"), "", "", "46")))
+		#list.append((getConfigListEntry(_("Sharp Tuner VIP1v2"), "tunervip1v2", "tunervip1v2vip2", "46")))
+		#list.append((getConfigListEntry(_("LG Kabel Tuner VIP1v2"), "tunervip1v2kabel", "tunervip1v2kabel", "46")))
+		#list.append((getConfigListEntry(_("Sharp DVB-T Tuner VIP1v2"), "tunervip1v2dvbt", "tunervip1v2dvbt", "46")))
+		#list.append((getConfigListEntry(_("------ VIP2 Tuner Treiber ---------"), "", "", "46")))
+		#list.append((getConfigListEntry(_("Sharp Tuner VIP2"), "tunervip2", "tunervip2vip2", "46")))
+		#list.append((getConfigListEntry(_("Sharp DVB-S2 und Kabel LG VIP2"), "tuners2lg", "tuners2lgvip2", "46")))
+		#list.append((getConfigListEntry(_("2x Kabel LG VIP2"), "tuner2xlg", "tuner2xlgvip2", "46")))
+		#list.append((getConfigListEntry(_("Kabel LG und DVB-T VIP2"), "tunerlgdvbt", "tunerlgdvbtvip2", "46")))
+		#list.append((getConfigListEntry(_("Sharp DVB-S2 und DVB-T VIP2"), "tunerdvbs2dvbt", "tunerdvbs2dvbtvip2", "46")))
+		list.append((getConfigListEntry(_("Auto Tuner Ermitteln"), "ate", "ate1", "46")))
 
 		
 		Screen.__init__(self, session)
@@ -1108,6 +1114,11 @@ class TUNER(Screen):
 			elif selection[1] == "tunervip2":
 				os.system("echo vip2 > /var/keys/Benutzerdaten/.system/tuner")
 				self.session.open(MessageBox,_("VIP2 Sharp Tuner gesetzt"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "ate":
+				#os.system("/bin/autoswitch -b; /bin/autoswitch -t")
+				self.prombt("/bin/autoswitch -b; /bin/autoswitch -t")
+				#self.session.open(MessageBox,_("Tuner wurden ermittelt, bitte Neustarten"), MessageBox.TYPE_INFO)
 
 			else:
 				print "\n[TUNER] cancel\n"
@@ -1218,12 +1229,19 @@ class FERNB(Screen):
 		Screen.__init__(self, session)
 		
 		list = []
+		list.append((getConfigListEntry(_("---------- Empfaenger -----------"), "ArgusVIPneu", "vipneu", "46")))
+		list.append((getConfigListEntry(_("STM Box Intern ( Default )"), "stm", "stm", "46")))
+		list.append((getConfigListEntry(_("MCE2005 USB"), "mce2005", "mce2005", "46")))
+		list.append((getConfigListEntry(_("TechnoTrend USB"), "techno", "techno", "46")))
+		list.append((getConfigListEntry(_("--------- Fernbedienung ---------"), "ArgusVIPneu", "vipneu", "46")))
 		list.append((getConfigListEntry(_("ArgusVIP neue FB Rotes Blinken"), "ArgusVIPneu", "vipneu", "46")))
 		list.append((getConfigListEntry(_("ArgusVIP neue FB Gruenes Blinken"), "ArgusVIPneugruen", "vipneugruen", "46")))
 		list.append((getConfigListEntry(_("ArgusVIP alte FB Rotes Blinken"), "ArgusVIPalt", "vipalt", "46")))
 		list.append((getConfigListEntry(_("ArgusVIP alte FB Gruenes Blinken"), "ArgusVIPaltgruen", "vipaltgruen", "46")))
 		list.append((getConfigListEntry(_("Opticum FB"), "Opticum", "opti", "46")))
 		list.append((getConfigListEntry(_("Pingolux FB"), "Pingolux", "pingo", "46")))
+		list.append((getConfigListEntry(_("MediaCenter FB"), "mediacenter", "mediacenter", "46")))
+		list.append((getConfigListEntry(_("TechnoTrend FB"), "technotrend", "technotrend", "46")))
 		list.append((getConfigListEntry(_("System Neustart"), "neustart", "neu", "46")))
 		
 		Screen.__init__(self, session)
@@ -1239,28 +1257,48 @@ class FERNB(Screen):
 		selection = self["FERNB"].getCurrent()
 		if selection is not None:
 			if selection[1] == "ArgusVIPalt":
-				os.system("cp /etc/lircd_alt.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; echo vip1 > /var/config/boxtype")
+				os.system("cp /etc/lircd_alt.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; echo vip1 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP alt Mode Rot"), MessageBox.TYPE_INFO)
 
+			elif selection[1] == "stm":
+				os.system("echo stm > /var/config/system/remote")
+				self.session.open(MessageBox,_("STM Default Treiber Aktiviert - Reboot"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "mce2005":
+				os.system("echo mce2005 > /var/config/system/remote")
+				self.session.open(MessageBox,_("MCE USB Treiber Aktiviert - Reboot"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "techno":
+				os.system("echo techno > /var/config/system/remote")
+				self.session.open(MessageBox,_("TechnoTrend USB Treiber Aktiviert - Reboot"), MessageBox.TYPE_INFO)
+
 			elif selection[1] == "ArgusVIPaltgruen":
-				os.system("cp /etc/lircd_alt_gruen.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; echo vip1 > /var/config/boxtype")
+				os.system("cp /etc/lircd_alt_gruen.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; echo vip1 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP alt Mode Gruen"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "ArgusVIPneu":
-				os.system("cp /etc/lircd_neu.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_neu.conf /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype")
+				os.system("cp /etc/lircd_neu.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; echo vip2 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP neu Mode Rot"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "ArgusVIPneugruen":
-				os.system("cp /etc/lircd_neu_gruen.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_neu.conf /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype")
+				os.system("cp /etc/lircd_neu_gruen.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; echo vip2 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP neu Mode Gruen"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "Opticum":
-				os.system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_opti.conf /var/tuxbox/config/keymap.conf; echo opti > /var/config/boxtype")
+				os.system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; echo opti > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB Opticum"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "Pingolux":
-				os.system("cp /etc/lircd_pingolux.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; echo Pingolux > /var/config/boxtype")
+				os.system("cp /etc/lircd_pingolux.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; echo Pingolux > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB Pingolux gesetzt"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "mediacenter":
+				os.system("cp /etc/lircd_mce2005.conf /etc/lircd.conf; echo mce2005 > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; echo mce2005 > /var/config/boxtype")
+				self.session.open(MessageBox,_("FB MediaCenter gesetzt"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "technotrend":
+				os.system("cp /etc/lircd_techno.conf /etc/lircd.conf; echo techno > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; echo techno > /var/config/boxtype")
+				self.session.open(MessageBox,_("FB TechnoTrend gesetzt"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "neustart":
 				os.system("/var/config/shutdown/reboot.sh &")
@@ -2045,4 +2083,3 @@ def Plugins(**kwargs):
 	return [
 		PluginDescriptor(name="TeamCS Menu", description="Das TeamCS Menu", where = PluginDescriptor.WHERE_PLUGINMENU, icon="../ihad_tut.png", fnc=main),
 		PluginDescriptor(name="TeamCS Menu", description="TeamCS Multi Menu", where = PluginDescriptor.WHERE_MENU, fnc=menu)]
-
