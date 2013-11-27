@@ -125,6 +125,10 @@ release_hl101: release_common_utils
 	cp $(prefix)/release/lib/modules/*.ko $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/
 	rm $(prefix)/release/lib/modules/*.ko
 	cp -f $(buildprefix)/root/release/autoswitch $(prefix)/release/bin/autoswitch
+	cp -f $(buildprefix)/root/release/i2cget $(prefix)/release/bin/
+	cp -f $(targetprefix)/usr/sbin/i2cset $(prefix)/release/bin/
+	cp -f $(targetprefix)/usr/sbin/i2cdetect $(prefix)/release/bin/
+	cp -f $(targetprefix)/usr/sbin/i2cdump $(prefix)/release/bin/
 #
 # release_base
 #

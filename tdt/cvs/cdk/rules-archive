@@ -53,7 +53,8 @@ sg3_utils-1.24.tgz;http://sg.torque.net/sg/p
 console-data_1.03.orig.tar.gz;ftp://ftp.debian.org/debian/pool/main/c/console-data
 nano-2.0.6.tar.gz;http://www.nano-editor.org/dist/v2.0
 rsync-2.6.9.tar.gz;http://samba.anu.edu.au/ftp/rsync
-lm_sensors-2.9.2.tar.gz;http://dl.lm-sensors.org/lm-sensors/releases
+#lm_sensors-2.9.2.tar.gz;http://dl.lm-sensors.org/lm-sensors/releases
+lm_sensors-3.3.4.tar.bz2;http://dl.lm-sensors.org/lm-sensors/releases
 fuse-2.9.0.tar.gz;http://dfn.dl.sourceforge.net/sourceforge/fuse
 curlftpfs-0.9.2.tar.gz;http://sourceforge.net/projects/curlftpfs/files/latest/download
 fbset_2.1.orig.tar.gz;http://ftp.de.debian.org/debian/pool/main/f/fbset

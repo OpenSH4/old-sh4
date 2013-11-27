@@ -473,13 +473,28 @@ $(DEPDIR)/lm_sensors: \
 $(DEPDIR)/%lm_sensors: $(DEPDIR)/lm_sensors.do_compile
 	cd @DIR_lm_sensors@ && \
 		@INSTALL_lm_sensors@ && \
-		rm $(prefix)/$*cdkroot/usr/bin/*.pl && \
-		rm $(prefix)/$*cdkroot/usr/sbin/*.pl && \
-		rm $(prefix)/$*cdkroot/usr/sbin/sensors-detect && \
 		rm $(prefix)/$*cdkroot/usr/share/man/man8/sensors-detect.8 && \
-		rm $(prefix)/$*cdkroot/usr/include/linux/i2c-dev.h && \
-		rm $(prefix)/$*cdkroot/usr/bin/ddcmon
 	@DISTCLEANUP_lm_sensors@
+	[ "x$*" = "x" ] && touch $@ || true
+
+#
+# I2C-TOOLS
+#
+$(DEPDIR)/i2c-tools.do_prepare: bootstrap @DEPENDS_i2c-tools@
+	@PREPARE_i2c-tools@
+	touch $@
+
+$(DEPDIR)/i2c-tools.do_compile: $(DEPDIR)/i2c-tools.do_prepare
+	cd @DIR_i2c-tools@ && \
+		$(MAKE) $(MAKE_OPTS) MACHINE=sh PREFIX=/usr user
+	touch $@
+
+$(DEPDIR)/i2c-tools: \
+$(DEPDIR)/%i2c-tools: $(DEPDIR)/i2c-tools.do_compile
+	cd @DIR_i2c-tools@ && \
+		@INSTALL_i2c-tools@ && \
+		rm $(prefix)/$*cdkroot/usr/share/man/man8/sensors-detect.8 && \
+	@DISTCLEANUP_i2c-tools@
 	[ "x$*" = "x" ] && touch $@ || true
 
 #
