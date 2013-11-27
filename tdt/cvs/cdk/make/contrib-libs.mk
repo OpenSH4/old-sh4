@@ -919,12 +919,18 @@ $(DEPDIR)/ffmpeg.do_prepare: bootstrap libass rtmpdump @DEPENDS_ffmpeg@
 
 $(DEPDIR)/ffmpeg.do_compile: $(DEPDIR)/ffmpeg.do_prepare
 	cd @DIR_ffmpeg@ && \
-	PKG_CONFIG_PATH=$(targetprefix)/usr/lib/pkgconfig \
+	$(BUILDENV) \
 	./configure \
 		$(FFMPEG_CUSTOM_NEU) \
 		--disable-static \
-		--enable-shared \
-		--enable-cross-compile \
+		--disable-runtime-cpudetect \
+		--disable-doc \
+		--disable-htmlpages \
+		--disable-manpages \
+		--disable-podpages \
+		--disable-txtpages \
+		--disable-vfp \
+		--disable-fast-unaligned \
 		--disable-ffserver \
 		--disable-ffplay \
 		--disable-ffprobe \
@@ -956,6 +962,7 @@ $(DEPDIR)/ffmpeg.do_compile: $(DEPDIR)/ffmpeg.do_prepare
 		--disable-mipsfpu \
 		--disable-indevs \
 		--disable-outdevs \
+		--disable-bsfs \
 		--disable-muxers \
 		--enable-muxer=ogg \
 		--enable-muxer=flac \
@@ -965,7 +972,6 @@ $(DEPDIR)/ffmpeg.do_compile: $(DEPDIR)/ffmpeg.do_prepare
 		--enable-muxer=h264 \
 		--enable-muxer=mpeg1video \
 		--enable-muxer=mpeg2video \
-		--enable-muxer=image2 \
 		--disable-encoders \
 		--enable-encoder=aac \
 		--enable-encoder=h261 \
@@ -990,17 +996,28 @@ $(DEPDIR)/ffmpeg.do_compile: $(DEPDIR)/ffmpeg.do_prepare
 		--enable-decoder=mjpeg \
 		--enable-decoder=vorbis \
 		--enable-decoder=flac \
-		--enable-protocol=file \
-		--enable-encoder=mpeg2video \
-		--enable-muxer=mpeg2video \
+		--enable-decoder=dvdsub \
+		--enable-decoder=iff_byterun1 \
+		--enable-decoder=rawvideo \
+		--enable-decoder=wmapro \
+		--enable-decoder=wmav1 \
+		--enable-decoder=wmav2 \
+		--enable-decoder=wmavoice \
+		--enable-decoder=ra_144 \
+		--enable-decoder=ra_288 \
+		--enable-decoder=png \
 		--enable-parser=mjpeg \
 		--enable-demuxer=mjpeg \
-		--enable-decoder=dvbsub \
-		--enable-decoder=iff_byterun1 \
+		--enable-demuxer=wav \
+		--enable-demuxer=rtsp \
+		--enable-demuxer=mov \
 		--enable-small \
 		--enable-pthreads \
 		--enable-bzlib \
+		--enable-zlib \
 		--enable-librtmp \
+		--enable-shared \
+		--enable-cross-compile \
 		--pkg-config="pkg-config" \
 		--cross-prefix=$(target)- \
 		--target-os=linux \
@@ -1011,11 +1028,12 @@ $(DEPDIR)/ffmpeg.do_compile: $(DEPDIR)/ffmpeg.do_prepare
 	$(MAKE)
 	touch $@
 
+$(DEPDIR)/min-ffmpeg $(DEPDIR)/std-ffmpeg $(DEPDIR)/max-ffmpeg \
 $(DEPDIR)/ffmpeg: \
 $(DEPDIR)/%ffmpeg: $(DEPDIR)/ffmpeg.do_compile
 	cd @DIR_ffmpeg@ && \
 		@INSTALL_ffmpeg@
-	@DISTCLEANUP_ffmpeg@
+#	@DISTCLEANUP_ffmpeg@
 	[ "x$*" = "x" ] && touch $@ || true
 
 #
