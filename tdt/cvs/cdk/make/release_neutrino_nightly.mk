@@ -115,6 +115,7 @@ release_neutrino_hl101: release_neutrino_common_utils
 	cp -a $(buildprefix)/root/release/lib/modules/2.6.32.59_stm24_0211/modules.dep $(prefix)/release_neutrino/lib/modules/2.6.32.59_stm24_0211/
 	cp $(prefix)/release_neutrino/lib/modules/*.ko $(prefix)/release_neutrino/lib/modules/2.6.32.59_stm24_0211/
 	rm $(prefix)/release_neutrino/lib/modules/*.ko
+	cp -f $(buildprefix)/root/release/autoswitch $(prefix)/release_neutrino/bin/autoswitch
 	
 #
 # release_base

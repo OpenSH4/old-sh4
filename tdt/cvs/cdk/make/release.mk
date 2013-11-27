@@ -124,6 +124,7 @@ release_hl101: release_common_utils
 	cp -a $(buildprefix)/root/release/lib/modules/2.6.32.59_stm24_0211/modules.dep $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/
 	cp $(prefix)/release/lib/modules/*.ko $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/
 	rm $(prefix)/release/lib/modules/*.ko
+	cp -f $(buildprefix)/root/release/autoswitch $(prefix)/release/bin/autoswitch
 #
 # release_base
 #

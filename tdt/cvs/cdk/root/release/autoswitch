@@ -1,0 +1,752 @@
+#################################################
+#		Autoswitch Skript		#
+# Das Skript Checkt anhand der I2C Bus und Addr #
+# welcher Boxtype, welcher Tuner, welche	#
+# Fernbedienung ect.				#
+#################################################
+#
+# Boxtype Check
+BOXTYPE=-b
+TUNER=-t
+REMOTE=-r
+TVOUT=-v
+HELP=--help
+if [ "$HELP" = "$1" ]; then
+	echo ""
+	echo " AutoSwitch Tool "
+	echo " Version = 1.0 "
+	echo " by Ducktick"
+	echo ""
+	echo " ________________________________________________________________"
+	echo " Mit diesen Tool ist es möglich den Boxtype des Vip1 Vip2 Vip1v2"
+	echo " sowie den Opticum9500 automatisch zu ermitteln, ebenso können "
+	echo " Verbaute Tuner und der Fernbedienungs Assistent gestartet werden"
+	echo " ________________________________________________________________"
+	echo ""
+	echo "autoswitch [PARAMETER]"
+	echo " "
+	echo "PARAMERTER :"
+	echo "	-b = Ermittelt den Boxtype"
+	echo "	-t = Ermittelt den Tuner"
+	echo "	-r = Startet den Remote Switch"
+	echo "	-v = Startet Scart/HDMI Switch"
+	echo ""
+fi
+if [ "$BOXTYPE" = "$1" ]; then
+	# Anhand der vorhandenen I2C Adressen ermitteln wir den Boxtype für den Tuner
+	# beginnen wir die Adressen zu checken die da sein müssen
+	echo ""
+	echo "Boxtype Scan" > /dev/vfd
+	echo "Read Test"
+	/bin/i2cget -y 2 0x40 > /tmp/40
+	/bin/i2cget -y 2 0x28 > /tmp/28
+	echo "Done..."
+	# jetzt lesen wir die werte
+	I2C40=`cat /tmp/40`
+	I2C28=`cat /tmp/28`
+	sleep 1
+	# diese adressen geben bei i2cget entwerden 0x00 oder 0x13 aus
+	if [ "$I2C40" = "" ]; then
+		I2C40OK=error
+		L40=
+	else
+		I2C40OK=found
+		L40=0x40
+	fi
+	if [ "$I2C28" = "" ]; then
+		I2C28OK=error
+		L28=
+	else
+		I2C28OK=found
+		L28=0x28
+	fi
+	sleep 1
+	# Bis hierher alles bestens, nun definieren wir was in falle von OK Passieren soll
+	if [ $I2C40OK = found ]; then
+		# ist 40 ok checken wir ob auch 28 da ist ( für vip1v2 )
+		if [ $I2C28OK = found ]; then
+			echo "vip1v2" > /var/config/system/tunerboxtype
+			sleep 2
+		else
+			echo "vip1" > /var/config/system/tunerboxtype
+			sleep 2
+		fi
+	elif [ $I2C28OK = found ]; then
+		echo "vip2" > /var/config/system/tunerboxtype
+		sleep 2
+	fi
+	rm /tmp/28
+	rm /tmp/40
+	TYPE=`cat /var/config/system/tunerboxtype`
+	echo ""
+	echo " Boxtype		= $TYPE "
+	echo " Save in		= /var/config/system/tunerboxtype"
+	echo " Found by I2C Bus	= 2"
+	echo " Found by I2C Addr	= $L28 $L40"
+	echo ""
+elif [ "$TUNER" = "$1" ]; then
+# Tuner Autodetect skript
+# Ab hier machen wir das Spiel von vorn für den Tuner i2c
+if [ ! -e /var/config/system/tunerboxtype ]; then
+	echo ""
+	echo " Benötige Boxtype für Tuner Scan "
+	echo ""
+	echo " Bitte starte den autoswitch mit "
+	echo " Parameter -b Bsp.: autoswitch -b"
+	echo ""
+	exit 0
+fi
+BOXTYPE=`cat /var/config/system/tunerboxtype`
+echo "Initialisierter Boxtype=$BOXTYPE"
+# Warte 5 Sec auf Tuner Treiber
+sleep 5
+if [ $BOXTYPE = vip1 ]; then
+# Single Tuner Check
+echo "I2C Tuner Check ...."
+/bin/i2cget -y 0 0x68 > /tmp/068
+sleep 1
+/bin/i2cget -y 0 0x6a > /tmp/06a
+sleep 1
+/bin/i2cget -y 0 0x0f > /tmp/00f
+sleep 1
+/bin/i2cget -y 0 0x0c > /tmp/00c
+sleep 1
+echo "Done...Ignoriere alle Fehler"
+# Bus=0 Addr=0x68 request check ST-Tuner
+I2C068=`cat /tmp/068`
+sleep 1
+if [ "$I2C068" = "" ]; then
+	T1ST=error
+else
+	T1ST=found
+fi
+# Bus=0 Addr=0x6a request check RB
+I2C06A=`cat /tmp/06a`
+sleep 1
+if [ "$I2C06A" = "" ]; then
+	T1RB=error
+else
+	T1RB=found
+fi
+# Bus=0 Addr=0x0f request check DVB-T
+I2C00f=`cat /tmp/00f`
+sleep 1
+if [ "$I2C00f" = "" ]; then
+	T1DVBT=error
+else
+	T1DVBT=found
+fi
+# Bus=0 Addr=0x0c request check LG
+I2C00C=`cat /tmp/00c`
+sleep 1
+if [ "$I2C00C" = "" ]; then
+	T1LG=error
+else
+	T1LG=found
+fi
+###################################################
+	if [ "$T1ST" = "found" ]; then
+		echo "Bus 0 - ST-Tuner detect..."
+		# Aktiviert vip1v2 Sharp tuner in der rcS
+		echo "stb6110x" > /var/keys/Benutzerdaten/.system/tuner1
+		echo "ST-Tuner..." > /dev/vfd
+		echo "ST-Tuner..."
+		echo "Setze $BOXTYPE ST-Tuner..."
+		sleep 7
+	elif [ "$T1RB" = "found" ]; then
+		echo "Bus 0 - RB-Tuner detect..."
+		# Aktiviert in der rcS den Dual sharp Treiber
+		echo "stb6100" > /var/keys/Benutzerdaten/.system/tuner1
+		echo "RB-Tuner..." > /dev/vfd
+		echo "Setze $BOXTYPE RB-Tuner..."
+		sleep 7
+	elif [ "$T1DVBT" = "found" ]; then
+		echo "Bus 0 - Tuner Sharp DVB-T detect..."
+		# Aktiviert in der rcS den Dual sharp Treiber
+		echo "sharp6465" > /var/keys/Benutzerdaten/.system/tuner1
+		echo "Sharp DVB-T..." > /dev/vfd
+		echo "Setze $BOXTYPE Sharp DVB-T..."
+		sleep 7
+	elif [ "$T1LG" = "found" ]; then
+		echo "Bus 0 - Tuner LG Kabel detect..."
+		# Aktiviert in der rcS den Dual sharp Treiber
+		echo "lg031" > /var/keys/Benutzerdaten/.system/tuner1
+		echo "T2 DVB-C" > /dev/vfd
+		echo "Setze $BOXTYPE LG Kabel..."
+		sleep 7
+	else
+		NOTUNER=ERROR
+	fi
+elif [ $BOXTYPE = vip1v2 ]; then
+# Single Tuner Check
+echo "I2C Tuner Check ...."
+/bin/i2cget -y 0 0x68 > /tmp/068
+sleep 1
+/bin/i2cget -y 0 0x0f > /tmp/00f
+sleep 1
+/bin/i2cget -y 0 0x0c > /tmp/00c
+sleep 1
+echo "Done..."
+# Bus=0 Addr=0x68 request check Sharp7306
+I2C068=`cat /tmp/068`
+sleep 1
+if [ "$I2C068" = "" ]; then
+	T1SHARP7306=error
+else
+	T1SHARP7306=found
+fi
+# Bus=0 Addr=0x0f request check DVB-T
+I2C00f=`cat /tmp/00f`
+sleep 1
+if [ "$I2C00f" = "" ]; then
+	T1DVBT=error
+else
+	T1DVBT=found
+fi
+# Bus=0 Addr=0x0c request check LG
+I2C00C=`cat /tmp/00c`
+sleep 1
+if [ "$I2C00C" = "" ]; then
+	T1LG=error
+else
+	T1LG=found
+fi
+##########################################
+	if [ "$T1SHARP7306" = "found" ]; then
+		echo "Bus 0 - Tuner Sharp S2 detect..."
+		# Aktiviert vip1v2 Sharp tuner in der rcS
+		echo "sharp7306" > /var/keys/Benutzerdaten/.system/tuner1
+		echo "Sharp S2..." > /dev/vfd
+		echo "Sharp S2..."
+		echo "Setze $BOXTYPE Sharp S2..."
+		sleep 7
+	elif [ "$T1DVBT" = "found" ]; then
+		echo "Bus 0 - Tuner Sharp DVB-T detect..."
+		# Aktiviert in der rcS den Dual sharp Treiber
+		echo "sharp6465" > /var/keys/Benutzerdaten/.system/tuner1
+		echo "Sharp DVB-T..." > /dev/vfd
+		echo "Setze $BOXTYPE Sharp DVB-T..."
+		sleep 7
+	elif [ "$T1LG" = "found" ]; then
+		echo "Bus 0 - Tuner LG Kabel detect..."
+		# Aktiviert in der rcS den Dual sharp Treiber
+		echo "lg031" > /var/keys/Benutzerdaten/.system/tuner1
+		echo "T2 DVB-C" > /dev/vfd
+		echo "Setze $BOXTYPE LG Kabel..."
+		sleep 7
+	else
+		NOTUNER=ERROR
+   	fi
+elif [ $BOXTYPE = vip2 ]; then
+# Dual Tuner Check
+# sharp bus 0 und bus 1 Check
+echo "I2C Tuner Check ...."
+/bin/i2cget -y 0 0x68 > /tmp/068
+sleep 1
+/bin/i2cget -y 1 0x68 > /tmp/168
+sleep 1
+/bin/i2cget -y 1 0x0f > /tmp/10f
+sleep 1
+/bin/i2cget -y 0 0x0f > /tmp/00f
+sleep 1
+/bin/i2cget -y 1 0x0c > /tmp/10c
+sleep 1
+/bin/i2cget -y 0 0x0c > /tmp/00c
+sleep 1
+echo "Done..." 
+# Bus=0 Addr=0x68 request check Sharp7306
+I2C068=`cat /tmp/068`
+sleep 1
+if [ "$I2C068" = "" ]; then
+	T1SHARP7306=error
+else
+	T1SHARP7306=found
+fi
+# Bus=1 Addr=0x68 request check Sharp7306
+I2C168=`cat /tmp/168`
+sleep 1
+if [ "$I2C168" = "" ]; then
+	T2SHARP7306=error
+else
+	T2SHARP7306=found
+fi
+# Bus=0 Addr=0x0f request check DVB-T
+I2C00f=`cat /tmp/00f`
+sleep 1
+if [ "$I2C00f" = "" ]; then
+	T1DVBT=error
+else
+	T1DVBT=found
+fi
+# Bus=1 Addr=0x0f request check DVB-T
+I2C10f=`cat /tmp/10f`
+sleep 1
+if [ "$I2C10f" = "" ]; then
+	T2DVBT=error
+else
+	T2DVBT=found
+fi
+# Bus=0 Addr=0x0c request check LG
+I2C00C=`cat /tmp/00c`
+sleep 1
+if [ "$I2C00C" = "" ]; then
+	T1LG=error
+else
+	T1LG=found
+fi
+# Bus=1 Addr=0x0c request check LG
+I2C10C=`cat /tmp/10c`
+sleep 1
+if [ "$I2C10C" = "" ]; then
+	T2LG=error
+else
+	T2LG=found
+fi
+######################################
+   if [ "$T1SHARP7306" = "found" ]; then
+	echo "Bus 0 - Tuner Sharp S2 detect..."
+	echo "T1 DVB-S2" > /dev/vfd
+	echo "sharp7306" > /var/keys/Benutzerdaten/.system/tuner1
+	sleep 5
+	if [ "$T2SHARP7306" = "found" ]; then
+		echo "Bus 1 - Tuner Sharp S2 detect..."
+		# Aktiviert in der rcS den Dual sharp Treiber
+		echo "sharp7306" > /var/keys/Benutzerdaten/.system/tuner2
+		echo "T2 DVB-S2" > /dev/vfd
+		echo "Setze $BOXTYPE Sharp S2 Dual..."
+		sleep 7
+	elif [ "$T2DVBT" = "found" ]; then
+		echo "Bus 1 - Tuner Sharp DVB-T detect..."
+		# Aktiviert in der rcS den Dual sharp Treiber
+		echo "sharp6465" > /var/keys/Benutzerdaten/.system/tuner2
+		echo "T2 DVB-T" > /dev/vfd
+		echo "Setze $BOXTYPE Sharp S2 + Sharp DVB-T..."
+		sleep 7
+	elif [ "$T2LG" = "found" ]; then
+		echo "Bus 1 - Tuner LG Kabel detect..."
+		# Aktiviert in der rcS den Dual sharp Treiber
+		echo "lg031" > /var/keys/Benutzerdaten/.system/tuner2
+		echo "T2 DVB-C" > /dev/vfd
+		echo "Setze $BOXTYPE Sharp S2 + LG Kabel..."
+		sleep 7
+	fi
+   elif [ "$T1DVBT" = "found" ]; then 
+	echo "Bus 0 - Tuner Sharp DVB-T detect..." 
+	echo "T1 DVB-T" > /dev/vfd
+	echo "sharp6465" > /var/keys/Benutzerdaten/.system/tuner1
+	sleep 5
+	if [ "$T2DVBT" = "found" ]; then
+		echo "Bus 1 - Tuner Sharp DVB-T detect..."
+		# Aktiviert in der rcS den Dual sharp Treiber
+		echo "sharp6465" > /var/keys/Benutzerdaten/.system/tuner2
+		echo "T2 DVB-T" > /dev/vfd
+		echo "Setze $BOXTYPE Sharp S2 + Sharp DVB-T..."
+		sleep 7
+	elif [ "$T2SHARP7306" = "found" ]; then
+		echo "Bus 1 - Tuner Sharp S2 detect..."
+		# Aktiviert in der rcS den Dual sharp Treiber
+		echo "sharp7306" > /var/keys/Benutzerdaten/.system/tuner2
+		echo "T2 DVB-S2" > /dev/vfd
+		echo "Setze $BOXTYPE Sharp DVB-T + Sharp S2..."
+		sleep 7
+	elif [ "$T2LG" = "found" ]; then
+		echo "Bus 1 - Tuner LG Kabel detect..."
+		# Aktiviert in der rcS den Dual sharp Treiber
+		echo "lg031" > /var/keys/Benutzerdaten/.system/tuner2
+		echo "T2 DVB-C" > /dev/vfd
+		echo "Setze $BOXTYPE Sharp S2 + LG Kabel..."
+		sleep 7
+   	fi
+   elif [ "$T1LG" = "found" ]; then 
+	echo "Bus 0 - Tuner Sharp DVB-T detect..." 
+	echo "T1 DVB-C" > /dev/vfd
+	echo "lg031" > /var/keys/Benutzerdaten/.system/tuner1
+	sleep 5
+	if [ "$T2DVBT" = "found" ]; then
+		echo "Bus 1 - Tuner Sharp DVB-T detect..."
+		# Aktiviert in der rcS den Dual sharp Treiber
+		echo "sharp6465" > /var/keys/Benutzerdaten/.system/tuner2
+		echo "T2 DVB-T" > /dev/vfd
+		echo "Setze $BOXTYPE Sharp DVB-T + Sharp DVB-T..."
+		sleep 7
+	elif [ "$T2SHARP7306" = "found" ]; then
+		echo "Bus 1 - Tuner Sharp S2 detect..."
+		# Aktiviert in der rcS den Dual sharp Treiber
+		echo "sharp7306" > /var/keys/Benutzerdaten/.system/tuner2
+		echo "T2 DVB-S2" > /dev/vfd
+		echo "Setze $BOXTYPE Sharp DVB-T + Sharp S2..."
+		sleep 7
+	elif [ "$T2LG" = "found" ]; then
+		echo "Bus 1 - Tuner LG Kabel detect..."
+		# Aktiviert in der rcS den Dual sharp Treiber
+		echo "lg031" > /var/keys/Benutzerdaten/.system/tuner2
+		echo "T2 DVB-C" > /dev/vfd
+		echo "Setze $BOXTYPE Sharp DVB-T + LG Kabel..."
+		sleep 7
+   	fi
+   else
+	NOTUNER=ERROR
+   fi
+fi
+if [ $BOXTYPE = vip1 ]; then
+TUNER1=`cat /var/keys/Benutzerdaten/.system/tuner1`
+sleep 1
+	if [ "$TUNER1" = "sharp6465" ]; then
+		echo "ce6353" > /var/keys/Benutzerdaten/.system/demod1
+	elif [ "$TUNER1" = "stb6110x" ]; then
+		echo "stb090x" > /var/keys/Benutzerdaten/.system/demod1
+	elif [ "$TUNER1" = "lg031" ]; then
+		echo "tda10023" > /var/keys/Benutzerdaten/.system/demod1
+	elif [ "$TUNER1" = "stb6100" ]; then
+		echo "stb0899" > /var/keys/Benutzerdaten/.system/demod1
+	fi
+	DEMOD1=`cat /var/keys/Benutzerdaten/.system/demod1`
+	echo "erstelle demod=$DEMOD1 tuner=$TUNER1"
+	echo ""
+	echo " Tuner Erkannt : "
+	echo " _____________________"
+	echo " Demod A = $DEMOD1"
+	echo " Tuner A = $TUNER1"
+	echo " _____________________"
+elif [ $BOXTYPE = vip1v2 ]; then
+TUNER1=`cat /var/keys/Benutzerdaten/.system/tuner1`
+sleep 1
+	if [ "$TUNER1" = "sharp6465" ]; then
+		echo "ce6353" > /var/keys/Benutzerdaten/.system/demod1
+	elif [ "$TUNER1" = "sharp7306" ]; then
+		echo "stv090x" > /var/keys/Benutzerdaten/.system/demod1
+	elif [ "$TUNER1" = "lg031" ]; then
+		echo "tda10023" > /var/keys/Benutzerdaten/.system/demod1
+	fi
+	DEMOD1=`cat /var/keys/Benutzerdaten/.system/demod1`
+	echo "erstelle demod=$DEMOD1 tuner=$TUNER1"
+	echo ""
+	echo " Tuner Erkannt : "
+	echo " _____________________"
+	echo " Demod A = $DEMOD1"
+	echo " Tuner A = $TUNER1"
+	echo " _____________________"
+elif [ $BOXTYPE = vip2 ]; then
+TUNER1=`cat /var/keys/Benutzerdaten/.system/tuner1`
+sleep 1
+	if [ "$TUNER1" = "sharp6465" ]; then
+		echo "ce6353" > /var/keys/Benutzerdaten/.system/demod1
+	elif [ "$TUNER1" = "sharp7306" ]; then
+		echo "stv090x" > /var/keys/Benutzerdaten/.system/demod1
+	elif [ "$TUNER1" = "lg031" ]; then
+		echo "tda10023" > /var/keys/Benutzerdaten/.system/demod1
+	fi
+TUNER2=`cat /var/keys/Benutzerdaten/.system/tuner2`
+sleep 1
+	if [ "$TUNER2" = "sharp6465" ]; then
+		echo "ce6353" > /var/keys/Benutzerdaten/.system/demod2
+	elif [ "$TUNER2" = "sharp7306" ]; then
+		echo "stv090x" > /var/keys/Benutzerdaten/.system/demod2
+	elif [ "$TUNER2" = "lg031" ]; then
+		echo "tda10023" > /var/keys/Benutzerdaten/.system/demod2
+	fi
+	DEMOD1=`cat /var/keys/Benutzerdaten/.system/demod1`
+	DEMOD2=`cat /var/keys/Benutzerdaten/.system/demod2`
+	echo ""
+	echo " Tuner Erkannt : "
+	echo " _____________________"
+	echo " Demod A = $DEMOD1"
+	echo " Tuner A = $TUNER1"
+	echo ""
+	echo " Demod B = $DEMOD2"
+	echo " Tuner B = $TUNER2"
+	echo " _____________________"
+
+fi
+if [ "$NOTUNER" = "ERROR" ]; then
+	echo "error -- kein Tuner" > /dev/vfd
+	sleep 6
+fi
+elif [ "$REMOTE" = "$1" ]; then
+### Auto Fernbedienungs Switch
+FBALT=/boot/first/alt.mvi
+FBNEU=/boot/first/neu.mvi
+FBOPTI=/boot/first/opti.mvi
+FBPINGULUX=/boot/first/pingulux.mvi
+DANKE=/boot/first/danke.mvi
+       rm /tmp/check
+       if [ -e /ram/autoswitch.tmp ]; then
+          rm /ram/autoswitch.tmp
+       fi
+       if [ -e /ram/lircd.pid ]; then
+          rm /ram/lircd.pid
+       fi
+       echo "neu" > /tmp/fbneu
+       echo "alt" > /tmp/fbalt
+       echo "opti" > /tmp/fbopti
+       echo "pingo" > /tmp/fbpingulux
+until false
+   do
+       neu="/tmp/fbneu"
+       if [ -e $neu ]; then
+          check="/ram/autoswitch.tmp"
+          echo "vip2" > /var/config/boxtype
+          sync
+          sleep 1
+          cp /etc/lircd_neu.conf /etc/lircd.conf
+          sleep 1
+             /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
+            /bin/evremote2 -x vip2 &
+       if [ -e /ram/autoswitch.tmp ]; then
+          rm /ram/autoswitch.tmp
+       fi
+            killall -9 dvbtest
+            killall -9 showiframe
+            sleep 2
+            /bin/showiframe $FBNEU &
+          echo "FB NEU" > /dev/vfd
+          sleep 4
+             if [ ! -e /ram/autoswitch.tmp ]; then
+                killall -9 evremote2
+                killall -9 lircd
+                cp /etc/lircd_neu_gruen.conf /etc/lircd.conf
+                sleep 1
+                   /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
+                   mknod /dev/rc c 147 1
+                  /bin/evremote2 -x vip2 &
+             if [ -e /ram/autoswitch.tmp ]; then
+                rm /ram/autoswitch.tmp
+             fi
+                sleep 4
+             fi
+             if [ -e $check ]; then
+                killall -9 showiframe
+                sleep 2
+                /bin/showiframe $DANKE &
+                rm /tmp/fbneu
+                rm /var/etc/firstboot
+                if [ -e /var/etc/firstboot ]; then
+                   rm -rf /var/etc/firstboot
+                fi
+                echo "neu" > /var/keys/Benutzerdaten/.system/fernbedienung
+                cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml
+                sync
+                echo "FB NEU GESETZ" > /dev/vfd
+                sleep 3
+		killall -9 showiframe
+                exit 0
+             fi
+          killall -9 lircd
+          killall -9 evremote2
+       fi
+       alt="/tmp/fbalt"
+       if [ -e $alt ]; then
+          check="/ram/autoswitch.tmp"
+          if [ -e /ram/lircd.pid ]; then
+             rm /ram/lircd.pid
+          fi
+          echo "vip1" > /var/config/boxtype
+          sync
+          sleep 1
+          cp /etc/lircd_alt.conf /etc/lircd.conf
+          sleep 1
+             /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
+            /bin/evremote2 -x vip1 &
+       if [ -e /ram/autoswitch.tmp ]; then
+          rm /ram/autoswitch.tmp
+       fi
+            killall -9 showiframe
+            sleep 2
+            /bin/showiframe $FBALT &
+            echo "FB ALT" > /dev/vfd
+          sleep 5
+             if [ ! -e /ram/autoswitch.tmp ]; then
+                killall -9 evremote2
+                killall -9 lircd
+                cp /etc/lircd_alt_gruen.conf /etc/lircd.conf
+                sleep 1
+                   /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
+                   mknod /dev/rc c 147 1
+                  /bin/evremote2 -x vip2 &
+             if [ -e /ram/autoswitch.tmp ]; then
+                rm /ram/autoswitch.tmp
+             fi
+                sleep 4
+             fi
+             if [ -e $check ]; then
+                killall -9 showiframe
+                sleep 2
+                /bin/showiframe $DANKE &
+                rm /tmp/fbalt
+                rm /var/etc/firstboot
+                if [ -e /var/etc/firstboot ]; then
+                   rm -rf /var/etc/firstboot
+                fi
+                echo "alt" > /var/keys/Benutzerdaten/.system/fernbedienung
+                cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml
+                cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf
+                sync
+                echo "FB ALT GESETZ" > /dev/vfd
+                sleep 3
+		killall -9 showiframe
+                exit 0
+             fi
+          killall -9 lircd
+          killall -9 evremote2
+       fi
+       opti="/tmp/fbopti"
+       if [ -e $alt ]; then
+          check="/ram/autoswitch.tmp"
+          if [ -e /ram/lircd.pid ]; then
+             rm /ram/lircd.pid
+          fi
+          echo "opti" > /var/config/boxtype
+          sync
+          sleep 1
+          cp /etc/lircd_opti.conf /etc/lircd.conf
+          sleep 1
+             /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
+            /bin/evremote2 -x opti &
+       if [ -e /ram/autoswitch.tmp ]; then
+          rm /ram/autoswitch.tmp
+       fi
+            killall -9 showiframe
+            sleep 2
+            /bin/showiframe $FBOPTI &
+               echo "FB OPTI" > /dev/vfd
+          sleep 5
+             if [ -e $check ]; then
+                killall -9 showiframe
+                sleep 2
+                /bin/showiframe $DANKE &
+                rm /tmp/fbopti
+                rm /var/etc/firstboot
+                if [ -e /var/etc/firstboot ]; then
+                   rm -rf /var/etc/firstboot
+                fi
+                echo "opti" > /var/keys/Benutzerdaten/.system/fernbedienung
+                cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml
+                cp /var/tuxbox/config/keymap_opti.conf /var/tuxbox/config/keymap.conf
+                sync
+                echo "FB OPTI GESETZ" > /dev/vfd
+                sleep 3
+		killall -9 showiframe
+                exit 0
+             fi
+          killall -9 lircd
+          killall -9 evremote2
+       fi
+       pingo="/tmp/fbpingulux"
+       if [ -e $pingo ]; then
+          check="/ram/autoswitch.tmp"
+          if [ -e /ram/lircd.pid ]; then
+             rm /ram/lircd.pid
+          fi
+          echo "Pingulux" > /var/config/boxtype
+          sync
+          sleep 1
+          cp /etc/lircd_pingulux.conf /etc/lircd.conf
+          sleep 1
+             /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
+            /bin/evremote2 -x Pingulux &
+       if [ -e /ram/autoswitch.tmp ]; then
+          rm /ram/autoswitch.tmp
+       fi
+            killall -9 showiframe
+            sleep 2
+            /bin/showiframe $FBPINGULUX &
+               echo "FB PINGULUX" > /dev/vfd
+          sleep 5
+             if [ -e $check ]; then
+                killall -9 showiframe
+                sleep 2
+                /bin/showiframe $DANKE &
+                rm /tmp/fbpingulux
+                rm /var/etc/firstboot
+                if [ -e /var/etc/firstboot ]; then
+                   rm -rf /var/etc/firstboot
+                fi
+                echo "Pingulux" > /var/keys/Benutzerdaten/.system/fernbedienung
+                cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml
+                sync
+                echo "FB Pingulux GESETZ" > /dev/vfd
+                sleep 3
+		killall -9 showiframe
+                exit 0
+             fi
+          killall -9 lircd
+          killall -9 evremote2
+       fi
+       done
+elif [ "$TVOUT" = "$1" ]; then
+	# Das Skript Aktiviert oder Deaktiviert durch einen Tastendruck Scart oder HDMI
+	echo "TV Out ->" > /dev/vfd
+	sleep 3
+	# start loop
+	if [ -e /ram/autoswitch.tmp ];then
+		rm /ram/autoswitch.tmp
+	fi
+	# löscht HDMI und Scart out
+	sed -e /config.av.videoport=HDMI/d /etc/enigma2/settings > /ram/HDMI.tmp
+	sed -e /config.av.videoport=HDMI/d /ram/HDMI.tmp > /ram/SCART.tmp
+	# copy clean settings file
+	cp /ram/SCART.tmp /etc/enigma2/settings
+	until false
+	   do
+	echo "HDMI-OK" > /dev/vfd
+	OLD=8
+	LOOP=on
+	while [ $LOOP = on ]
+		do
+			NEW=`expr $OLD - 1`
+			if [ -e /ram/autoswitch.tmp ]; then
+				echo "HDMI Aktiviert" > /dev/vfd
+				# set new output
+				echo "config.av.videoport=HDMI" >> /etc/enigma2/settings
+				sleep 3
+				exit 0
+			fi
+			if [ "$NEW" = "0" ]; then
+				LOOP=off
+			fi
+			OLD=$NEW
+			sleep 1
+			echo "HDMI-$NEW" > /dev/vfd	
+		done
+	echo "SCART-OK" > /dev/vfd
+	OLD=8
+	LOOP=on
+	while [ $LOOP = on ]
+		do
+			NEW=`expr $OLD - 1`
+			if [ -e /ram/autoswitch.tmp ]; then
+				echo "Scart Aktiviert" > /dev/vfd
+				# set new output
+				echo "config.av.videoport=Scart" >> /etc/enigma2/settings
+				sleep 3
+				exit 0
+			fi
+			if [ "$NEW" = "0" ]; then
+				LOOP=off
+			fi
+			OLD=$NEW
+			sleep 1
+			echo "SCART-$NEW" > /dev/vfd	
+		done
+	done
+else
+	echo ""
+	echo " AutoSwitch Tool "
+	echo " Version = 1.0 "
+	echo " by Ducktick"
+	echo ""
+	echo " ________________________________________________________________"
+	echo " Mit diesen Tool ist es möglich den Boxtype des Vip1 Vip2 Vip1v2"
+	echo " sowie den Opticum9500 automatisch zu ermitteln, ebenso können "
+	echo " Verbaute Tuner und der Fernbedienungs Assistent gestartet werden"
+	echo " ________________________________________________________________"
+	echo ""
+	echo "autoswitch [PARAMETER]"
+	echo " "
+	echo "PARAMERTER :"
+	echo "	-b = Ermittelt den Boxtype"
+	echo "	-t = Ermittelt den Tuner"
+	echo "	-r = Startet den Remote Switch"
+	echo "	-v = Startet Scart/HDMI Switch"
+	echo ""
+fi	

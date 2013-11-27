@@ -155,6 +155,7 @@ release_ducktrick_hl101: release_ducktrick_common_utils
 	find $(prefix)/release_ducktrick/usr/local/bin/ -name  sectionsdcontrol -exec sh4-linux-strip --strip-unneeded {} \;
 	$(INSTALL_DIR) $(prefix)/release_ducktrick/usr/local/share
 	cp -aR $(targetprefix)/usr/local/share/iso-codes $(prefix)/release_ducktrick/usr/local/share/
+	cp -f $(buildprefix)/root/release/autoswitch $(prefix)/release_ducktrick/bin/autoswitch
 #	TODO: Channellist ....
 	cp -aR $(buildprefix)/root/usr/local/share/config/* $(prefix)/release_ducktrick/var/tuxbox/config/
 	cp -aR $(targetprefix)/usr/share/tuxbox/neutrino $(prefix)/release_ducktrick/usr/local/share/
