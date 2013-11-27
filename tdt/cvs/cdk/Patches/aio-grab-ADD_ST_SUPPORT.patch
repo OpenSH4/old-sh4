@@ -1,13 +1,11 @@
---- aio-grab.orig/main.c	2013-05-26 13:32:36.000000000 +0200
-+++ aio-grab/main.c	2013-06-02 12:31:40.450417839 +0200
-@@ -37,9 +37,47 @@
- #include <sys/mman.h>
- #include <linux/types.h>
- #include <linux/fb.h>
-+#include "../../../cvs/driver/bpamem/bpamem.h"
+--- aio-grab-47983a78821c0fdbef3aab36113d5c6fc34bb11b/main.c.org	2013-05-26 13:32:36.000000000 +0200
++++ aio-grab-47983a78821c0fdbef3aab36113d5c6fc34bb11b/main.c	2013-06-02 12:31:40.450417839 +0200
+@@ -37,6 +37,45 @@
+ 
  #include "png.h"
  #include "jpeglib.h"
- 
++#include "../../../cvs/driver/bpamem/bpamem.h"
++
 +#define OUT(x) \
 +	out[OUTITER]=(unsigned char)*(decode_surface + x)&0xFF; \
 +	OUTITER+=OUTINC;
@@ -45,15 +43,15 @@
 +
 +//----
 +
+ 
  #define CLAMP(x)    ((x < 0) ? 0 : ((x > 255) ? 255 : x))
  #define SWAP(x,y)	{ x ^= y; y ^= x; x ^= y; }
- 
 @@ -82,7 +120,7 @@
  void (*resize)(const unsigned char *source, unsigned char *dest, int xsource, int ysource, int xdest, int ydest, int colors);
  void combine(unsigned char *output, const unsigned char *video, const unsigned char *osd, int vleft, int vtop, int vwidth, int vheight, int xres, int yres);
  
--static enum {UNKNOWN, PALLAS, VULCAN, XILLEON, BRCM7400, BRCM7401, BRCM7405, BRCM7325, BRCM7335, BRCM7358, BRCM7356} stb_type = UNKNOWN;
-+static enum {UNKNOWN, PALLAS, VULCAN, XILLEON, BRCM7400, BRCM7401, BRCM7405, BRCM7325, BRCM7335, BRCM7358, BRCM7356, ST} stb_type = UNKNOWN;
+-static enum {UNKNOWN, PALLAS, VULCAN, XILLEON, BRCM7400, BRCM7401, BRCM7405, BRCM7325, BRCM7335, BRCM7358, BRCM7356, BRCM7424, BRCM7425} stb_type = UNKNOWN;
++static enum {UNKNOWN, PALLAS, VULCAN, XILLEON, BRCM7400, BRCM7401, BRCM7405, BRCM7325, BRCM7335, BRCM7358, BRCM7356, BRCM7424, BRCM7425, ST} stb_type = UNKNOWN;
  
  static int chr_luma_stride = 0x40;
  static int chr_luma_register_offset = 0;
@@ -318,4 +316,3 @@
  			video[out1+rgbstride]=CLAMP((Y + RU)>>16);
  			video[out1+1+rgbstride]=CLAMP((Y - GV - GU)>>16);
  			video[out1+2+rgbstride]=CLAMP((Y + BV)>>16);
-
