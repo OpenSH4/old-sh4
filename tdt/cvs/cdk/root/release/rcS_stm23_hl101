@@ -7,17 +7,19 @@
     fi
 
     $MODLOAD Virtfs
-    $MODLOAD Overclock
+    $MODLOAD Overclock &
     $MODLOAD E2_proc
-    $MODLOAD Mac
-    $MODLOAD Filesystem
-    $MODLOAD Automount
-    $MODLOAD Telnet
+    $MODLOAD Mac &
+    $MODLOAD Filesystem &
+    $MODLOAD Automount &
+    $MODLOAD Telnet &
     $MODLOAD Stmfb-firmware
     $MODLOAD Embx    
     $MODLOAD Avs
 
-    if [ "$dual" = "yes" ]; then
+    if [ -e /var/config/system/tunerboxtype ]; then
+    BOXTYPE=`cat /var/config/system/tunerboxtype`
+      if [ $BOXTYPE = vip2 ]; then
         if [ ! -e /dev/dvb/adapter0/frontend1 ]; then
             echo "Dual Tuner /devs erstellen ..."
             mknod /dev/dvb/adapter0/video1   c 212 80
@@ -28,27 +30,40 @@
         else
             echo "Dual Tuner /devs Vorhanden, Tuner Ready ..."
         fi
+      fi
     fi
 
     $MODLOAD Player2-stuff
-    $MODLOAD Firstboot step1       
+    
+if [ -e /var/etc/firstboot ]; then
+    $MODLOAD Firstboot step1
+fi
+
     $MODLOAD Tuner
     $MODLOAD Cimax
     $MODLOAD Tuner-stuff
+    
+if [ -e /var/etc/firstboot ]; then
     $MODLOAD Firstboot step2 
+fi
+
     $MODLOAD Player2
-    $MODLOAD Swap
-    $MODLOAD Smartcard
-    $MODLOAD Cec
-    $MODLOAD Bpamem
-    $MODLOAD Tun
-    $MODLOAD Wlan
-    $MODLOAD Bootlogo
-    $MODLOAD Lirc
-    $MODLOAD Netapps
+    $MODLOAD Swap &
+    $MODLOAD Smartcard &
+    $MODLOAD Cec &
+    $MODLOAD Bpamem &
+    $MODLOAD Tun &
+    $MODLOAD Wlan &
+    $MODLOAD Bootlogo &
+    $MODLOAD Lirc &
+    $MODLOAD Netapps &
+    
+if [ -e /var/etc/firstboot ]; then
     $MODLOAD Firstboot step3
-    $MODLOAD Mountswap
-    $MODLOAD Dhcp
+fi
+
+    $MODLOAD Mountswap &
+    $MODLOAD Dhcp &
 
     if [ -e /var/config/subswitch ]; then
 	rm /var/config/subswitch
@@ -66,9 +81,9 @@
        fi
         fi
     fi
-    $MODLOAD Cleanup
-    $MODLOAD Clockdown
-    $MODLOAD Upnp
+    $MODLOAD Cleanup &
+    $MODLOAD Clockdown &
+    $MODLOAD Upnp &
     $MODLOAD Systemcheck
 
        until false
