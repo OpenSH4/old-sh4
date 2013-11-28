@@ -117,9 +117,6 @@ release_neutrino_hl101: release_neutrino_common_utils
 	rm $(prefix)/release_neutrino/lib/modules/*.ko
 	cp -f $(buildprefix)/root/release/autoswitch $(prefix)/release_neutrino/bin/autoswitch
 	cp -f $(buildprefix)/root/release/i2cget $(prefix)/release_neutrino/bin/
-	cp -f $(targetprefix)/usr/sbin/i2cset $(prefix)/release_neutrino/bin/
-	cp -f $(targetprefix)/usr/sbin/i2cdetect $(prefix)/release_neutrino/bin/
-	cp -f $(targetprefix)/usr/sbin/i2cdump $(prefix)/release_neutrino/bin/
 	
 #
 # release_base

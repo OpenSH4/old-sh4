@@ -157,9 +157,6 @@ release_ducktrick_hl101: release_ducktrick_common_utils
 	cp -aR $(targetprefix)/usr/local/share/iso-codes $(prefix)/release_ducktrick/usr/local/share/
 	cp -f $(buildprefix)/root/release/autoswitch $(prefix)/release_ducktrick/bin/autoswitch
 	cp -f $(buildprefix)/root/release/i2cget $(prefix)/release_ducktrick/bin/
-	cp -f $(targetprefix)/usr/sbin/i2cset $(prefix)/release_ducktrick/bin/
-	cp -f $(targetprefix)/usr/sbin/i2cdetect $(prefix)/release_ducktrick/bin/
-	cp -f $(targetprefix)/usr/sbin/i2cdump $(prefix)/release_ducktrick/bin/
 #	TODO: Channellist ....
 	cp -aR $(buildprefix)/root/usr/local/share/config/* $(prefix)/release_ducktrick/var/tuxbox/config/
 	cp -aR $(targetprefix)/usr/share/tuxbox/neutrino $(prefix)/release_ducktrick/usr/local/share/

@@ -34,7 +34,6 @@ $(DEPDIR)/%bare-os: \
 	%$(BASE_FILES) \
 	%module_init_tools \
 	%busybox \
-	%lm_sensors \
 	%$(SYSVINIT) \
 	%$(SYSVINITTOOLS) \
 	%$(INITSCRIPTS) \

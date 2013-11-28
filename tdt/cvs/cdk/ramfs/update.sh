@@ -22,7 +22,7 @@ if [ $INSTALLED = $AKTUELL ]; then
 	rm /rootfs/update
 	echo "done"
 	if [ -e /update/boot/uImage.gz ]; then
-	#cop new kernel files
+	#copy new kernel files
 		cp /update/boot/uImage.gz /rootfs/boot/
 		rm /update/boot/uImage.gz
 	fi
