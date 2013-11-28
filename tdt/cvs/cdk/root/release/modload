@@ -3,45 +3,45 @@
 if [ "$1" = "Filesystem" ]; then
 	# Filesystem Treiber ext3 ext4 ...
 	echo "Lade Filesystem Treiber fat vfat  ..."
-	modprobe fat.ko
-	modprobe fscache.ko
-	modprobe isofs.ko
-	modprobe msdos.ko
-	modprobe ntfs.ko
-	modprobe udf.ko
-	modprobe vfat.ko
-	modprobe cifs.ko
-	modprobe cachefiles.ko
-	modprobe ext3.ko:
-	modprobe jbd.ko
-	modprobe nls_ascii.ko
-	modprobe nls_cp1250.ko
-	modprobe nls_cp1251.ko
-	modprobe nls_cp437.ko
-	modprobe nls_cp850.ko
-	modprobe nls_cp855.ko
-	modprobe nls_cp866.ko
-	modprobe nls_iso8859-1.ko
-	modprobe nls_iso8859-2.ko
-	modprobe nls_iso8859-5.ko
-	modprobe nls_koi8-r.ko
-	modprobe nls_koi8-ru.ko
-	modprobe nls_koi8-u.ko
-	modprobe nls_utf8.ko
+	modprobe -f fat.ko
+	modprobe -f fscache.ko
+	modprobe -f isofs.ko
+	modprobe -f msdos.ko
+	modprobe -f ntfs.ko
+	modprobe -f udf.ko
+	modprobe -f vfat.ko
+	modprobe -f cifs.ko
+	modprobe -f cachefiles.ko
+	modprobe -f ext3.ko:
+	modprobe -f jbd.ko
+	modprobe -f nls_ascii.ko
+	modprobe -f nls_cp1250.ko
+	modprobe -f nls_cp1251.ko
+	modprobe -f nls_cp437.ko
+	modprobe -f nls_cp850.ko
+	modprobe -f nls_cp855.ko
+	modprobe -f nls_cp866.ko
+	modprobe -f nls_iso8859-1.ko
+	modprobe -f nls_iso8859-2.ko
+	modprobe -f nls_iso8859-5.ko
+	modprobe -f nls_koi8-r.ko
+	modprobe -f nls_koi8-ru.ko
+	modprobe -f nls_koi8-u.ko
+	modprobe -f nls_utf8.ko
 	echo "Fertig"
 elif [ "$1" = "Automount" ]; then
     # start automounter with umount timeout of 5 seconds
-    modprobe autofs4.ko
+    modprobe -f autofs4.ko
     /usr/sbin/automount --timeout=5 /autofs file /etc/auto.hotplug
     /usr/sbin/automount --timeout=5 /media/net file /etc/auto.network
 elif [ "$1" = "Embx" ]; then
        echo "init embx"
-       modprobe embxshell.ko
-       modprobe embxmailbox.ko mailbox0=0xb9211000:136:set2 mailbox1=0xb9212000:0 ;
-       modprobe embxshm.ko mailbox0=shm:0:7:0x60000000:0:256:256:0:1024:0xa4000000:0x10000000 ;
-       modprobe mme_host.ko transport0=shm
+       modprobe -f embxshell.ko
+       modprobe -f embxmailbox.ko mailbox0=0xb9211000:136:set2 mailbox1=0xb9212000:0 ;
+       modprobe -f embxshm.ko mailbox0=shm:0:7:0x60000000:0:256:256:0:1024:0xa4000000:0x10000000 ;
+       modprobe -f mme_host.ko transport0=shm
 elif [ "$1" = "Overclock" ]; then
-    modprobe cpu_frequ.ko
+    modprobe -f cpu_frequ.ko
     if [ -e /var/keys/Benutzerdaten/.system/overclock ]; then
        OVERCLOCK=`cat /var/keys/Benutzerdaten/.system/overclock`
        if [ "$OVERCLOCK" = "300on" ]; then
@@ -92,7 +92,7 @@ elif [ "$1" = "Mac" ]; then
 	ifconfig eth0 hw ether 00:84:E1:12:06:30
     fi
 elif [ "$1" = "E2_proc" ]; then
-	modprobe e2_proc.ko
+	modprobe -f e2_proc.ko
 elif [ "$1" = "Virtfs" ]; then
     /etc/init.d/mountvirtfs start
     /etc/init.d/portmap start
@@ -106,16 +106,16 @@ elif [ "$1" = "Telnet" ]; then
        /usr/sbin/telnetd -l /bin/login
 elif [ "$1" = "Stmfb-firmware" ]; then
        echo "init stmfb"
-       modprobe stmcore-display-stx7109c3.ko
+       modprobe -f stmcore-display-stx7109c3.ko
 	
 	# Stellt den Boot Prozess je nach dem was Aktiviert wurde auf Scart oder HDMI um
        MODE=`cat /etc/enigma2/settings | grep Scart`
        if [ "$MODE" = "config.av.videoport=Scart" ]; then
 		echo "Scart Ausgang Aktviert"
-       		modprobe stmfb.ko display0=720x576-32@60:12m:3m:pal:yuv:yuv;
+       		modprobe -f stmfb.ko display0=720x576-32@60:12m:3m:pal:yuv:yuv;
        else
 		echo "HDMI Ausgang Aktviert"
-       		modprobe stmfb.ko display0=1280x720-32@60:20m:3m:pal:yuv:yuv
+       		modprobe -f stmfb.ko display0=1280x720-32@60:20m:3m:pal:yuv:yuv
        fi
 
        echo "LOADING MODULES"
@@ -133,7 +133,7 @@ elif [ "$1" = "Avs" ]; then
        echo "init AVS"
        if [ -e /var/etc/firstboot ]; then
 		echo "Load Fake AVS - Firstboot"
-		modprobe avs.ko type=fake_avs
+		modprobe -f avs.ko type=fake_avs
        else
        sleep 1
        if [ $BOXTYPE = vip2 ]; then
@@ -155,7 +155,7 @@ elif [ "$1" = "Avs" ]; then
            echo "vip2" > /var/config/deepstandby
 	   echo "aotom" > /var/config/fp_control
         fi
-        modprobe avs.ko type=vip2_avs
+        modprobe -f avs.ko type=vip2_avs
         dual=yes
        elif [ $BOXTYPE = vip1 ]; then
           echo "AVS Aktiviert -- VIP1"
@@ -176,7 +176,7 @@ elif [ "$1" = "Avs" ]; then
                echo "vip" > /var/config/deepstandby
 	       echo "proton" > /var/config/fp_control
         fi
-               modprobe avs.ko type=stv6418
+               modprobe -f avs.ko type=stv6418
         elif [ $BOXTYPE = vip1v2 ]; then
              echo "AVS Aktiviert -- VIP1v2"
              if [ -e /var/config/deepstandby ]; then
@@ -196,7 +196,7 @@ elif [ "$1" = "Avs" ]; then
                 echo "vip2" > /var/config/deepstandby
 	        echo "aotom" > /var/config/fp_control
          fi
-                modprobe avs.ko type=vip1_avs
+                modprobe -f avs.ko type=vip1_avs
         fi
 	fi
 elif [ "$1" = "Player2-stuff" ]; then
@@ -204,19 +204,19 @@ elif [ "$1" = "Player2-stuff" ]; then
        player=`cat /proc/stb/player/version | awk '{ print substr( $0, length($0) - 2, length($0) ) }'`
        echo "init player $player"
 
-       modprobe mmelog.ko
-       modprobe mpeg2hw.ko mmeName=MPEG2_TRANSFORMER1
-       modprobe ksound.ko
-       modprobe kreplay.ko
-       modprobe silencegen.ko
-       modprobe pcm_transcoder.ko
-       modprobe p2div64.ko
-       modprobe stm_v4l2.ko
+       modprobe -f mmelog.ko
+       modprobe -f mpeg2hw.ko mmeName=MPEG2_TRANSFORMER1
+       modprobe -f ksound.ko
+       modprobe -f kreplay.ko
+       modprobe -f silencegen.ko
+       modprobe -f pcm_transcoder.ko
+       modprobe -f p2div64.ko
+       modprobe -f stm_v4l2.ko
        if [ $player -gt 131 ]; then
-       modprobe stmvout.ko
-       modprobe stmvbi.ko
+       modprobe -f stmvout.ko
+       modprobe -f stmvbi.ko
        fi
-       modprobe pseudocard.ko
+       modprobe -f pseudocard.ko
 elif [ "$1" = "Tuner" ]; then
        BOXTYPE=`cat /var/config/system/tunerboxtype`
        echo "init frontends"
@@ -225,19 +225,19 @@ elif [ "$1" = "Tuner" ]; then
             DEMOD1=`cat /var/keys/Benutzerdaten/.system/demod1`
             TUNER1=`cat /var/keys/Benutzerdaten/.system/tuner1`
 	    sleep 1
-            modprobe fe-core.ko demod=$DEMOD1 tuner=$TUNER1 ;
+            modprobe -f fe-core.ko demod=$DEMOD1 tuner=$TUNER1 ;
        elif [ $BOXTYPE = vip1v2 ]; then
             DEMOD1=`cat /var/keys/Benutzerdaten/.system/demod1`
             TUNER1=`cat /var/keys/Benutzerdaten/.system/tuner1`
 	    sleep 1
-            modprobe fe-core-vip1v2.ko demod=$DEMOD1 tuner=$TUNER1 ;
+            modprobe -f fe-core-vip1v2.ko demod=$DEMOD1 tuner=$TUNER1 ;
        elif [ $BOXTYPE = vip2 ]; then
             TUNER1=`cat /var/keys/Benutzerdaten/.system/tuner1`
        	    TUNER2=`cat /var/keys/Benutzerdaten/.system/tuner2`
             DEMOD1=`cat /var/keys/Benutzerdaten/.system/demod1`
             DEMOD2=`cat /var/keys/Benutzerdaten/.system/demod2`
 	    sleep 1
-	    modprobe fe-core-vip2.ko demod1=$DEMOD1 tuner1=$TUNER1 demod2=$DEMOD2 tuner2=$TUNER2 ;
+	    modprobe -f fe-core-vip2.ko demod1=$DEMOD1 tuner1=$TUNER1 demod2=$DEMOD2 tuner2=$TUNER2 ;
        fi
 elif [ "$1" = "Cimax" ]; then
        echo "init drivers"
@@ -245,41 +245,41 @@ elif [ "$1" = "Cimax" ]; then
        BOXTYPE=`cat /var/config/system/tunerboxtype`
        if [ $BOXTYPE = vip2 ]; then
 	       echo "Load Vip2 no CI Modul Treiber"
-	       modprobe cimax_vip2.ko
+	       modprobe -f cimax_vip2.ko
        else
 	       echo "Load CI Modul Treiber"
-               modprobe cimax.ko
+               modprobe -f cimax.ko
        fi
 elif [ "$1" = "Tuner-stuff" ]; then
        echo "np-PTI Laden..."
-       modprobe pti.ko videoMem=5632 # Maximaler wert für VideoMemory
+       modprobe -f pti.ko videoMem=5632 # Maximaler wert für VideoMemory
        echo "NP- Fertig"
 
        player=`cat /proc/stb/player/version`
        player=`cat /proc/stb/player/version | awk '{ print substr( $0, length($0) - 2, length($0) ) }'`
        if [ $player -gt 131 ]; then
-       modprobe stm_monitor.ko
-       modprobe stmsysfs.ko
-           modprobe stmdvb.ko
+       modprobe -f stm_monitor.ko
+       modprobe -f stmsysfs.ko
+           modprobe -f stmdvb.ko
        else
-       modprobe stmdvb.ko
-       modprobe stm_monitor.ko
+       modprobe -f stmdvb.ko
+       modprobe -f stm_monitor.ko
        fi   
 elif [ "$1" = "Player2" ]; then
      echo "player2"
-       modprobe player2.ko discardlateframe=0 noaudiosync=0 useoldaudiofw=1
+       modprobe -f player2.ko discardlateframe=0 noaudiosync=0 useoldaudiofw=1
      echo "player fertig"
-       modprobe sth264pp.ko
-       modprobe stmalloc.ko
-       modprobe platform.ko
+       modprobe -f sth264pp.ko
+       modprobe -f stmalloc.ko
+       modprobe -f platform.ko
 elif [ "$1" = "Swap" ]; then
     if [ -e /var/config/SWAP ]; then
     SWAPFILE=`cat /var/config/SWAP`
        if [ "$SWAPFILE" = "ramzswap" ]; then
-             modprobe lzo1x_compress.ko
-             modprobe lzo1x_decompress.ko
+             modprobe -f lzo1x_compress.ko
+             modprobe -f lzo1x_decompress.ko
              echo "RamZswap Laden ..."
-             modprobe ramzswap.ko disksize_kb=30123
+             modprobe -f ramzswap.ko disksize_kb=30123
        elif [ "$SWAPFILE" = "swapfile" ]; then
           echo "Lade SwapFile"
        elif [ "$SWAPFILE" = "swapdev" ]; then
@@ -295,17 +295,17 @@ elif [ "$1" = "Smartcard" ]; then
 	echo "no Smartcard Aktiv"
     else
     if [ $BOXTYPE = vip1 ]; then
-       modprobe smartcard.ko debug=100
+       modprobe -f smartcard.ko debug=100
     elif [ $BOXTYPE = vip1v2 ]; then
-       modprobe smartcard.ko debug=100
+       modprobe -f smartcard.ko debug=100
     elif [ $BOXTYPE = vip2 ]; then
-       modprobe smartcard-vip2.ko debug=100
+       modprobe -f smartcard-vip2.ko debug=100
     fi
     fi
 elif [ "$1" = "Cec" ]; then
-    modprobe cec.ko activemode=1
+    modprobe -f cec.ko activemode=1
 elif [ "$1" = "Bpamem" ]; then
-     modprobe bpamem.ko
+     modprobe -f bpamem.ko
 elif [ "$1" = "Tun" ]; then
     if [ -e /var/keys/Benutzerdaten/.system/openvpn ]; then
       ##### OpenVPN benoetigtes TUN dev #####
@@ -319,7 +319,7 @@ elif [ "$1" = "Tun" ]; then
           echo "TUN /dev vorhanden ... FERTIG"
        fi
           echo "Lade tun.ko fuer OpenVPN ..."
-          modprobe tun.ko
+          modprobe -f tun.ko
     else
        echo "Device /dev/net/tun nicht erstellt und tun.ko Modul nicht geladen... OpenVPN deaktiviert"
     fi
@@ -327,31 +327,31 @@ elif [ "$1" = "Wlan" ]; then
     ### Aktiviert euren W-Lan treiber
     if [ -e /var/keys/Benutzerdaten/.system/wlan ]; then
        WLAN=`cat /var/keys/Benutzerdaten/.system/wlan`
-	modprobe mac80211.ko
-	modprobe cfg80211.ko
+	modprobe -f mac80211.ko
+	modprobe -f cfg80211.ko
        if [ "$WLAN" = "1" ]; then
           echo "W-Lan Modul -- 8192cu geladen ..."
-          modprobe 8192cu.ko
+          modprobe -f 8192cu.ko
        elif [ "$WLAN" = "2" ]; then
           echo "W-Lan Modul -- 8712u geladen ..."
-          modprobe 8712u.ko
+          modprobe -f 8712u.ko
        elif [ "$WLAN" = "3" ]; then
           echo "W-Lan Modul -- rt2870sta geladen ..."
-          modprobe rt2870sta.ko
+          modprobe -f rt2870sta.ko
        elif [ "$WLAN" = "4" ]; then
           echo "W-Lan Modul -- rt3070sta geladen ..."
-          modprobe rt3070sta.ko
+          modprobe -f rt3070sta.ko
        elif [ "$WLAN" = "5" ]; then
           echo "W-Lan Modul -- rt5370sta geladen ..."
-          modprobe rt5370sta.ko
+          modprobe -f rt5370sta.ko
        elif [ "$WLAN" = "6" ]; then
           echo "W-Lan Modul -- rt73usb geladen ..."
-          modprobe rt2x00lib.ko
-          modprobe rt2x00usb.ko
-          modprobe rt73usb.ko
+          modprobe -f rt2x00lib.ko
+          modprobe -f rt2x00usb.ko
+          modprobe -f rt73usb.ko
        elif [ "$WLAN" = "7" ]; then
           echo "W-Lan Modul -- zydas geladen ..."
-          modprobe zd1211rw.ko
+          modprobe -f zd1211rw.ko
        fi
     fi
 elif [ "$1" = "Lirc" ]; then
@@ -361,19 +361,19 @@ elif [ "$1" = "Lirc" ]; then
     if [ -e /var/etc/firstboot ]; then
        echo "FB Switch Startet first..."
        echo "Lade Lirc STM-Default Treiber ..."
-       modprobe lirc_stm.ko	
+       modprobe -f lirc_stm.ko	
     else
     	if [ -e /var/config/system/remote ]; then
 		    REMOTE=`cat /var/config/system/remote`
 		    if [ "$REMOTE" = "techno" ]; then
 			echo "Lade TechnoTrend USB Treiber ..."
-       			modprobe lirc_ttusbir.ko
+       			modprobe -f lirc_ttusbir.ko
 		    elif [ "$REMOTE" = "mce2005" ]; then
 			echo "Lade MCE2005 USB Treiber ..."
-			modprobe lirc_mceusb2.ko
+			modprobe -f lirc_mceusb2.ko
 		    else
 			echo "Lade Lirc STM-Default Treiber ..."
-			modprobe lirc_stm.ko
+			modprobe -f lirc_stm.ko
 		    fi
 	else
 		echo "Lade Lirc STM-Default Treiber ..."
@@ -526,7 +526,7 @@ elif [ "$1" = "Firstboot" ]; then
     		if [ -e /var/etc/firstboot ]; then
        			echo "Load CI Modul Treiber"
        			# wir ladn das Cimax im Firstboot früher um pin 2.5 Tuner und I2C 0x40 zu Aktivieren
-       			modprobe cimax.ko
+       			modprobe -f cimax.ko
        			sleep 3
        			# Boxtype Check für Vip2 um Tuner zu Finden
        			/bin/autoswitch -b
