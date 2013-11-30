@@ -129,7 +129,9 @@ elif [ "$1" = "Stmfb-firmware" ]; then
        echo "load v firmware"
        /bin/ustslave /dev/st231-0 /boot/video.elf
 elif [ "$1" = "Avs" ]; then
+       if [ -e /var/config/system/tunerboxtype ]; then
        BOXTYPE=`cat /var/config/system/tunerboxtype`
+       fi
        echo "init AVS"
        if [ -e /var/etc/firstboot ]; then
 		echo "Load Fake AVS - Firstboot"
@@ -242,10 +244,15 @@ elif [ "$1" = "Tuner" ]; then
 elif [ "$1" = "Cimax" ]; then
        echo "init drivers"
        # Cimax Modul für Vip2 ohne CI Module laden
+       if [ -e /var/config/system/tunerboxtype ]; then
        BOXTYPE=`cat /var/config/system/tunerboxtype`
        if [ $BOXTYPE = vip2 ]; then
 	       echo "Load Vip2 no CI Modul Treiber"
 	       modprobe cimax_vip2.ko
+       else
+	       echo "Load CI Modul Treiber"
+               modprobe cimax.ko
+       fi
        else
 	       echo "Load CI Modul Treiber"
                modprobe cimax.ko
@@ -381,6 +388,9 @@ elif [ "$1" = "Lirc" ]; then
 	fi
        /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
     fi
+    else
+       echo "Lade Lirc STM-Default Treiber ..."
+       modprobe lirc_stm.ko	
     fi
     ### Laed eure Fernbedienung
     if [ -e /var/etc/firstboot ]; then
@@ -551,3 +561,4 @@ elif [ "$1" = "Firstboot" ]; then
     		fi
 	fi
 fi
+

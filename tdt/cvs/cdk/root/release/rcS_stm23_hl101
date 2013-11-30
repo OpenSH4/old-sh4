@@ -34,13 +34,13 @@
     fi
 
     $MODLOAD Player2-stuff
+    $MODLOAD Tuner
+    $MODLOAD Cimax
     
 if [ -e /var/etc/firstboot ]; then
     $MODLOAD Firstboot step1
 fi
 
-    $MODLOAD Tuner
-    $MODLOAD Cimax
     $MODLOAD Tuner-stuff
     
 if [ -e /var/etc/firstboot ]; then
