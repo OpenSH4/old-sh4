@@ -117,7 +117,8 @@ release_neutrino_hl101: release_neutrino_common_utils
 	rm $(prefix)/release_neutrino/lib/modules/*.ko
 	cp -f $(buildprefix)/root/release/autoswitch $(prefix)/release_neutrino/bin/autoswitch
 	cp -f $(buildprefix)/root/release/i2cget $(prefix)/release_neutrino/bin/
-	
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/player2/linux/drivers/sound/pcm_transcoder/*.ko $(prefix)/release_neutrino/lib/modules/
+	chmod 755 $(prefix)/release_neutrino/etc/init.d/mountvirtfs	
 #
 # release_base
 #

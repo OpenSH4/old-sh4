@@ -126,6 +126,8 @@ release_hl101: release_common_utils
 	rm $(prefix)/release/lib/modules/*.ko
 	cp -f $(buildprefix)/root/release/autoswitch $(prefix)/release/bin/autoswitch
 	cp -f $(buildprefix)/root/release/i2cget $(prefix)/release/bin/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/player2/linux/drivers/sound/pcm_transcoder/*.ko $(prefix)/release/lib/modules/
+	chmod 755 $(prefix)/release/etc/init.d/mountvirtfs
 #
 # release_base
 #

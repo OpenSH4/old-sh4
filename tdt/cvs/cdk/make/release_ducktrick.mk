@@ -157,6 +157,8 @@ release_ducktrick_hl101: release_ducktrick_common_utils
 	cp -aR $(targetprefix)/usr/local/share/iso-codes $(prefix)/release_ducktrick/usr/local/share/
 	cp -f $(buildprefix)/root/release/autoswitch $(prefix)/release_ducktrick/bin/autoswitch
 	cp -f $(buildprefix)/root/release/i2cget $(prefix)/release_ducktrick/bin/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/player2/linux/drivers/sound/pcm_transcoder/*.ko $(prefix)/release_ducktrick/lib/modules/
+	chmod 755 $(prefix)/release_ducktrick/etc/init.d/mountvirtfs
 #	TODO: Channellist ....
 	cp -aR $(buildprefix)/root/usr/local/share/config/* $(prefix)/release_ducktrick/var/tuxbox/config/
 	cp -aR $(targetprefix)/usr/share/tuxbox/neutrino $(prefix)/release_ducktrick/usr/local/share/
