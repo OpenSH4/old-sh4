@@ -107,7 +107,7 @@ if [ -e /rootfs/var/etc/.firstboot ]; then
        echo "MKDEV" > /dev/vfd
        echo "WAIT 3 SEC"
        rm /rootfs/var/etc/.firstboot
-       cp /install/devs.tar.gz /rootfs/dev/
+       cp /install/devs/devs.tar.gz /rootfs/dev/
        cd /rootfs/dev
        sleep 1
        # workaround
