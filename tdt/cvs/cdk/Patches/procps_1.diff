@@ -1,0 +1,12 @@
+--- configure   2013-11-30 22:59:05.686970279 +0100
++++ configure   2013-11-30 22:59:58.731825443 +0100
+@@ -18111,6 +18111,7 @@
+   if test -z "$MKINSTALLDIRS"; then
+     MKINSTALLDIRS="\$(top_srcdir)/mkinstalldirs"
+   fi
++MKINSTALLDIRS=../mkinstalldirs
+
+
+
+
+

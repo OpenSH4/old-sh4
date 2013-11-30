@@ -1,0 +1,11 @@
+--- libtool	2013-11-30 21:44:43.954228165 +0100
++++ libtool	2013-11-30 21:44:54.810291330 +0100
+@@ -373,7 +373,7 @@
+ 
+ # Set to "yes" if using DIR/libNAME${shared_ext} during linking hardcodes
+ # DIR into the resulting binary.
+-hardcode_direct=
++hardcode_direct=no
+ 
+ # Set to "yes" if using DIR/libNAME${shared_ext} during linking hardcodes
+ # DIR into the resulting binary and the resulting library dependency is

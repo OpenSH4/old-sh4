@@ -825,6 +825,7 @@ TUXBOX_RULES_MAKE(ethtool)
 #
 # contrib apps
 #
+TUXBOX_RULES_MAKE(procps_ng)
 TUXBOX_RULES_MAKE(bash)
 TUXBOX_RULES_MAKE(bzip2)
 TUXBOX_RULES_MAKE(gzip)

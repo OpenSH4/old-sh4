@@ -1,4 +1,34 @@
 #
+#procps_ng
+#
+$(DEPDIR)/procps_ng.do_prepare: bootstrap @DEPENDS_procps_ng@
+	@PREPARE_procps_ng@
+	touch $@
+
+$(DEPDIR)/procps_ng.do_compile: $(DEPDIR)/procps_ng.do_prepare
+	cd @DIR_procps_ng@ && \
+		./autogen.sh && \
+		$(BUILDENV) && \
+		export ac_cv_func_malloc_0_nonnull=yes && \
+		export ac_cv_func_realloc_0_nonnull=yes && \
+		patch -p0 < $(buildprefix)/Patches/procps_1.diff && \
+			./configure \
+			--build=$(build) \
+			--host=$(target) \
+			--disable-silent-rules \
+			--prefix=/ && \
+		patch -p0 < $(buildprefix)/Patches/procps_2.diff && \ 
+		$(MAKE) all
+	touch $@
+
+$(DEPDIR)/procps_ng: \
+$(DEPDIR)/%procps_ng: $(DEPDIR)/procps_ng.do_compile
+	cd @DIR_procps_ng@ && \
+		@INSTALL_procps_ng@
+	@DISTCLEANUP_procps_ng@
+	[ "x$*" = "x" ] && touch $@ || true
+
+#
 #bash
 #
 $(DEPDIR)/bash.do_prepare: bootstrap @DEPENDS_bash@

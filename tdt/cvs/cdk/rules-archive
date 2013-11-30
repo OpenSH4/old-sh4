@@ -40,6 +40,7 @@ sysvinit_2.86.ds1-38.diff.gz;http://ftp.de.debian.org/debian/pool/main/s/sysvini
 #
 # contrib apps
 #
+procps.git;git://gitorious.org/procps/procps.git
 bash-4.2.tar.gz;http://ftp.gnu.org/gnu/bash
 bzip2-1.0.6.tar.gz;http://www.bzip.org/1.0.6
 gzip-1.6.tar.gz;http://ftp.gnu.org/gnu/gzip/
