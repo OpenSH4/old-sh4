@@ -1,4 +1,29 @@
 #
+#bash
+#
+$(DEPDIR)/bash.do_prepare: bootstrap @DEPENDS_bash@
+	@PREPARE_bash@
+	touch $@
+
+$(DEPDIR)/bash.do_compile: $(DEPDIR)/bash.do_prepare
+	cd @DIR_bash@ && \
+	$(BUILDENV) \
+		./configure \
+			--build=$(build) \
+			--host=$(target) \
+			--disable-job-control \
+			--prefix=/ && \
+		$(MAKE)
+	touch $@
+
+$(DEPDIR)/bash: \
+$(DEPDIR)/%bash: $(DEPDIR)/bash.do_compile
+	cd @DIR_bash@ && \
+		@INSTALL_bash@
+	@DISTCLEANUP_bash@
+	[ "x$*" = "x" ] && touch $@ || true
+
+#
 #bzip2
 #
 $(DEPDIR)/bzip2.do_prepare: bootstrap @DEPENDS_bzip2@
@@ -16,6 +41,30 @@ $(DEPDIR)/%bzip2: $(DEPDIR)/bzip2.do_compile
 	cd @DIR_bzip2@ && \
 		@INSTALL_bzip2@
 	@DISTCLEANUP_bzip2@
+	[ "x$*" = "x" ] && touch $@ || true
+
+#
+#gzip
+#
+$(DEPDIR)/gzip.do_prepare: bootstrap @DEPENDS_gzip@
+	@PREPARE_gzip@
+	touch $@
+
+$(DEPDIR)/gzip.do_compile: $(DEPDIR)/gzip.do_prepare
+	cd @DIR_gzip@ && \
+	$(BUILDENV) \
+		./configure \
+			--build=$(build) \
+			--host=$(target) \
+			--prefix=/usr && \
+		$(MAKE)
+	touch $@
+
+$(DEPDIR)/gzip: \
+$(DEPDIR)/%gzip: $(DEPDIR)/gzip.do_compile
+	cd @DIR_gzip@ && \
+		@INSTALL_gzip@
+	@DISTCLEANUP_gzip@
 	[ "x$*" = "x" ] && touch $@ || true
 
 #

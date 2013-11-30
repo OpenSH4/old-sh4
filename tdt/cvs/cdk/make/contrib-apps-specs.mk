@@ -242,32 +242,32 @@ $(DEPDIR)/%$(MTD_UTILS): $(MTD_UTILS_RPM)
 		--badreloc --relocate $(targetprefix)=$(prefix)/$*cdkroot $(lastword $^)
 	[ "x$*" = "x" ] && touch $@ || true
 
-#
-# BASH
-#
-BASH := bash
-BASH_VERSION := 3.0-16
-BASH_SPEC := stm-target-$(BASH).spec
-BASH_SPEC_PATCH :=
-BASH_PATCHES :=
+##
+## BASH
+##
+#BASH := bash
+#BASH_VERSION := 3.0-16
+#BASH_SPEC := stm-target-$(BASH).spec
+#BASH_SPEC_PATCH :=
+#BASH_PATCHES :=
 
-BASH_RPM := RPMS/sh4/$(STLINUX)-sh4-$(BASH)-$(BASH_VERSION).sh4.rpm
+#BASH_RPM := RPMS/sh4/$(STLINUX)-sh4-$(BASH)-$(BASH_VERSION).sh4.rpm
 
-$(BASH_RPM): \
-		$(if $(BASH_SPEC_PATCH),Patches/$(BASH_SPEC_PATCH)) \
+#$(BASH_RPM): \
+#		$(if $(BASH_SPEC_PATCH),Patches/$(BASH_SPEC_PATCH)) \
 		$(if $(BASH_PATCHES),$(BASH_PATCHES:%=Patches/%)) \
 		$(DEPDIR)/$(GLIBC_DEV) \
 		$(DEPDIR)/$(LIBTERMCAP_DEV) \
 		$(archivedir)/$(STLINUX)-target-$(BASH)-$(BASH_VERSION).src.rpm
-	rpm $(DRPM) --nosignature -Uhv $(lastword $^) && \
+#	rpm $(DRPM) --nosignature -Uhv $(lastword $^) && \
 	$(if $(BASH_SPEC_PATCH),( cd SPECS && patch -p1 $(BASH_SPEC) < $(buildprefix)/Patches/$(BASH_PATCH) ) &&) \
 	$(if $(BASH_PATCHES),cp $(BASH_PATCHES:%=Patches/%) SOURCES/ &&) \
 	export PATH=$(hostprefix)/bin:$(PATH) && \
 	rpmbuild $(DRPMBUILD) -bb -v --clean --target=sh4-linux SPECS/$(BASH_SPEC)
 
-$(DEPDIR)/$(BASH): \
+#$(DEPDIR)/$(BASH): \
 $(DEPDIR)/%$(BASH): $(DEPDIR)/%$(GLIBC) $(DEPDIR)/%$(LIBTERMCAP) $(BASH_RPM)
-	@rpm --dbpath $(prefix)/$*cdkroot-rpmdb $(DRPM) --ignorearch --nodeps --noscripts --force -Uhvv \
+#	@rpm --dbpath $(prefix)/$*cdkroot-rpmdb $(DRPM) --ignorearch --nodeps --noscripts --force -Uhvv \
 		--badreloc --relocate $(targetprefix)=$(prefix)/$*cdkroot $(lastword $^) && \
 	[ "x$*" = "x" ] && touch -r $(lastword $^) $@ || true
 

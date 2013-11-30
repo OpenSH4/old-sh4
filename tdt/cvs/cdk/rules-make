@@ -44,7 +44,9 @@ module_init_tools;3.16;module-init-tools-3.16;module-init-tools-3.16.tar.bz2;ext
 #
 # contrib apps
 #
+bash;4.2;bash-4.2;bash-4.2.tar.gz:bash.diff;extract:bash-4.2.tar.gz;patch:bash.diff
 bzip2;1.0.6;bzip2-1.0.6;bzip2-1.0.6.tar.gz:bzip2.diff;extract:bzip2-1.0.6.tar.gz;patch:bzip2.diff
+gzip;1.6;gzip-1.6;gzip-1.6.tar.gz;extract:gzip-1.6.tar.gz
 grep;2.5.1;grep-2.5.1;grep-2.5.1.tar.bz2:grep_2.5.1.ds2-6.diff.gz;extract:grep-2.5.1.tar.bz2
 openrdate;1.1.2;openrdate-1.1.2;openrdate-1.1.2.tar.gz;extract:openrdate-1.1.2.tar.gz
 e2fsprogs;1.42.6;e2fsprogs-1.42.6;e2fsprogs-1.42.6.tar.gz;extract:e2fsprogs-1.42.6.tar.gz;patch:e2fsprogs-1.42.4.patch

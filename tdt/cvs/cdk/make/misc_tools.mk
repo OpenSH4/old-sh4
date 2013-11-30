@@ -4,7 +4,7 @@
 misc-tools-clean:
 	-$(MAKE) -C $(appsdir)/misc/tools distclean
 
-$(appsdir)/misc/tools/config.status: bootstrap driver libstdc++-dev bzip2 libpng libjpeg ffmpeg
+$(appsdir)/misc/tools/config.status: bootstrap driver libstdc++-dev bzip2 libpng libjpeg ffmpeg gzip bash
 	export PATH=$(hostprefix)/bin:$(PATH) && \
 	cd $(appsdir)/misc/tools && \
 	libtoolize -f -c && \
