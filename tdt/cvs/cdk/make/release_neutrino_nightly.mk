@@ -119,6 +119,22 @@ release_neutrino_hl101: release_neutrino_common_utils
 	cp -f $(buildprefix)/root/release/i2cget $(prefix)/release_neutrino/bin/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/player2/linux/drivers/sound/pcm_transcoder/*.ko $(prefix)/release_neutrino/lib/modules/
 	chmod 755 $(prefix)/release_neutrino/etc/init.d/mountvirtfs	
+	cp $(targetprefix)/usr/bin/free $(prefix)/release_neutrino/usr/bin/
+	cp $(targetprefix)/usr/bin/pgrep $(prefix)/release_neutrino/usr/bin/
+	cp $(targetprefix)/usr/bin/pidof $(prefix)/release_neutrino/usr/bin/
+	cp $(targetprefix)/usr/bin/pkill $(prefix)/release_neutrino/usr/bin/
+	cp $(targetprefix)/usr/bin/pmap $(prefix)/release_neutrino/usr/bin/
+	cp $(targetprefix)/usr/bin/pwdx $(prefix)/release_neutrino/usr/bin/
+	cp $(targetprefix)/usr/bin/slabtop $(prefix)/release_neutrino/usr/bin/
+	cp $(targetprefix)/usr/bin/tload $(prefix)/release_neutrino/usr/bin/
+	cp $(targetprefix)/usr/bin/top $(prefix)/release_neutrino/usr/bin/
+	cp $(targetprefix)/usr/bin/uptime $(prefix)/release_neutrino/usr/bin/
+	cp $(targetprefix)/usr/bin/vmstat $(prefix)/release_neutrino/usr/bin/
+	cp $(targetprefix)/usr/bin/w $(prefix)/release_neutrino/usr/bin/
+	cp $(targetprefix)/usr/bin/watch $(prefix)/release_neutrino/usr/bin/
+	cp $(targetprefix)/sbin/sysctl $(prefix)/release_neutrino/sbin/
+	cp $(targetprefix)/bin/kill $(prefix)/release_neutrino/bin/
+	cp $(targetprefix)/bin/ps $(prefix)/release_neutrino/bin/
 #
 # release_base
 #

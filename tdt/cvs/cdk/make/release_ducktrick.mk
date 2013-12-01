@@ -159,6 +159,22 @@ release_ducktrick_hl101: release_ducktrick_common_utils
 	cp -f $(buildprefix)/root/release/i2cget $(prefix)/release_ducktrick/bin/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/player2/linux/drivers/sound/pcm_transcoder/*.ko $(prefix)/release_ducktrick/lib/modules/
 	chmod 755 $(prefix)/release_ducktrick/etc/init.d/mountvirtfs
+	cp $(targetprefix)/usr/bin/free $(prefix)/release_ducktrick/usr/bin/
+	cp $(targetprefix)/usr/bin/pgrep $(prefix)/release_ducktrick/usr/bin/
+	cp $(targetprefix)/usr/bin/pidof $(prefix)/release_ducktrick/usr/bin/
+	cp $(targetprefix)/usr/bin/pkill $(prefix)/release_ducktrick/usr/bin/
+	cp $(targetprefix)/usr/bin/pmap $(prefix)/release_ducktrick/usr/bin/
+	cp $(targetprefix)/usr/bin/pwdx $(prefix)/release_ducktrick/usr/bin/
+	cp $(targetprefix)/usr/bin/slabtop $(prefix)/release_ducktrick/usr/bin/
+	cp $(targetprefix)/usr/bin/tload $(prefix)/release_ducktrick/usr/bin/
+	cp $(targetprefix)/usr/bin/top $(prefix)/release_ducktrick/usr/bin/
+	cp $(targetprefix)/usr/bin/uptime $(prefix)/release_ducktrick/usr/bin/
+	cp $(targetprefix)/usr/bin/vmstat $(prefix)/release_ducktrick/usr/bin/
+	cp $(targetprefix)/usr/bin/w $(prefix)/release_ducktrick/usr/bin/
+	cp $(targetprefix)/usr/bin/watch $(prefix)/release_ducktrick/usr/bin/
+	cp $(targetprefix)/sbin/sysctl $(prefix)/release_ducktrick/sbin/
+	cp $(targetprefix)/bin/kill $(prefix)/release_ducktrick/bin/
+	cp $(targetprefix)/bin/ps $(prefix)/release_ducktrick/bin/
 #	TODO: Channellist ....
 	cp -aR $(buildprefix)/root/usr/local/share/config/* $(prefix)/release_ducktrick/var/tuxbox/config/
 	cp -aR $(targetprefix)/usr/share/tuxbox/neutrino $(prefix)/release_ducktrick/usr/local/share/

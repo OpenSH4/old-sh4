@@ -128,6 +128,22 @@ release_hl101: release_common_utils
 	cp -f $(buildprefix)/root/release/i2cget $(prefix)/release/bin/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/player2/linux/drivers/sound/pcm_transcoder/*.ko $(prefix)/release/lib/modules/
 	chmod 755 $(prefix)/release/etc/init.d/mountvirtfs
+	cp $(targetprefix)/usr/bin/free $(prefix)/release/usr/bin/
+	cp $(targetprefix)/usr/bin/pgrep $(prefix)/release/usr/bin/
+	cp $(targetprefix)/usr/bin/pidof $(prefix)/release/usr/bin/
+	cp $(targetprefix)/usr/bin/pkill $(prefix)/release/usr/bin/
+	cp $(targetprefix)/usr/bin/pmap $(prefix)/release/usr/bin/
+	cp $(targetprefix)/usr/bin/pwdx $(prefix)/release/usr/bin/
+	cp $(targetprefix)/usr/bin/slabtop $(prefix)/release/usr/bin/
+	cp $(targetprefix)/usr/bin/tload $(prefix)/release/usr/bin/
+	cp $(targetprefix)/usr/bin/top $(prefix)/release/usr/bin/
+	cp $(targetprefix)/usr/bin/uptime $(prefix)/release/usr/bin/
+	cp $(targetprefix)/usr/bin/vmstat $(prefix)/release/usr/bin/
+	cp $(targetprefix)/usr/bin/w $(prefix)/release/usr/bin/
+	cp $(targetprefix)/usr/bin/watch $(prefix)/release/usr/bin/
+	cp $(targetprefix)/sbin/sysctl $(prefix)/release/sbin/
+	cp $(targetprefix)/bin/kill $(prefix)/release/bin/
+	cp $(targetprefix)/bin/ps $(prefix)/release/bin/
 #
 # release_base
 #
