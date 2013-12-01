@@ -54,6 +54,31 @@ $(DEPDIR)/%bash: $(DEPDIR)/bash.do_compile
 	[ "x$*" = "x" ] && touch $@ || true
 
 #
+#alsa-utils
+#
+$(DEPDIR)/alsa_utils.do_prepare: bootstrap @DEPENDS_alsa_utils@
+	@PREPARE_alsa_utils@
+	touch $@
+
+$(DEPDIR)/alsa_utils.do_compile: $(DEPDIR)/alsa_utils.do_prepare
+	cd @DIR_alsa_utils@ && \
+	$(BUILDENV) \
+		./configure \
+			--build=$(build) \
+			--host=$(target) \
+			--disable-alsatest \
+			--prefix=/ && \
+		$(MAKE)
+	touch $@
+
+$(DEPDIR)/alsa_utils: \
+$(DEPDIR)/%alsa_utils: $(DEPDIR)/alsa_utils.do_compile
+	cd @DIR_alsa_utils@ && \
+		@INSTALL_alsa_utils@
+	@DISTCLEANUP_alsa_utils@
+	[ "x$*" = "x" ] && touch $@ || true
+
+#
 #bzip2
 #
 $(DEPDIR)/bzip2.do_prepare: bootstrap @DEPENDS_bzip2@

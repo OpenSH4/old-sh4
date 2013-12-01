@@ -32,6 +32,7 @@ bash;make:install:DESTDIR=TARGETS
 bzip2;make:install:PREFIX=TARGETS/usr
 gzip;make:install:DESTDIR=TARGETS
 grep;make:install:DESTDIR=TARGETS
+alsa-utils;make:install:DESTDIR=TARGETS
 openrdate;make:install:DESTDIR=TARGETS
 e2fsprogs;rewrite-pkgconfig:lib/blkid/blkid.pc:lib/e2p/e2p.pc:lib/et/com_err.pc:lib/ext2fs/ext2fs.pc:lib/quota/quota.pc:lib/ss/ss.pc:lib/uuid/uuid.pc;make:install:DESTDIR=TARGETS;rewrite-pkgconfig:TARGETS/usr/lib/pkgconfig/blkid.pc:TARGETS/usr/lib/pkgconfig/uuid.pc
 xfsprogs;make:install:prefix=TARGETS
