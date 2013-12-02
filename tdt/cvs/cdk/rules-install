@@ -28,6 +28,7 @@ module_init_tools;make:INSTALL=install:install:sbin_PROGRAMS="depmod modinfo":bi
 # contrib apps
 #
 procps_ng;make:install:DESTDIR=TARGETS
+i2ctools;make:install:DESTDIR=TARGETS
 bash;make:install:DESTDIR=TARGETS
 bzip2;make:install:PREFIX=TARGETS/usr
 gzip;make:install:DESTDIR=TARGETS

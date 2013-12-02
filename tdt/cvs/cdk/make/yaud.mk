@@ -72,6 +72,7 @@ $(DEPDIR)/%disk-utils: \
 	%$(XFSPROGS) \
 	%util-linux \
 	%jfsutils \
+	%i2ctools \
 	%$(SG3)
 
 #

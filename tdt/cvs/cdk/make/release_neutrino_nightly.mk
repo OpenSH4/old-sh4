@@ -116,7 +116,10 @@ release_neutrino_hl101: release_neutrino_common_utils
 	cp $(prefix)/release_neutrino/lib/modules/*.ko $(prefix)/release_neutrino/lib/modules/2.6.32.59_stm24_0211/
 	rm $(prefix)/release_neutrino/lib/modules/*.ko
 	cp -f $(buildprefix)/root/release/autoswitch $(prefix)/release_neutrino/bin/autoswitch
-	cp -f $(buildprefix)/root/release/i2cget $(prefix)/release_neutrino/bin/
+	cp -f $(targetprefix)/usr/local/sbin/i2cdetect $(prefix)/release_neutrino/bin/
+	cp -f $(targetprefix)/usr/local/sbin/i2cdump $(prefix)/release_neutrino/bin/
+	cp -f $(targetprefix)/usr/local/sbin/i2cget $(prefix)/release_neutrino/bin/
+	cp -f $(targetprefix)/usr/local/sbin/i2cset $(prefix)/release_neutrino/bin/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/player2/linux/drivers/sound/pcm_transcoder/*.ko $(prefix)/release_neutrino/lib/modules/
 	chmod 755 $(prefix)/release_neutrino/etc/init.d/mountvirtfs	
 	cp $(targetprefix)/usr/bin/free $(prefix)/release_neutrino/usr/bin/
@@ -127,6 +130,7 @@ release_neutrino_hl101: release_neutrino_common_utils
 	cp $(targetprefix)/usr/bin/pwdx $(prefix)/release_neutrino/usr/bin/
 	cp $(targetprefix)/usr/bin/slabtop $(prefix)/release_neutrino/usr/bin/
 	cp $(targetprefix)/usr/bin/tload $(prefix)/release_neutrino/usr/bin/
+	cp $(targetprefix)/usr/bin/top $(prefix)/release_neutrino/usr/bin/
 	cp $(targetprefix)/usr/bin/uptime $(prefix)/release_neutrino/usr/bin/
 	cp $(targetprefix)/usr/bin/vmstat $(prefix)/release_neutrino/usr/bin/
 	cp $(targetprefix)/usr/bin/w $(prefix)/release_neutrino/usr/bin/

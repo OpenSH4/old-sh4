@@ -45,6 +45,7 @@ module_init_tools;3.16;module-init-tools-3.16;module-init-tools-3.16.tar.bz2;ext
 # contrib apps
 #
 procps_ng;3.x;procps;procps.git;extract:procps.git
+i2ctools;3.1.0;i2c-tools-3.1.0;i2c-tools-3.1.0.tar.bz2;extract:i2c-tools-3.1.0.tar.bz2
 bash;4.2;bash-4.2;bash-4.2.tar.gz:bash.diff;extract:bash-4.2.tar.gz;patch:bash.diff
 bzip2;1.0.6;bzip2-1.0.6;bzip2-1.0.6.tar.gz:bzip2.diff;extract:bzip2-1.0.6.tar.gz;patch:bzip2.diff
 gzip;1.6;gzip-1.6;gzip-1.6.tar.gz;extract:gzip-1.6.tar.gz

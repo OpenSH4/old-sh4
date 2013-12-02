@@ -79,6 +79,27 @@ $(DEPDIR)/%alsa_utils: $(DEPDIR)/alsa_utils.do_compile
 	[ "x$*" = "x" ] && touch $@ || true
 
 #
+#i2c-tools
+#
+$(DEPDIR)/i2ctools.do_prepare: bootstrap @DEPENDS_i2ctools@
+	@PREPARE_i2ctools@
+	touch $@
+
+$(DEPDIR)/i2ctools.do_compile: $(DEPDIR)/i2ctools.do_prepare
+	cd @DIR_i2ctools@ && \
+	$(BUILDENV) \
+		$(MAKE)
+	touch $@
+
+$(DEPDIR)/i2ctools: \
+$(DEPDIR)/%i2ctools: $(DEPDIR)/i2ctools.do_compile
+	cd @DIR_i2ctools@ && \
+		@INSTALL_i2ctools@
+	@DISTCLEANUP_i2ctools@
+	[ "x$*" = "x" ] && touch $@ || true
+
+#
+#
 #bzip2
 #
 $(DEPDIR)/bzip2.do_prepare: bootstrap @DEPENDS_bzip2@

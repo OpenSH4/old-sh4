@@ -156,7 +156,10 @@ release_ducktrick_hl101: release_ducktrick_common_utils
 	$(INSTALL_DIR) $(prefix)/release_ducktrick/usr/local/share
 	cp -aR $(targetprefix)/usr/local/share/iso-codes $(prefix)/release_ducktrick/usr/local/share/
 	cp -f $(buildprefix)/root/release/autoswitch $(prefix)/release_ducktrick/bin/autoswitch
-	cp -f $(buildprefix)/root/release/i2cget $(prefix)/release_ducktrick/bin/
+	cp -f $(targetprefix)/usr/local/sbin/i2cdetect $(prefix)/release_ducktrick/bin/
+	cp -f $(targetprefix)/usr/local/sbin/i2cdump $(prefix)/release_ducktrick/bin/
+	cp -f $(targetprefix)/usr/local/sbin/i2cget $(prefix)/release_ducktrick/bin/
+	cp -f $(targetprefix)/usr/local/sbin/i2cset $(prefix)/release_ducktrick/bin/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/player2/linux/drivers/sound/pcm_transcoder/*.ko $(prefix)/release_ducktrick/lib/modules/
 	chmod 755 $(prefix)/release_ducktrick/etc/init.d/mountvirtfs
 	cp $(targetprefix)/usr/bin/free $(prefix)/release_ducktrick/usr/bin/
@@ -167,6 +170,7 @@ release_ducktrick_hl101: release_ducktrick_common_utils
 	cp $(targetprefix)/usr/bin/pwdx $(prefix)/release_ducktrick/usr/bin/
 	cp $(targetprefix)/usr/bin/slabtop $(prefix)/release_ducktrick/usr/bin/
 	cp $(targetprefix)/usr/bin/tload $(prefix)/release_ducktrick/usr/bin/
+	cp $(targetprefix)/usr/bin/top $(prefix)/release_ducktrick/usr/bin/
 	cp $(targetprefix)/usr/bin/uptime $(prefix)/release_ducktrick/usr/bin/
 	cp $(targetprefix)/usr/bin/vmstat $(prefix)/release_ducktrick/usr/bin/
 	cp $(targetprefix)/usr/bin/w $(prefix)/release_ducktrick/usr/bin/
