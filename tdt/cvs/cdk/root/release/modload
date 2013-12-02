@@ -384,7 +384,9 @@ elif [ "$1" = "Lirc" ]; then
 		    fi
 	else
 		echo "Lade Lirc STM-Default Treiber ..."
-		insmod /lib/modules/lirc_stm.ko				
+		# ohne auswahl des empfängers und wenn kein firstboot ist
+		# läd das standart STM von der BOX nun auch richtig
+		modprobe lirc_stm.ko				
 	fi
        /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
     fi
