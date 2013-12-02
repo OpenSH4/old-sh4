@@ -136,7 +136,6 @@ release_hl101: release_common_utils
 	cp $(targetprefix)/usr/bin/pwdx $(prefix)/release/usr/bin/
 	cp $(targetprefix)/usr/bin/slabtop $(prefix)/release/usr/bin/
 	cp $(targetprefix)/usr/bin/tload $(prefix)/release/usr/bin/
-	cp $(targetprefix)/usr/bin/top $(prefix)/release/usr/bin/
 	cp $(targetprefix)/usr/bin/uptime $(prefix)/release/usr/bin/
 	cp $(targetprefix)/usr/bin/vmstat $(prefix)/release/usr/bin/
 	cp $(targetprefix)/usr/bin/w $(prefix)/release/usr/bin/

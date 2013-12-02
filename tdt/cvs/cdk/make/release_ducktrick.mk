@@ -167,7 +167,6 @@ release_ducktrick_hl101: release_ducktrick_common_utils
 	cp $(targetprefix)/usr/bin/pwdx $(prefix)/release_ducktrick/usr/bin/
 	cp $(targetprefix)/usr/bin/slabtop $(prefix)/release_ducktrick/usr/bin/
 	cp $(targetprefix)/usr/bin/tload $(prefix)/release_ducktrick/usr/bin/
-	cp $(targetprefix)/usr/bin/top $(prefix)/release_ducktrick/usr/bin/
 	cp $(targetprefix)/usr/bin/uptime $(prefix)/release_ducktrick/usr/bin/
 	cp $(targetprefix)/usr/bin/vmstat $(prefix)/release_ducktrick/usr/bin/
 	cp $(targetprefix)/usr/bin/w $(prefix)/release_ducktrick/usr/bin/

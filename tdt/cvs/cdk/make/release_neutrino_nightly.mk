@@ -127,7 +127,6 @@ release_neutrino_hl101: release_neutrino_common_utils
 	cp $(targetprefix)/usr/bin/pwdx $(prefix)/release_neutrino/usr/bin/
 	cp $(targetprefix)/usr/bin/slabtop $(prefix)/release_neutrino/usr/bin/
 	cp $(targetprefix)/usr/bin/tload $(prefix)/release_neutrino/usr/bin/
-	cp $(targetprefix)/usr/bin/top $(prefix)/release_neutrino/usr/bin/
 	cp $(targetprefix)/usr/bin/uptime $(prefix)/release_neutrino/usr/bin/
 	cp $(targetprefix)/usr/bin/vmstat $(prefix)/release_neutrino/usr/bin/
 	cp $(targetprefix)/usr/bin/w $(prefix)/release_neutrino/usr/bin/
