@@ -162,11 +162,14 @@ static int pRead(Context_t* context ) {
 
     printf("[RCU] key: %s -> %s\n", vData, &vBuffer[0]);
 
-    //Newbiez: for write of evremote2 tmp files in /ram take -x parameter
-    if (vRamMode==0)
+    //Newbiez: for write of evremote2 tmp files in /ram take -x parameter - Mod by Ducktrick ;)
+    if (vRamMode==0) {
 	system("echo KEYBOARD > /tmp/autoswitch.tmp");
-    else
+    } else if (vRamMode==1) {
 	system("echo KEYBOARD > /ram/autoswitch.tmp");
+    } else if (vRamMode==2) {
+	printf("[RCU] autoswitch.tmp write is off\n");
+    }
 
 
     vCurrentCode = getInternalCode((tButton*)((RemoteControl_t*)context->r)->RemoteControl, vData);

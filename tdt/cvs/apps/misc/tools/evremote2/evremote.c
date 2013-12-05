@@ -98,7 +98,7 @@ int processSimple (Context_t * context, int argc, char* argv[]) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static unsigned int gBtnPeriod  = 100;
+static unsigned int gBtnPeriod  = 10;
 static unsigned int gBtnDelay = 10;
 
 static struct timeval profilerLast;
@@ -112,36 +112,18 @@ static pthread_t keydown_thread;
 
 int vRamMode = 0;
 
-#ifdef NITS_SEM_PATCH_WOULD_WORK
-// Your patch crashes the long key press detection.
-// You know there was a reason why I didn't do it this way.
-// Sem_getvaulue and counting sems does not work as someone would initialy expect.
-#else
 static unsigned char keydown_sem_helper = 1;
-#endif
 static void sem_up(void) {
-#ifdef NITS_SEM_PATCH_WOULD_WORK
-  int sem_val;
-  sem_getvalue(&keydown_sem, &sem_val);
-  if(sem_val <= 0) {
-#else
   if(keydown_sem_helper == 0) {
-#endif
     printf("[SEM] UP\n");
     sem_post(&keydown_sem);
-#ifdef NITS_SEM_PATCH_WOULD_WORK
-#else
     keydown_sem_helper = 1;
-#endif
   }
 }
 
 static void sem_down(void) {
   printf("[SEM] DOWN\n");
-#ifdef NITS_SEM_PATCH_WOULD_WORK
-#else
   keydown_sem_helper = 0;
-#endif
   sem_wait(&keydown_sem);
 }
 
@@ -289,7 +271,7 @@ void *detectKeyUpTask(void* dummy)
 
         printf("++++ %12u ms ++++\n", diffMilli(profilerLast, time));
         gKeyCode = 0;
-        usleep(sleep*1000);
+        usleep(sleep*800);
       }
       printf("KEY_RELEASE - %02x %02x %d %d CAUSE=%s\n", keyCode, gKeyCode, nextKey, gNextKey, (gKeyCode==0)?"Timeout":"New key");
 
@@ -312,21 +294,9 @@ void *detectKeyUpTask(void* dummy)
   return 0;
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-int getKathreinUfs910BoxType() {
-    char vType;
-    int vFdBox = open("/proc/boxtype", O_RDONLY);
-
-    read (vFdBox, &vType, 1);
-
-    close(vFdBox);
-
-    return vType=='0'?0:vType=='1'||vType=='3'?1:-1;
-}
 
 int getModel()
 {
@@ -335,8 +305,9 @@ int getModel()
     char        vName[129]      = "Unknown";
     int         vLen            = -1;
     eBoxType    vBoxType        = Unknown;
-
+	
     vFd = open("/var/config/boxtype", O_RDONLY);
+    
     vLen = read (vFd, vName, cSize);
 
     close(vFd);
@@ -344,79 +315,20 @@ int getModel()
     if(vLen > 0) {
         vName[vLen-1] = '\0';
 
-        printf("Model: %s\n", vName);
+       printf("Model: %s\n", vName);
 
-        if(!strncasecmp(vName,"ufs910", 6)) {
-            switch(getKathreinUfs910BoxType())
-            {
-                case 0:
-                    vBoxType = Ufs910_1W;
-                    break;
-                case 1:
-                    vBoxType = Ufs910_14W;
-                    break;
-                default:
-                    vBoxType = Unknown;
-                    break;
-            }
-        } else if(!strncasecmp(vName,"ufs922", 6))
-            vBoxType = Ufs922;
-        else if(!strncasecmp(vName,"tf7700hdpvr", 11))
-            vBoxType = Tf7700;
-        else if(!strncasecmp(vName,"vip1", 5))
-            vBoxType = Hl101;
-        else if(!strncasecmp(vName,"classic", 5))
-            vBoxType = Classic;
+	if(!strncasecmp(vName,"vip1", 5))
+            vBoxType = Vip1;
         else if(!strncasecmp(vName,"opti", 5))
             vBoxType = Opti;
-        else if(!strncasecmp(vName,"Pingulux", 7))
+        else if(!strncasecmp(vName,"pingulux", 5))
             vBoxType = Pingulux;
-        else if(!strncasecmp(vName,"vip2", 7))
+        else if(!strncasecmp(vName,"vip2", 5))
             vBoxType = Vip2;
-        else if(!strncasecmp(vName,"mce2005", 7))
+        else if(!strncasecmp(vName,"mce2005", 5))
             vBoxType = Mce2005;
-        else if(!strncasecmp(vName,"techno", 7))
+        else if(!strncasecmp(vName,"techno", 5))
             vBoxType = TTUSBIR;
-        else if(!strncasecmp(vName,"hdbox", 5))
-            vBoxType = HdBox;
-        else if(!strncasecmp(vName,"atevio7500", 5))
-            vBoxType = HdBox;
-		else if(!strncasecmp(vName,"octagon1008", 11))
-            vBoxType = HdBox;
-		else if(!strncasecmp(vName,"hs7810a", 7))
-            vBoxType = HdBox;
-		else if(!strncasecmp(vName,"hs7110", 6))
-            vBoxType = HdBox;
-		else if(!strncasecmp(vName,"whitebox", 8))
-            vBoxType = HdBox;
-        else if(!strncasecmp(vName,"hs5101", 6))
-            vBoxType = Hs5101;
-        else if(!strncasecmp(vName,"adb_box", 7))
-            vBoxType = Adb_Box;
-        else if((!strncasecmp(vName,"ipbox9900", 9)) || (!strncasecmp(vName,"ipbox99", 7)) || (!strncasecmp(vName,"ipbox55", 7)))
-            vBoxType = Ipbox;
-        else if(!strncasecmp(vName,"ufs912", 5))
-            vBoxType = Ufs912;
-        else if(!strncasecmp(vName,"ufs913", 5))
-            vBoxType = Ufs912;
-        else if(!strncasecmp(vName,"spark", 5))
-        {
-    		vBoxType = Spark;
-        }
-        else if(!strncasecmp(vName,"spark7162", 9))
-        {
-    		vBoxType = Spark;
-        }
-        else if ((!strncasecmp(vName,"cuberevo", 8)) ||
-                 (!strncasecmp(vName,"cuberevo-mini", 13)) ||
-                 (!strncasecmp(vName,"cuberevo-mini2", 14)) ||
-                 (!strncasecmp(vName,"cuberevo-mini-fta", 17)) ||
-                 (!strncasecmp(vName,"cuberevo-250hd", 14)) ||
-                 (!strncasecmp(vName,"cuberevo-2000hd", 15)) ||
-                 (!strncasecmp(vName,"cuberevo-9500hd", 15)))
-        {
-    		vBoxType = Cuberevo;
-        }
         else
             vBoxType = Unknown;
     }
@@ -448,7 +360,7 @@ int main (int argc, char* argv[])
      * evremote. so lets ignore it ...
      */
     ignoreSIGPIPE();
-
+    
     vBoxType = getModel();
 
     if(vBoxType != Unknown)
@@ -505,21 +417,14 @@ int main (int argc, char* argv[])
         }
 	//Newbiez: for write of evremote2 tmp files in /ram take -x parameter
 	if (!strncmp(argv[1], "-x", 2)) vRamMode=1;
+	
+	//Ducktrick: verhindert das schreiben der Autoswitch Datei
+	//Das können wir mit hilfe des Boxtypes verwenden für Vip1v2 und Vip2
+	if (!strncmp(argv[2], "-s", 2)) vRamMode=2;
     }
 
     if (vButtonExtensionCounter > 0)
         ((RemoteControl_t*)context.r)->RemoteControl = vButtonExtension;
-    // TODO
-    //if(((RemoteControl_t*)context.r)->RemoteControl == NULL && vButtonExtensionCounter > 0)
-        //((RemoteControl_t*)context.r)->RemoteControl = vButtonExtension;
-    //else if (vButtonExtensionCounter > 0) {
-        //int vRemoteControlSize    = sizeof(((RemoteControl_t*)context.r)->RemoteControl) / sizeof(tButton);
-        //int vRemoteControlExtSize = vButtonExtensionCounter;
-        //((RemoteControl_t*)context.r)->RemoteControl = malloc((vRemoteControlSize + vRemoteControlExtSize - 1)*sizeof(tButton));
-    //}
-
-    //printf("RemoteControl Map:\n");
-    //printKeyMap((tButton*)((RemoteControl_t*)context.r)->RemoteControl);
 
     printf("Supports Long KeyPress: %d\n", ((RemoteControl_t*)context.r)->supportsLongKeyPress);
     if(((RemoteControl_t*)context.r)->supportsLongKeyPress)

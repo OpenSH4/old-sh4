@@ -46,7 +46,7 @@ static tLongKeyPressSupport cLongKeyPressSupport = {
 };
 
 /* Edision argus-vip2 RCU */
-static tButton cButtonsEdisionVip2[] = {
+static tButton cButtonsVip2[] = {
     {"STANDBY"        , "25", KEY_POWER},
     {"MUTE"           , "85", KEY_MUTE},
     {"V.FORMAT"       , "AD", KEY_V},
@@ -172,12 +172,14 @@ static int pRead(Context_t* context ) {
 
     printf("[RCU] key: %s -> %s\n", vData, &vBuffer[0]);
 
-    //Newbiez: for write of evremote2 tmp files in /ram take -x parameter
-    if (vRamMode==0)
+    //Newbiez: for write of evremote2 tmp files in /ram take -x parameter - Mod by Ducktrick ;)
+    if (vRamMode==0) {
 	system("echo KEYBOARD > /tmp/autoswitch.tmp");
-    else
+    } else if (vRamMode==1) {
 	system("echo KEYBOARD > /ram/autoswitch.tmp");
-
+    } else if (vRamMode==2) {
+	printf("[RCU] autoswitch.tmp write is off\n");
+    }	
 
     vCurrentCode = getInternalCode((tButton*)((RemoteControl_t*)context->r)->RemoteControl, vData);
 
@@ -192,7 +194,7 @@ static int pRead(Context_t* context ) {
     return vCurrentCode;
 }
 
-/*static int pNotification(Context_t* context, const int cOn) {
+static int pNotification(Context_t* context, const int cOn) {
 
     struct aotom_ioctl_data vfd_data;
     int ioctl_fd = -1;
@@ -216,34 +218,7 @@ static int pRead(Context_t* context ) {
     }
 
     return 0;
-}*/
-static int pNotification(Context_t* context, const int cOn) {
-
-    struct proton_ioctl_data vfd_data;
-    int ioctl_fd = -1;
-
-    if(cOn)
-    {
-       usleep(100000);
-       ioctl_fd = open("/dev/vfd", O_RDONLY);
-       vfd_data.u.icon.icon_nr = 35;
-       vfd_data.u.icon.on = 0;
-       ioctl(ioctl_fd, VFDICONDISPLAYONOFF, &vfd_data);
-       close(ioctl_fd);
-    }
-    else
-    {
-       usleep(100000);
-       ioctl_fd = open("/dev/vfd", O_RDONLY);
-       vfd_data.u.icon.icon_nr = 35;
-       vfd_data.u.icon.on = 0;
-       ioctl(ioctl_fd, VFDICONDISPLAYONOFF, &vfd_data);
-       close(ioctl_fd);
-    }
-
-    return 0;
 }
-
 
 RemoteControl_t Vip2_RC = {
 	"VIP2 Neu GStreamer MultiImages RemoteControl",
@@ -252,7 +227,7 @@ RemoteControl_t Vip2_RC = {
 	&pShutdown,
 	&pRead,
 	&pNotification,
-	cButtonsEdisionVip2,
+	cButtonsVip2,
 	NULL,
         NULL,
   	1,

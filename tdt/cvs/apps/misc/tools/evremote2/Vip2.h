@@ -44,18 +44,7 @@ struct set_time_s {
 	char time[5];
 };
 
-/*struct aotom_ioctl_data {
-	union
-	{
-		struct set_icon_s icon;
-		struct set_led_s led;
-		struct set_brightness_s brightness;
-		struct set_mode_s mode;
-		struct set_standby_s standby;
-		struct set_time_s time;
-	} u;
-};*/
-struct proton_ioctl_data {
+struct aotom_ioctl_data {
 	union
 	{
 		struct set_icon_s icon;
