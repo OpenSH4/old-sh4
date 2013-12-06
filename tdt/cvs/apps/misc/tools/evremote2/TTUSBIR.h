@@ -39,7 +39,7 @@
        char time[5];
     };
 
-    struct proton_ioctl_data {
+    struct aotom_ioctl_data {
        union
        {
           struct set_icon_s icon;
