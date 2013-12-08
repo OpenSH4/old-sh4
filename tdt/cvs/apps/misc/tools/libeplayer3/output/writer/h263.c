@@ -49,11 +49,13 @@
 /* ***************************** */
 /* Makros/Constants              */
 /* ***************************** */
-#define H263_DEBUG
+
+
+//#define H263_DEBUG
 
 #ifdef H263_DEBUG
 
-static short debug_level = 0;
+static short debug_level = 10;
 
 #define h263_printf(level, fmt, x...) do { \
 if (debug_level >= level) printf("[%s:%s] " fmt, __FILE__, __FUNCTION__, ## x); } while (0)
@@ -84,69 +86,63 @@ if (debug_level >= level) printf("[%s:%s] " fmt, __FILE__, __FUNCTION__, ## x); 
 
 static int reset()
 {
-    return 0;
+	return 0;
 }
 
 static int writeData(void* _call)
 {
-    WriterAVCallData_t* call = (WriterAVCallData_t*) _call;
+	WriterAVCallData_t* call = (WriterAVCallData_t*) _call;
 
-    unsigned char PesHeader[PES_MAX_HEADER_SIZE];
-    int len = 0;
+	unsigned char PesHeader[PES_MAX_HEADER_SIZE];
+	unsigned char DataCopy[PES_MAX_HEADER_SIZE];
+	int len = 0;
 
-    h263_printf(10, "\n");
+	h263_printf(10, "\n");
 
-    if (call == NULL)
-    {
-        h263_err("call data is NULL...\n");
-        return 0;
-    }
+	if (call == NULL)
+	{
+		h263_err("call data is NULL...\n");
+		return 0;
+	}
 
-    h263_printf(10, "VideoPts %lld\n", call->Pts);
+	h263_printf(10, "VideoPts %lld\n", call->Pts);
 
-    if ((call->data == NULL) || (call->len <= 0))
-    {
-        h263_err("NULL Data. ignoring...\n");
-        return 0;
-    }
+	if ((call->data == NULL) || (call->len <= 0))
+	{
+		h263_err("NULL Data. ignoring...\n");
+		return 0;
+	}
 
-    if (call->fd < 0)
-    {
-        h263_err("file pointer < 0. ignoring ...\n");
-        return 0;
-    }
+	if (call->fd < 0)
+	{
+		h263_err("file pointer < 0. ignoring ...\n");
+		return 0;
+	}
 
-    int HeaderLength = InsertPesHeader(PesHeader, call->len, H263_VIDEO_PES_START_CODE, call->Pts,0);
+	int HeaderLength = InsertPesHeader(PesHeader, call->len, H263_VIDEO_PES_START_CODE, call->Pts,0);
 
-    int PrivateHeaderLength = InsertVideoPrivateDataHeader (&PesHeader[HeaderLength], call->len);
+	int PrivateHeaderLength = InsertVideoPrivateDataHeader (&PesHeader[HeaderLength], call->len);
 
-    int PesLength = PesHeader[PES_LENGTH_BYTE_0] + (PesHeader[PES_LENGTH_BYTE_1] << 8) + PrivateHeaderLength;
+	int PesLength = PesHeader[PES_LENGTH_BYTE_0] + (PesHeader[PES_LENGTH_BYTE_1] << 8) + PrivateHeaderLength;
 
-    PesHeader[PES_LENGTH_BYTE_0]            = PesLength & 0xff;
-    PesHeader[PES_LENGTH_BYTE_1]            = (PesLength >> 8) & 0xff;
-    PesHeader[PES_HEADER_DATA_LENGTH_BYTE] += PrivateHeaderLength;
-    PesHeader[PES_FLAGS_BYTE]              |= PES_EXTENSION_DATA_PRESENT;
+	PesHeader[PES_LENGTH_BYTE_0]            = PesLength & 0xff;
+	PesHeader[PES_LENGTH_BYTE_1]            = (PesLength >> 8) & 0xff;
+	PesHeader[PES_HEADER_DATA_LENGTH_BYTE] += PrivateHeaderLength;
+	PesHeader[PES_FLAGS_BYTE]              |= PES_EXTENSION_DATA_PRESENT;
 
-    HeaderLength                           += PrivateHeaderLength;
+	HeaderLength                           += PrivateHeaderLength;
 
-		unsigned char *PacketData = malloc(HeaderLength + call->len);
+	unsigned char *PacketData = call->data - HeaderLength;
 
-		if(PacketData != NULL)
-		{
-      memcpy(PacketData, PesHeader, HeaderLength);
-      memcpy(PacketData + HeaderLength, call->data, call->len);
+	memcpy(DataCopy, PacketData, HeaderLength);
+	memcpy(PacketData, PesHeader, HeaderLength);
 
-      len = write(call->fd, PacketData, call->len + HeaderLength);
+	len = write(call->fd, PacketData, call->len + HeaderLength);
 
-      free(PacketData);
-		}
-		else
-		{
-			h263_err("no mem\n");
-		}
+	memcpy(PacketData, DataCopy, HeaderLength);
 
-    h263_printf(10, "< len %d\n", len);
-    return len;
+	h263_printf(10, "< len %d\n", len);
+	return len;
 }
 
 /* ***************************** */
@@ -154,29 +150,37 @@ static int writeData(void* _call)
 /* ***************************** */
 
 static WriterCaps_t caps_h263 = {
-    "h263",
-    eVideo,
-    "V_H263",
-    VIDEO_ENCODING_H263
+	"h263",
+	eVideo,
+	"V_H263",
+#if defined (__sh__)
+	VIDEO_ENCODING_H263
+#else
+	VIDEO_STREAMTYPE_MPEG4_H263
+#endif
 };
 
 struct Writer_s WriterVideoH263 = {
-    &reset,
-    &writeData,
-    NULL,
-    &caps_h263
+	&reset,
+	&writeData,
+	NULL,
+	&caps_h263,
 };
 
 static WriterCaps_t caps_flv = {
-    "FLV",
-    eVideo,
-    "V_FLV",
-    VIDEO_ENCODING_FLV1
+	"FLV",
+	eVideo,
+	"V_FLV",
+#if defined (__sh__)	
+	VIDEO_ENCODING_FLV1
+#else
+	VIDEO_STREAMTYPE_MPEG4_H263
+#endif
 };
 
 struct Writer_s WriterVideoFLV = {
-    &reset,
-    &writeData,
-    NULL,
-    &caps_flv
+	&reset,
+	&writeData,
+	NULL,
+	&caps_flv,
 };

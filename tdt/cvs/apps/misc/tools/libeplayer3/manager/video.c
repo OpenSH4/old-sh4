@@ -32,7 +32,7 @@
 /* ***************************** */
 #define TRACKWRAP 4
 
-#define VIDEO_MGR_DEBUG
+//#define VIDEO_MGR_DEBUG
 
 #ifdef VIDEO_MGR_DEBUG
 
@@ -237,5 +237,6 @@ static int Command(void  *_context, ManagerCmd_t command, void * argument) {
 struct Manager_s VideoManager = {
     "Video",
     &Command,
-    NULL
+    NULL,
+
 };
