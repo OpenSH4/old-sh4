@@ -39,12 +39,12 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 	echo ""; \
 	echo "Choose between the following revisions:"; \
 	echo "========================================================================================================"; \
-	echo " 0) Newest		- NHD2 libplayer3    			(Can fail due to outdated patch)"; \
-	echo " 1) Newest (TeamCS)	- NHD2 libplayer3 + TeamCS-Menu   	(Can fail due to outdated patch)"; \
+	echo " 0) Newest		- NHD2 libeplayer3    			(Can fail due to outdated patch)"; \
+	echo " 1) Newest (TeamCS)	- NHD2 libeplayer3 + TeamCS-Menu   	(Can fail due to outdated patch)"; \
 	echo " 2) inactive"; \
-	echo " 3) Fri,  20 Nov 2013	- NHD2 libplayer3 + TeamCS-Menu		(SVN 1925)"; \
+	echo " 3) Sat,  07 Dez 2013	- NHD2 libeplayer3 + TeamCS-Menu		(SVN 1940)"; \
 	echo "========================================================================================================"; \
-	echo "Media Framwork : $(MEDIAFW) (MediaFW will always be libeplayer3 for NHD2)"; \
+	echo "Media Framwork : $(MEDIAFW) (MediaFW will always be libbeplayer3 for NHD2)"; \
 	echo "External LCD   : $(EXTERNALLCD)"; \
 	read -p "Select         : "; \
 	[ "$$REPLY" == "0" ] && NHDselect=0; \
@@ -131,6 +131,7 @@ $(appsdir)/neutrino-hd2-exp/config.status:
 			--enable-scart \
 			--enable-ci \
 			--enable-standalonepluigns \
+			--enable-netzkino \
 			PKG_CONFIG=$(hostprefix)/bin/pkg-config \
 			PKG_CONFIG_PATH=$(targetprefix)/usr/lib/pkgconfig \
 			$(PLATFORM_CPPFLAGS) \

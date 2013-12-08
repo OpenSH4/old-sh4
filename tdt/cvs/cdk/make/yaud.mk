@@ -99,7 +99,7 @@ yaud-enigma2-pli-amiko: yaud-none host_python lirc \
 	@TUXBOX_YAUD_CUSTOMIZE@
 
 yaud-ducktrick-multiimage: yaud-none host_python lirc \
-		boot-elf remote stslave firstboot neutrino-hd2-exp enigma2-pli-amiko enigma2-plugins e2-pli-plugins \
+		boot-elf remote stslave firstboot enigma2-pli-amiko enigma2-plugins e2-pli-plugins neutrino-hd2-exp \
 		release_ducktrick
 	@TUXBOX_YAUD_CUSTOMIZE@
 

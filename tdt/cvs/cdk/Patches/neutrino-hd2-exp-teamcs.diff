@@ -1,7 +1,7 @@
 diff -upr neutrino-hd2-exp/data/locale/deutsch.locale neutrino-hd2-exp/data/locale/deutsch.locale
 --- neutrino-hd2-exp/data/locale/deutsch.locale	2013-11-09 21:46:41.000000000 +0100
 +++ neutrino-hd2-exp/data/locale/deutsch.locale	2013-11-09 21:47:03.000000000 +0100
-@@ -1618,6 +1618,126 @@ keybinding.savekeymap_hint keymap wird g
+@@ -1618,6 +1618,134 @@ keybinding.savekeymap_hint keymap wird g
  
  audiomenu.volumebar_audiosteps Lautstärke Schrittweite
  
@@ -78,13 +78,21 @@ diff -upr neutrino-hd2-exp/data/locale/deutsch.locale neutrino-hd2-exp/data/loca
 +teamcstuner.vip2lgkabeldvbt Kabel LG und DVB-T VIP2
 +teamcstuner.vip2sharpdvbt Sharp DVB-S2 und DVB-T VIP2
 +teamcstuner.autotuner Tuner Autodetect
-+	
++
++teamcsfb.remotehead --- Fernbedienungen ---
++teamcsfb.pingo Pingolux FB	
 +teamcsfb.vipneu ArgusVIP neue FB Rotes Blinken
 +teamcsfb.vipneugruen ArgusVIP neue FB Gruenes Blinken
 +teamcsfb.vipalt ArgusVIP alte FB Rotes Blinken
 +teamcsfb.vipaltgruen ArgusVIP alte FB Gruenes Blinken
 +teamcsfb.opti Opticum FB
 +teamcsfb.pingo Pingolux FB
++teamcsfb.technofb TechnoTrend FB
++teamcsfb.mcefb MediaCenter FB
++teamcsfb.irhead --- Empfänger ---
++teamcsfb.stm STM Box Intern (default)
++teamcsfb.mce2005 MCE2005 USB
++teamcsfb.techno TechnoTrend USB
 +teamcsfb.neustart System Neustart
 +	
 +teamcsupnp.an UPNP Client Aktivieren
@@ -131,7 +139,7 @@ diff -upr neutrino-hd2-exp/data/locale/deutsch.locale neutrino-hd2-exp/data/loca
 diff -upr neutrino-hd2-exp/data/locale/english.locale neutrino-hd2-exp/data/locale/english.locale
 --- neutrino-hd2-exp/data/locale/english.locale	2013-11-09 21:46:41.000000000 +0100
 +++ neutrino-hd2-exp/data/locale/english.locale	2013-11-09 21:47:03.000000000 +0100
-@@ -1617,6 +1617,126 @@ keybinding.savekeymap_hint Saving keymap
+@@ -1617,6 +1617,133 @@ keybinding.savekeymap_hint Saving keymap
  
  audiomenu.volumebar_audiosteps Volume Step Size
  
@@ -208,13 +216,20 @@ diff -upr neutrino-hd2-exp/data/locale/english.locale neutrino-hd2-exp/data/loca
 +teamcstuner.vip2lgkabeldvbt Cable LG und DVB-T VIP2
 +teamcstuner.vip2sharpdvbt Sharp DVB-S2 und DVB-T VIP2
 +teamcstuner.autotuner Tuner Autodetect
-+	
++
++teamcsfb.remotehead --- Remote-Controls ---	
 +teamcsfb.vipneu ArgusVIP new RC (red signal)
 +teamcsfb.vipneugruen ArgusVIP new RC (green signal)
 +teamcsfb.vipalt ArgusVIP old RC (red signal)
 +teamcsfb.vipaltgruen ArgusVIP old RC (green signal)
 +teamcsfb.opti Opticum
 +teamcsfb.pingo Pingolux
++teamcsfb.technofb TechnoTrend FB
++teamcsfb.mcefb MediaCenter FB
++teamcsfb.irhead --- IR-Receiver ---
++teamcsfb.stm STM Box Intern (default)
++teamcsfb.mce2005 MCE2005 USB
++teamcsfb.techno TechnoTrend USB
 +teamcsfb.neustart Reboot System
 +	
 +teamcsupnp.an Activate UPNP Client
@@ -352,7 +367,7 @@ diff -upr neutrino-hd2-exp/src/neutrino_menue.cpp neutrino-hd2-exp/src/neutrino_
  	
  	LOCALE_MISCSETTINGS_LOGOSDIR,
  	LOCALE_MISCSETTINGS_RECORDING_SCREENSHOT,
-@@ -1630,6 +1634,121 @@ typedef enum {
+@@ -1630,6 +1634,128 @@ typedef enum {
  	
  	LOCALE_AUDIOMENU_VOLUMEBAR_AUDIOSTEPS,
  	
@@ -424,13 +439,20 @@ diff -upr neutrino-hd2-exp/src/neutrino_menue.cpp neutrino-hd2-exp/src/neutrino_
 +	LOCALE_TEAMCSTUNER_VIP2_LGKABEL_DVBT,
 +	LOCALE_TEAMCSTUNER_VIP2_DVBS2SHARP_DVBT,
 +       LOCALE_TEAMCSTUNER_AUTOTUNER,
-+	
++
++	LOCALE_TEAMCSFB_REMOTEHEAD,	
 +	LOCALE_TEAMCSFB_VIPNEU,
 +	LOCALE_TEAMCSFB_VIPNEUGRUEN,
 +	LOCALE_TEAMCSFB_VIPALT,
 +	LOCALE_TEAMCSFB_VIPALTGRUEN,
 +	LOCALE_TEAMCSFB_OPTI,
 +	LOCALE_TEAMCSFB_PINGO,
++	LOCALE_TEAMCSFB_TECHNOFB,
++	LOCALE_TEAMCSFB_MCEFB,
++	LOCALE_TEAMCSFB_IRHEAD,
++	LOCALE_TEAMCSFB_STM,
++	LOCALE_TEAMCSFB_MCE2005,
++	LOCALE_TEAMCSFB_TECHNO,
 +	LOCALE_TEAMCSFB_NEUSTART,
 +
 +	LOCALE_TEAMCSUPNP_AN,
@@ -495,7 +517,7 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
  	
  	"miscsettings.logosdir",
  	"miscsettings.recording_screenshot",
-@@ -1630,6 +1634,121 @@ const char * locale_real_names[] = {
+@@ -1630,6 +1634,128 @@ const char * locale_real_names[] = {
  	
  	"audiomenu.volumebar_audiosteps",
  	
@@ -526,7 +548,7 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
 +	"teamcsemu.mbox2",
 +	"teamcsemu.incubus2",
 +	"teamcsemu.camd32",
-+       "teamcsemu.keyupdate",
++  "teamcsemu.keyupdate",
 +	
 +	"teamcsuhr.displayreset",
 +	"teamcsuhr.uhran",
@@ -566,14 +588,21 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
 +	"teamcstuner.vip2kabellg2",
 +	"teamcstuner.vip2lgkabeldvbt",
 +	"teamcstuner.vip2sharpdvbt",
-+       "teamcstuner.autotuner",
-+	
++  "teamcstuner.autotuner",
++
++	"teamcsfb.remotehead",	
 +	"teamcsfb.vipneu",
 +	"teamcsfb.vipneugruen",
 +	"teamcsfb.vipalt",
 +	"teamcsfb.vipaltgruen",
 +	"teamcsfb.opti",
 +	"teamcsfb.pingo",
++	"teamcsfb.technofb",
++	"teamcsfb.mcefb",
++	"teamcsfb.irhead",
++	"teamcsfb.stm",
++	"teamcsfb.mce2005",
++	"teamcsfb.techno",
 +	"teamcsfb.neustart",
 +	
 +	"teamcsupnp.an",
@@ -586,9 +615,9 @@ diff -upr neutrino-hd2-exp/src/system/locals_intern.h neutrino-hd2-exp/src/syste
 +	
 +	"teamcsswap.dev",
 +	"teamcsswap.ram",
-+       "teamcsswap.hdd",
-+       "teamcsswap.hddcreate",
-+       "teamcsswap.sda3",
++  "teamcsswap.hdd",
++  "teamcsswap.hddcreate",
++  "teamcsswap.sda3",
 +
 +	"teamcsoverclock.boothead",
 +	"teamcsoverclock.266boot",
