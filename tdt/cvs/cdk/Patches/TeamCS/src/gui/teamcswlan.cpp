@@ -41,76 +41,62 @@
 
 teamcswlan::teamcswlan()
 {
-   frameBuffer = CFrameBuffer::getInstance();
-   width = 600;
-   hheight = g_Font[SNeutrinoSettings::FONT_TYPE_MENU_TITLE]->getHeight();
-   mheight = g_Font[SNeutrinoSettings::FONT_TYPE_MENU]->getHeight();
-   height = hheight+13*mheight+ 10;
+frameBuffer = CFrameBuffer::getInstance();
+width = 600;
+hheight = g_Font[SNeutrinoSettings::FONT_TYPE_MENU_TITLE]->getHeight();
+mheight = g_Font[SNeutrinoSettings::FONT_TYPE_MENU]->getHeight();
+height = hheight+13*mheight+ 10;
 
-   x=(((g_settings.screen_EndX- g_settings.screen_StartX)-width) / 2) + g_settings.screen_StartX;
-   y=(((g_settings.screen_EndY- g_settings.screen_StartY)-height) / 2) + g_settings.screen_StartY;
+x=(((g_settings.screen_EndX- g_settings.screen_StartX)-width) / 2) + g_settings.screen_StartX;
+y=(((g_settings.screen_EndY- g_settings.screen_StartY)-height) / 2) + g_settings.screen_StartY;
 }
 
 
 int teamcswlan::exec(CMenuTarget* parent, const std::string &actionKey)
 {
-   int res = menu_return::RETURN_REPAINT;
-   int shortcutTeamCS = 1;
-   FILE *cprompt;
-   char ctext [512];
-   char cprompthint[512]={0};
-   neutrino_msg_t      msg;
-   neutrino_msg_data_t data;
-   unsigned long long TimeoutEnd;
+int res = menu_return::RETURN_REPAINT;
+int shortcutTeamCS = 1;
+FILE *cprompt;
+char ctext [512];
+char cprompthint[512]={0};
+neutrino_msg_t      msg;
+neutrino_msg_data_t data;
+unsigned long long TimeoutEnd;
 
-   if (parent)
-   {
-      parent->hide();
-   }
-   paint();
+if (parent)
+{
+	parent->hide();
+}
+paint();
 
-  if (actionKey.empty())
-  {
-      //Menu aufbauen
-      CMenuWidget* teamcswlan = new CMenuWidget(LOCALE_TEAMCS_HEAD, NEUTRINO_ICON_SETTINGS);
+if (actionKey.empty())
+{
+	//Menu aufbauen
+	CMenuWidget* teamcswlan = new CMenuWidget(LOCALE_TEAMCS_HEAD, NEUTRINO_ICON_SETTINGS);
 	teamcswlan->addItem(GenericMenuBack);
-        teamcswlan->addItem( new CMenuSeparator(CMenuSeparator::LINE) );
+		teamcswlan->addItem( new CMenuSeparator(CMenuSeparator::LINE) );
 
-      teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL1, true, "", this, "8192cu", CRCInput::RC_red, NEUTRINO_ICON_BUTTON_RED, "nix", LOCALE_HELPTEXT_NIX));
-      teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL2, true, "", this, "8712u", CRCInput::RC_green, NEUTRINO_ICON_BUTTON_GREEN, "nix", LOCALE_HELPTEXT_NIX));
-      teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL3, true, "", this, "rt2870sta", CRCInput::RC_yellow, NEUTRINO_ICON_BUTTON_YELLOW, "nix", LOCALE_HELPTEXT_NIX));
-      teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL4, true, "", this, "rt3070sta", CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, "nix", LOCALE_HELPTEXT_NIX));
-      teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL5, true, "", this, "rt5370sta", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
-      teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL6, true, "", this, "rt73", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
-      teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL7, true, "", this, "zydas", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
-teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_AUS, true, "", this, "aus", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
+	teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL1, true, "", this, "8192cu", CRCInput::RC_red, NEUTRINO_ICON_BUTTON_RED, "nix", LOCALE_HELPTEXT_NIX));
+	teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL2, true, "", this, "8712u", CRCInput::RC_green, NEUTRINO_ICON_BUTTON_GREEN, "nix", LOCALE_HELPTEXT_NIX));
+	teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL3, true, "", this, "rt2870sta", CRCInput::RC_yellow, NEUTRINO_ICON_BUTTON_YELLOW, "nix", LOCALE_HELPTEXT_NIX));
+	teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL4, true, "", this, "rt3070sta", CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, "nix", LOCALE_HELPTEXT_NIX));
+	teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL5, true, "", this, "rt5370sta", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
+	teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL6, true, "", this, "rt73", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
+	teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL7, true, "", this, "zydas", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
+	teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL8, true, "", this, "8188eu", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
+	teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_AUS, true, "", this, "aus", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
 
-      teamcswlan->exec (NULL, "");
-      teamcswlan->hide ();
-      delete teamcswlan;
+	teamcswlan->exec (NULL, "");
+	teamcswlan->hide ();
+	delete teamcswlan;
 
-      
-   }
-   else if (actionKey == "8192cu")
-   {
-      	system("echo 1 > /var/keys/Benutzerdaten/.system/wlan");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul 8192cu.ko Geladen, Neustart erforderlich");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
-   }
-   else if (actionKey == "8712u")
-   {
-      	system("echo 2 > /var/keys/Benutzerdaten/.system/wlan");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul 8712u.ko Geladen, Neustart erforderlich");	
-      	hintBox->paint();
+	
+}
+else if (actionKey == "8192cu")
+{
+		system("echo 1 > /var/keys/Benutzerdaten/.system/wlan");
+		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul 8192cu.ko Geladen, Neustart erforderlich");	
+		hintBox->paint();
 
 		while( msg != CRCInput::RC_ok )
 		{
@@ -118,14 +104,14 @@ teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_AUS, true,
 		usleep(5000);
 		}
 
-      	hintBox->hide();
-      	delete hintBox;
-   }
-   else if (actionKey == "rt2870sta")
-   {
-      	system("echo 3 > /var/keys/Benutzerdaten/.system/wlan");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul rt2870sta.ko Geladen, Neustart erforderlich");	
-      	hintBox->paint();
+		hintBox->hide();
+		delete hintBox;
+}
+else if (actionKey == "8712u")
+{
+		system("echo 2 > /var/keys/Benutzerdaten/.system/wlan");
+		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul 8712u.ko Geladen, Neustart erforderlich");	
+		hintBox->paint();
 
 		while( msg != CRCInput::RC_ok )
 		{
@@ -133,14 +119,14 @@ teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_AUS, true,
 		usleep(5000);
 		}
 
-      	hintBox->hide();
-      	delete hintBox;
-   }
-   else if (actionKey == "rt3070sta")
-   {
-      	system("echo 4 > /var/keys/Benutzerdaten/.system/wlan");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul rt3070sta.ko Geladen, Neustart erforderlich");	
-      	hintBox->paint();
+		hintBox->hide();
+		delete hintBox;
+}
+else if (actionKey == "rt2870sta")
+{
+		system("echo 3 > /var/keys/Benutzerdaten/.system/wlan");
+		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul rt2870sta.ko Geladen, Neustart erforderlich");	
+		hintBox->paint();
 
 		while( msg != CRCInput::RC_ok )
 		{
@@ -148,14 +134,14 @@ teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_AUS, true,
 		usleep(5000);
 		}
 
-      	hintBox->hide();
-      	delete hintBox;
-   }
-   else if (actionKey == "rt5370sta")
-   {
-      	system("echo 5 > /var/keys/Benutzerdaten/.system/wlan");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul rt5370sta.ko Geladen, Neustart erforderlich");	
-      	hintBox->paint();
+		hintBox->hide();
+		delete hintBox;
+}
+else if (actionKey == "rt3070sta")
+{
+		system("echo 4 > /var/keys/Benutzerdaten/.system/wlan");
+		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul rt3070sta.ko Geladen, Neustart erforderlich");	
+		hintBox->paint();
 
 		while( msg != CRCInput::RC_ok )
 		{
@@ -163,14 +149,14 @@ teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_AUS, true,
 		usleep(5000);
 		}
 
-      	hintBox->hide();
-      	delete hintBox;
-   }
-   else if (actionKey == "rt73")
-   {
-      	system("echo 6 > /var/keys/Benutzerdaten/.system/wlan");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul rt73.ko Geladen, Neustart erforderlich");	
-      	hintBox->paint();
+		hintBox->hide();
+		delete hintBox;
+}
+else if (actionKey == "rt5370sta")
+{
+		system("echo 5 > /var/keys/Benutzerdaten/.system/wlan");
+		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul rt5370sta.ko Geladen, Neustart erforderlich");	
+		hintBox->paint();
 
 		while( msg != CRCInput::RC_ok )
 		{
@@ -178,14 +164,14 @@ teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_AUS, true,
 		usleep(5000);
 		}
 
-      	hintBox->hide();
-      	delete hintBox;
-   }
-   else if (actionKey == "zydas")
-   {
-      	system("echo 7 > /var/keys/Benutzerdaten/.system/wlan");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul zydas.ko Geladen, Neustart erforderlich");	
-      	hintBox->paint();
+		hintBox->hide();
+		delete hintBox;
+}
+else if (actionKey == "rt73")
+{
+		system("echo 6 > /var/keys/Benutzerdaten/.system/wlan");
+		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul rt73.ko Geladen, Neustart erforderlich");	
+		hintBox->paint();
 
 		while( msg != CRCInput::RC_ok )
 		{
@@ -193,38 +179,68 @@ teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_AUS, true,
 		usleep(5000);
 		}
 
-      	hintBox->hide();
-      	delete hintBox;
-   }
-   else if (actionKey == "aus")
-   {
-        system("rm -rf /var/keys/Benutzerdaten/.system/wlan");
-        CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan deaktiviert, Neustart erforderlich");
-        hintBox->paint();
+		hintBox->hide();
+		delete hintBox;
+}
+else if (actionKey == "zydas")
+{
+		system("echo 7 > /var/keys/Benutzerdaten/.system/wlan");
+		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul zydas.ko Geladen, Neustart erforderlich");	
+		hintBox->paint();
 
-                while( msg != CRCInput::RC_ok )
-                {
-                g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-                usleep(5000);
-                }
+		while( msg != CRCInput::RC_ok )
+		{
+		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
+		usleep(5000);
+		}
 
-        hintBox->hide();
-        delete hintBox;
-   }
+		hintBox->hide();
+		delete hintBox;
+}
+else if (actionKey == "8188eu")
+{
+		system("echo 8 > /var/keys/Benutzerdaten/.system/wlan");
+		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul 8188eu.ko Geladen, Neustart erforderlich");	
+		hintBox->paint();
 
-   return res;
+		while( msg != CRCInput::RC_ok )
+		{
+		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
+		usleep(5000);
+		}
+
+		hintBox->hide();
+		delete hintBox;
+}
+else if (actionKey == "aus")
+{
+		system("rm -rf /var/keys/Benutzerdaten/.system/wlan");
+		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan deaktiviert, Neustart erforderlich");
+		hintBox->paint();
+
+				while( msg != CRCInput::RC_ok )
+				{
+				g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
+				usleep(5000);
+				}
+
+		hintBox->hide();
+		delete hintBox;
+}
+
+return res;
 }
 
 
 void teamcswlan::hide()
 {
-   frameBuffer->paintBackgroundBoxRel(x,y, width,height);
+frameBuffer->paintBackgroundBoxRel(x,y, width,height);
 }
 
 
 void teamcswlan::paint()
 {
-   printf("$Id: Menu Exp $\n");
+printf("$Id: Menu Exp $\n");
 }
 
 
