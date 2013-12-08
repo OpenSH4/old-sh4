@@ -420,7 +420,7 @@ int main (int argc, char* argv[])
 	
 	//Ducktrick: verhindert das schreiben der Autoswitch Datei
 	//Das können wir mit hilfe des Boxtypes verwenden für Vip1v2 und Vip2
-	if (!strncmp(argv[2], "-s", 2)) vRamMode=2;
+	if (!strncmp(argv[1], "-s", 2)) vRamMode=2;
     }
 
     if (vButtonExtensionCounter > 0)
