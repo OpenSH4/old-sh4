@@ -74,14 +74,14 @@ void framebuffer_init()
 
 	fd = open("/dev/fb0", O_RDWR);
 
-	if (fd < 0) 
-    {
+	if (fd < 0)
+	{
 		perror("/dev/fb0");
 		return;
 	}
 
-	if (ioctl(fd, FBIOGET_VSCREENINFO, &screeninfo) < 0) 
-    {
+	if (ioctl(fd, FBIOGET_VSCREENINFO, &screeninfo) < 0)
+	{
 		perror("FBIOGET_VSCREENINFO");
 		return;
 	}
@@ -90,7 +90,7 @@ void framebuffer_init()
 
 	ioctl(fd, FBIOGET_VSCREENINFO, &screeninfo);
 	
-    printf("mode %d, %d, %d\n", screeninfo.xres, screeninfo.yres, screeninfo.bits_per_pixel);
+	printf("mode %d, %d, %d\n", screeninfo.xres, screeninfo.yres, screeninfo.bits_per_pixel);
 
 	if (ioctl(fd, FBIOGET_FSCREENINFO, &fix)<0)
 	{
@@ -98,21 +98,21 @@ void framebuffer_init()
 		printf("fb failed\n");
 	}
 
-    stride = fix.line_length;
+	stride = fix.line_length;
 	xRes   = screeninfo.xres;
 	yRes   = screeninfo.yres;
 	bpp    = screeninfo.bits_per_pixel;
 
-    printf("stride = %d, width %d\n", stride, xRes);
+	printf("stride = %d, width %d\n", stride, xRes);
 
 	available = fix.smem_len;
-    
-	printf("%dk video mem\n", available/1024);
-	
-    lfb = (unsigned char*) mmap(0, available, PROT_WRITE|PROT_READ, MAP_SHARED, fd, 0);
 
-	if (lfb == NULL) 
-    {
+	printf("%dk video mem\n", available/1024);
+
+	lfb = (unsigned char*) mmap(0, available, PROT_WRITE|PROT_READ, MAP_SHARED, fd, 0);
+
+	if (lfb == NULL)
+	{
 		perror("mmap");
 		return;
 	}
@@ -121,8 +121,8 @@ void framebuffer_init()
 }
 
 
-int main(int argc,char* argv[]) {  
-    SubtitleOutputDef_t out;    
+int main(int argc,char* argv[]) {
+    SubtitleOutputDef_t out;
     int showInfos = 0, noinput = 0;
     char file[255] = {""};
     int speed = 0, speedmap = 0;
@@ -146,7 +146,7 @@ int main(int argc,char* argv[]) {
     {
         showInfos = 1;
     }
-    
+
     if(argc == 3 && !strcmp(argv[2], "-n"))
         noinput = 1;
 
@@ -161,20 +161,18 @@ int main(int argc,char* argv[]) {
 
     //Registrating output devices
     player->output->Command(player,OUTPUT_ADD, "audio");
-    player->output->Command(player,OUTPUT_ADD, "video");   
-    player->output->Command(player,OUTPUT_ADD, "subtitle");   
+    player->output->Command(player,OUTPUT_ADD, "video");
+    player->output->Command(player,OUTPUT_ADD, "subtitle");
 
     framebuffer_init();
 
-    /* for testing ass subtitles */    
+    /* for testing ass subtitles */
     out.screen_width = xRes;
     out.screen_height = yRes;
-    out.framebufferFD = fd;
-    out.destination   = lfb;
+    out.destination   = (uint32_t *)lfb;
     out.destStride    = stride;
-    out.shareFramebuffer = 1;
-    
-    player->output->subtitle->Command(player, (OutputCmd_t)OUTPUT_SET_SUBTITLE_OUTPUT, (void*) &out);    
+
+    player->output->subtitle->Command(player, (OutputCmd_t)OUTPUT_SET_SUBTITLE_OUTPUT, (void*) &out);
 
     if(player->playback->Command(player, PLAYBACK_OPEN, file) < 0)
         return 10;
@@ -204,6 +202,7 @@ int main(int argc,char* argv[]) {
             }
             free(TrackList);
         }
+
         player->manager->subtitle->Command(player, MANAGER_LIST, &TrackList);
         if (TrackList != NULL) {
             printf("SubtitleTrack List\n");
@@ -214,7 +213,7 @@ int main(int argc,char* argv[]) {
                 free(TrackList[i+1]);
             }
             free(TrackList);
-        }       
+        }
     }
     {
         int AudioTrackId = -1;
@@ -237,6 +236,7 @@ int main(int argc,char* argv[]) {
         free(AudioTrackName);
         AudioTrackEncoding = NULL;
         AudioTrackName = NULL;
+
         player->manager->subtitle->Command(player, MANAGER_GET, &AudioTrackId);
         player->manager->subtitle->Command(player, MANAGER_GETENCODING, &AudioTrackEncoding);
         player->manager->subtitle->Command(player, MANAGER_GETNAME, &AudioTrackName);
@@ -245,6 +245,7 @@ int main(int argc,char* argv[]) {
         free(AudioTrackName);
         AudioTrackEncoding = NULL;
         AudioTrackName = NULL;
+
         /*      player->manager->audio->Command(player, MANAGER_SET, 2);
                 player->manager->audio->Command(player, MANAGER_GET, &AudioTrackId);
                 player->manager->audio->Command(player, MANAGER_GETNAME, &AudioTrackName);
@@ -296,19 +297,19 @@ int main(int argc,char* argv[]) {
         }*/
 
         while(player->playback->isPlaying) {
-        		int Key = 0;
+            int Key = 0;
 
-	    			if(kbhit())
-	    				if(noinput == 0)
-            		Key = getchar();
-            
+            if(kbhit())
+                if(noinput == 0)
+                    Key = getchar();
+
             if(!player->playback->isPlaying) {
                 break;
             }
-            
+
             if(Key == 0)
-							continue;
-            
+                continue;
+
             switch (Key) {
             case 'a': {
                 int Key2 = getchar();
@@ -353,6 +354,7 @@ int main(int argc,char* argv[]) {
                 }
                 break;
             }
+
             case 's': {
                 int Key2 = getchar();
                 switch (Key2) {
@@ -394,8 +396,9 @@ int main(int argc,char* argv[]) {
 
                 }
                 }
-                break;		
+                break;
             }
+
 
             case 'q':
                 player->playback->Command(player, PLAYBACK_STOP, NULL);
@@ -410,10 +413,10 @@ int main(int argc,char* argv[]) {
                 break;
 
             case 'f': {
-                 
+
                 if (speed < 0)
                    speed = 0;
-                    
+
                 speed++;
 
                 if (speed > 7)
@@ -429,7 +432,7 @@ int main(int argc,char* argv[]) {
                     case 6: speedmap = 63; break;
                     case 7: speedmap = 127; break;
                 }
-                
+
                 player->playback->Command(player, PLAYBACK_FASTFORWARD, &speedmap);
                 break;
             }
@@ -437,9 +440,9 @@ int main(int argc,char* argv[]) {
             case 'b': {
                 if (speed > 0)
                    speed = 0;
-                   
+
                 speed--;
-                   
+
                 if (speed < -7)
                     speed = -1;
 
@@ -459,14 +462,14 @@ int main(int argc,char* argv[]) {
             }
 #if defined(VDR1722)
             case 'g': {
-				char gotoString [256];
-				gets (gotoString);
+                char gotoString [256];
+                gets (gotoString);
                 int gotoPos = atoi(gotoString);
 
-				double length = 0;
-				float sec;
+                double length = 0;
+                float sec;
 
-				printf("gotoPos %i\n", gotoPos);
+                printf("gotoPos %i\n", gotoPos);
                 if (player->container && player->container->selectedContainer)
                     player->container->selectedContainer->Command(player, CONTAINER_LENGTH, &length);
 

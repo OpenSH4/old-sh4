@@ -27,7 +27,7 @@
 
 #ifdef CONTAINER_DEBUG
 
-static short debug_level = 10;
+static short debug_level = 0;
 
 #define container_printf(level, x...) do { \
 if (debug_level >= level) printf(x); } while (0)
@@ -44,96 +44,87 @@ if (debug_level >= level) printf(x); } while (0)
 
 static const char FILENAME[] = __FILE__;
 
-static void printContainerCapabilities() 
-{
-	int i, j;
+static Container_t * AvailableContainer[] = {
+    &FFMPEGContainer,
+    NULL
+};
 
-	container_printf(10, "%s::%s\n", FILENAME, __FUNCTION__);
-	container_printf(10, "Capabilities: ");
+static void printContainerCapabilities() {
+    int i, j;
 
-	for (i = 0; AvailableContainer[i] != NULL; i++)
-		for (j = 0; AvailableContainer[i]->Capabilities[j] != NULL; j++)
-			container_printf(10, "%s ", AvailableContainer[i]->Capabilities[j]);
-		
-	 container_printf(10, "\n");
+    container_printf(10, "%s::%s\n", FILENAME, __FUNCTION__);
+    container_printf(10, "Capabilities: ");
+
+    for (i = 0; AvailableContainer[i] != NULL; i++)
+        for (j = 0; AvailableContainer[i]->Capabilities[j] != NULL; j++)
+            container_printf(10, "%s ", AvailableContainer[i]->Capabilities[j]);
+    container_printf(10, "\n");
 }
 
-static int selectContainer(Context_t  *context, char * extension) 
-{
-	int i, j;
-	int ret = -1;
+static int selectContainer(Context_t  *context, char * extension) {
+    int i, j;
+    int ret = -1;
 
-	container_printf(10, "%s::%s\n", FILENAME, __FUNCTION__);
+    container_printf(10, "%s::%s\n", FILENAME, __FUNCTION__);
 
-	for (i = 0; AvailableContainer[i] != NULL; i++)
-	{
-		for (j = 0; AvailableContainer[i]->Capabilities[j] != NULL; j++)
-			if (!strcasecmp(AvailableContainer[i]->Capabilities[j], extension)) 
-			{
-				context->container->selectedContainer = AvailableContainer[i];
+    for (i = 0; AvailableContainer[i] != NULL; i++)
+    {
+        for (j = 0; AvailableContainer[i]->Capabilities[j] != NULL; j++)
+            if (!strcasecmp(AvailableContainer[i]->Capabilities[j], extension)) {
+                context->container->selectedContainer = AvailableContainer[i];
 
-				container_printf(10, "Selected Container: %s\n", context->container->selectedContainer->Name);
-				ret = 0;
-				break;
-			}
-			
-		if (ret == 0)
-			break;
-	}
+                container_printf(10, "Selected Container: %s\n", context->container->selectedContainer->Name);
+                ret = 0;
+                break;
+            }
+        if (ret == 0)
+            break;
+    }
 
-	if (ret != 0) 
-	{
-		container_err("No Container found :-(\n");
-	}
+    if (ret != 0) {
+        container_err("No Container found :-(\n");
+    }
 
-	return ret;
+    return ret;
 }
 
 
-static int Command(void  *_context, ContainerCmd_t command, void * argument) 
-{
-	Context_t* context = (Context_t*) _context;
-	int ret = 0;
+static int Command(void  *_context, ContainerCmd_t command, void * argument) {
+    Context_t* context = (Context_t*) _context;
+    int ret = 0;
 
-	container_printf(10, "%s::%s\n", FILENAME, __FUNCTION__);
+    container_printf(10, "%s::%s\n", FILENAME, __FUNCTION__);
 
-	switch(command) 
-	{
-		case CONTAINER_ADD: 
-		{
-			ret = selectContainer(context, (char*) argument);
-			break;
-		}
-		
-		case CONTAINER_CAPABILITIES: 
-		{
-			printContainerCapabilities();
-			break;
-		}
-		
-		case CONTAINER_DEL: 
-		{
-			context->container->selectedContainer = NULL;
-			break;
-		}
-		
-		default:
-			container_err("%s::%s ContainerCmd %d not supported!\n", FILENAME, __FUNCTION__, command);
-			break;
-	}
+    switch(command) {
+    case CONTAINER_ADD: {
+        ret = selectContainer(context, (char*) argument);
+        break;
+    }
+    case CONTAINER_CAPABILITIES: {
+        printContainerCapabilities();
+        break;
+    }
+    case CONTAINER_DEL: {
+        context->container->selectedContainer = NULL;
+        break;
+    }
+    default:
+        container_err("%s::%s ContainerCmd %d not supported!\n", FILENAME, __FUNCTION__, command);
+        break;
+    }
 
-	return ret;
+    return ret;
 }
 
 extern Container_t SrtContainer;
 extern Container_t SsaContainer;
-//extern Container_t ASSContainer;
+extern Container_t ASSContainer;
 
 ContainerHandler_t ContainerHandler = {
-	"Output",
-	NULL,   
-	&SrtContainer,
-	&SsaContainer,
-	/*&ASSContainer*/NULL,    
-	Command,
+    "Output",
+    NULL,
+    &SrtContainer,
+    &SsaContainer,
+    &ASSContainer,
+    Command
 };

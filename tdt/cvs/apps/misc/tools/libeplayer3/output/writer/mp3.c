@@ -31,8 +31,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
+#include <sys/uio.h>
 #include <linux/dvb/video.h>
 #include <linux/dvb/audio.h>
+#include <linux/dvb/stm_ioctls.h>
 #include <memory.h>
 #include <asm/types.h>
 #include <pthread.h>
@@ -41,7 +43,6 @@
 #include "common.h"
 #include "output.h"
 #include "debug.h"
-#include "stm_ioctls.h"
 #include "misc.h"
 #include "pes.h"
 #include "writer.h"
@@ -49,13 +50,11 @@
 /* ***************************** */
 /* Makros/Constants              */
 /* ***************************** */
-
-
-//#define MP3_DEBUG
+#define MP3_DEBUG
 
 #ifdef MP3_DEBUG
 
-static short debug_level = 10;
+static short debug_level = 0;
 
 #define mp3_printf(level, fmt, x...) do { \
 if (debug_level >= level) printf("[%s:%s] " fmt, __FILE__, __FUNCTION__, ## x); } while (0)
@@ -87,50 +86,47 @@ if (debug_level >= level) printf("[%s:%s] " fmt, __FILE__, __FUNCTION__, ## x); 
 
 static int reset()
 {
-	return 0;
+    return 0;
 }
 
 static int writeData(void* _call)
 {
-	WriterAVCallData_t* call = (WriterAVCallData_t*) _call;
+    WriterAVCallData_t* call = (WriterAVCallData_t*) _call;
 
-	unsigned char  PesHeader[PES_MAX_HEADER_SIZE];
+    unsigned char  PesHeader[PES_MAX_HEADER_SIZE];
 
-	mp3_printf(10, "\n");
+    mp3_printf(10, "\n");
 
-	if (call == NULL)
-	{
-		mp3_err("call data is NULL...\n");
-		return 0;
-	}
+    if (call == NULL)
+    {
+        mp3_err("call data is NULL...\n");
+        return 0;
+    }
 
-	mp3_printf(10, "AudioPts %lld\n", call->Pts);
+    mp3_printf(10, "AudioPts %lld\n", call->Pts);
 
-	if ((call->data == NULL) || (call->len <= 0))
-	{
-		mp3_err("parsing NULL Data. ignoring...\n");
-		return 0;
-	}
+    if ((call->data == NULL) || (call->len <= 0))
+    {
+        mp3_err("parsing NULL Data. ignoring...\n");
+        return 0;
+    }
 
-	if (call->fd < 0)
-	{
-		mp3_err("file pointer < 0. ignoring ...\n");
-		return 0;
-	}
+    if (call->fd < 0)
+    {
+        mp3_err("file pointer < 0. ignoring ...\n");
+        return 0;
+    }
 
-	int HeaderLength = InsertPesHeader (PesHeader, call->len , MPEG_AUDIO_PES_START_CODE, call->Pts, 0);
+    struct iovec iov[2];
+    iov[0].iov_base = PesHeader;
+    iov[0].iov_len = InsertPesHeader (PesHeader, call->len , MPEG_AUDIO_PES_START_CODE, call->Pts, 0);
+    iov[1].iov_base = call->data;
+    iov[1].iov_len = call->len;
 
-	unsigned char* PacketStart = malloc(call->len + HeaderLength);
+    int len = writev(call->fd, iov, 2);
 
-	memcpy (PacketStart, PesHeader, HeaderLength);
-	memcpy (PacketStart + HeaderLength, call->data, call->len);
-
-	int len = write(call->fd, PacketStart, call->len + HeaderLength);
-
-	free(PacketStart);
-
-	mp3_printf(10, "mp3_Write-< len=%d\n", len);
-	return len;
+    mp3_printf(10, "mp3_Write-< len=%d\n", len);
+    return len;
 }
 
 /* ***************************** */
@@ -138,37 +134,43 @@ static int writeData(void* _call)
 /* ***************************** */
 
 static WriterCaps_t caps_mp3 = {
-	"mp3",
-	eAudio,
-	"A_MP3",
-#if defined (__sh__)
-	AUDIO_ENCODING_MP3
-#else
-	AUDIO_STREAMTYPE_MP3
-#endif
+    "mp3",
+    eAudio,
+    "A_MP3",
+    AUDIO_ENCODING_MP3
 };
 
 struct Writer_s WriterAudioMP3 = {
-	&reset,
-	&writeData,
-	NULL,
-	&caps_mp3
+    &reset,
+    &writeData,
+    NULL,
+    &caps_mp3
 };
 
 static WriterCaps_t caps_mpegl3 = {
-	"mpeg/l3",
-	eAudio,
-	"A_MPEG/L3",
-#if defined (__sh__)
-	AUDIO_ENCODING_MPEG2
-#else
-	AUDIO_STREAMTYPE_MPEG
-#endif
+    "mpeg/l3",
+    eAudio,
+    "A_MPEG/L3",
+    AUDIO_ENCODING_MPEG2
 };
 
 struct Writer_s WriterAudioMPEGL3 = {
-	&reset,
-	&writeData,
-	NULL,
-	&caps_mpegl3,
+    &reset,
+    &writeData,
+    NULL,
+    &caps_mpegl3
+};
+
+static WriterCaps_t caps_vorbis = {
+    "vorbis",
+    eAudio,
+    "A_VORBIS",
+    AUDIO_ENCODING_VORBIS
+};
+
+struct Writer_s WriterAudioVORBIS = {
+    &reset,
+    &writeData,
+    NULL,
+    &caps_vorbis
 };

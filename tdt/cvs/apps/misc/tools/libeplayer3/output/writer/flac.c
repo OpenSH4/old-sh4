@@ -31,8 +31,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
+#include <sys/uio.h>
 #include <linux/dvb/video.h>
 #include <linux/dvb/audio.h>
+#include <linux/dvb/stm_ioctls.h>
 #include <memory.h>
 #include <asm/types.h>
 #include <pthread.h>
@@ -41,7 +43,6 @@
 #include "common.h"
 #include "output.h"
 #include "debug.h"
-#include "stm_ioctls.h"
 #include "misc.h"
 #include "pes.h"
 #include "writer.h"
@@ -49,13 +50,11 @@
 /* ***************************** */
 /* Makros/Constants              */
 /* ***************************** */
-
-
-//#define FLAC_DEBUG
+#define FLAC_DEBUG
 
 #ifdef FLAC_DEBUG
 
-static short debug_level = 10;
+static short debug_level = 0;
 
 #define flac_printf(level, fmt, x...) do { \
 if (debug_level >= level) printf("[%s:%s] " fmt, __FILE__, __FUNCTION__, ## x); } while (0)
@@ -87,50 +86,47 @@ if (debug_level >= level) printf("[%s:%s] " fmt, __FILE__, __FUNCTION__, ## x); 
 
 static int reset()
 {
-	return 0;
+    return 0;
 }
 
 static int writeData(void* _call)
 {
-	WriterAVCallData_t* call = (WriterAVCallData_t*) _call;
+    WriterAVCallData_t* call = (WriterAVCallData_t*) _call;
 
-	unsigned char  PesHeader[PES_MAX_HEADER_SIZE];
+    unsigned char  PesHeader[PES_MAX_HEADER_SIZE];
 
-	flac_printf(10, "\n");
+    flac_printf(10, "\n");
 
-	if (call == NULL)
-	{
-		flac_err("call data is NULL...\n");
-		return 0;
-	}
+    if (call == NULL)
+    {
+        flac_err("call data is NULL...\n");
+        return 0;
+    }
 
-	flac_printf(10, "AudioPts %lld\n", call->Pts);
+    flac_printf(10, "AudioPts %lld\n", call->Pts);
 
-	if ((call->data == NULL) || (call->len <= 0))
-	{
-		flac_err("parsing NULL Data. ignoring...\n");
-		return 0;
-	}
+    if ((call->data == NULL) || (call->len <= 0))
+    {
+        flac_err("parsing NULL Data. ignoring...\n");
+        return 0;
+    }
 
-	if (call->fd < 0)
-	{
-		flac_err("file pointer < 0. ignoring ...\n");
-		return 0;
-	}
+    if (call->fd < 0)
+    {
+        flac_err("file pointer < 0. ignoring ...\n");
+        return 0;
+    }
 
-	int HeaderLength = InsertPesHeader (PesHeader, call->len , MPEG_AUDIO_PES_START_CODE, call->Pts, 0);
+    struct iovec iov[2];
+    iov[0].iov_base = PesHeader;
+    iov[0].iov_len = InsertPesHeader (PesHeader, call->len , MPEG_AUDIO_PES_START_CODE, call->Pts, 0);
+    iov[1].iov_base = call->data;
+    iov[1].iov_len = call->len;
 
-	unsigned char* PacketStart = malloc(call->len + HeaderLength);
+    int len = writev(call->fd, iov, 2);
 
-	memcpy (PacketStart, PesHeader, HeaderLength);
-	memcpy (PacketStart + HeaderLength, call->data, call->len);
-
-	int len = write(call->fd, PacketStart, call->len + HeaderLength);
-
-	free(PacketStart);
-
-	flac_printf(10, "flac_Write-< len=%d\n", len);
-	return len;
+    flac_printf(10, "flac_Write-< len=%d\n", len);
+    return len;
 }
 
 /* ***************************** */
@@ -138,20 +134,15 @@ static int writeData(void* _call)
 /* ***************************** */
 
 static WriterCaps_t caps_flac = {
-	"flac",
-	eAudio,
-	"A_FLAC",
-#if defined (__sh__)	
-	AUDIO_ENCODING_LPCM 	//AUDIO_ENCODING_FLAC
-#else
-	AUDIO_STREAMTYPE_LPCMDVD
-#endif
+    "flac",
+    eAudio,
+    "A_FLAC",
+    AUDIO_ENCODING_LPCM //AUDIO_ENCODING_FLAC
 };
 
 struct Writer_s WriterAudioFLAC = {
-	&reset,
-	&writeData,
-	NULL,
-	&caps_flac,
+    &reset,
+    &writeData,
+    NULL,
+    &caps_flac
 };
-

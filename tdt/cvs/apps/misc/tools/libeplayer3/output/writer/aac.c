@@ -33,15 +33,16 @@
 #include <sys/ioctl.h>
 #include <linux/dvb/video.h>
 #include <linux/dvb/audio.h>
+#include <linux/dvb/stm_ioctls.h>
 #include <memory.h>
 #include <asm/types.h>
 #include <pthread.h>
 #include <errno.h>
+#include <sys/uio.h>
 
 #include "common.h"
 #include "output.h"
 #include "debug.h"
-#include "stm_ioctls.h"
 #include "misc.h"
 #include "pes.h"
 #include "writer.h"
@@ -52,11 +53,11 @@
 
 #define AAC_HEADER_LENGTH       7
 
-//#define AAC_DEBUG
+#define AAC_DEBUG
 
 #ifdef AAC_DEBUG
 
-static short debug_level = 10;
+static short debug_level = 0;
 
 #define aac_printf(level, fmt, x...) do { \
 if (debug_level >= level) printf("[%s:%s] " fmt, __FILE__, __FUNCTION__, ## x); } while (0)
@@ -189,13 +190,13 @@ else
 */
 
 static unsigned char DefaultAACHeader[]    =  {
-	0xff,
-	0xf1,
-	/*0x00, 0x00*/0x50,  //((Profile & 0x03) << 6)  | (SampleIndex << 2) | ((Channels >> 2) & 0x01);s
-	0x80,                //(Channels & 0x03) << 6;
-	0x00,
-	0x1f,
-	0xfc
+    0xff,
+    0xf1,
+    /*0x00, 0x00*/0x50,  //((Profile & 0x03) << 6)  | (SampleIndex << 2) | ((Channels >> 2) & 0x01);s
+    0x80,                //(Channels & 0x03) << 6;
+    0x00,
+    0x1f,
+    0xfc
 };
 
 /* ***************************** */
@@ -212,63 +213,58 @@ static int reset()
 
 static int writeData(void* _call)
 {
-	WriterAVCallData_t* call = (WriterAVCallData_t*) _call;
+    WriterAVCallData_t* call = (WriterAVCallData_t*) _call;
 
-	unsigned char PesHeader[PES_MAX_HEADER_SIZE];
-	unsigned char ExtraData[AAC_HEADER_LENGTH];
-	unsigned int  PacketLength;
+    unsigned char PesHeader[PES_MAX_HEADER_SIZE];
+    unsigned char ExtraData[AAC_HEADER_LENGTH];
+    unsigned int  PacketLength;
 
-	aac_printf(10, "\n");
+    aac_printf(10, "\n");
 
-	if (call == NULL)
-	{
-		aac_err("call data is NULL...\n");
-		return 0;
-	}
+    if (call == NULL)
+    {
+        aac_err("call data is NULL...\n");
+        return 0;
+    }
 
-	aac_printf(10, "AudioPts %lld\n", call->Pts);
+    aac_printf(10, "AudioPts %lld\n", call->Pts);
 
-	PacketLength    = call->len + AAC_HEADER_LENGTH;
+    PacketLength    = call->len + AAC_HEADER_LENGTH;
 
-	if ((call->data == NULL) || (call->len <= 0))
-	{
-		aac_err("parsing NULL Data. ignoring...\n");
-		return 0;
-	}
+    if ((call->data == NULL) || (call->len <= 0))
+    {
+        aac_err("parsing NULL Data. ignoring...\n");
+        return 0;
+    }
 
-	if (call->fd < 0)
-	{
-		aac_err("file pointer < 0. ignoring ...\n");
-		return 0;
-	}
+    if (call->fd < 0)
+    {
+        aac_err("file pointer < 0. ignoring ...\n");
+        return 0;
+    }
 
-	if (call->private_data == NULL)
-	{
-		aac_printf(10, "private_data = NULL\n");
+    if (call->private_data == NULL)
+    {
+        aac_printf(10, "private_data = NULL\n");
+	memcpy (ExtraData, DefaultAACHeader, AAC_HEADER_LENGTH);
+    }
+    else
+    	memcpy (ExtraData, call->private_data, AAC_HEADER_LENGTH);
 
-		call->private_data = DefaultAACHeader;
-		call->private_size = AAC_HEADER_LENGTH;
-	}
+    ExtraData[3]       |= (PacketLength >> 11) & 0x3;
+    ExtraData[4]        = (PacketLength >> 3) & 0xff;
+    ExtraData[5]       |= (PacketLength << 5) & 0xe0;
 
-	memcpy (ExtraData, call->private_data, AAC_HEADER_LENGTH);
-	ExtraData[3]       |= (PacketLength >> 12) & 0x3;
-	ExtraData[4]        = (PacketLength >> 3) & 0xff;
-	ExtraData[5]       |= (PacketLength << 5) & 0xe0;
+    unsigned int  HeaderLength = InsertPesHeader (PesHeader, PacketLength, AAC_AUDIO_PES_START_CODE, call->Pts, 0);
 
-	unsigned int  HeaderLength = InsertPesHeader (PesHeader, PacketLength, AAC_AUDIO_PES_START_CODE, call->Pts, 0);
-
-	unsigned char* PacketStart = malloc(HeaderLength + sizeof(ExtraData) + call->len);
-	memcpy (PacketStart, PesHeader, HeaderLength);
-	memcpy (PacketStart + HeaderLength, ExtraData, sizeof(ExtraData));
-	memcpy (PacketStart + HeaderLength + sizeof(ExtraData), call->data, call->len);
-
-	aac_printf(100, "H %d d %d ExtraData %d\n", HeaderLength, call->len, sizeof(ExtraData));
-
-	int len = write(call->fd, PacketStart, HeaderLength + call->len + sizeof(ExtraData));
-
-	free(PacketStart);
-
-	return len;
+    struct iovec iov[3];
+    iov[0].iov_base = PesHeader;
+    iov[0].iov_len = HeaderLength;
+    iov[1].iov_base = ExtraData;
+    iov[1].iov_len = AAC_HEADER_LENGTH;
+    iov[2].iov_base = call->data;
+    iov[2].iov_len = call->len;
+    return writev(call->fd, iov, 3);
 }
 
 /* ***************************** */
@@ -276,19 +272,15 @@ static int writeData(void* _call)
 /* ***************************** */
 
 static WriterCaps_t caps = {
-	"aac",
-	eAudio,
-	"A_AAC",
-#if defined (__sh__)
-	AUDIO_ENCODING_AAC
-#else
-	AUDIO_STREAMTYPE_AAC
-#endif
+    "aac",
+    eAudio,
+    "A_AAC",
+    AUDIO_ENCODING_AAC
 };
 
 struct Writer_s WriterAudioAAC = {
-	&reset,
-	&writeData,
-	NULL,
-	&caps
+    &reset,
+    &writeData,
+    NULL,
+    &caps
 };

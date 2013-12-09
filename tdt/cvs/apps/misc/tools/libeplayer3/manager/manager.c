@@ -40,12 +40,16 @@
 extern Manager_t AudioManager;
 extern Manager_t VideoManager;
 extern Manager_t SubtitleManager;
+extern Manager_t DvbSubtitleManager;
+extern Manager_t TeletextManager;
 
 ManagerHandler_t ManagerHandler = {
     "ManagerHandler",
     &AudioManager,
-    &VideoManager,    
-    &SubtitleManager,    
+    &VideoManager,
+    &SubtitleManager
+  , &DvbSubtitleManager
+  , &TeletextManager
 };
 
 /* ***************************** */
@@ -88,5 +92,5 @@ void freeTrack(Track_t* track)
 
     if (track->aacbuf != NULL)
         free(track->aacbuf);
-}
 
+}
