@@ -1,0 +1,49 @@
+--- enigma2-nightly.org/lib/gdi/fb.h	2013-10-07 16:55:05.610011529 +0200
++++ enigma2-nightly/lib/gdi/fb.h	2013-12-13 17:16:19.762185104 +0100
+@@ -39,7 +39,11 @@ class fbClass
+ public:
+ #else
+ public:
++#ifdef ENABLE_LIBEPLAYER3
++	unsigned int *lfb;
++#else
+ 	unsigned char *lfb;
++#endif
+ 	void enableManualBlit();
+ 	void disableManualBlit();
+ 	int showConsole(int state);
+@@ -67,7 +71,8 @@ public:
+ #ifdef ENABLE_LIBEPLAYER3
+ //---> "hack" for libeplayer3 fb access
+ 	int getFD() { return fbFd; }
+-	unsigned char * getLFB_Direct() { return lfb; }
++	unsigned int* getLFB_Direct() { return lfb; }
++	//unsigned char * getLFB_Direct() { return lfb; }
+ 	int getScreenResX() { return xRes; }
+ 	int getScreenResY() { return yRes; }
+ //---<
+--- enigma2-nightly.org/lib/gdi/fb.cpp	2013-10-07 16:55:05.610011529 +0200
++++ enigma2-nightly/lib/gdi/fb.cpp	2013-12-13 17:08:11.530828704 +0100
+@@ -73,10 +73,22 @@ fbClass::fbClass(const char *fb)
+ 	// After that we can take 1280x720x4 bytes for our virtual framebuffer
+ 	available -= 1920*1080*4;
+ 	eDebug("%dk usable video mem", available/1024);
++
++	#ifdef ENABLE_LIBEPLAYER3
++	lfb=(unsigned int*)mmap(0, available, PROT_WRITE|PROT_READ, MAP_SHARED, fbFd, 1920*1080*4);
++	#else
+ 	lfb=(unsigned char*)mmap(0, available, PROT_WRITE|PROT_READ, MAP_SHARED, fbFd, 1920*1080*4);
++	#endif
++
+ #else
+ 	eDebug("%dk video mem", available/1024);
++
++	#ifdef ENABLE_LIBEPLAYER3
++	lfb=(unsigned int*)mmap(0, available, PROT_WRITE|PROT_READ, MAP_SHARED, fbFd, 0);
++	#else
+ 	lfb=(unsigned char*)mmap(0, available, PROT_WRITE|PROT_READ, MAP_SHARED, fbFd, 0);
++	#endif
++
+ #endif
+ 	if (!lfb)
+ 	{
