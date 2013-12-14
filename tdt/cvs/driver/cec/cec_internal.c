@@ -44,10 +44,14 @@
 
 #include "cec_internal.h"
 
-//----
-#define PIO1BaseAddress       0x18021000
-#define CECBaseAddress        0x18033000
-#define SysConfigBaseAddress  0x18001000
+//---- 
+/* Pio1BaseAddress verwendet smartcard 0x18021000 */
+/* Drum setzen wir Pio2BaseAddress 0x18022000 */
+/* Bitte Testen ... */
+#define PIO1BaseAddress       0x18022000 /* Ist PIO2 BASEADDRESS */
+#define CECBaseAddress        0x18030C00 /* Ist das richtig ??? */
+#define SysConfigBaseAddress  0x19001000 /* Ist default SysConfig Address */
+					 /* verwendet aber auch smartcard */
 
 #define PIO_PC0                0x24
 #define PIO_PC1                0x34
