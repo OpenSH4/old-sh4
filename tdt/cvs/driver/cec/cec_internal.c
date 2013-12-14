@@ -45,9 +45,9 @@
 #include "cec_internal.h"
 
 //----
-#define PIO1BaseAddress       0xFD021000
-#define CECBaseAddress        0xFE030C00
-#define SysConfigBaseAddress  0xFE001000
+#define PIO1BaseAddress       0x18021000
+#define CECBaseAddress        0x18033000
+#define SysConfigBaseAddress  0x18001000
 
 #define PIO_PC0                0x24
 #define PIO_PC1                0x34
