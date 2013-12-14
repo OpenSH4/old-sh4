@@ -1,7 +1,6 @@
 #
 # IMPORTANT: it is expected that only one define is set
 #
-CUBEMOD=$(CUBEREVO)$(CUBEREVO_MINI)$(CUBEREVO_MINI2)$(CUBEREVO_MINI_FTA)$(CUBEREVO_250HD)$(CUBEREVO_2000HD)$(CUBEREVO_9500HD)
 
 #
 # Patches Kernel 24
@@ -15,7 +14,6 @@ STM24_DVB_PATCH = linux-sh4-linuxdvb_stm24$(PATCH_STR).patch
 
 COMMONPATCHES_24 = \
 		$(STM24_DVB_PATCH) \
-		$(if $(P0207)$(P0209),linux-sh4-makefile_stm24.patch) \
 		linux-sh4-sound_stm24$(PATCH_STR).patch \
 		linux-sh4-time_stm24$(PATCH_STR).patch \
 		linux-sh4-init_mm_stm24$(PATCH_STR).patch \
@@ -23,52 +21,22 @@ COMMONPATCHES_24 = \
 		linux-sh4-strcpy_stm24$(PATCH_STR).patch \
 		linux-sh4-ext23_as_ext4_stm24$(PATCH_STR).patch \
 		bpa2_procfs_stm24$(PATCH_STR).patch \
-		$(if $(P0207),xchg_fix_stm24$(PATCH_STR).patch) \
-		$(if $(P0207),mm_cache_update_stm24$(PATCH_STR).patch) \
-		$(if $(P0207),linux-sh4-ehci_stm24$(PATCH_STR).patch) \
 		linux-ftdi_sio.c_stm24$(PATCH_STR).patch \
 		linux-sh4-lzma-fix_stm24$(PATCH_STR).patch \
 		linux-tune_stm24.patch \
-		$(if $(P0209)$(P0210)$(P0211),linux-sh4-mmap_stm24.patch) \
-		$(if $(P0209)$(P0210)$(P0211),linux-sh4-remove_pcm_reader_stm24.patch) \
-		$(if $(P0209),linux-sh4-dwmac_stm24_0209.patch) \
-		$(if $(P0207),linux-sh4-sti7100_missing_clk_alias_stm24$(PATCH_STR).patch) \
-		$(if $(P0209),linux-sh4-directfb_stm24$(PATCH_STR).patch)
+		linux-sh4-mmap_stm24.patch \
+		linux-sh4-remove_pcm_reader_stm24.patch \
 
 HL101_PATCHES_24 = $(COMMONPATCHES_24) \
 		linux-sh4-hl101_setup_stm24$(PATCH_STR).patch \
 		linux-usbwait123_stm24.patch \
 		linux-sh4-stmmac_stm24$(PATCH_STR).patch \
 		linux-sh4-i2c-st40-pio_stm24$(PATCH_STR).patch \
-		$(if $(P0207),linux-sh4-fortis_hdbox_i2c_st40_stm24$(PATCH_STR).patch) \
-		$(if $(P0211),mb442_p0211.patch) \
-		$(if $(P0211),stx7100_p0211.patch) \
-		$(if $(P0211),gpio_p0211.patch)
+		gpio_p0211.patch
 
 
 KERNELPATCHES_24 = \
-		$(if $(UFS910),$(UFS910PATCHES_24)) \
-		$(if $(UFS912),$(UFS912PATCHES_24)) \
-		$(if $(UFS913),$(UFS913PATCHES_24)) \
-		$(if $(UFS922),$(UFS922PATCHES_24)) \
-		$(if $(TF7700),$(TF7700PATCHES_24)) \
-		$(if $(HL101),$(HL101_PATCHES_24)) \
-		$(if $(CLASSIC),$(CLASSIC_PATCHES_24)) \
-		$(if $(VIP1_V2),$(VIP2_PATCHES_24)) \
-		$(if $(VIP2_V1),$(VIP2_PATCHES_24)) \
-		$(if $(SPARK),$(SPARK_PATCHES_24)) \
-		$(if $(SPARK7162),$(SPARK7162_PATCHES_24)) \
-		$(if $(FORTIS_HDBOX),$(FORTISPATCHES_24)) \
-		$(if $(HS7810A),$(HS7810APATCHES_24)) \
-		$(if $(HS7110),$(HS7110PATCHES_24)) \
-		$(if $(WHITEBOX),$(WHITEBOXPATCHES_24)) \
-		$(if $(ATEVIO7500),$(ATEVIO7500PATCHES_24)) \
-		$(if $(OCTAGON1008),$(OCTAGON1008PATCHES_24)) \
-		$(if $(ADB_BOX),$(ADB_BOXPATCHES_24)) \
-		$(if $(IPBOX9900),$(IPBOX9900PATCHES_24)) \
-		$(if $(IPBOX99),$(IPBOX99PATCHES_24)) \
-		$(if $(IPBOX55),$(IPBOX55PATCHES_24)) \
-		$(if $(CUBEMOD),$(CUBEREVOPATCHES_24))
+		$(if $(HL101),$(HL101_PATCHES_24))
 
 #
 # KERNEL-HEADERS

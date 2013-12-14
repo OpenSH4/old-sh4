@@ -1,3 +1,198 @@
+*** linux-sh4/arch/sh/boards/mach-mb442/setup.c	2013-12-09 11:11:32.685239367 +0100
+--- linux-sh4-2.6.32.28_stm24_0207_orig/arch/sh/boards/mach-mb442/setup.c	2013-12-14 13:06:17.000000000 +0100
+@@ -22,14 +22,29 @@
+ #include <linux/stm/platform.h>
+ #include <linux/stm/stx7100.h>
+ #include <asm/irl.h>
++#include <linux/bpa2.h>
+ 
++#define MB442_PIO_STE100P_RESET stm_gpio(3, 6)
+ 
++const char *LMI_VID_partalias[] = { "BPA2_Region1", "coredisplay-video", "gfx-memory", "v4l2-video-buffers", "v4l2-coded-video-buffers", NULL };
++const char *LMI_SYS_partalias[] = { "BPA2_Region0", "bigphysarea", NULL };
+ 
+-#define MB442_PIO_STE100P_RESET stm_gpio(2, 4)
+-#define MB442_PIO_SMC91X_RESET stm_gpio(2, 6)
+-#define MB442_PIO_FLASH_VPP stm_gpio(2, 7)
+-
+-
++static struct bpa2_partition_desc bpa2_parts_table[] = {
++      {
++	      .name  = "LMI_VID",
++	      .start = 0x10800000, 
++	      .size  = 0x04800000,
++	      .flags = 0,
++	      .aka   = LMI_VID_partalias
++      },
++      {
++	      .name  = "LMI_SYS",
++	      .start = 0,
++	      .size  = 0x01900000,
++	      .flags = 0,
++	      .aka   = LMI_SYS_partalias
++      }
++};
+ 
+ void __init mb442_setup(char** cmdline_p)
+ {
+@@ -37,12 +52,16 @@
+ 
+ 	stx7100_early_device_init();
+ 
++	/* Das ist rs232 für Serial Log */
+ 	stx7100_configure_asc(2, &(struct stx7100_asc_config) {
+ 			.hw_flow_control = 0,
+ 			.is_console = 1, });
++	
+ 	stx7100_configure_asc(3, &(struct stx7100_asc_config) {
+ 			.hw_flow_control = 0,
+ 			.is_console = 0, });
++
++  	bpa2_init(bpa2_parts_table, ARRAY_SIZE(bpa2_parts_table));
+ }
+ 
+ static struct resource mb442_smc91x_resources[] = {
+@@ -65,25 +84,6 @@
+ 	.resource	= mb442_smc91x_resources,
+ };
+ 
+-static void mb442_set_vpp(struct map_info *info, int enable)
+-{
+-	gpio_set_value(MB442_PIO_FLASH_VPP, enable);
+-}
+-
+-static struct platform_device mb442_physmap_flash = {
+-	.name		= "physmap-flash",
+-	.id		= -1,
+-	.num_resources	= 1,
+-	.resource	= (struct resource[]) {
+-		STM_PLAT_RESOURCE_MEM(0, 8*1024*1024),
+-	},
+-	.dev.platform_data = &(struct physmap_flash_data) {
+-		.width		= 2,
+-		.set_vpp	= mb442_set_vpp,
+-	},
+-};
+-
+-
+ static int mb442_phy_reset(void* bus)
+ {
+ 	gpio_set_value(MB442_PIO_STE100P_RESET, 1);
+@@ -95,7 +95,7 @@
+ 	return 1;
+ }
+ 
+-#define STMMAC_PHY_ADDR 14
++#define STMMAC_PHY_ADDR 2
+ static int stmmac_phy_irqs[PHY_MAX_ADDR] = {
+ 	[STMMAC_PHY_ADDR] = IRL3_IRQ,
+ };
+@@ -108,7 +108,6 @@
+ 
+ static struct platform_device *mb442_devices[] __initdata = {
+ 	&mb442_smc91x_device,
+-	&mb442_physmap_flash,
+ };
+ 
+ static int __init mb442_device_init(void)
+@@ -119,9 +118,9 @@
+ 			.out0_enabled = 0,
+ 			.out1_enabled = 1, });
+ 
+-	stx7100_configure_ssc_i2c(0, NULL);
+-	stx7100_configure_ssc_spi(1, NULL);
+-	stx7100_configure_ssc_i2c(2, NULL);
++	stx7100_configure_ssc_i2c(0);
++	stx7100_configure_ssc_i2c(1);
++	stx7100_configure_ssc_i2c(2);
+ 
+ 	stx7100_configure_usb();
+ 
+@@ -130,14 +129,6 @@
+ 			.tx_enabled = 0,
+ 			.tx_od_enabled = 0, });
+ 
+-	stx7100_configure_pata(&(struct stx7100_pata_config) {
+-			.emi_bank = 3,
+-			.pc_mode = 1,
+-			.irq = IRL1_IRQ, });
+-
+-	gpio_request(MB442_PIO_FLASH_VPP, "Flash VPP");
+-	gpio_direction_output(MB442_PIO_FLASH_VPP, 0);
+-
+ 	gpio_request(MB442_PIO_STE100P_RESET, "STE100P reset");
+ 	gpio_direction_output(MB442_PIO_STE100P_RESET, 1);
+ 
+@@ -149,14 +140,6 @@
+ 			.mdio_bus_data = &stmmac_mdio_bus,
+ 		});
+ 
+-	/* Reset the SMSC 91C111 Ethernet chip */
+-	gpio_request(MB442_PIO_SMC91X_RESET, "SMC91x reset");
+-	gpio_direction_output(MB442_PIO_SMC91X_RESET, 0);
+-	udelay(1);
+-	gpio_set_value(MB442_PIO_SMC91X_RESET, 1);
+-	udelay(1);
+-	gpio_set_value(MB442_PIO_SMC91X_RESET, 0);
+-
+ 	return platform_add_devices(mb442_devices,
+ 			ARRAY_SIZE(mb442_devices));
+ }
+
+*** linux-sh4-2.6.32.28_stm24_0211_orig/drivers/stm/stx7100_comms.c	2013-12-14 13:47:08.887145002 +0100
+--- linux-sh4/drivers/stm/stx7100_comms.c	2013-12-14 13:06:18.000000000 +0100
+@@ -64,6 +64,11 @@
+ 			STM_PAD_PIO_IN_NAMED(5, 2, -1, "CTS"),
+ 			STM_PAD_PIO_OUT_NAMED(5, 3, 1, "RTS"),
+ 		},
++		.sysconfs_num = 1,
++		.sysconfs = (struct stm_pad_sysconf []) {
++			/* SCIF_PIO_OUT_EN = 0 */
++			STM_PAD_SYS_CFG(7, 1, 1, 0), //cec
++		},
+ 	},
+ };
+ 
+@@ -226,12 +231,10 @@
+ 			STM_PAD_PIO_BIDIR_NAMED(2, 0, 1, "SCL"),
+ 			STM_PAD_PIO_BIDIR_NAMED(2, 1, 1, "SDA"),
+ 		},
+-		.sysconfs_num = 2,
++		.sysconfs_num = 1,
+ 		.sysconfs = (struct stm_pad_sysconf []) {
+ 			/* SSC0_MUX_SEL = 0 (default assignment) */
+ 			STM_PAD_SYS_CFG(7, 1, 1, 0),
+-			/* DVO_OUT_ON = 0 (SSC not DVO) */
+-			STM_PAD_SYS_CFG(7, 10, 10, 0),
+ 		},
+ 	},
+ 	[1] = {
+@@ -334,8 +337,7 @@
+ 
+ static int __initdata stx7100_ssc_configured[ARRAY_SIZE(stx7100_ssc_devices)];
+ 
+-int __init stx7100_configure_ssc_i2c(int ssc,
+-		struct stx7100_ssc_i2c_config *config)
++int __init stx7100_configure_ssc_i2c(int ssc)
+ {
+ 	static int i2c_busnum;
+ 	struct stm_plat_ssc_data *plat_data;
+@@ -345,13 +347,11 @@
+ 	BUG_ON(stx7100_ssc_configured[ssc]);
+ 	stx7100_ssc_configured[ssc] = 1;
+ 
+-	stx7100_ssc_devices[ssc].name = "i2c-stm";
++	stx7100_ssc_devices[ssc].name = "i2c-st40";
+ 	stx7100_ssc_devices[ssc].id = i2c_busnum;
+ 
+ 	plat_data = stx7100_ssc_devices[ssc].dev.platform_data;
+ 	plat_data->pad_config = &stx7100_ssc_i2c_pad_configs[ssc];
+-	if (config)
+-		plat_data->i2c_fastmode = config->fastmode;
+ 
+ 	/* I2C bus number reservation (to prevent any hot-plug device
+ 	 * from using it) */
+
 *** linux-sh4-2.6.32.28_stm24_0211_orig/drivers/net/phy/phy_device.c	2011-08-04 16:27:16.440157990 +0300
 --- linux-sh4/drivers/net/phy/phy_device.c	2011-08-05 17:35:37.308158605 +0300
 ***************
