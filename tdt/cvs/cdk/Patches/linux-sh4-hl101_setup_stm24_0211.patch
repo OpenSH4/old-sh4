@@ -35,23 +35,29 @@
  
  void __init mb442_setup(char** cmdline_p)
  {
-@@ -37,12 +52,12 @@
+@@ -37,12 +52,20 @@
  
  	stx7100_early_device_init();
  
-+	/* Das ist rs232 für Serial Log */
++	/* ASC0 und 1, nicht aber ASC0 und ASC1 vom Smartcard reader */
++	/* ASC0 Baseaddress=0x18032000 */
++	/* ASC1 Baseaddress=0x18033000 */	
++	/* Aktiviert ASC0 */
  	stx7100_configure_asc(2, &(struct stx7100_asc_config) {
  			.hw_flow_control = 0,
- 			.is_console = 1, });
--	stx7100_configure_asc(3, &(struct stx7100_asc_config) {
--			.hw_flow_control = 0,
--			.is_console = 0, });
+-			.is_console = 1, });
++			.is_console = 0, });
++
++	/* Aktiviert ASC1 */
+ 	stx7100_configure_asc(3, &(struct stx7100_asc_config) {
+ 			.hw_flow_control = 0,
+ 			.is_console = 0, });
 +
 +  	bpa2_init(bpa2_parts_table, ARRAY_SIZE(bpa2_parts_table));
  }
  
  static struct resource mb442_smc91x_resources[] = {
-@@ -65,25 +80,6 @@
+@@ -65,25 +88,6 @@
  	.resource	= mb442_smc91x_resources,
  };
  
@@ -77,7 +83,7 @@
  static int mb442_phy_reset(void* bus)
  {
  	gpio_set_value(MB442_PIO_STE100P_RESET, 1);
-@@ -95,7 +91,7 @@
+@@ -95,7 +99,7 @@
  	return 1;
  }
  
@@ -86,7 +92,7 @@
  static int stmmac_phy_irqs[PHY_MAX_ADDR] = {
  	[STMMAC_PHY_ADDR] = IRL3_IRQ,
  };
-@@ -108,7 +104,6 @@
+@@ -108,7 +112,6 @@
  
  static struct platform_device *mb442_devices[] __initdata = {
  	&mb442_smc91x_device,
@@ -94,7 +100,7 @@
  };
  
  static int __init mb442_device_init(void)
-@@ -119,9 +114,9 @@
+@@ -119,9 +122,9 @@
  			.out0_enabled = 0,
  			.out1_enabled = 1, });
  
@@ -107,7 +113,7 @@
  
  	stx7100_configure_usb();
  
-@@ -130,14 +125,6 @@
+@@ -130,14 +133,6 @@
  			.tx_enabled = 0,
  			.tx_od_enabled = 0, });
  
@@ -122,7 +128,7 @@
  	gpio_request(MB442_PIO_STE100P_RESET, "STE100P reset");
  	gpio_direction_output(MB442_PIO_STE100P_RESET, 1);
  
-@@ -149,14 +136,6 @@
+@@ -149,14 +144,6 @@
  			.mdio_bus_data = &stmmac_mdio_bus,
  		});
  
