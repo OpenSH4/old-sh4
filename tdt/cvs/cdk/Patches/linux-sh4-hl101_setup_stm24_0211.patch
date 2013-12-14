@@ -1,5 +1,5 @@
 *** linux-sh4/arch/sh/boards/mach-mb442/setup.c	2013-12-09 11:11:32.685239367 +0100
---- linux-sh4-2.6.32.28_stm24_0207_orig/arch/sh/boards/mach-mb442/setup.c	2013-12-14 13:06:17.000000000 +0100
+--- linux-sh4-2.6.32.28_stm24_0211_orig/arch/sh/boards/mach-mb442/setup.c	2013-12-14 13:06:17.000000000 +0100
 @@ -22,14 +22,29 @@
  #include <linux/stm/platform.h>
  #include <linux/stm/stx7100.h>
@@ -139,8 +139,8 @@
  			ARRAY_SIZE(mb442_devices));
  }
 
-*** linux-sh4-2.6.32.28_stm24_0211_orig/drivers/stm/stx7100_comms.c	2013-12-14 13:47:08.887145002 +0100
---- linux-sh4/drivers/stm/stx7100_comms.c	2013-12-14 13:06:18.000000000 +0100
+*** linux-sh4/drivers/stm/stx7100_comms.c	2013-12-14 13:47:08.887145002 +0100
+--- linux-sh4-2.6.32.28_stm24_0211_orig/drivers/stm/stx7100_comms.c	2013-12-14 13:06:18.000000000 +0100
 @@ -64,6 +64,11 @@
  			STM_PAD_PIO_IN_NAMED(5, 2, -1, "CTS"),
  			STM_PAD_PIO_OUT_NAMED(5, 3, 1, "RTS"),
@@ -193,8 +193,8 @@
  	/* I2C bus number reservation (to prevent any hot-plug device
  	 * from using it) */
 
-*** linux-sh4-2.6.32.28_stm24_0211_orig/drivers/net/phy/phy_device.c	2011-08-04 16:27:16.440157990 +0300
---- linux-sh4/drivers/net/phy/phy_device.c	2011-08-05 17:35:37.308158605 +0300
+*** linux-sh4/drivers/net/phy/phy_device.c	2011-08-04 16:27:16.440157990 +0300
+--- linux-sh4-2.6.32.28_stm24_0211_orig/drivers/net/phy/phy_device.c	2011-08-05 17:35:37.308158605 +0300
 ***************
 *** 962,968 ****
   		return retval;
@@ -212,8 +212,8 @@
   
   	return 0;
   }
-*** linux-sh4-2.6.32.28_stm24_0211_orig/drivers/net/stmmac/stmmac_mdio.c	2011-08-04 16:27:14.747157990 +0300
---- linux-sh4/drivers/net/stmmac/stmmac_mdio.c	2011-08-05 17:35:30.704158605 +0300
+*** linux-sh4/drivers/net/stmmac/stmmac_mdio.c	2011-08-04 16:27:14.747157990 +0300
+--- linux-sh4-2.6.32.28_stm24_0211_orig/drivers/net/stmmac/stmmac_mdio.c	2011-08-05 17:35:30.704158605 +0300
 ***************
 *** 191,198 ****
   			 * and no PHY number was provided to the MAC,
@@ -239,3 +239,23 @@
   				priv->plat->phy_addr = addr;
   
   			act = (priv->plat->bus_id == mdio_bus_data->bus_id) &&
+--- linux-sh4-2.6.32.28_stm24_0211/include/linux/stm/stx7100.h	2013-03-12 23:25:38.664652895 +0100
+*** linux-sh4/include/linux/stm/stx7100.h	2013-03-09 16:58:47.000000000 +0100
+@@ -35,15 +35,12 @@
+ void stx7100_configure_asc(int asc, struct stx7100_asc_config *config);
+ 
+ 
+-struct stx7100_ssc_i2c_config {
+-	unsigned int fastmode:1;
+-};
+ struct stx7100_ssc_spi_config {
+ 	void (*chipselect)(struct spi_device *spi, int is_on);
+ };
+ /* SSC configure functions return I2C/SPI bus number */
+-int stx7100_configure_ssc_i2c(int ssc, struct stx7100_ssc_i2c_config *config);
+-int stx7100_configure_ssc_spi(int ssc, struct stx7100_ssc_spi_config *config);
++int stx7100_configure_ssc_i2c(int ssc);
++int stx7100_configure_ssc_spi(int ssc, struct stx7100_ssc_spi_config *config);
+ 
+ 
+ struct stx7100_lirc_config {
