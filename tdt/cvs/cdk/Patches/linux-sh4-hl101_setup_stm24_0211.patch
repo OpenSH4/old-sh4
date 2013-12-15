@@ -146,19 +146,7 @@
 
 *** linux-sh4/drivers/stm/stx7100_comms.c	2013-12-14 13:47:08.887145002 +0100
 --- linux-sh4-2.6.32.28_stm24_0211_orig/drivers/stm/stx7100_comms.c	2013-12-14 13:06:18.000000000 +0100
-@@ -64,6 +64,11 @@
- 			STM_PAD_PIO_IN_NAMED(5, 2, -1, "CTS"),
- 			STM_PAD_PIO_OUT_NAMED(5, 3, 1, "RTS"),
- 		},
-+		.sysconfs_num = 1,
-+		.sysconfs = (struct stm_pad_sysconf []) {
-+			/* SCIF_PIO_OUT_EN = 0 */
-+			STM_PAD_SYS_CFG(7, 1, 1, 0), //cec
-+		},
- 	},
- };
- 
-@@ -226,12 +231,10 @@
+@@ -226,12 +226,10 @@
  			STM_PAD_PIO_BIDIR_NAMED(2, 0, 1, "SCL"),
  			STM_PAD_PIO_BIDIR_NAMED(2, 1, 1, "SDA"),
  		},
@@ -172,7 +160,7 @@
  		},
  	},
  	[1] = {
-@@ -334,8 +337,7 @@
+@@ -334,8 +332,7 @@
  
  static int __initdata stx7100_ssc_configured[ARRAY_SIZE(stx7100_ssc_devices)];
  
@@ -182,7 +170,7 @@
  {
  	static int i2c_busnum;
  	struct stm_plat_ssc_data *plat_data;
-@@ -345,13 +347,11 @@
+@@ -345,13 +342,11 @@
  	BUG_ON(stx7100_ssc_configured[ssc]);
  	stx7100_ssc_configured[ssc] = 1;
  
