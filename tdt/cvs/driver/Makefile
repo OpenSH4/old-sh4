@@ -50,6 +50,7 @@ obj-y += bpamem/
 
 ifdef HL101
 obj-y += cec/
+obj-y += cec_adb_box/
 obj-y += cic/
 obj-y += cpu_frequ/
 obj-y += smartcard/

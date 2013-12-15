@@ -51,7 +51,8 @@
 +	/* Aktiviert ASC1 */
  	stx7100_configure_asc(3, &(struct stx7100_asc_config) {
  			.hw_flow_control = 0,
- 			.is_console = 0, });
+-			.is_console = 0, });
++			.is_console = 1, });
 +
 +  	bpa2_init(bpa2_parts_table, ARRAY_SIZE(bpa2_parts_table));
  }
