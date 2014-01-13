@@ -62,41 +62,58 @@ cd /rootfs/boot
 cp uImage.gz /install
 echo "umount /dev/sda1"
 cd /
-umount /dev/sda1
-echo "done"
-echo "FDISK" > /dev/vfd
-echo "Partitioniere Datenträger"
-HDD=/dev/sda
-ROOTFS=$HDD"1"
-SYSFS=$HDD"2"
-SWAPFS=$HDD"3"
-DATAFS=$HDD"4"
-dd if=/dev/zero of=$HDD bs=512 count=64
-sfdisk --re-read $HDD
+# Checkt im install file ob FDisk durchgeführtwerden soll oder nicht
+# Für User mit Image auf der HDD kann so die Film Partition erhallten bleiben
+FORMAT=`cat /rootfs/install`
+[ "$FORMAT" = "format" ]; then
+	umount /dev/sda1
+	echo "done"
+	echo "FDISK" > /dev/vfd
+	echo "Partitioniere Datenträger"
+	HDD=/dev/sda
+	ROOTFS=$HDD"1"
+	SYSFS=$HDD"2"
+	SWAPFS=$HDD"3"
+	DATAFS=$HDD"4"
+	dd if=/dev/zero of=$HDD bs=512 count=64
+	sfdisk --re-read $HDD
 # Löscht die Festplatte/Stick und erstellt 4 Partitionen
 #  1: 256MB Linux Uboot ext2
 #  2:   1GB Linux System ext4
 #  3: 64MB Swap > 64 MB sind mehr wie ausreichend ...
 #  4: rest freier Speicher LINUX ext4 (bei HDD record)
-sfdisk $HDD -uM << EOF
-,256,L
-,1024,L
-,64,S
-,,L
-;
-EOF
-echo "done"
-echo "Format" > /dev/vfd
-echo "Formatiere Partitionen"
-echo "Format Uboot"
-mkfs.ext2 -I128 -b4096 -L BOOTFS $HDD"1"
-echo "Format System"
-mkfs.ext4 -L ROOTFS $HDD"2"
-echo "Formatiere Swap"
-mkswap $SWAPFS
-echo "Formatiere Rest Free Space"
-mkfs.ext4 -L RECORD $HDD"4"
-echo "done"
+	sfdisk $HDD -uM << EOF
+	,256,L
+	,1024,L
+	,64,S
+	,,L
+	;
+	EOF
+	echo "done"
+	echo "Format ALL" > /dev/vfd
+	echo "Formatiere Partitionen"
+	echo "Format Uboot"
+	mkfs.ext2 -I128 -b4096 -L BOOTFS $HDD"1"
+	echo "Format System"
+	mkfs.ext4 -L ROOTFS $HDD"2"
+	echo "Formatiere Swap"
+	mkswap $SWAPFS
+	echo "Formatiere Rest Free Space"
+	mkfs.ext4 -L RECORD $HDD"4"
+	echo "done"
+else
+	umount /dev/sda1
+	echo "done"
+	echo "Format" > /dev/vfd
+	echo "Formatiere Partitionen"
+	echo "Format Uboot"
+	mkfs.ext2 -I128 -b4096 -L BOOTFS $HDD"1"
+	echo "Format System"
+	mkfs.ext4 -L ROOTFS $HDD"2"
+	echo "Formatiere Swap"
+	mkswap $SWAPFS
+	echo "done"
+fi # END INSTALL FORMAT CHECK
 echo "mounte /dev/sda2"
 mount /dev/sda2 /rootfs
 echo "Install" > /dev/vfd
