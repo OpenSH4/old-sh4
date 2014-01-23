@@ -42,7 +42,7 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 	echo " 0) Newest		- NHD2 libeplayer3    			(Can fail due to outdated patch)"; \
 	echo " 1) Newest (TeamCS)	- NHD2 libeplayer3 + TeamCS-Menu   	(Can fail due to outdated patch)"; \
 	echo " 2) inactive"; \
-	echo " 3) Sat,  07 Dez 2013	- NHD2 libeplayer3 + TeamCS-Menu		(SVN 1940)"; \
+	echo " 3) Wed,  22 Jan 2014	- NHD2 libeplayer3 + TeamCS-Menu		(SVN 2127)"; \
 	echo "========================================================================================================"; \
 	echo "Media Framwork : $(MEDIAFW) (MediaFW will always be libbeplayer3 for NHD2)"; \
 	echo "External LCD   : $(EXTERNALLCD)"; \
@@ -50,7 +50,7 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 	[ "$$REPLY" == "0" ] && NHDselect=0; \
 	[ "$$REPLY" == "1" ] && NHDselect=1; \
 	[ "$$REPLY" == "2" ] && NHDselect=2; \
-	[ "$$REPLY" == "3" ] && NHDselect=3 && REVISION=1925; \
+	[ "$$REPLY" == "3" ] && NHDselect=3 && REVISION=2127; \
 	echo "Revision       : "$$REVISION; \
 	echo "";\
 	rm -rf $(appsdir)/neutrino-hd2-exp; \
@@ -90,7 +90,7 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 		cp -ra $(archivedir)/neutrino-hd2-exp.svn $(appsdir)/neutrino-hd2-exp; \
 		cp -ra $(appsdir)/neutrino-hd2-exp $(appsdir)/neutrino-hd2-exp.org; \
 		$(if $(HL101)$(VIP1v2)$(VIP2v1),cd $(appsdir)/neutrino-hd2-exp && \
-                patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp.diff";) \
+                patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp-newest.diff";) \
                 $(if $(TF7700),cd $(appsdir)/neutrino-hd2-exp && \
                 patch -p1 < "$(buildprefix)/Patches/neutrino-hd2-exp--tf7700.diff";) \
 		cp -f $(buildprefix)/root/svn_version.h $(appsdir)/neutrino-hd2-exp/src/gui/ ;\
@@ -102,7 +102,8 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 
 
 if ENABLE_HL101
-NHD2_BOXTYPE = vip
+#NHD2_BOXTYPE = vip
+NHD2_BOXTYPE = generic
 else
 NHD2_BOXTYPE = $(BOXTYPE)
 endif
