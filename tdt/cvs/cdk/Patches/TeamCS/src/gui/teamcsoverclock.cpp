@@ -102,165 +102,74 @@ int teamcsoverclock::exec(CMenuTarget* parent, const std::string &actionKey)
    }
    else if (actionKey == "266boot")
    {
-      //CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
 
       	system("echo off > /var/keys/Benutzerdaten/.system/overclock; echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Die CPU wird Standart auf 266 Mhz getacktet");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
-   }	
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Die CPU wird Standart auf 266 Mhz getacktet",50,1800);
+    }	
    else if (actionKey == "300boot")
    {
 
       	system("echo 300on > /var/keys/Benutzerdaten/.system/overclock");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Die CPU wird waerend des Booten auf 300 Mhz getacktet");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Die CPU wird waerend des Booten auf 300 Mhz getacktet",50,1800);
    }
    else if (actionKey == "333boot")
    {
 
       	system("echo 333on > /var/keys/Benutzerdaten/.system/overclock");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Die CPU wird waerend des Booten auf 333 Mhz getacktet");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;   
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Die CPU wird waerend des Booten auf 333 Mhz getacktet",50,1800);
    }
    else if (actionKey == "366boot")
    {
 
       	system("echo 366on > /var/keys/Benutzerdaten/.system/overclock");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Die CPU wird waerend des Booten auf 366 Mhz getacktet");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Die CPU wird waerend des Booten auf 366 Mhz getacktet",50,1800);
    }
    else if (actionKey == "400boot")
    {
 
       	system("echo 400on > /var/keys/Benutzerdaten/.system/overclock");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Die CPU wird waerend des Booten auf 400 Mhz getacktet");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Die CPU wird waerend des Booten auf 400 Mhz getacktet",50,1800);
    }
    else if (actionKey == "300fix")
    {
 
       	system("echo 300daueron > /var/keys/Benutzerdaten/.system/overclock; echo 25609 > /proc/cpu_frequ/pll0_ndiv_mdiv");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Aktuelle CPU Freq. auf 300 Mhz getacktet und fest gestellt fuer jeden Boot");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Aktuelle CPU Freq. auf 300 Mhz getacktet und fest gestellt fuer jeden Boot",50,1800);
    }
    else if (actionKey == "333fix")
    {
 
       	system("echo 333daueron > /var/keys/Benutzerdaten/.system/overclock; echo 9475 > /proc/cpu_frequ/pll0_ndiv_mdiv");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Aktuelle CPU Freq. auf 333 Mhz getacktet und fest gestellt fuer jeden Boot");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Aktuelle CPU Freq. auf 333 Mhz getacktet und fest gestellt fuer jeden Boot",50,1800);
    }
    else if (actionKey == "366fix")
    {
 
-      	system("echo 366daueron > /var/keys/Benutzerdaten/.system/overclock; echo 31241 > /proc/cpu_frequ/pll0_ndiv_mdiv");    	
-	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Aktuelle CPU Freq. auf 366 Mhz getacktet und fest gestellt fuer jeden Boot");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+      	system("echo 366daueron > /var/keys/Benutzerdaten/.system/overclock; echo 31241 > /proc/cpu_frequ/pll0_ndiv_mdiv"); 
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Aktuelle CPU Freq. auf 366 Mhz getacktet und fest gestellt fuer jeden Boot",50,1800);		
    }
    else if (actionKey == "400fix")
    {
 
       	system("echo 400daueron > /var/keys/Benutzerdaten/.system/overclock; echo 22790 > /proc/cpu_frequ/pll0_ndiv_mdiv");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Aktuelle CPU Freq. auf 400 Mhz getacktet und fest gestellt fuer jeden Boot");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Aktuelle CPU Freq. auf 400 Mhz getacktet und fest gestellt fuer jeden Boot",50,1800);
    }
    else if (actionKey == "266fix")
    {
 
       	system("echo daueroff > /var/keys/Benutzerdaten/.system/overclock; echo 15110 > /proc/cpu_frequ/pll0_ndiv_mdiv");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Aktuelle CPU Freq. auf 266 Mhz getacktet und fest gestellt fuer jeden Boot");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
-   }
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Aktuelle CPU Freq. auf 266 Mhz getacktet und fest gestellt fuer jeden Boot",50,1800);
+    }
    else if (actionKey == "test")
    {
         cprompt = popen("cat /proc/cpu_frequ/pll0_ndiv_mdiv", "r");

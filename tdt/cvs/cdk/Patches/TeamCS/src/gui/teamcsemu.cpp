@@ -110,21 +110,12 @@ teamcsemu->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSEMU_KeyUpdate, t
       	cprompt = popen("/var/config/emu/stop-emu.sh", "r");
 		while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
       		{
-		strcat(cprompthint,ctext);
+			strcat(cprompthint,ctext);
       		}
-	pclose(cprompt);
+		pclose(cprompt);
 
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
    }	
    else if (actionKey == "mgcamd1")
    {
@@ -133,21 +124,12 @@ teamcsemu->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSEMU_KeyUpdate, t
       	cprompt = popen("/var/config/emu/start-mgcamd.sh; echo 1 > /var/emu/emudual", "r");
 		while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
       		{
-		strcat(cprompthint,ctext);
+			strcat(cprompthint,ctext);
       		}
-	pclose(cprompt);
+		pclose(cprompt);
 
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
    }
    else if (actionKey == "oscam1")
    {
@@ -156,21 +138,12 @@ teamcsemu->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSEMU_KeyUpdate, t
       	cprompt = popen("/var/config/emu/start-oscam.sh; echo 1 > /var/emu/emudual", "r");
 		while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
       		{
-		strcat(cprompthint,ctext);
+			strcat(cprompthint,ctext);
       		}
-	pclose(cprompt);
+		pclose(cprompt);
 
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;   
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);   
    }
    else if (actionKey == "vizcam1")
    {
@@ -179,21 +152,12 @@ teamcsemu->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSEMU_KeyUpdate, t
       	cprompt = popen("/var/config/emu/start-vizcam.sh; echo 1 > /var/emu/emudual", "r");
 		while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
       		{
-		strcat(cprompthint,ctext);
+			strcat(cprompthint,ctext);
       		}
-	pclose(cprompt);
+		pclose(cprompt);
 
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
    }
    else if (actionKey == "mbox1")
    {
@@ -202,21 +166,12 @@ teamcsemu->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSEMU_KeyUpdate, t
       	cprompt = popen("/var/config/emu/start-mbox.sh; echo 1 > /var/emu/emudual", "r");
 		while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
       		{
-		strcat(cprompthint,ctext);
+			strcat(cprompthint,ctext);
       		}
-	pclose(cprompt);
+		pclose(cprompt);
 
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
    }
    else if (actionKey == "incubus1")
    {
@@ -225,21 +180,12 @@ teamcsemu->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSEMU_KeyUpdate, t
       	cprompt = popen("/var/config/emu/start-incubus.sh; echo 1 > /var/emu/emudual.sh", "r");
 		while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
       		{
-		strcat(cprompthint,ctext);
+			strcat(cprompthint,ctext);
       		}
-	pclose(cprompt);
+		pclose(cprompt);
 
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
    }
    else if (actionKey == "camd31")
    {
@@ -248,21 +194,12 @@ teamcsemu->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSEMU_KeyUpdate, t
       	cprompt = popen("/var/config/emu/start-camd3.sh; echo 1 > /var/emu/emudual", "r");
 		while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
       		{
-		strcat(cprompthint,ctext);
+			strcat(cprompthint,ctext);
       		}
-	pclose(cprompt);
+		pclose(cprompt);
 
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
    }
    else if (actionKey == "mgcamd2")
    {
@@ -271,21 +208,12 @@ teamcsemu->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSEMU_KeyUpdate, t
       	cprompt = popen("/var/config/emu/start-mgcamd2.sh; echo 2 > /var/emu/emudual", "r");
 		while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
       		{
-		strcat(cprompthint,ctext);
+			strcat(cprompthint,ctext);
       		}
-	pclose(cprompt);
+		pclose(cprompt);
 
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
    }
    else if (actionKey == "mbox2")
    {
@@ -294,21 +222,12 @@ teamcsemu->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSEMU_KeyUpdate, t
       	cprompt = popen("/var/config/emu/start-mbox2.sh; echo 2 > /var/emu/emudual", "r");
 		while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
       		{
-		strcat(cprompthint,ctext);
+			strcat(cprompthint,ctext);
       		}
-	pclose(cprompt);
+		pclose(cprompt);
 
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
    }
    else if (actionKey == "incubus2")
    {
@@ -317,21 +236,12 @@ teamcsemu->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSEMU_KeyUpdate, t
       	cprompt = popen("/var/config/emu/start-incubus2.sh; echo 2 > /var/emu/emudual.sh", "r");
 		while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
       		{
-		strcat(cprompthint,ctext);
+			strcat(cprompthint,ctext);
       		}
-	pclose(cprompt);
+		pclose(cprompt);
 
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
    }
    else if (actionKey == "camd32")
    {
@@ -340,34 +250,25 @@ teamcsemu->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSEMU_KeyUpdate, t
       	cprompt = popen("/var/config/emu/start-camd32.sh; echo 2 > /var/emu/emudual", "r");
 		while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
       		{
-		strcat(cprompthint,ctext);
+			strcat(cprompthint,ctext);
       		}
-	pclose(cprompt);
+		pclose(cprompt);
 
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
    }
    else if (actionKey == "keyupdate")
    {
-      //system("/var/config/emu/start-camd32.sh; echo 2 > /var/emu/emudual");
 
         cprompt = popen("/var/config/emu/SoftCam-Update.sh", "r");
-                while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
-                {
-                strcat(cprompthint,ctext);
-                }
-        pclose(cprompt);
-	
-	ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
+ 		while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
+      		{
+			strcat(cprompthint,ctext);
+      		}
+		pclose(cprompt);
+
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
    }
 
 

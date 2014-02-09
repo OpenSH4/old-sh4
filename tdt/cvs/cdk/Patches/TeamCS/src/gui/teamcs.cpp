@@ -115,33 +115,14 @@ int teamcs::exec(CMenuTarget* parent, const std::string &actionKey)
    else if (actionKey == "addon")
    {
       	system("echo Nur innerhalb von Enigma aufrufbar");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Nur innerhalb von Enigma aufrufbar");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
-   }
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Nur innerhalb von Enigma aufrufbar",50,1800);
+	}
    else if (actionKey == "enigma")
    {
-        //system("echo Enigma2 > /var/config/subsystem; echo switch > /var/config/subswitch");
-	system("/var/config/system/e2_switch.sh &");
-        CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Starte Enigma2...");
-        hintBox->paint();
-
-                while( msg != CRCInput::RC_ok )
-                {
-                g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-                usleep(5000);
-                }
- 
-        hintBox->hide();
-        delete hintBox;
+		system("/var/config/system/e2_switch.sh &");
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+		ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Starte Enigma2...",50,1800);
    }
 
    return res;

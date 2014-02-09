@@ -1,5 +1,5 @@
 --- neutrino-hd2-exp/src/gui/Makefile.am	2014-01-23 16:07:07.141777942 +0100
-+++ neutrino-hd2-exp/src/gui/Makefile.am	2014-01-23 16:07:20.008381600 +0100
++++ neutrino-hd2-exp/src/gui/Makefile.am	2014-02-09 17:01:11.940191251 +0100
 @@ -9,6 +9,10 @@
  		rm svn_version.h; echo '#define BUILT_DATE "'`date`'"' > svn_version.h ; \
  	fi
@@ -21,9 +21,9 @@
  
  if ENABLE_CI
  libneutrino_gui2_a_SOURCES += cam_menu.cpp
---- neutrino-hd2-exp/data/locale/deutsch.locale	2014-01-23 16:07:08.201662867 +0100
-+++ neutrino-hd2-exp/data/locale/deutsch.locale	2014-01-23 16:07:20.004382034 +0100
-@@ -1621,6 +1621,135 @@
+--- neutrino-hd2-exp/data/locale/deutsch.locale	2014-02-09 17:01:06.500376757 +0100
++++ neutrino-hd2-exp/data/locale/deutsch.locale	2014-02-09 17:01:11.944191119 +0100
+@@ -1624,6 +1624,135 @@
  
  audiomenu.volumebar_audiosteps Lautstärke Schrittweite
  
@@ -159,9 +159,9 @@
  webtv.head WebTV
  webtvchannellist.nonefound Es wurden keine WebTV Kanäle gefunden!
  webtv.user User Bouquet
---- neutrino-hd2-exp/data/locale/english.locale	2014-01-23 16:07:08.197663301 +0100
-+++ neutrino-hd2-exp/data/locale/english.locale	2014-01-23 16:07:20.008381600 +0100
-@@ -1620,6 +1620,134 @@
+--- neutrino-hd2-exp/data/locale/english.locale	2014-02-09 17:01:06.500376757 +0100
++++ neutrino-hd2-exp/data/locale/english.locale	2014-02-09 17:01:11.944191119 +0100
+@@ -1623,6 +1623,134 @@
  
  audiomenu.volumebar_audiosteps Volume Step Size
  
@@ -296,8 +296,8 @@
  webtv.head WebTV
  webtvchannellist.nonefound No WebTV channels were found!
  webtv.user User bouquet
---- neutrino-hd2-exp/src/system/locals.h	2014-01-23 16:07:07.285762308 +0100
-+++ neutrino-hd2-exp/src/system/locals.h	2014-01-23 16:07:20.024379866 +0100
+--- neutrino-hd2-exp/src/system/locals.h	2014-02-09 17:01:06.108390683 +0100
++++ neutrino-hd2-exp/src/system/locals.h	2014-02-09 17:01:11.944191119 +0100
 @@ -561,6 +561,8 @@
  	LOCALE_MAINMENU_SHUTDOWN,
  	LOCALE_MAINMENU_SLEEPTIMER,
@@ -307,7 +307,7 @@
  	LOCALE_MAINSETTINGS_AUDIO,
  	LOCALE_MAINSETTINGS_OSD,
  	LOCALE_MAINSETTINGS_HEAD,
-@@ -1554,6 +1556,8 @@
+@@ -1557,6 +1559,8 @@
  	LOCALE_HELPTEXT_FEATURES,
  	LOCALE_HELPTEXT_DVD,
  	LOCALE_HELPTEXT_BLUERAY,
@@ -316,7 +316,7 @@
  	
  	LOCALE_MISCSETTINGS_LOGOSDIR,
  	LOCALE_MISCSETTINGS_RECORDING_SCREENSHOT,
-@@ -1633,6 +1637,129 @@
+@@ -1636,6 +1640,129 @@
  	
  	LOCALE_AUDIOMENU_VOLUMEBAR_AUDIOSTEPS,
  	
@@ -446,8 +446,8 @@
  	LOCALE_WEBTV_HEAD,
  	LOCALE_WEBTVCHANNELLIST_NONEFOUND,
  	LOCALE_WEBTV_USER,
---- neutrino-hd2-exp/src/system/locals_intern.h	2014-01-23 16:07:07.261764916 +0100
-+++ neutrino-hd2-exp/src/system/locals_intern.h	2014-01-23 16:07:20.024379866 +0100
+--- neutrino-hd2-exp/src/system/locals_intern.h	2014-02-09 17:01:06.108390683 +0100
++++ neutrino-hd2-exp/src/system/locals_intern.h	2014-02-09 17:01:11.944191119 +0100
 @@ -561,6 +561,8 @@
  	"mainmenu.shutdown",
  	"mainmenu.sleeptimer",
@@ -457,7 +457,7 @@
  	"mainsettings.audio",
  	"mainsettings.osd",
  	"mainsettings.head",
-@@ -1554,6 +1556,8 @@
+@@ -1557,6 +1559,8 @@
  	"helptext.features",
  	"helptext.dvd",
  	"helptext.blueray",
@@ -466,7 +466,7 @@
  	
  	"miscsettings.logosdir",
  	"miscsettings.recording_screenshot",
-@@ -1633,6 +1637,129 @@
+@@ -1636,6 +1640,129 @@
  	
  	"audiomenu.volumebar_audiosteps",
  	
@@ -596,9 +596,9 @@
  	"webtv.head",
  	"webtvchannellist.nonefound",
  	"webtv.user",
---- neutrino-hd2-exp/src/neutrino.cpp	2014-01-23 16:07:07.317758835 +0100
-+++ neutrino-hd2-exp/src/neutrino.cpp	2014-01-23 16:07:20.012381166 +0100
-@@ -4836,7 +4836,10 @@
+--- neutrino-hd2-exp/src/neutrino.cpp	2014-02-09 17:01:06.144389405 +0100
++++ neutrino-hd2-exp/src/neutrino.cpp	2014-02-09 17:01:11.944191119 +0100
+@@ -4806,7 +4806,10 @@
  #endif		
  		
  		// show time in vfd
@@ -610,7 +610,7 @@
  		
  		if(videoDecoder)
  			videoDecoder->SetInput(INPUT_ENCODER);
-@@ -4911,6 +4914,8 @@
+@@ -4881,6 +4884,8 @@
  		// video wake up
  		if(videoDecoder)
  			videoDecoder->SetInput(INPUT_SCART);
@@ -619,8 +619,8 @@
  		
  		// setmode?radio:tv/iptv
  		mode = mode_unknown;
---- neutrino-hd2-exp/src/neutrino_menue.cpp	2014-01-23 16:07:07.977687185 +0100
-+++ neutrino-hd2-exp/src/neutrino_menue.cpp	2014-01-23 16:07:20.012381166 +0100
+--- neutrino-hd2-exp/src/neutrino_menue.cpp	2014-02-09 17:01:06.480377467 +0100
++++ neutrino-hd2-exp/src/neutrino_menue.cpp	2014-02-09 17:01:11.948190987 +0100
 @@ -110,6 +110,7 @@
  #include "gui/psisetup.h"
  #include "gui/upnpbrowser.h"
@@ -629,7 +629,7 @@
  #include <system/setting_helpers.h>
  #include <system/settings.h>
  #include <system/debug.h>
-@@ -273,6 +274,14 @@
+@@ -287,6 +288,14 @@
  	// webtv
  	mainMenu.addItem(new CMenuForwarderItemMenuIcon(LOCALE_WEBTV_HEAD, true, NULL, this, "webtv", CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, NEUTRINO_ICON_WEBTV, LOCALE_HELPTEXT_SCART) );
  	

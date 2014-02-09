@@ -98,137 +98,56 @@ int teamcsuhr::exec(CMenuTarget* parent, const std::string &actionKey)
    else if (actionKey == "displayreset")
    {
       	system("/var/config/tools/display.sh");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Display Reset durchgefuehrt");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
-   }
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Display Reset durchgefuehrt",50,1800);
+    }
    else if (actionKey == "uhran")
    {
       	system("echo an > /var/keys/Benutzerdaten/.system/uhr");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Display Uhr Eingeschalten");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Display Uhr Eingeschalten",50,1800);
    }
    else if (actionKey == "uhraus")
    {
       	system("echo aus > /var/keys/Benutzerdaten/.system/uhr");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Display Uhr Ausgeschalten");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Display Uhr Ausgeschalten",50,1800);
    }
    else if (actionKey == "sommer")
    {
       	system("echo 2 > /var/keys/Benutzerdaten/.system/timezone");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Sommerzeit Eingestellt");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Sommerzeit Eingestellt",50,1800);
    }
    else if (actionKey == "winter")
    {
       	system("echo 1 > /var/keys/Benutzerdaten/.system/timezone");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Winterzeit Eingestellt");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Winterzeit Eingestellt",50,1800);
    }
    else if (actionKey == "aust")
    {
       	system("echo OFF > /var/config/mode");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Anzeige von Turn OFF");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
-   }
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Anzeige von Turn OFF",50,1800);
+    }
    else if (actionKey == "austd")
    {
       	system("echo DATEPLUS > /var/config/mode");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Anzeige von Turno OFF und Datum");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
-   }
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Anzeige von Turno OFF und Datum",50,1800);
+    }
    else if (actionKey == "ausd")
    {
       	system("echo DATE > /var/config/mode");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Anzeige von Datum");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Anzeige von Datum",50,1800);
    }
    else if (actionKey == "ausoff")
    {
       	system("echo BLANK > /var/config/mode");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Display Deaktivieren");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Display Deaktivieren",50,1800);
    }
 
 

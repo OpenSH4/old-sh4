@@ -96,57 +96,30 @@ teamcsswap->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSWAP_SDA3, true
       //CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
 
       	system("echo swapdev > /var/config/SWAP");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Swap /dev Eingeschalten");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Swap /dev Eingeschalten",50,1800);
    }	
    else if (actionKey == "ram")
    {
 
       	system("echo ramzswap > /var/config/SWAP");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "RamZswap Eingeschalten");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"RamZswap Eingeschalten",50,1800);
    }
    else if (actionKey == "hdd")
    {
 
         system("echo swapfile > /var/config/SWAP");
-        CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Swapfile auf HDD Eingeschalten");
-        hintBox->paint();
-
-                while( msg != CRCInput::RC_ok )
-                {
-                g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-                usleep(5000);
-                }
-
-        hintBox->hide();
-        delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Swapfile auf HDD Eingeschalten",50,1800);
    }
    else if (actionKey == "hddcreate")
    {
 
         cprompt = popen("/var/config/swap/swapfile.sh; echo swapfile > /var/config/SWAP", "r");
-                while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
+        while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
                 {
-                strcat(cprompthint,ctext);
+					strcat(cprompthint,ctext);
                 }
         pclose(cprompt);
 
@@ -157,9 +130,9 @@ teamcsswap->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSWAP_SDA3, true
    {
 
         cprompt = popen("/var/config/swap/swapdev.sh; echo swapdev > /var/config/SWAP", "r");
-                while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
+        while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
                 {
-                strcat(cprompthint,ctext);
+					strcat(cprompthint,ctext);
                 }
         pclose(cprompt);
 

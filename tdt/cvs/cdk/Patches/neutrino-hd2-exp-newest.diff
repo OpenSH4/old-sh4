@@ -1,5 +1,5 @@
---- neutrino-hd2-exp/src/driver/vfd.cpp	2014-01-23 16:07:07.949690223 +0100
-+++ neutrino-hd2-exp/src/driver/vfd.cpp	2014-01-23 16:07:19.996382902 +0100
+--- neutrino-hd2-exp/src/driver/vfd.cpp	2014-02-09 17:01:06.452378461 +0100
++++ neutrino-hd2-exp/src/driver/vfd.cpp	2014-02-09 17:06:26.551678643 +0100
 @@ -47,15 +47,11 @@
  
  
@@ -29,7 +29,7 @@
  			}
  		} 
  	}
-@@ -447,27 +437,22 @@
+@@ -447,27 +437,21 @@
  	{
  		case MODE_TVRADIO:	
  			showServicename(servicename);
@@ -41,12 +41,11 @@
  			ShowIcon(VFD_ICON_USB, usb_icon);	
  			ShowIcon(VFD_ICON_HDD, hdd_icon);	
 -#elif defined(PLATFORM_SPARK7162)
-+#endif
++#endif			
  			ShowIcon(VFD_ICON_USB, usb_icon);	
  			ShowDiskLevel();
  			ShowIcon(VFD_ICON_STANDBY, false);	
--#endif		
-+			
+-#endif
  			showclock = true;
  			//showTime();      /* "showclock = true;" implies that "showTime();" does a "displayUpdate();" */			
  			break;
@@ -59,7 +58,7 @@
  			ShowIcon(VFD_ICON_MP3, true);			
  			ShowIcon(VFD_ICON_TV, false);			
  			showAudioPlayMode(AUDIO_MODE_STOP);			
-@@ -495,18 +480,18 @@
+@@ -498,18 +482,18 @@
  			//Clear();
  			/* clear all symbols */
  			ClearIcons();
@@ -82,7 +81,7 @@
  			showclock = true;
  			showTime(true);      	/* "showclock = true;" implies that "showTime();" does a "displayUpdate();" */
  						/* "showTime()" clears the whole lcd in MODE_STANDBY */
-@@ -680,35 +665,16 @@
+@@ -683,35 +667,16 @@
  	if(!has_lcd || is4digits) 
  		return;
  
@@ -120,7 +119,7 @@
  void CVFD::ShowDiskLevel()
  {
  	int hdd_icons[9] = {24, 23, 21, 20, 19, 18, 17, 16, 22};
-@@ -740,7 +706,7 @@
+@@ -743,7 +708,7 @@
  
  	}
  }
@@ -129,7 +128,7 @@
  
  void CVFD::ShowIcon(vfd_icon icon, bool show)
  {
-@@ -750,7 +716,6 @@
+@@ -753,7 +718,6 @@
  	dprintf(DEBUG_DEBUG, "CVFD::ShowIcon %s %x\n", show ? "show" : "hide", (int) icon);
  
  #if defined (__sh__)
@@ -137,7 +136,7 @@
  	switch (icon)
  	{
  		case VFD_ICON_USB:
-@@ -767,31 +732,14 @@
+@@ -770,31 +734,14 @@
  		default:
  			break;
  	}
@@ -170,7 +169,7 @@
  #elif defined (PLATFORM_COOLSTREAM)
  	int ret = ioctl(fd, show ? IOC_VFD_SET_ICON : IOC_VFD_CLEAR_ICON, icon);
 --- neutrino-hd2-exp/src/driver/vfd.h	2014-01-23 16:07:07.825703686 +0100
-+++ neutrino-hd2-exp/src/driver/vfd.h	2014-01-23 16:07:19.996382902 +0100
++++ neutrino-hd2-exp/src/driver/vfd.h	2014-02-09 17:01:11.904192435 +0100
 @@ -38,7 +38,6 @@
  #endif
  
