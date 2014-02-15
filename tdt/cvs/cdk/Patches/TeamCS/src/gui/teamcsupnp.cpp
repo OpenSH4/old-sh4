@@ -90,68 +90,29 @@ int teamcsupnp::exec(CMenuTarget* parent, const std::string &actionKey)
    }
    else if (actionKey == "an")
    {
-      //CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
-
-      	system("/bin/djmount -f /upnp &");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "UPNP Client Gestartet, Daten koennen in upnp Ordner abgerufen werden");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+       	system("/bin/djmount -f /upnp &");
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"UPNP Client Gestartet, Daten koennen in upnp Ordner abgerufen werden",50,1800);
+      	
    }	
    else if (actionKey == "aus")
    {
-
       	system("killall -9 djmount");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "UPNP Client Gestoppt");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"UPNP Client Gestoppt",50,1800);
+     
    }
    else if (actionKey == "autoan")
    {
-
       	system("echo upnpan > /var/keys/Benutzerdaten/.system/upnp");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "UPNP Client Autostart Aktiviert");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;   
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"UPNP Client Autostart Aktiviert",50,1800);  
    }
    else if (actionKey == "autoaus")
    {
-
       	system("echo upnpaus > /var/keys/Benutzerdaten/.system/upnp");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "UPNP Client Autostart Deaktiviert");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"UPNP Client Autostart Deaktiviert",50,1800);
    }
 
    return res;

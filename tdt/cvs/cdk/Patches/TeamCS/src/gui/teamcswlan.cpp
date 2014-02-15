@@ -95,137 +95,56 @@ if (actionKey.empty())
 else if (actionKey == "8192cu")
 {
 		system("echo 1 > /var/keys/Benutzerdaten/.system/wlan");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul 8192cu.ko Geladen, Neustart erforderlich");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"W-Lan Modul 8192cu.ko Geladen, Neustart erforderlich",50,1800);
 }
 else if (actionKey == "8712u")
 {
 		system("echo 2 > /var/keys/Benutzerdaten/.system/wlan");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul 8712u.ko Geladen, Neustart erforderlich");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"W-Lan Modul 8712u.ko Geladen, Neustart erforderlich",50,1800);
 }
 else if (actionKey == "rt2870sta")
 {
 		system("echo 3 > /var/keys/Benutzerdaten/.system/wlan");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul rt2870sta.ko Geladen, Neustart erforderlich");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"W-Lan Modul rt2870sta.ko Geladen, Neustart erforderlich",50,1800);
 }
 else if (actionKey == "rt3070sta")
 {
 		system("echo 4 > /var/keys/Benutzerdaten/.system/wlan");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul rt3070sta.ko Geladen, Neustart erforderlich");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"W-Lan Modul rt3070sta.ko Geladen, Neustart erforderlich",50,1800);
 }
 else if (actionKey == "rt5370sta")
 {
 		system("echo 5 > /var/keys/Benutzerdaten/.system/wlan");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul rt5370sta.ko Geladen, Neustart erforderlich");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"W-Lan Modul rt5370sta.ko Geladen, Neustart erforderlich",50,1800);
 }
 else if (actionKey == "rt73")
 {
 		system("echo 6 > /var/keys/Benutzerdaten/.system/wlan");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul rt73.ko Geladen, Neustart erforderlich");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"W-Lan Modul rt73.ko Geladen, Neustart erforderlich",50,1800);
 }
 else if (actionKey == "zydas")
 {
 		system("echo 7 > /var/keys/Benutzerdaten/.system/wlan");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul zydas.ko Geladen, Neustart erforderlich");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"W-Lan Modul zydas.ko Geladen, Neustart erforderlich",50,1800);
 }
 else if (actionKey == "8188eu")
 {
 		system("echo 8 > /var/keys/Benutzerdaten/.system/wlan");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan Modul 8188eu.ko Geladen, Neustart erforderlich");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"W-Lan Modul 8188eu.ko Geladen, Neustart erforderlich",50,1800);
 }
 else if (actionKey == "aus")
 {
 		system("rm -rf /var/keys/Benutzerdaten/.system/wlan");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "W-Lan deaktiviert, Neustart erforderlich");
-		hintBox->paint();
-
-				while( msg != CRCInput::RC_ok )
-				{
-				g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-				usleep(5000);
-				}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"W-Lan deaktiviert, Neustart erforderlich",50,1800);
 }
 
 return res;

@@ -91,88 +91,33 @@ int teamcsmac::exec(CMenuTarget* parent, const std::string &actionKey)
    }
    else if (actionKey == "mac1")
    {
-      //CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
-
       	system("echo 1 > /var/keys/Benutzerdaten/.system/mac; ifconfig eth0 hw ether 00:80:E1:12:06:30");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Die neu MAC lautet 00:80:E1:12:06:30");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Die neu MAC lautet 00:80:E1:12:06:30",50,1800);
    }	
    else if (actionKey == "mac2")
    {
-      //CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
-
       	system("echo 2 > /var/keys/Benutzerdaten/.system/mac; ifconfig eth0 hw ether 00:81:E1:12:06:30");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Die neu MAC lautet 00:801E1:12:06:30");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Die neu MAC lautet 00:81:E1:12:06:30",50,1800);
    }	
    else if (actionKey == "mac3")
    {
-      //CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
-
       	system("echo 3 > /var/keys/Benutzerdaten/.system/mac; ifconfig eth0 hw ether 00:82:E1:12:06:30");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Die neu MAC lautet 00:82:E1:12:06:30");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Die neu MAC lautet 00:82:E1:12:06:30",50,1800);
    }	
    else if (actionKey == "mac4")
    {
-      //CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
-
       	system("echo 4 > /var/keys/Benutzerdaten/.system/mac; ifconfig eth0 hw ether 00:83:E1:12:06:30");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Die neu MAC lautet 00:83:E1:12:06:30");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Die neu MAC lautet 00:83:E1:12:06:30",50,1800);
    }	
    else if (actionKey == "mac5")
    {
-      //CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
-
       	system("echo 5 > /var/keys/Benutzerdaten/.system/mac; ifconfig eth0 hw ether 00:84:E1:12:06:30");
-      	CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "Die neu MAC lautet 00:84:E1:12:06:30");	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"Die neu MAC lautet 00:84:E1:12:06:30",50,1800);
    }	
 
 

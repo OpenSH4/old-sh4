@@ -1,5 +1,5 @@
---- neutrino-hd2-exp/src/driver/vfd.cpp	2013-10-31 17:12:47.000000000 +0100
-+++ neutrino-hd2-exp/src/driver/vfd.cpp	2013-10-31 17:43:30.000000000 +0100
+--- neutrino-hd2-exp/src/driver/vfd.cpp	2014-02-09 17:01:06.452378461 +0100
++++ neutrino-hd2-exp/src/driver/vfd.cpp	2014-02-09 17:06:26.551678643 +0100
 @@ -47,15 +47,11 @@
  
  
@@ -29,41 +29,36 @@
  			}
  		} 
  	}
-@@ -446,28 +436,25 @@
- 	switch (m) 
+@@ -447,27 +437,21 @@
  	{
  		case MODE_TVRADIO:	
--			showServicename(servicename);
+ 			showServicename(servicename);
 -#if !defined(PLATFORM_SPARK7162)			
 -			ShowIcon(VFD_ICON_MP3, false);	        // NOTE: @dbo  //ICON_MP3 and ICON_DOLBY switched in infoviewer 
 -#endif			
-+			showServicename(servicename);		
  	
  #if defined (PLATFORM_KATHREIN)
  			ShowIcon(VFD_ICON_USB, usb_icon);	
  			ShowIcon(VFD_ICON_HDD, hdd_icon);	
 -#elif defined(PLATFORM_SPARK7162)
-+#endif	
++#endif			
  			ShowIcon(VFD_ICON_USB, usb_icon);	
  			ShowDiskLevel();
  			ShowIcon(VFD_ICON_STANDBY, false);	
--#endif		
-+	
+-#endif
  			showclock = true;
- 			//showTime();      /* "showclock = true;" implies that "showTime();" does a "displayUpdate();" */
+ 			//showTime();      /* "showclock = true;" implies that "showTime();" does a "displayUpdate();" */			
  			break;
  
  		case MODE_AUDIO:
  		{
 -#if defined(PLATFORM_SPARK7162)
-+
  			ShowIcon(VFD_ICON_AC3, false);			
 -#endif		  
-+	  
  			ShowIcon(VFD_ICON_MP3, true);			
  			ShowIcon(VFD_ICON_TV, false);			
  			showAudioPlayMode(AUDIO_MODE_STOP);			
-@@ -495,18 +482,18 @@
+@@ -498,18 +482,18 @@
  			//Clear();
  			/* clear all symbols */
  			ClearIcons();
@@ -86,7 +81,7 @@
  			showclock = true;
  			showTime(true);      	/* "showclock = true;" implies that "showTime();" does a "displayUpdate();" */
  						/* "showTime()" clears the whole lcd in MODE_STANDBY */
-@@ -680,35 +667,16 @@
+@@ -683,35 +667,16 @@
  	if(!has_lcd || is4digits) 
  		return;
  
@@ -124,7 +119,7 @@
  void CVFD::ShowDiskLevel()
  {
  	int hdd_icons[9] = {24, 23, 21, 20, 19, 18, 17, 16, 22};
-@@ -740,7 +708,7 @@
+@@ -743,7 +708,7 @@
  
  	}
  }
@@ -133,7 +128,7 @@
  
  void CVFD::ShowIcon(vfd_icon icon, bool show)
  {
-@@ -750,7 +718,6 @@
+@@ -753,7 +718,6 @@
  	dprintf(DEBUG_DEBUG, "CVFD::ShowIcon %s %x\n", show ? "show" : "hide", (int) icon);
  
  #if defined (__sh__)
@@ -141,7 +136,7 @@
  	switch (icon)
  	{
  		case VFD_ICON_USB:
-@@ -767,31 +734,14 @@
+@@ -770,31 +734,14 @@
  		default:
  			break;
  	}
@@ -173,9 +168,8 @@
  	closeDevice();
  #elif defined (PLATFORM_COOLSTREAM)
  	int ret = ioctl(fd, show ? IOC_VFD_SET_ICON : IOC_VFD_CLEAR_ICON, icon);
-
---- neutrino-hd2-exp/src/driver/vfd.h	2013-10-31 17:12:47.000000000 +0100
-+++ neutrino-hd2-exp/src/driver/vfd.h	2013-10-31 17:13:13.000000000 +0100
+--- neutrino-hd2-exp/src/driver/vfd.h	2014-01-23 16:07:07.825703686 +0100
++++ neutrino-hd2-exp/src/driver/vfd.h	2014-02-09 17:01:11.904192435 +0100
 @@ -38,7 +38,6 @@
  #endif
  
@@ -296,134 +290,3 @@
  		void ShowIcon(vfd_icon icon, bool show);		
  		void ShowText(const char * str);
  		void LCDshowText(int pos);
-
---- neutrino-hd2-exp.org/lib/libdvbsub/dvbsubtitle.cpp 2013-11-04 08:57:06.603494566 +0100
-+++ neutrino-hd2-exp/lib/libdvbsub/dvbsubtitle.cpp 2013-11-04 09:03:25.127510258 +0100
-@@ -193,7 +193,8 @@
- 		return;
- 	}
- 
--	avctx = avcodec_alloc_context();
-+	//avctx = avcodec_alloc_context();
-+	avcodec_alloc_context3(avcodec);
- 
- 	if (!avctx) 
- 	{
-@@ -201,7 +202,8 @@
- 		return;
- 	}
- 
--	if (avcodec_open(avctx, avcodec) < 0)
-+	//if (avcodec_open(avctx, avcodec) < 0)
-+	if (avcodec_open2(avctx, avcodec, NULL) < 0)
- 		dbgconverter("cDvbSubtitleConverter: unable to open codec !\n");
- 
- #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(52, 64, 0)
---- neutrino-hd2-exp.org/lib/libeplayer3/container/container_ffmpeg.c 2013-11-04 08:57:06.255494551 +0100
-+++ neutrino-hd2-exp/lib/libeplayer3/container/container_ffmpeg.c 2013-11-04 09:03:25.123510258 +0100
-@@ -38,7 +38,9 @@
- #include <pthread.h>
- 
- #include <libavutil/avutil.h>
-+#include <libavutil/time.h>
- #include <libavformat/avformat.h>
-+#include <libavutil/opt.h>
- 
- #include "common.h"
- #include "misc.h"
-@@ -48,6 +50,10 @@
- #include "ffmpeg_metadata.h"
- #include "subtitle.h"
- 
-+#if LIBAVCODEC_VERSION_MAJOR > 54
-+#define AVCODEC_MAX_AUDIO_FRAME_SIZE 192000 // 1 second of 48khz 32bit audio
-+#endif
-+
- /* ***************************** */
- /* Makros/Constants              */
- /* ***************************** */
-@@ -131,9 +137,11 @@
- 	ffmpeg_printf(100, "::%d released mutex\n", line);
- }
- 
--static char *Codec2Encoding(enum CodecID id, int* version)
-+//static char *Codec2Encoding(enum CodecID id, int* version)
-+static char* Codec2Encoding(AVCodecContext *codec, int* version)
- {
--	switch (id)
-+	//switch (id)
-+	switch (codec->codec_id)
- 	{
- 		case CODEC_ID_MPEG1VIDEO:
- 			return "V_MPEG1";
-@@ -255,7 +263,8 @@
- #endif 
- 
- 		default:
--			ffmpeg_err("ERROR! CODEC NOT FOUND -> %d\n",id);
-+			//ffmpeg_err("ERROR! CODEC NOT FOUND -> %d\n",id);
-+			ffmpeg_err("ERROR! CODEC NOT FOUND -> %d\n",codec->codec_id);
- 	}
- 	
- 	return NULL;
-@@ -637,7 +646,8 @@
- 							avOut.len        = decoded_data_size;
- 
- 							avOut.pts        = pts;
--							avOut.extradata  = &extradata;
-+							//avOut.extradata  = &extradata;
-+							avOut.extradata  = (unsigned char *) &extradata;
- 							avOut.extralen   = sizeof(extradata);
- 							avOut.frameRate  = 0;
- 							avOut.timeScale  = 0;
-@@ -805,7 +815,8 @@
- 							SubtitleData_t data;
- 							data.data      = line;
- 							data.len       = strlen((char*)line);
--							data.extradata = DEFAULT_ASS_HEAD;
-+							//data.extradata = DEFAULT_ASS_HEAD;
-+							data.extradata = (unsigned char *) DEFAULT_ASS_HEAD;
- 							data.extralen  = strlen(DEFAULT_ASS_HEAD);
- 							data.pts       = pts;
- 							data.duration  = duration;
-@@ -900,6 +911,8 @@
- 	}
- 	
- 	avContext->flags |= AVFMT_FLAG_GENPTS;
-+	if ( strstr(filename, ".ts") )
-+	avContext->max_analyze_duration = 5;
- 
- 	ffmpeg_printf(20, "find_streaminfo\n");
- 
-@@ -940,7 +953,8 @@
- 		AVStream * stream = avContext->streams[n];
- 		int version = 0;
- 
--		char * encoding = Codec2Encoding(stream->codec->codec_id, &version);
-+		//char * encoding = Codec2Encoding(stream->codec->codec_id, &version);
-+		char * encoding = Codec2Encoding(stream->codec, &version);
- 
- 		if (encoding != NULL)
- 			ffmpeg_printf(1, "%d. encoding = %s - version %d\n", n, encoding, version);
-@@ -1089,7 +1103,8 @@
- 
- 					AVCodec *codec = avcodec_find_decoder(stream->codec->codec_id);
- 
--					if(codec != NULL && !avcodec_open(stream->codec, codec))
-+					//if(codec != NULL && !avcodec_open(stream->codec, codec))
-+					if(codec != NULL && !avcodec_open2(stream->codec, codec, NULL))
- 						printf("AVCODEC__INIT__SUCCESS\n");
- 					else
- 						printf("AVCODEC__INIT__FAILED\n");
---- neutrino-hd2-exp.org/src/gui/Makefile.am	2013-02-01 20:28:48.465181387 +0100
-+++ neutrino-hd2-exp/src/gui/Makefile.am	2013-02-01 20:51:33.353237972 +0100
-@@ -3,7 +3,7 @@
- BUILT_SOURCES  = svn_version.h
- 
- svn_version.h:
--	@if test -d .svn ; then \
-+	@if test -d ../../.svn ; then \
- 		sleep 180 && rm svn_version.h & echo "#define SVNVERSION \"$$(svnversion -n || echo svn_oops!)\" " > svn_version.h ; \
- 	else \
- 		rm svn_version.h; echo '#define BUILT_DATE "'`date`'"' > svn_version.h ; \
-

@@ -102,209 +102,89 @@ if (actionKey.empty())
 }
 else if (actionKey == "vipneu")
 {
-	//CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
 
 		system("cp /etc/lircd_neu.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_neu.conf /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "FB ArgusVIP neu Mode Rot");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"FB ArgusVIP neu Mode Rot",50,1800);
 }	
 else if (actionKey == "vipneugruen")
 {
 
 		system("cp /etc/lircd_neu_gruen.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml;  rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_neu.conf /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "FB ArgusVIP neu Mode Gruen");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"FB ArgusVIP neu Mode Gruen",50,1800);
 }
 else if (actionKey == "vipalt")
 {
 
 		system("cp /etc/lircd_alt.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf; echo vip1 > /var/config/boxtype");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "FB ArgusVIP alt Mode Rot");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;   
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"FB ArgusVIP alt Mode Rot",50,1800);
 }
 else if (actionKey == "vipaltgruen")
 {
 
 		system("cp /etc/lircd_alt_gruen.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_volume.conf /var/tuxbox/config/keymap.conf; echo vip1 > /var/config/boxtype");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "FB ArgusVIP alt Mode Gruen");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"FB ArgusVIP alt Mode Gruen",50,1800);
 }
 else if (actionKey == "opti")
 {
-	//CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
 
 		system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_opti.conf /var/tuxbox/config/keymap.conf; echo opti > /var/config/boxtype");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "FB Opticum");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"FB Opticum",50,1800);
 }	
 else if (actionKey == "pingo")
 {
-	//CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
 
 		system("cp /etc/lircd_pingolux.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; echo Pingolux > /var/config/boxtype");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "FB Pingolux gesetzt");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"FB Pingolux gesetzt",50,1800);
 }
 else if (actionKey == "mcefb")
 {
-	//CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
 
 		system("cp /etc/lircd_mce2005.conf /etc/lircd.conf; echo mce2005 > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; echo mce2005 > /var/config/boxtype");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "FB MediaCenter gesetzt");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"FB MediaCenter gesetzt",50,1800);
 }
 else if (actionKey == "technofb")
 {
-	//CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
 
 		system("cp /etc/lircd_techno.conf /etc/lircd.conf; echo techno > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; echo techno > /var/config/boxtype");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "FB TechnoTrend gesetzt");	
-		hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"FB TechnoTrend gesetzt",50,1800);
 }	
 else if (actionKey == "techno")
 {
-	//CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
 
 		system("echo techno > /var/config/system/remote");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "TechnoTrend USB Treiber Aktiviert - Reboot");	
-		hintBox->paint();
-
-		//while( msg != CRCInput::RC_ok )
-		//{
-		//g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		//usleep(5000);
-		//}
-		sleep(3);
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"TechnoTrend USB Treiber Aktiviert - Reboot",50,1800);
 }
 else if (actionKey == "mce2005")
 {
-	//CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
 
 		system("echo mce2005 > /var/config/system/remote");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "MCE USB Treiber Aktiviert - Reboot");	
-		hintBox->paint();
-
-		//while( msg != CRCInput::RC_ok )
-		//{
-		//g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		//usleep(5000);
-		//}
-		sleep(3);
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"MCE USB Treiber Aktiviert - Reboot",50,1800);
 }
 else if (actionKey == "stm")
 {
-	//CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
 
 		system("echo stm > /var/config/system/remote");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "STM Default Treiber Aktiviert - Reboot");	
-		hintBox->paint();
-
-		//while( msg != CRCInput::RC_ok )
-		//{
-		//g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		//usleep(5000);
-		//}
-		sleep(3);
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"STM Default Treiber Aktiviert - Reboot",50,1800);
 }
 else if (actionKey == "neustart")
 {
-	//CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
 
 		system("/var/config/shutdown/reboot.sh &");
-		CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, "System wird jetzt neugestartet");	
-		hintBox->paint();
-
-		//while( msg != CRCInput::RC_ok )
-		//{
-		//g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		//usleep(5000);
-		//}
-		sleep(3);
-
-		hintBox->hide();
-		delete hintBox;
+		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"System wird jetzt neugestartet",50,1800);
 }
+
 return res;
 }
 

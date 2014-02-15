@@ -93,7 +93,6 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
    }
    else if (actionKey == "netstat")
    {
-      //CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, g_Locale->getText(LOCALE_SERVICEMENU_GETPLUGINS_HINT));
 
       	cprompt = popen("/bin/netstat", "r");
 		while( fgets(ctext, sizeof(ctext), cprompt)!=NULL )
@@ -105,17 +104,6 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
        //ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
         ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
 
-      	/*CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;*/
    }	
    else if (actionKey == "lsmod")
    {
@@ -130,17 +118,6 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
        //ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
         ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,700,1800);
 
-      	/*CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;*/
    }
    else if (actionKey == "free")
    {
@@ -155,17 +132,6 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
        //ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
         ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
 
-      	/*CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;*/   
    }
    else if (actionKey == "img")
    {
@@ -180,17 +146,6 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
 	//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
 	ShowHintUTF(LOCALE_MESSAGEBOX_INFO,cprompthint,50,1800);
       	
-	/*CHintBox * hintBox = new CHintBox(LOCALE_MESSAGEBOX_INFO, cprompthint);	
-      	hintBox->paint();
-
-		while( msg != CRCInput::RC_ok )
-		{
-		g_RCInput->getMsgAbsoluteTimeout( &msg, &data, &TimeoutEnd );
-		usleep(5000);
-		}
-
-      	hintBox->hide();
-      	delete hintBox;*/
    }
    else if (actionKey == "update")
    {
