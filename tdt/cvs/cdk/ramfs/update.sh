@@ -35,8 +35,8 @@ if [ $INSTALLED = $AKTUELL ]; then
 	echo "Fertig...." > /dev/vfd
 	sleep 3
 	sync
-	# Exit und Boot System
-	exit 0
+	# Exit und reboot System zum neuen Kernel Laden
+	reboot -f
 else
 	# Kopiert das Update File auf die /dev/sda2 Partition um es Später zu installieren
 	echo "Copy Update auf Ziel Partition"

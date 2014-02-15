@@ -80,12 +80,12 @@ FORMAT=`cat /rootfs/install`
 # Löscht die Festplatte/Stick und erstellt 4 Partitionen
 #  1: 256MB Linux Uboot ext2
 #  2:   1GB Linux System ext4
-#  3: 64MB Swap > 64 MB sind mehr wie ausreichend ...
+#  3: 128MB Swap > 128 MB sind mehr wie ausreichend ...
 #  4: rest freier Speicher LINUX ext4 (bei HDD record)
 	sfdisk $HDD -uM << EOF
 	,256,L
 	,1024,L
-	,64,S
+	,128,S
 	,,L
 	;
 	EOF

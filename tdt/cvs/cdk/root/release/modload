@@ -37,7 +37,7 @@ elif [ "$1" = "Automount" ]; then
 elif [ "$1" = "Embx" ]; then
        echo "init embx"
        modprobe embxshell.ko
-       modprobe embxmailbox.ko mailbox0=0xb9211000:136:set2 mailbox1=0xb9212000:0 ;
+       modprobe embxmailbox.ko mailbox0=0xb9211000:136:set2 mailbox1=0xb9212000:137:set2 ;
        modprobe embxshm.ko mailbox0=shm:0:7:0x60000000:0:256:256:0:1024:0xa4000000:0x10000000 ;
        modprobe mme_host.ko transport0=shm
 elif [ "$1" = "Overclock" ]; then
@@ -115,7 +115,7 @@ elif [ "$1" = "Stmfb-firmware" ]; then
        		modprobe stmfb.ko display0=720x576-32@60:12m:3m:pal:yuv:yuv;
        else
 		echo "HDMI Ausgang Aktviert"
-       		modprobe stmfb.ko display0=1280x720-32@60:20m:3m:pal:yuv:yuv
+       		modprobe stmfb.ko display0=1280x720-32@60:12m:3m:pal:yuv:yuv
        fi
 
        echo "LOADING MODULES"
