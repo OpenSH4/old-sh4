@@ -84,6 +84,7 @@ if (actionKey.empty())
 	teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL6, true, "", this, "rt73", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
 	teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL7, true, "", this, "zydas", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
 	teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL8, true, "", this, "8188eu", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
+	teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_MODUL9, true, "", this, "8812au", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
 	teamcswlan->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSWLAN_AUS, true, "", this, "aus", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
 
 	teamcswlan->exec (NULL, "");
@@ -139,6 +140,12 @@ else if (actionKey == "8188eu")
 		system("echo 8 > /var/keys/Benutzerdaten/.system/wlan");
 		//ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
         ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"W-Lan Modul 8188eu.ko Geladen, Neustart erforderlich",50,1800);
+}
+else if (actionKey == "8812au")
+{
+                system("echo 9 > /var/keys/Benutzerdaten/.system/wlan");
+                //ShowHintUTF(LOCALE_MESSAGEBOX_INFO,TEXTINHALT,MENÜBREITE,TIMEOUT[sec]);
+        ShowHintUTF(LOCALE_MESSAGEBOX_INFO,"W-Lan Modul 8812au.ko Geladen, Neustart erforderlich",50,1800);
 }
 else if (actionKey == "aus")
 {

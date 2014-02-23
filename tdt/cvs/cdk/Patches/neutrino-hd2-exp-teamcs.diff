@@ -23,7 +23,7 @@
  libneutrino_gui2_a_SOURCES += cam_menu.cpp
 --- neutrino-hd2-exp/data/locale/deutsch.locale	2014-02-09 17:01:06.500376757 +0100
 +++ neutrino-hd2-exp/data/locale/deutsch.locale	2014-02-22 16:57:28.629062596 +0100
-@@ -1624,6 +1624,135 @@
+@@ -1624,6 +1624,136 @@
  
  audiomenu.volumebar_audiosteps Lautstärke Schrittweite
  
@@ -79,6 +79,7 @@
 +teamcswlan.rt73 W-Lan rt73.ko Treiber Modul
 +teamcswlan.zydas W-Lan zydas.ko Treiber Modul
 +teamcswlan.8188eu W-Lan 8188eu.ko Treiber Modul
++teamcswlan.8812au W-Lan 8812au.ko Treiber Modul
 +teamcswlan.aus W-Lan deaktivieren
 +	
 +teamcssystem.netstat Netzwerk Infos
@@ -161,7 +162,7 @@
  webtv.user User Bouquet
 --- neutrino-hd2-exp/data/locale/english.locale	2014-02-09 17:01:06.500376757 +0100
 +++ neutrino-hd2-exp/data/locale/english.locale	2014-02-22 16:57:28.629062596 +0100
-@@ -1623,6 +1623,134 @@
+@@ -1623,6 +1623,135 @@
  
  audiomenu.volumebar_audiosteps Volume Step Size
  
@@ -174,7 +175,7 @@
 +teamcs.emu EMU Menu
 +teamcs.addon Addon Manager
 +teamcs.uhr Adjust Display Clock
-+teamcs.wlan WIFI Settings
++teamcs.wlan Wifi Settings
 +teamcs.system System Information
 +teamcs.tuner Choose Tuner
 +teamcs.fernbedienung Choose Remotecontrol
@@ -209,15 +210,16 @@
 +teamcsuhr.ausd Stanby/OFF: Date
 +teamcsuhr.ausoff Stanby/OFF: Deactivate
 +	
-+teamcswlan.8192cu2 WIFI 8192cu.ko Driver Module
-+teamcswlan.8712u WIFI 8712u.ko Driver Module
-+teamcswlan.rt2870sta WIFI rt2870sta.ko Driver Module
-+teamcswlan.rt3070sta WIFI rt3070sta.ko Driver Module
-+teamcswlan.rt5370sta WIFI rt5370sta.ko Driver Module
-+teamcswlan.rt73 WIFI rt73.ko Driver Module
-+teamcswlan.zydas WIFI zydas.ko Driver Module
-+teamcswlan.8188eu W-Lan 8188eu.ko Driver Module
-+teamcswlan.aus Deactivate WIFI
++teamcswlan.8192cu2 Wifi 8192cu.ko Driver Module
++teamcswlan.8712u Wifi 8712u.ko Driver Module
++teamcswlan.rt2870sta Wifi rt2870sta.ko Driver Module
++teamcswlan.rt3070sta Wifi rt3070sta.ko Driver Module
++teamcswlan.rt5370sta Wifi rt5370sta.ko Driver Module
++teamcswlan.rt73 Wifi rt73.ko Driver Module
++teamcswlan.zydas Wifi zydas.ko Driver Module
++teamcswlan.8188eu Wifi 8188eu.ko Driver Module
++teamcswlan.8812au Wifi 8812au.ko Driver Module
++teamcswlan.aus Deactivate Wifi
 +	
 +teamcssystem.netstat Network Info
 +teamcssystem.lsmod Show loaded Modules
@@ -316,7 +318,7 @@
  	
  	LOCALE_MISCSETTINGS_LOGOSDIR,
  	LOCALE_MISCSETTINGS_RECORDING_SCREENSHOT,
-@@ -1636,6 +1640,129 @@
+@@ -1636,6 +1640,130 @@
  	
  	LOCALE_AUDIOMENU_VOLUMEBAR_AUDIOSTEPS,
  	
@@ -367,6 +369,7 @@
 +	LOCALE_TEAMCSWLAN_MODUL6,
 +	LOCALE_TEAMCSWLAN_MODUL7,
 +	LOCALE_TEAMCSWLAN_MODUL8,
++       LOCALE_TEAMCSWLAN_MODUL9,
 +	LOCALE_TEAMCSWLAN_AUS,
 +	
 +	LOCALE_TEAMCSSYSTEM_NETSTAT,
@@ -466,7 +469,7 @@
  	
  	"miscsettings.logosdir",
  	"miscsettings.recording_screenshot",
-@@ -1636,6 +1640,129 @@
+@@ -1636,6 +1640,130 @@
  	
  	"audiomenu.volumebar_audiosteps",
  	
@@ -517,6 +520,7 @@
 +	"teamcswlan.rt73",
 +	"teamcswlan.zydas",
 +	"teamcswlan.8188eu",
++       "teamcswlan.8812au",
 +	"teamcswlan.aus",
 +	
 +	"teamcssystem.netstat",
