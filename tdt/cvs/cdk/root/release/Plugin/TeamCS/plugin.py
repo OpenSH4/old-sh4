@@ -1285,11 +1285,11 @@ class FERNB(Screen):
 				self.session.open(MessageBox,_("FB ArgusVIP neu Mode Gruen"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "Opticum":
-				os.system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; echo opti > /var/config/boxtype")
+				os.system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_opti.conf /var/tuxbox/config/keymap.conf; echo opti > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB Opticum"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "Pingolux":
-				os.system("cp /etc/lircd_pingolux.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; echo Pingolux > /var/config/boxtype")
+				os.system("cp /etc/lircd_pingolux.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; echo Pingolux > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB Pingolux gesetzt"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "mediacenter":
