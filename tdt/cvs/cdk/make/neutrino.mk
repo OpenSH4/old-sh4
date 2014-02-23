@@ -42,7 +42,7 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 	echo " 0) Newest		- NHD2 libeplayer3    			(Can fail due to outdated patch)"; \
 	echo " 1) Newest (TeamCS)	- NHD2 libeplayer3 + TeamCS-Menu   	(Can fail due to outdated patch)"; \
 	echo " 2) inactive"; \
-	echo " 3) Thu,  06 Feb 2014	- NHD2 libeplayer3 + TeamCS-Menu		(SVN 2160)"; \
+	echo " 3) Sat,  22 Feb 2014	- NHD2 libeplayer3 + TeamCS-Menu		(SVN 2173)"; \
 	echo "========================================================================================================"; \
 	echo "Media Framwork : $(MEDIAFW) (MediaFW will always be libbeplayer3 for NHD2)"; \
 	echo "External LCD   : $(EXTERNALLCD)"; \
@@ -50,7 +50,7 @@ $(DEPDIR)/neutrino-hd2-exp.do_prepare: | bootstrap $(EXTERNALLCD_DEP) libfreetyp
 	[ "$$REPLY" == "0" ] && NHDselect=0; \
 	[ "$$REPLY" == "1" ] && NHDselect=1; \
 	[ "$$REPLY" == "2" ] && NHDselect=2; \
-	[ "$$REPLY" == "3" ] && NHDselect=3 && REVISION=2160; \
+	[ "$$REPLY" == "3" ] && NHDselect=3 && REVISION=2173; \
 	echo "Revision       : "$$REVISION; \
 	echo "";\
 	rm -rf $(appsdir)/neutrino-hd2-exp; \

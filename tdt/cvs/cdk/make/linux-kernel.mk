@@ -198,6 +198,23 @@ $(DEPDIR)/driver: $(driverdir)/Makefile linux-kernel.do_compile
 		DEPMOD=$(DEPMOD) \
 		$(DRIVER_PLATFORM) \
 		install
+	$(MAKE) -C $(driverdir)/wireless/8812au ARCH=sh \
+	 	KERNEL_LOCATION=$(buildprefix)/$(KERNEL_DIR) \
+		$(DRIVER_PLATFORM) \
+		KVER=$(KERNELVERSION) \
+		KSRC=$(buildprefix)/$(KERNEL_DIR) \
+		CROSS_COMPILE=$(target)-
+	mkdir -p $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/8812au
+	$(MAKE) -C $(driverdir)/wireless/8812au ARCH=sh \
+		KERNEL_LOCATION=$(buildprefix)/$(KERNEL_DIR) \
+		$(DRIVER_PLATFORM) \
+		KVER=$(KERNELVERSION) \
+		KSRC=$(buildprefix)/$(KERNEL_DIR) \
+		CROSS_COMPILE=$(target)- \
+		MODDESTDIR=$(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/8812au/ \
+		DEPMODDESTDIR=$(targetprefix) \
+		install
+
 	$(DEPMOD) -ae -b $(targetprefix) -F $(buildprefix)/$(KERNEL_DIR)/System.map -r $(KERNELVERSION)
 	touch $@
 	@TUXBOX_YAUD_CUSTOMIZE@

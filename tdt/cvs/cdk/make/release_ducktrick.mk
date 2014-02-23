@@ -382,6 +382,7 @@ release_ducktrick_base:
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/rtl871x/8712u.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/rtl871x/8712u.ko $(prefix)/release_ducktrick/lib/modules || true
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/sata_switch/sata.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/sata_switch/sata.ko $(prefix)/release_ducktrick/lib/modules || true
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/rtl8192cu/8192cu.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/rtl8192cu/8192cu.ko $(prefix)/release_ducktrick/lib/modules || true
+	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/8812au/8812au.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/wireless/8812au/8812au.ko $(prefix)/release_ducktrick/lib/modules || true
 
 	find $(prefix)/release_ducktrick/lib/modules/ -name '*.ko' -exec sh4-linux-strip --strip-unneeded {} \;
 #
