@@ -12,7 +12,7 @@ if [ "$1" = "Filesystem" ]; then
 	modprobe vfat.ko
 	modprobe cifs.ko
 	modprobe cachefiles.ko
-	modprobe ext3.ko:
+	modprobe ext3.ko
 	modprobe jbd.ko
 	modprobe nls_ascii.ko
 	modprobe nls_cp1250.ko
@@ -37,9 +37,12 @@ elif [ "$1" = "Automount" ]; then
 elif [ "$1" = "Embx" ]; then
        echo "init embx"
        modprobe embxshell.ko
+       #modprobe embxmailbox.ko mailbox0=0xb9211000:136:set2 mailbox1=0xb9212000:0 ;
        modprobe embxmailbox.ko mailbox0=0xb9211000:136:set2 mailbox1=0xb9212000:137:set2 ;
-       modprobe embxshm.ko mailbox0=shm:0:7:0x60000000:0:256:256:0:1024:0xa4000000:0x10000000 ;
+       modprobe embxshm.ko mailbox0=shm:0:7:0x60000000:0:512:512:0:1024:0xa4000000:0x14000000 ;
        modprobe mme_host.ko transport0=shm
+elif [ "$1" = "Bootlog" ]; then
+       /var/config/bootlog.sh &
 elif [ "$1" = "Overclock" ]; then
     modprobe cpu_frequ.ko
     if [ -e /var/keys/Benutzerdaten/.system/overclock ]; then
@@ -115,7 +118,7 @@ elif [ "$1" = "Stmfb-firmware" ]; then
        		modprobe stmfb.ko display0=720x576-32@60:12m:3m:pal:yuv:yuv;
        else
 		echo "HDMI Ausgang Aktviert"
-       		modprobe stmfb.ko display0=1280x720-32@60:12m:3m:pal:yuv:yuv
+       		modprobe stmfb.ko display0=1280x720-32@60:12m:pal:yuv:yuv
        fi
 
        echo "LOADING MODULES"
@@ -129,9 +132,7 @@ elif [ "$1" = "Stmfb-firmware" ]; then
        echo "load v firmware"
        /bin/ustslave /dev/st231-0 /boot/video.elf
 elif [ "$1" = "Avs" ]; then
-       if [ -e /var/config/system/tunerboxtype ]; then
        BOXTYPE=`cat /var/config/system/tunerboxtype`
-       fi
        echo "init AVS"
        if [ -e /var/etc/firstboot ]; then
 		echo "Load Fake AVS - Firstboot"
@@ -218,7 +219,7 @@ elif [ "$1" = "Player2-stuff" ]; then
        modprobe stmvout.ko
        modprobe stmvbi.ko
        fi
-       modprobe pseudocard.ko
+       modprobe pseudocard.ko bpa2_partition=LMI_VID
 elif [ "$1" = "Tuner" ]; then
        BOXTYPE=`cat /var/config/system/tunerboxtype`
        echo "init frontends"
@@ -244,7 +245,6 @@ elif [ "$1" = "Tuner" ]; then
 elif [ "$1" = "Cimax" ]; then
        echo "init drivers"
        # Cimax Modul für Vip2 ohne CI Module laden
-       if [ -e /var/config/system/tunerboxtype ]; then
        BOXTYPE=`cat /var/config/system/tunerboxtype`
        if [ $BOXTYPE = vip2 ]; then
 	       echo "Load Vip2 no CI Modul Treiber"
@@ -253,13 +253,9 @@ elif [ "$1" = "Cimax" ]; then
 	       echo "Load CI Modul Treiber"
                modprobe cimax.ko
        fi
-       else
-	       echo "Load CI Modul Treiber"
-               modprobe cimax.ko
-       fi
 elif [ "$1" = "Tuner-stuff" ]; then
        echo "np-PTI Laden..."
-       modprobe pti.ko videoMem=5632 # Maximaler wert für VideoMemory
+       modprobe pti.ko videoMem=1024 waitMS=0
        echo "NP- Fertig"
 
        player=`cat /proc/stb/player/version`
@@ -296,6 +292,10 @@ elif [ "$1" = "Swap" ]; then
        echo "Lade Swap /dev"
     fi
 elif [ "$1" = "Smartcard" ]; then
+    if [ ! -e /dev/sci0 ]; then 
+	mknod /dev/sci0 c 169 0
+ 	mknod /dev/sci1 c 169 1
+    fi
        BOXTYPE=`cat /var/config/system/tunerboxtype`
        echo "Kartenslots Aktivieren ..."
     if [ -e /var/etc/firstboot ]; then
@@ -334,8 +334,8 @@ elif [ "$1" = "Wlan" ]; then
     ### Aktiviert euren W-Lan treiber
     if [ -e /var/keys/Benutzerdaten/.system/wlan ]; then
        WLAN=`cat /var/keys/Benutzerdaten/.system/wlan`
-	modprobe mac80211.ko
 	modprobe cfg80211.ko
+	modprobe mac80211.ko
        if [ "$WLAN" = "1" ]; then
           echo "W-Lan Modul -- 8192cu geladen ..."
           modprobe 8192cu.ko
@@ -359,9 +359,41 @@ elif [ "$1" = "Wlan" ]; then
        elif [ "$WLAN" = "7" ]; then
           echo "W-Lan Modul -- zydas geladen ..."
           modprobe zd1211rw.ko
+       elif [ "$WLAN" = "8" ]; then
+          echo "W-Lan Modul -- 8188eu geladen ..."
+          modprobe 8188eu.ko
        fi
     fi
+elif [ "$1" = "UsbToSerial" ]; then
+    ### Aktiviert euren W-Lan treiber
+    if [ -e /var/keys/Benutzerdaten/.system/serial ]; then
+       SERIAL=`cat /var/keys/Benutzerdaten/.system/serial`
+       if [ "$SERIAL" = "0" ]; then
+		echo "USB Serial nicht geladen"
+       else
+	if [ ! -e /dev/ttyUSB0 ]; then
+	   echo "Make Serial to USB device"
+	   mknod /dev/ttyUSB0 c 188 0 
+	   mknod /dev/ttyUSB1 c 188 1 
+	   mknod /dev/ttyUSB2 c 188 2
+	   echo "3 Devs erstellt..."
+	fi
+	modprobe usbserial.ko
+       if [ "$SERIAL" = "1" ]; then
+          echo "USBtoSERIAL FTDI Modul geladen ..."
+          modprobe ftdi_sio.ko
+       elif [ "$SERIAL" = "2" ]; then
+          echo "USBtoSERIAL PL2303 Modul geladen ..."
+          modprobe pl2303.ko
+       elif [ "$SERIAL" = "3" ]; then
+          echo "USBtoSERIAL PL2303 und FTDI Modul geladen ..."
+          modprobe ftdi_sio.ko
+          modprobe pl2303.ko
+       fi
+      fi
+    fi
 elif [ "$1" = "Lirc" ]; then
+    modprobe simu_button.ko
     if [ -e /var/keys/Benutzerdaten/.system/fernbedienung ]; then
     ### Laed eure Fernbedienung
        echo "init lircd"
@@ -384,15 +416,10 @@ elif [ "$1" = "Lirc" ]; then
 		    fi
 	else
 		echo "Lade Lirc STM-Default Treiber ..."
-		# ohne auswahl des empfängers und wenn kein firstboot ist
-		# läd das standart STM von der BOX nun auch richtig
 		modprobe lirc_stm.ko				
 	fi
        /usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
     fi
-    else
-       echo "Lade Lirc STM-Default Treiber ..."
-       modprobe lirc_stm.ko	
     fi
     ### Laed eure Fernbedienung
     if [ -e /var/etc/firstboot ]; then
@@ -400,24 +427,32 @@ elif [ "$1" = "Lirc" ]; then
     else
     if [ -e /var/keys/Benutzerdaten/.system/fernbedienung ]; then
     fb=`cat /var/keys/Benutzerdaten/.system/fernbedienung`
+    DEEPSTANDBY=`cat /var/config/system/tunerboxtype`
+       if [ "$DEEPSTANDBY" = "vip2" ]; then
+		SETS="-s"
+       elif [ "$DEEPSTANDBY" = "vip1v2" ]; then
+		SETS="-s"
+       elif [ "$DEEPSTANDBY" = "vip1" ]; then
+		SETS="-x"
+       fi
        if [ "$fb" = "neu" ]; then
           echo "Fernbedienung NEU geladen"
-            /bin/evremote2 -x vip2 &
+            /bin/evremote2 $SETS vip2 &
        elif [ "$fb" = "alt" ]; then
           echo "Fernbedienung ALT geladen"
-          /bin/evremote2 -x vip1 &
+          /bin/evremote2 $SETS vip1 &
        elif [ "$fb" = "opti" ]; then
           echo "Fernbedienung OPTI geladen"
-          /bin/evremote2 -x opti &
+          /bin/evremote2 $SETS opti &
        elif [ "$fb" = "Pingulux" ]; then
           echo "Fernbedienung Pingulux geladen"
-          /bin/evremote2 -x Pingulux &
+          /bin/evremote2 $SETS Pingulux &
        elif [ "$fb" = "mce2005" ]; then
           echo "Fernbedienung MediaCenter geladen"
-          /bin/evremote2 -x MediaCenter &
+          /bin/evremote2 $SETS MediaCenter &
        elif [ "$fb" = "techno" ]; then
           echo "Fernbedienung TechnoTrend geladen"
-          /bin/evremote2 -x TechnoTrend &
+          /bin/evremote2 $SETS TechnoTrend &
        fi
     fi
     fi
@@ -510,6 +545,7 @@ elif [ "$1" = "Bootlogo" ]; then
     if [ -e /var/config/subsystem ]; then
        SYSTEM=`cat /var/config/subsystem`
        if [ "$SYSTEM" = "Neutrino" ]; then
+	  echo "logo OFF"
           /usr/local/bin/dvbtest -4 -f l /boot/NeutrinoHD.mp4 &
        else
           /usr/local/bin/dvbtest -4 -f l /boot/Enigma2.mp4 &

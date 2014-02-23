@@ -36,6 +36,7 @@ class MyMenu(Screen):
 		list.append((getConfigListEntry(_("Addon Manager"), "addon", "addonmanager", "46")))
 		list.append((getConfigListEntry(_("Display Uhr Einstellen"), "time", "timer", "46")))
 		list.append((getConfigListEntry(_("W-Lan Einstellungen"), "wlan", "wlansettings", "46")))
+		list.append((getConfigListEntry(_("USB zu Serial Treiber"), "usbtoserial", "usbtoserial", "46")))
 		list.append((getConfigListEntry(_("Backup, Install Menu"), "BACKUP", "BACKUPINSTALL", "46")))
 		list.append((getConfigListEntry(_("System Information"), "SYSTEM", "SYSINFO", "46")))
 		list.append((getConfigListEntry(_("Tuner Waehlen"), "tuner", "tuners", "46")))
@@ -109,6 +110,9 @@ class MyMenu(Screen):
 
 			elif selection[1] == "wlan":
 				self.session.open(WLAN)
+
+			elif selection[1] == "usbtoserial":
+				self.session.open(USBSERIAL)
 		
 			else:
 				print "\n[MyMenu] cancel\n"
@@ -779,7 +783,6 @@ class EMU(Screen):
 		list.append((getConfigListEntry(_("Start oder Restart MBox"), "mbox", "mbox1", "46")))
 		list.append((getConfigListEntry(_("Start oder Restart Incubus"), "incubus", "incubus1", "46")))
 		list.append((getConfigListEntry(_("Start oder Restart Camd3"), "camd3", "camd31", "46")))
-		list.append((getConfigListEntry(_("Start oder Restart GBox"), "gbox", "gbox1", "46")))
 		list.append((getConfigListEntry(_("-------------- Dual Emu -------------"), "", "", "46")))
 		list.append((getConfigListEntry(_("Start Dual Emu"), "dual", "dualmode", "46")))
 		list.append((getConfigListEntry(_("------------- Emu Watchdog ----------"), "", "", "46")))
@@ -814,9 +817,6 @@ class EMU(Screen):
 
 			elif selection[1] == "mbox":
 				self.prombt("/var/config/emu/start-mbox.sh; echo 1 > /var/emu/emudual")
-
-			elif selection[1] == "gbox":
-				self.prombt("/var/config/emu/start-gbox.sh; echo 1 > /var/emu/emudual")
 
 			elif selection[1] == "incubus":
 				self.prombt("/var/config/emu/start-incubus.sh; echo 1 > /var/emu/emudual.sh")
@@ -1257,7 +1257,7 @@ class FERNB(Screen):
 		selection = self["FERNB"].getCurrent()
 		if selection is not None:
 			if selection[1] == "ArgusVIPalt":
-				os.system("cp /etc/lircd_alt.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; echo vip1 > /var/config/boxtype")
+				os.system("cp /etc/lircd_alt.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; echo vip1 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP alt Mode Rot"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "stm":
@@ -1273,23 +1273,23 @@ class FERNB(Screen):
 				self.session.open(MessageBox,_("TechnoTrend USB Treiber Aktiviert - Reboot"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "ArgusVIPaltgruen":
-				os.system("cp /etc/lircd_alt_gruen.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; echo vip1 > /var/config/boxtype")
+				os.system("cp /etc/lircd_alt_gruen.conf /etc/lircd.conf; echo alt > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB1.xml /usr/local/share/enigma2/keymap.xml; echo vip1 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP alt Mode Gruen"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "ArgusVIPneu":
-				os.system("cp /etc/lircd_neu.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_neu.conf /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype")
+				os.system("cp /etc/lircd_neu.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; echo vip2 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP neu Mode Rot"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "ArgusVIPneugruen":
-				os.system("cp /etc/lircd_neu_gruen.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_neu.conf /var/tuxbox/config/keymap.conf; echo vip2 > /var/config/boxtype")
+				os.system("cp /etc/lircd_neu_gruen.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_FB2.xml /usr/local/share/enigma2/keymap.xml; echo vip2 > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB ArgusVIP neu Mode Gruen"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "Opticum":
-				os.system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; cp /var/tuxbox/config/keymap_opti.conf /var/tuxbox/config/keymap.conf; echo opti > /var/config/boxtype")
+				os.system("cp /etc/lircd_opti.conf /etc/lircd.conf; echo opti > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; echo opti > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB Opticum"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "Pingolux":
-				os.system("cp /etc/lircd_pingolux.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; rm -f /var/tuxbox/config/keymap.conf; echo Pingolux > /var/config/boxtype")
+				os.system("cp /etc/lircd_pingolux.conf /etc/lircd.conf; echo neu > /var/keys/Benutzerdaten/.system/fernbedienung; cp /usr/local/share/enigma2/keymap_Opti.xml /usr/local/share/enigma2/keymap.xml; echo Pingolux > /var/config/boxtype")
 				self.session.open(MessageBox,_("FB Pingolux gesetzt"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "mediacenter":
@@ -1432,11 +1432,11 @@ class SERVER(Screen):
 		if selection is not None:
 			if selection[1] == "NEWCAMD":
 				os.system("echo mgcamd > /var/keys/Benutzerdaten/.emu/mgcamd_oder_cccam")
-				self.session.open(MessageBox,_("CCcam wurde als Client definiert"), MessageBox.TYPE_INFO)
+				self.session.open(MessageBox,_("Newcamd wurde als Client definiert"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "CCCAM":
 				os.system("echo cccam > /var/keys/Benutzerdaten/.emu/mgcamd_oder_cccam")
-				self.session.open(MessageBox,_("Newcamd wurde als Client definiert"), MessageBox.TYPE_INFO)
+				self.session.open(MessageBox,_("CCcam wurde als Client definiert"), MessageBox.TYPE_INFO)
 
 
 			else:
@@ -1570,7 +1570,59 @@ class CAMD3(Screen):
 	def cancel(self):
 		print "\n[CAMD3] cancel\n"
 		self.close(None)
+#################### USBSERIAL ########################################
 
+class USBSERIAL(Screen):
+	skin = """
+		<screen position="center,center" size="460,400" title="Usb zu Serial Menu" >
+			<widget name="USBSERIAL" position="10,10" size="420,380" scrollbarMode="showOnDemand" />
+		</screen>"""
+
+	def __init__(self, session):
+		Screen.__init__(self, session)
+		
+		list = []
+		list.append((getConfigListEntry(_("USB to Serial FTDI Treiber Modul"), "USB1", "11", "46")))
+		list.append((getConfigListEntry(_("USB to Serial PL2303 Treiber Modul"), "USB2", "22", "46")))
+		list.append((getConfigListEntry(_("USB to Serial PL2303 und FTDI Treiber Laden"), "USB4", "22", "46")))
+		list.append((getConfigListEntry(_("USB to Serial Deaktivieren"), "USB3", "22", "46")))
+		
+		Screen.__init__(self, session)
+		self["USBSERIAL"] = MenuList(list)
+		self["myActionMap"] = ActionMap(["SetupActions"],
+		{
+			"ok": self.go,
+			"cancel": self.cancel
+		}, -1)
+
+	def go(self):
+		print "okbuttonClick"
+		selection = self["USBSERIAL"].getCurrent()
+		if selection is not None:
+			if selection[1] == "USB1":
+				os.system("echo 1 > /var/keys/Benutzerdaten/.system/serial")
+				self.session.open(MessageBox,_("FTDI wird geladen, Neustart erforderlich"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "USB2":
+				os.system("echo 2 > /var/keys/Benutzerdaten/.system/serial")
+				self.session.open(MessageBox,_("PL2303 wird geladen, Neustart erforderlich"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "USB4":
+				os.system("echo 3 > /var/keys/Benutzerdaten/.system/serial")
+				self.session.open(MessageBox,_("PL2303 und FTDI wird geladen, Neustart erforderlich"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "USB3":
+				os.system("echo 0 > /var/keys/Benutzerdaten/.system/serial")
+				self.session.open(MessageBox,_("Treiber wird nicht geladen, Neustart erforderlich"), MessageBox.TYPE_INFO)
+
+			else:
+				print "\n[USBSERIAL] cancel\n"
+				self.close(None)
+
+	
+	def cancel(self):
+		print "\n[USBSERIAL] cancel\n"
+		self.close(None)
 #################### W-Lan ########################################
 
 class WLAN(Screen):
@@ -1590,7 +1642,8 @@ class WLAN(Screen):
 		list.append((getConfigListEntry(_("W-Lan rt5370sta.ko Treiber Modul"), "5", "55", "46")))
 		list.append((getConfigListEntry(_("W-Lan rt73.ko Treiber Modul"), "6", "66", "46")))
 		list.append((getConfigListEntry(_("W-Lan zydas.ko Treiber Modul"), "7", "77", "46")))
-		list.append((getConfigListEntry(_("W-Lan Deaktivieren"), "8", "88", "46")))
+		list.append((getConfigListEntry(_("W-Lan 8188eu.ko Treiber Modul"), "8", "88", "46")))
+		list.append((getConfigListEntry(_("W-Lan Deaktivieren"), "9", "99", "46")))
 
 		
 		Screen.__init__(self, session)
@@ -1634,9 +1687,13 @@ class WLAN(Screen):
 				self.session.open(MessageBox,_("W-Lan Modul zydas.ko Geladen, Neustart erforderlich"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "8":
+				os.system("echo 8 > /var/keys/Benutzerdaten/.system/wlan")
+				self.session.open(MessageBox,_("W-Lan Modul 8188eu.ko Geladen, Neustart erforderlich"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "9":
 				os.system("echo 0 > /var/keys/Benutzerdaten/.system/wlan")
 				self.session.open(MessageBox,_("W-Lan Treiber Deaktiviert, Neustart erforderlich"), MessageBox.TYPE_INFO)
-				
+		
 			else:
 				print "\n[WLAN] cancel\n"
 				self.close(None)

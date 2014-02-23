@@ -7,10 +7,11 @@
     fi
 
     $MODLOAD Virtfs
+    $MODLOAD Bootlog
     $MODLOAD Overclock &
     $MODLOAD E2_proc
-    $MODLOAD Mac &
-    $MODLOAD Filesystem &
+    $MODLOAD Mac 
+    $MODLOAD Filesystem 
     $MODLOAD Automount &
     $MODLOAD Telnet &
     $MODLOAD Stmfb-firmware
@@ -34,13 +35,13 @@
     fi
 
     $MODLOAD Player2-stuff
-    $MODLOAD Tuner
-    $MODLOAD Cimax
     
 if [ -e /var/etc/firstboot ]; then
     $MODLOAD Firstboot step1
 fi
 
+    $MODLOAD Tuner
+    $MODLOAD Cimax
     $MODLOAD Tuner-stuff
     
 if [ -e /var/etc/firstboot ]; then
@@ -50,20 +51,20 @@ fi
     $MODLOAD Player2
     $MODLOAD Swap &
     $MODLOAD Smartcard &
-    $MODLOAD Cec &
-    $MODLOAD Bpamem &
+    #$MODLOAD Cec &
+    $MODLOAD Bpamem 
     $MODLOAD Tun &
     $MODLOAD Wlan &
     $MODLOAD Bootlogo &
-    $MODLOAD Lirc &
-    $MODLOAD Netapps &
+    $MODLOAD Lirc 
+    $MODLOAD Netapps 
     
 if [ -e /var/etc/firstboot ]; then
     $MODLOAD Firstboot step3
 fi
 
-    $MODLOAD Mountswap &
-    $MODLOAD Dhcp &
+    $MODLOAD Mountswap 
+    $MODLOAD Dhcp 
 
     if [ -e /var/config/subswitch ]; then
 	rm /var/config/subswitch
@@ -81,10 +82,15 @@ fi
        fi
         fi
     fi
-    $MODLOAD Cleanup &
-    $MODLOAD Clockdown &
-    $MODLOAD Upnp &
+    $MODLOAD Cleanup 
+    $MODLOAD Clockdown 
+    $MODLOAD Upnp 
     $MODLOAD Systemcheck
+    $MODLOAD UsbToSerial &
+
+    if [ -e /etc/init.d/rcS.user ]; then
+    	/etc/init.d/rcS.user &
+    fi
 
        until false
        do
@@ -147,31 +153,12 @@ fi
 	    fi
             echo "DONE";;
               1) echo "1"
-                 SYSTEM=`cat /var/config/subsystem`
-                 if [ "$SYSTEM" = "Neutrino" ]; then
-                    echo "REBOOT"
-                    MODE=`cat /var/config/mode`
-                    echo "$MODE" > /var/config/boxoff
-                    echo "reboot" > /var/config/shutdown/reboot
-                    sleep 2
-                    init 4
-                else
-                if [ -e /var/config/subswitch ]; then
-                    echo "REBOOT"
-                    MODE=`cat /var/config/mode`
-                    echo "$MODE" > /var/config/boxoff
-                    echo "reboot" > /var/config/shutdown/reboot
-                    sleep 2
-                    init 4
-                else
-                    echo "SHUTDOWN"
-                    MODE=`cat /var/config/mode`
-                    echo "$MODE" > /var/config/boxoff
-                    echo "shutdown" > /var/config/shutdown/reboot
-                    sleep 6
-                    init 4
-                fi
-            fi
+                 echo "SHUTDOWN"
+                 MODE=`cat /var/config/mode`
+                 echo "$MODE" > /var/config/boxoff
+                 echo "shutdown" > /var/config/shutdown/reboot
+                 sleep 6
+                 init 4
             echo "DONE";;
               2) echo "2"
                  echo "REBOOT"
