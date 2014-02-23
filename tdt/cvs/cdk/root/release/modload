@@ -362,6 +362,9 @@ elif [ "$1" = "Wlan" ]; then
        elif [ "$WLAN" = "8" ]; then
           echo "W-Lan Modul -- 8188eu geladen ..."
           modprobe 8188eu.ko
+       elif [ "$WLAN" = "9" ]; then
+          echo "W-Lan Modul -- 8812au geladen ..."
+          modprobe 8812au.ko
        fi
     fi
 elif [ "$1" = "UsbToSerial" ]; then

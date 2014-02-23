@@ -25,7 +25,6 @@
 /lib/modules/2.6.32.59_stm24_0211/fe-core-vip1v2.ko:
 /lib/modules/2.6.32.59_stm24_0211/fe-core-vip2.ko:
 /lib/modules/2.6.32.59_stm24_0211/fscache.ko:
-/lib/modules/2.6.32.59_stm24_0211/ftdi.ko:
 /lib/modules/2.6.32.59_stm24_0211/ftdi_sio.ko:
 /lib/modules/2.6.32.59_stm24_0211/isofs.ko:
 /lib/modules/2.6.32.59_stm24_0211/kreplay.ko:
@@ -61,6 +60,7 @@
 /lib/modules/2.6.32.59_stm24_0211/rt2870sta.ko:
 /lib/modules/2.6.32.59_stm24_0211/rt3070sta.ko:
 /lib/modules/2.6.32.59_stm24_0211/rt5370sta.ko:
+/lib/modules/2.6.32.59_stm24_0211/8812au.ko:
 /lib/modules/2.6.32.59_stm24_0211/silencegen.ko:
 /lib/modules/2.6.32.59_stm24_0211/simu_button.ko:
 /lib/modules/2.6.32.59_stm24_0211/smartcard.ko:
