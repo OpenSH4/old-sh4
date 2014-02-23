@@ -1643,6 +1643,7 @@ class WLAN(Screen):
 		list.append((getConfigListEntry(_("W-Lan rt73.ko Treiber Modul"), "6", "66", "46")))
 		list.append((getConfigListEntry(_("W-Lan zydas.ko Treiber Modul"), "7", "77", "46")))
 		list.append((getConfigListEntry(_("W-Lan 8188eu.ko Treiber Modul"), "8", "88", "46")))
+		list.append((getConfigListEntry(_("W-Lan 8812au.ko Treiber Modul"), "10", "88", "46")))
 		list.append((getConfigListEntry(_("W-Lan Deaktivieren"), "9", "99", "46")))
 
 		
@@ -1689,6 +1690,10 @@ class WLAN(Screen):
 			elif selection[1] == "8":
 				os.system("echo 8 > /var/keys/Benutzerdaten/.system/wlan")
 				self.session.open(MessageBox,_("W-Lan Modul 8188eu.ko Geladen, Neustart erforderlich"), MessageBox.TYPE_INFO)
+
+			elif selection[1] == "10":
+				os.system("echo 9 > /var/keys/Benutzerdaten/.system/wlan")
+				self.session.open(MessageBox,_("W-Lan Modul 8812au.ko Geladen, Neustart erforderlich"), MessageBox.TYPE_INFO)
 
 			elif selection[1] == "9":
 				os.system("echo 0 > /var/keys/Benutzerdaten/.system/wlan")
