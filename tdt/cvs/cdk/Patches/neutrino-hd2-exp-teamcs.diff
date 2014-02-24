@@ -6,7 +6,7 @@
  
 +teamcs_sources =teamcs.cpp teamcsemu.cpp teamcsuhr.cpp teamcswlan.cpp teamcssystem.cpp \
 +		teamcstuner.cpp teamcsfb.cpp teamcsupnp.cpp teamcssamba.cpp teamcsswap.cpp \
-+		teamcsoverclock.cpp teamcsmac.cpp teamcsbackup.cpp
++		teamcsoverclock.cpp teamcsmac.cpp teamcsbackup.cpp teamcsusbserial.cpp
 +
  noinst_HEADERS = svn_version.h
  
@@ -23,7 +23,7 @@
  libneutrino_gui2_a_SOURCES += cam_menu.cpp
 --- neutrino-hd2-exp/data/locale/deutsch.locale	2014-02-09 17:01:06.500376757 +0100
 +++ neutrino-hd2-exp/data/locale/deutsch.locale	2014-02-22 16:57:28.629062596 +0100
-@@ -1624,6 +1624,136 @@
+@@ -1624,6 +1624,142 @@
  
  audiomenu.volumebar_audiosteps Lautstärke Schrittweite
  
@@ -37,6 +37,7 @@
 +teamcs.addon Addon Manager
 +teamcs.uhr Display Uhr Einstellen
 +teamcs.wlan W-Lan Einstellungen
++teamcs.usbserial USB zu Serial Treiber
 +teamcs.system System Information
 +teamcs.tuner Tuner Waehlen
 +teamcs.fernbedienung Fernbedienung waehlen
@@ -81,6 +82,11 @@
 +teamcswlan.8188eu W-Lan 8188eu.ko Treiber Modul
 +teamcswlan.8812au W-Lan 8812au.ko Treiber Modul
 +teamcswlan.aus W-Lan deaktivieren
++
++teamcsusbserial.usb1 USB2Serial FTDI Treiber Modul
++teamcsusbserial.usb2 USB2Serial PL2303 Treiber Modul
++teamcsusbserial.usb4 USB2Serial PL2303 & FTDI Treiber
++teamcsusbserial.usb3 USB2Serial Deaktivieren
 +	
 +teamcssystem.netstat Netzwerk Infos
 +teamcssystem.lsmod Geladen Module Anzeigen
@@ -162,7 +168,7 @@
  webtv.user User Bouquet
 --- neutrino-hd2-exp/data/locale/english.locale	2014-02-09 17:01:06.500376757 +0100
 +++ neutrino-hd2-exp/data/locale/english.locale	2014-02-22 16:57:28.629062596 +0100
-@@ -1623,6 +1623,135 @@
+@@ -1623,6 +1623,141 @@
  
  audiomenu.volumebar_audiosteps Volume Step Size
  
@@ -176,6 +182,7 @@
 +teamcs.addon Addon Manager
 +teamcs.uhr Adjust Display Clock
 +teamcs.wlan Wifi Settings
++teamcs.usbserial USB to Serial Driver
 +teamcs.system System Information
 +teamcs.tuner Choose Tuner
 +teamcs.fernbedienung Choose Remotecontrol
@@ -220,6 +227,11 @@
 +teamcswlan.8188eu Wifi 8188eu.ko Driver Module
 +teamcswlan.8812au Wifi 8812au.ko Driver Module
 +teamcswlan.aus Deactivate Wifi
++
++teamcsusbserial.usb1 USB2Serial FTDI Driver Module
++teamcsusbserial.usb2 USB2Serial PL2303 Driver Module
++teamcsusbserial.usb4 USB2Serial PL2303 & FTDI Driver
++teamcsusbserial.usb3 Deactivate USB2Serial
 +	
 +teamcssystem.netstat Network Info
 +teamcssystem.lsmod Show loaded Modules
@@ -318,7 +330,7 @@
  	
  	LOCALE_MISCSETTINGS_LOGOSDIR,
  	LOCALE_MISCSETTINGS_RECORDING_SCREENSHOT,
-@@ -1636,6 +1640,130 @@
+@@ -1636,6 +1640,136 @@
  	
  	LOCALE_AUDIOMENU_VOLUMEBAR_AUDIOSTEPS,
  	
@@ -327,6 +339,7 @@
 +	LOCALE_TEAMCS_ADDON,
 +	LOCALE_TEAMCS_UHR,
 +	LOCALE_TEAMCS_WLAN,
++	LOCALE_TEAMCS_USBSERIAL,
 +	LOCALE_TEAMCS_SYSTEM,
 +	LOCALE_TEAMCS_TUNER,
 +	LOCALE_TEAMCS_FERNBEDIENUNG,
@@ -369,8 +382,13 @@
 +	LOCALE_TEAMCSWLAN_MODUL6,
 +	LOCALE_TEAMCSWLAN_MODUL7,
 +	LOCALE_TEAMCSWLAN_MODUL8,
-+       LOCALE_TEAMCSWLAN_MODUL9,
++  LOCALE_TEAMCSWLAN_MODUL9,
 +	LOCALE_TEAMCSWLAN_AUS,
++
++ LOCALE_TEAMCSUSBSERIAL_USB1,
++ LOCALE_TEAMCSUSBSERIAL_USB2,
++ LOCALE_TEAMCSUSBSERIAL_USB4,
++ LOCALE_TEAMCSUSBSERIAL_USB3,
 +	
 +	LOCALE_TEAMCSSYSTEM_NETSTAT,
 +	LOCALE_TEAMCSSYSTEM_LSMOD,
@@ -469,7 +487,7 @@
  	
  	"miscsettings.logosdir",
  	"miscsettings.recording_screenshot",
-@@ -1636,6 +1640,130 @@
+@@ -1636,6 +1640,136 @@
  	
  	"audiomenu.volumebar_audiosteps",
  	
@@ -478,6 +496,7 @@
 +	"teamcs.addon",
 +	"teamcs.uhr",
 +	"teamcs.wlan",
++	"teamcs.usbserial",
 +	"teamcs.system",
 +	"teamcs.tuner",
 +	"teamcs.fernbedienung",
@@ -520,8 +539,13 @@
 +	"teamcswlan.rt73",
 +	"teamcswlan.zydas",
 +	"teamcswlan.8188eu",
-+       "teamcswlan.8812au",
++  "teamcswlan.8812au",
 +	"teamcswlan.aus",
++
++	"teamcsusbserial.usb1",
++	"teamcsusbserial.usb2",
++	"teamcsusbserial.usb4",
++	"teamcsusbserial.usb3",
 +	
 +	"teamcssystem.netstat",
 +	"teamcssystem.lsmod",
