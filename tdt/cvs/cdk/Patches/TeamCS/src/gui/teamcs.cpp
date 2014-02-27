@@ -48,6 +48,7 @@
 #include "teamcsoverclock.h"
 #include "teamcsmac.h"
 #include "teamcsbackup.h"
+#include "teamcsusbserial.h"
 
 ////////////////////////////// Extra Menu ANFANG ////////////////////////////////////
 
@@ -95,6 +96,7 @@ int teamcs::exec(CMenuTarget* parent, const std::string &actionKey)
       teamcs->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCS_ADDON, true, "", this, "addon", CRCInput::RC_green, NEUTRINO_ICON_BUTTON_GREEN, "nix", LOCALE_HELPTEXT_NIX));
       teamcs->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCS_UHR, true, "", new teamcsuhr(), NULL, CRCInput::RC_yellow, NEUTRINO_ICON_BUTTON_YELLOW, "nix", LOCALE_HELPTEXT_NIX));
       teamcs->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCS_WLAN, true, "", new teamcswlan, NULL, CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, "nix", LOCALE_HELPTEXT_NIX));
+	  teamcs->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCS_USBSERIAL, true, "", new teamcsusbserial(), NULL, CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
       teamcs->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCS_SYSTEM, true, "", new teamcssystem(), NULL, CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
       teamcs->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCS_TUNER, true, "", new teamcstuner(), NULL, CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
       teamcs->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCS_FERNBEDIENUNG, true, "", new teamcsfb(), NULL, CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
