@@ -1,5 +1,7 @@
     #!/bin/sh
     MODLOAD=/etc/init.d/modload
+    echo "1" > /var/config/loop
+    $MODLOAD Loop &
     echo "Welcome..." > /dev/vfd
 
     if [ ! -e /dev/hdmi_cec ]; then
@@ -50,9 +52,8 @@ fi
 
     $MODLOAD Player2
     $MODLOAD Swap &
-    $MODLOAD Smartcard &
     #$MODLOAD Cec &
-    $MODLOAD Bpamem 
+    #$MODLOAD Bpamem 
     $MODLOAD Tun &
     $MODLOAD Wlan &
     $MODLOAD Bootlogo &
@@ -87,6 +88,7 @@ fi
     $MODLOAD Upnp 
     $MODLOAD Systemcheck
     $MODLOAD UsbToSerial &
+    $MODLOAD Smartcard &
 
     if [ -e /etc/init.d/rcS.user ]; then
     	/etc/init.d/rcS.user &
@@ -101,11 +103,14 @@ fi
        		SYSTEM=`cat /var/config/subsystem`
           	if [ "$SYSTEM" = "Neutrino" ]; then
 	     		killall -9 dvbtest
+	      		$MODLOAD Loopoff &
              		/usr/local/bin/neutrino
           	else
+			$MODLOAD Loopoff &
              		/usr/local/bin/enigma2
           	fi
     	 else
+	        $MODLOAD Loopoff &
           	/usr/local/bin/enigma2
     	 fi
               rtv=$?
