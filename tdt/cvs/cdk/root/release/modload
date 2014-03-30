@@ -255,7 +255,7 @@ elif [ "$1" = "Cimax" ]; then
        fi
 elif [ "$1" = "Tuner-stuff" ]; then
        echo "np-PTI Laden..."
-       modprobe pti.ko videoMem=1024 waitMS=0
+       modprobe pti.ko videoMem=2048 waitMS=20
        echo "NP- Fertig"
 
        player=`cat /proc/stb/player/version`
@@ -301,13 +301,13 @@ elif [ "$1" = "Smartcard" ]; then
     if [ -e /var/etc/firstboot ]; then
 	echo "no Smartcard Aktiv"
     else
-    if [ $BOXTYPE = vip1 ]; then
-       modprobe smartcard.ko debug=100
-    elif [ $BOXTYPE = vip1v2 ]; then
-       modprobe smartcard.ko debug=100
-    elif [ $BOXTYPE = vip2 ]; then
-       modprobe smartcard-vip2.ko debug=100
-    fi
+	if [ "$BOXTYPE" = "vip1" ]; then
+       		modprobe smartcard.ko debug=100
+	elif [ "$BOXTYPE" = "vip1v2" ]; then
+       		modprobe smartcard.ko debug=100
+	else
+       		modprobe smartcard-vip2.ko debug=100
+	fi
     fi
 elif [ "$1" = "Cec" ]; then
     modprobe cec.ko activemode=1
@@ -572,6 +572,44 @@ elif [ "$1" = "Systemcheck" ]; then
        echo "Duck-Trick Image" > /dev/vfd
        echo "LOADING E2"
     fi
+elif [ "$1" = "Loopoff" ]; then
+	SYSTEM=`cat /var/config/subsystem`
+      	if [ "$SYSTEM" = "Neutrino" ]; then
+		sleep 20
+		echo "0" > /var/config/loop
+		fp_control -i 38 0
+		fp_control -i 39 0
+		fp_control -i 40 0
+		fp_control -i 41 0
+	else
+		sleep 80
+		echo "0" > /var/config/loop
+		fp_control -i 38 0
+		fp_control -i 39 0
+		fp_control -i 40 0
+		fp_control -i 41 0	
+	fi
+elif [ "$1" = "Loop" ]; then
+LOOP=`cat /var/config/loop`
+if [ "$LOOP" = "1" ]; then
+	fp_control -i 41 1
+	fp_control -i 38 1
+else
+	fp_control -i 38 0
+	fp_control -i 39 0
+	fp_control -i 40 0
+	fp_control -i 41 0
+fi
+while [ "$LOOP" = "1" ]
+do
+	fp_control -i 40 1
+	sleep 1
+	fp_control -i 39 1
+	sleep 1
+	fp_control -i 40 0
+	fp_control -i 39 0
+	LOOP=`cat /var/config/loop`
+done
 elif [ "$1" = "Firstboot" ]; then
 	if [ "$2" = "step1" ]; then
     		if [ -e /var/etc/firstboot ]; then
