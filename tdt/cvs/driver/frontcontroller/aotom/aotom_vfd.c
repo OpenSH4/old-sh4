@@ -383,7 +383,7 @@ enum YWPANL_WRITE_INSTR_e
 
 };
 
-#define YWPANEL_FP_I2C_TIMEOUT			200
+#define YWPANEL_FP_I2C_TIMEOUT			100
 #define VFD_CS_CLR() {udelay(10);stpio_set_pin(pio_cs, 0);}
 #define VFD_CS_SET() {udelay(10);stpio_set_pin(pio_cs, 1);}
 
@@ -2184,9 +2184,9 @@ static int YWPANEL_VFD_ShowTimeOff_Unknown(void)
 
 int YWPANEL_VFD_SetBrightness_StandBy(int level)
 {
-#if 1 // Doesn't work currently. Disabled to avoid side effects. --martii
-	return 0;
-#else
+//#if 1 // Doesn't work currently. Disabled to avoid side effects. --martii
+//	return 0;
+//#else
 	int 		ST_ErrCode = 0;
 	YWPANEL_FPData_t	data;
 	if (down_interruptible(&vfd_sem))
@@ -2208,14 +2208,14 @@ int YWPANEL_VFD_SetBrightness_StandBy(int level)
 	}
 	up(&vfd_sem);
 	return ST_ErrCode;
-#endif
+//#endif
 }
 
 static int YWPANEL_VFD_SetBrightness_Common(int level)
 {
-#if 1 // Doesn't work currently. Disabled to avoid side effects. --martii
-	return 0;
-#else
+//#if 1 // Doesn't work currently. Disabled to avoid side effects. --martii
+//	return 0;
+//#else
 	int 		ST_ErrCode = 0;
 	if(level < 0)
 		level = 0;
@@ -2226,7 +2226,7 @@ static int YWPANEL_VFD_SetBrightness_Common(int level)
 	YWPANEL_VFD_WR(0x78 | level);
 	VFD_CS_SET();
 	return ST_ErrCode;
-#endif
+//#endif
 }
 
 static int YWPANEL_VFD_SetBrightness_Unknown(int level)
@@ -2762,7 +2762,7 @@ static int YWPANEL_VFD_Init_Common(void)
 	YWPANEL_Seg_Addr_Init();
 	YWPANEL_VFD_ClearAll();
 	//YWPANEL_VFD_ShowContent();
-	YWPANEL_VFD_ShowString("welcome!");
+	//YWPANEL_VFD_ShowString("welcome!");
 
 	return ErrorCode;
  }

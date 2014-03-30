@@ -250,7 +250,7 @@ static int draw_thread(void *arg)
 					draw_thread_stop = 1;
 					return 0;
 				}
-				msleep(40);
+				msleep(10);
 			}
 		}
 	}
