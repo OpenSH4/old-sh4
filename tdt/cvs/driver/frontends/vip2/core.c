@@ -94,7 +94,7 @@ void hc595_out(unsigned char ctls, int state)
 
 	SDA_CLR();
 	SRCLK_CLR();
-    udelay(10);
+    udelay(1);
 
     for(i = 7; i >=0; i--)
 	{
@@ -362,7 +362,7 @@ static struct dvb_frontend *init_fe_device (struct dvb_adapter *adapter,
   /* Add separat Tuner B Reset */
   hc595_out (tuner_cfg->fe_rst_tuner_b, 1);
   /* Wait for PLL to stabilize */
-  msleep(250);
+  msleep(50);
 
   /*
    * PLL state should be stable now. Ideally, we should check

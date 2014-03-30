@@ -2927,7 +2927,7 @@ static int stv090x_get_coldlock(struct stv090x_state *state, s32 timeout_dmd)
 					if (stv090x_i2c_gate_ctrl(fe, 0) < 0)
 						goto err;
 
-					msleep(50);
+					msleep(10);
 
 					if (stv090x_i2c_gate_ctrl(fe, 1) < 0)
 						goto err;
@@ -4090,7 +4090,7 @@ static enum stv090x_signal_state stv090x_algo(struct stv090x_state *state)
 	if (stv090x_i2c_gate_ctrl(fe, 0) < 0)
 		goto err;
 
-	msleep(50);
+	msleep(10);
 
 	if (state->config->tuner_get_status) {
 		if (stv090x_i2c_gate_ctrl(fe, 1) < 0)
