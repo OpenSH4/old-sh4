@@ -168,6 +168,11 @@ int vip2_avs_set_volume(int vol)
  
 	dprintk("[AVS]: %s (%d)\n", __func__, vol);
 	c = vol;
+
+	if(c==63)
+		c=62;
+	if(c==0)
+		c=1; 
  
 	if (c > 63 || c < 0)
 		return -EINVAL;
