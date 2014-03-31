@@ -1276,23 +1276,7 @@ static int SCI_Set_Clock(SCI_CONTROL_BLOCK *sci)
 
 static int SCI_IO_init(SCI_CONTROL_BLOCK *sci)
 {
-	
-    if((boxtype[0] == 0) || (strcmp("vip1", boxtype) == 0))
-	 {
-		printk("Boxtype: Vip1");
-		EnableVoltage = 0;
-	 }
-	 else if(strcmp("vip2", boxtype) == 0)
-	 {
-		printk("Boxtype: Vip2");
-		EnableVoltage = 1;
-	 }
-	 else
-	 {
-		printk("Boxtype: Vip1");
-		EnableVoltage = 0;
-	 }
-	PDEBUG(" ...\n");
+    PDEBUG(" ...\n");
 
     sci->txd    	= stpio_request_pin(sci->pio_port, 0, "sc_io",    STPIO_ALT_BIDIR);/* ist koreckt */
     sci->rxd    	= stpio_request_pin(sci->pio_port, 1, "sc_rxd",   STPIO_IN); 	   /* ist koreckt */
@@ -1301,12 +1285,14 @@ static int SCI_IO_init(SCI_CONTROL_BLOCK *sci)
     sci->cmdvcc 	= stpio_request_pin(sci->pio_port, 5, "sc_cmdvcc",STPIO_OUT); 	   /* ist koreckt */
     
     if (EnableVoltage == 1){
-    	sci->voltage 	= stpio_request_pin(sci->pio_port, 6, "sc_volt",STPIO_IN);	   /* ist koreckt */
+	sci->voltage 	= stpio_request_pin(sci->pio_port, 6, "sc_volt",STPIO_IN);	   /* ist koreckt */
     }
     sci->detect 	= stpio_request_pin(sci->pio_port, 7, "sc_detect",STPIO_IN);	   /* ist koreckt */
 
     /* Enable SCI Voltage clock 3V/5V */
-    stpio_set_pin(sci->voltage, 1);
+    if (EnableVoltage == 1){
+    	stpio_set_pin(sci->voltage, 1);
+    }
 
     if(!SCI_SetClockSource(sci)) return 0;
     if(!SCI_ClockEnable(sci)) return 0;
@@ -2533,6 +2519,21 @@ static int __init sci_module_init(void)
 
     sci_driver_init = 0;
     
+    if((boxtype[0] == 0) || (strcmp("vip1", boxtype) == 0))
+    {
+	printk("Boxtype: Vip1");
+		EnableVoltage = 0;
+    }
+    else if(strcmp("vip2", boxtype) == 0)
+    {
+	printk("Boxtype: Vip2");
+	EnableVoltage = 1;
+    }
+    else
+    {
+	printk("Boxtype: Vip1");
+	EnableVoltage = 0;
+    }
     
     if (sci_init() == SCI_ERROR_OK)
     {
