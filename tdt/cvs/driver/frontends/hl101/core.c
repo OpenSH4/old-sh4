@@ -784,7 +784,7 @@ init_fe_device (struct dvb_adapter *adapter,
   }
 
   /* Wait for PLL to stabilize */
-  msleep(250);
+  msleep(50);
   /*
    * PLL state should be stable now. Ideally, we should check
    * for PLL LOCK status. But well, never mind!
