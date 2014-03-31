@@ -56,6 +56,9 @@
 #include "sci.h"
 #include "atr.h"
 
+static int EnableVoltage;
+static char *boxtype = "vip1";
+
 /*****************************
  * MACROS
  *****************************/
@@ -1273,6 +1276,22 @@ static int SCI_Set_Clock(SCI_CONTROL_BLOCK *sci)
 
 static int SCI_IO_init(SCI_CONTROL_BLOCK *sci)
 {
+	
+    if((boxtype[0] == 0) || (strcmp("vip1", boxtype) == 0))
+	 {
+		printk("Boxtype: Vip1");
+		EnableVoltage = 0;
+	 }
+	 else if(strcmp("vip2", boxtype) == 0)
+	 {
+		printk("Boxtype: Vip2");
+		EnableVoltage = 1;
+	 }
+	 else
+	 {
+		printk("Boxtype: Vip1");
+		EnableVoltage = 0;
+	 }
 	PDEBUG(" ...\n");
 
     sci->txd    	= stpio_request_pin(sci->pio_port, 0, "sc_io",    STPIO_ALT_BIDIR);/* ist koreckt */
@@ -1280,7 +1299,10 @@ static int SCI_IO_init(SCI_CONTROL_BLOCK *sci)
     sci->clock  	= stpio_request_pin(sci->pio_port, 3, "sc_clock", STPIO_ALT_OUT);  /* ist koreckt */
     sci->reset  	= stpio_request_pin(sci->pio_port, 4, "sc_reset", STPIO_OUT);	   /* ist koreckt */
     sci->cmdvcc 	= stpio_request_pin(sci->pio_port, 5, "sc_cmdvcc",STPIO_OUT); 	   /* ist koreckt */
-    sci->voltage 	= stpio_request_pin(sci->pio_port, 6, "sc_volt",STPIO_IN);	   /* ist koreckt */
+    
+    if (EnableVoltage == 1){
+    	sci->voltage 	= stpio_request_pin(sci->pio_port, 6, "sc_volt",STPIO_IN);	   /* ist koreckt */
+    }
     sci->detect 	= stpio_request_pin(sci->pio_port, 7, "sc_detect",STPIO_IN);	   /* ist koreckt */
 
     /* Enable SCI Voltage clock 3V/5V */
@@ -1331,7 +1353,7 @@ SCI_ERROR sci_init(void)
     SCI_ERROR rc = SCI_ERROR_OK;
 	SCI_CONTROL_BLOCK *sci;
     UCHAR i;
-
+    
     /* Init and set to defaults the main sci control struct and the hw registers */
     for (i = 0; i < SCI_NUMBER_OF_CONTROLLERS; i++)
     {
@@ -2510,7 +2532,8 @@ static int __init sci_module_init(void)
     dev = MKDEV(MAJOR_NUM, MINOR_START);
 
     sci_driver_init = 0;
-
+    
+    
     if (sci_init() == SCI_ERROR_OK)
     {
         if(register_chrdev_region(dev, SCI_NUMBER_OF_CONTROLLERS, DEVICE_NAME) < 0)
@@ -2589,6 +2612,9 @@ MODULE_VERSION(SMARTCARD_VERSION);
 
 module_param(debug, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
 MODULE_PARM_DESC(debug, "Turn on/off SmartCard debugging (default:off)");
+
+module_param(boxtype,charp,0);
+MODULE_PARM_DESC(boxtype, "Boxtype extra 3V/5V Enable: vip2 (default vip1");
 
 MODULE_AUTHOR("Spider-Team");
 MODULE_DESCRIPTION("SmartCard Interface driver");
