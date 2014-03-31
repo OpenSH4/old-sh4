@@ -59,8 +59,8 @@ enum scart_ctl {
 	SCART_CVBS_RGB	= 3,
 	SCART_TV_SAT	= 4,
 	SCART_0_12V		= 5,
-	FAN_VCCEN1		= 6,
-	HDD_VCCEN2		= 7,
+	FAN_VCCEN1		= 6, // ist das FAN ? oder nicht
+	HDD_VCCEN2		= 7, // ist das HDD ? oder nicht
 };
 
 static struct stpio_pin*	srclk; // shift clock
@@ -92,7 +92,7 @@ void vip2_avs_hc595_out(unsigned char ctls, int state)
 
 	SDA_CLR();
 	SRCLK_CLR();
-    udelay(10);
+    //udelay(10);
 
     for(i = 7; i >=0; i--)
 	{
@@ -137,7 +137,11 @@ inline int vip2_avs_standby(int type)
 	{
 		if (ft_stnby == 0)
 		{
+			// Aktivieren der Scart 12V Funktion wenn wir mit dem Stable Aktiv Test erfolg haben 
+			// ( steht im init ), anschliessend können wir dies hier im Standby aktivieren oder deaktivieren
+			// je nach Standby Mode
 			vip2_avs_hc595_out(SCART_STANDBY, !ft_stnby);
+			//vip2_avs_hc595_out(SCART_0_12V, 0); //Disable Scart 12V Output by Standby
 			ft_stnby = 1;
 		}
 		else
@@ -148,6 +152,7 @@ inline int vip2_avs_standby(int type)
 		if (ft_stnby == 1)
 		{
 			vip2_avs_hc595_out(SCART_STANDBY, !ft_stnby);
+			//vip2_avs_hc595_out(SCART_0_12V, 1); // Reaktiviert 12V Output after Standby
 			ft_stnby = 0;
 		}
 		else
@@ -420,6 +425,8 @@ int vip2_avs_init(void)
 	}
 
 	vip2_avs_hc595_out(SCART_TV_SAT, 1); 	// set encoder
+	vip2_avs_hc595_out(SCART_0_12V, 1); 	// Enable 12V Scart Output bei Init
+
 
 	printk("[AVS]: init success\n");
 
