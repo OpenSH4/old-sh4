@@ -940,9 +940,9 @@ int init_ci_controller(struct dvb_adapter* dvb_adap)
 #elif defined(HL101) || defined(VIP1_V2) || defined(CLASSIC)
 	cic_enable_pin = stpio_request_pin (2, 5, "CIMaX", STPIO_OUT);
 	stpio_set_pin (cic_enable_pin, 1);
-	msleep(250);
+	msleep(50);
 	stpio_set_pin (cic_enable_pin, 0);
-	msleep(250);
+	msleep(50);
 
 	module_pin[0] = stpio_request_pin (0, 2, "CIMaX_ModuleA", STPIO_OUT);
 	module_pin[1] = stpio_request_pin (0, 6, "CIMaX_ModuleB", STPIO_OUT);
