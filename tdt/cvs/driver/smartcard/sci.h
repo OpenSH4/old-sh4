@@ -212,10 +212,6 @@
 #define PINFO	PDEBUG
 #define PERROR	PDEBUG
 
-// FIXME Remove it
-// This value is defined only to compile but it is a 'dummy' value
-#define __STB_SYS_CLK               (63000000)      // 63MHz SYS_CLK of xxx
-
 /*****************************
  * DATA TYPES
  *****************************/
