@@ -132,23 +132,27 @@ ULONG get_reg(SCI_CONTROL_BLOCK *sci, BASE_ADDR base_address, ULONG reg)
         case BASE_ADDRESS_SYSCFG:
             reg_address = (ULONG)(sci->base_address_syscfg + reg);
             break;
-        case BASE_ADDRESS_PIO0:
+        /*case BASE_ADDRESS_PIO0:
             reg_address = (ULONG)(sci->base_address_pio0 + reg);
             break;
         case BASE_ADDRESS_PIO1:
             reg_address = (ULONG)(sci->base_address_pio1 + reg);
-            break;
-        case BASE_ADDRESS_PIO3:
+            break;*/
+        /*case BASE_ADDRESS_PIO3:
             reg_address = (ULONG)(sci->base_address_pio3 + reg);
-            break;
-        case BASE_ADDRESS_PIO4:
+            break;*/
+        /*case BASE_ADDRESS_PIO4:
             reg_address = (ULONG)(sci->base_address_pio4 + reg);
-            break;
+            break;*/
         case BASE_ADDRESS_ASC0:
+            reg_address = (ULONG)(sci->base_address_asc + reg);
+            break;
         case BASE_ADDRESS_ASC1:
             reg_address = (ULONG)(sci->base_address_asc + reg);
             break;
         case BASE_ADDRESS_SCI0:
+            reg_address = (ULONG)(sci->base_address_sci + reg);
+            break;
         case BASE_ADDRESS_SCI1:
             reg_address = (ULONG)(sci->base_address_sci + reg);
             break;
@@ -184,23 +188,27 @@ void set_reg(SCI_CONTROL_BLOCK *sci, BASE_ADDR base_address, ULONG reg, UINT bit
         case BASE_ADDRESS_SYSCFG:
             reg_address = (ULONG)(sci->base_address_syscfg + reg);
             break;
-        case BASE_ADDRESS_PIO0:
+        /*case BASE_ADDRESS_PIO0:
             reg_address = (ULONG)(sci->base_address_pio0 + reg);
             break;
         case BASE_ADDRESS_PIO1:
             reg_address = (ULONG)(sci->base_address_pio1 + reg);
-            break;
-        case BASE_ADDRESS_PIO3:
+            break;*/
+       /* case BASE_ADDRESS_PIO3:
             reg_address = (ULONG)(sci->base_address_pio3 + reg);
             break;
         case BASE_ADDRESS_PIO4:
             reg_address = (ULONG)(sci->base_address_pio4 + reg);
-            break;
+            break;*/
         case BASE_ADDRESS_ASC0:
+            reg_address = (ULONG)(sci->base_address_asc + reg);
+            break;
         case BASE_ADDRESS_ASC1:
             reg_address = (ULONG)(sci->base_address_asc + reg);
             break;
         case BASE_ADDRESS_SCI0:
+            reg_address = (ULONG)(sci->base_address_sci + reg);
+            break;
         case BASE_ADDRESS_SCI1:
             reg_address = (ULONG)(sci->base_address_sci + reg);
             break;
@@ -236,23 +244,27 @@ void set_reg_writeonly(SCI_CONTROL_BLOCK *sci, BASE_ADDR base_address, ULONG reg
         case BASE_ADDRESS_SYSCFG:
             reg_address = (ULONG)(sci->base_address_syscfg + reg);
             break;
-        case BASE_ADDRESS_PIO0:
+        /*case BASE_ADDRESS_PIO0:
             reg_address = (ULONG)(sci->base_address_pio0 + reg);
             break;
         case BASE_ADDRESS_PIO1:
             reg_address = (ULONG)(sci->base_address_pio1 + reg);
-            break;
-        case BASE_ADDRESS_PIO3:
+            break;*/
+        /*case BASE_ADDRESS_PIO3:
             reg_address = (ULONG)(sci->base_address_pio3 + reg);
             break;
         case BASE_ADDRESS_PIO4:
             reg_address = (ULONG)(sci->base_address_pio4 + reg);
-            break;
+            break;*/
         case BASE_ADDRESS_ASC0:
+            reg_address = (ULONG)(sci->base_address_asc + reg);
+            break;
         case BASE_ADDRESS_ASC1:
             reg_address = (ULONG)(sci->base_address_asc + reg);
             break;
         case BASE_ADDRESS_SCI0:
+            reg_address = (ULONG)(sci->base_address_sci + reg);
+            break;
         case BASE_ADDRESS_SCI1:
             reg_address = (ULONG)(sci->base_address_sci + reg);
             break;
@@ -288,23 +300,27 @@ void set_reg_writeonly16(SCI_CONTROL_BLOCK *sci, BASE_ADDR base_address, ULONG r
         case BASE_ADDRESS_SYSCFG:
             reg_address = (ULONG)(sci->base_address_syscfg + reg);
             break;
-        case BASE_ADDRESS_PIO0:
+        /*case BASE_ADDRESS_PIO0:
             reg_address = (ULONG)(sci->base_address_pio0 + reg);
             break;
         case BASE_ADDRESS_PIO1:
             reg_address = (ULONG)(sci->base_address_pio1 + reg);
-            break;
-        case BASE_ADDRESS_PIO3:
+            break;*/
+        /*case BASE_ADDRESS_PIO3:
             reg_address = (ULONG)(sci->base_address_pio3 + reg);
             break;
         case BASE_ADDRESS_PIO4:
             reg_address = (ULONG)(sci->base_address_pio4 + reg);
-            break;
+            break;*/
         case BASE_ADDRESS_ASC0:
+            reg_address = (ULONG)(sci->base_address_asc + reg);
+            break;
         case BASE_ADDRESS_ASC1:
             reg_address = (ULONG)(sci->base_address_asc + reg);
             break;
         case BASE_ADDRESS_SCI0:
+            reg_address = (ULONG)(sci->base_address_sci + reg);
+            break;
         case BASE_ADDRESS_SCI1:
             reg_address = (ULONG)(sci->base_address_sci + reg);
             break;
@@ -407,7 +423,7 @@ void smartcard_reset(SCI_CONTROL_BLOCK *sci, unsigned char wait)
          stpio_set_pin(sci->reset, 0); 
          //mdelay(500);
 				 //change to non Busy-Waiting
-				 msleep(500);
+				 msleep(200);
 
 	/* VCC cmd high */
 	stpio_set_pin(sci->cmdvcc, 0);
@@ -423,7 +439,7 @@ void smartcard_reset(SCI_CONTROL_BLOCK *sci, unsigned char wait)
          stpio_set_pin(sci->reset, 0);
          //mdelay(500);
 				 //change to non Busy-Waiting
-				 msleep(500);
+				 msleep(200);
 
 	/* VCC cmd high */
 	stpio_set_pin(sci->cmdvcc, 0);
@@ -1349,24 +1365,20 @@ SCI_ERROR sci_init(void)
 
         if (i == 0)
         {
-            sci->base_address_pio0    = (ULONG)PIO0_BASE_ADDRESS;
             sci->base_address_asc     = (ULONG)ASC0_BASE_ADDRESS;
             sci->base_address_sci     = (ULONG)SCI0_BASE_ADDRESS;
-            sci->base_address_pio4    = (ULONG)PIO4_BASE_ADDRESS;
             sci->pio_port = 0;
 
-            set_reg(sci, BASE_ADDRESS_ASC0, ASC0_CTRL, 0x2787, 0x3FFF);
+	    set_reg(sci, BASE_ADDRESS_ASC0, ASC0_CTRL, 0x2787, 0x3FFF);
             set_reg(sci, BASE_ADDRESS_ASC0, ASC0_BAUDRATE, 0x28B, 0xFFFF);
             set_reg(sci, BASE_ADDRESS_ASC0, ASC0_GUARDTIME, GT_DEFAULT, 0x1FF);
         }
         else if (i == 1)
         {
-            sci->base_address_pio0    = (ULONG)PIO1_BASE_ADDRESS;
             sci->base_address_asc     = (ULONG)ASC1_BASE_ADDRESS;
             sci->base_address_sci     = (ULONG)SCI1_BASE_ADDRESS;
-            sci->base_address_pio4    = (ULONG)PIO3_BASE_ADDRESS;
             sci->pio_port = 1;
-            
+
             set_reg(sci, BASE_ADDRESS_ASC1, ASC1_CTRL, 0x2787, 0x3FFF);
             set_reg(sci, BASE_ADDRESS_ASC1, ASC1_BAUDRATE, 0x28B, 0xFFFF);
             set_reg(sci, BASE_ADDRESS_ASC1, ASC1_GUARDTIME, GT_DEFAULT, 0x1FF);
@@ -2146,7 +2158,7 @@ static int detect_ATR(SCI_CONTROL_BLOCK *sci)
 		rc = -1;
 	//mdelay(1100);
 	//change to non Busy-Waiting
-	msleep(1100);
+	msleep(200);
 
 	// Change the clock
 	if( (sci->read_buf[sci->rx_wptr]!=0x3B) && (sci->read_buf[sci->rx_wptr]!=0x3F) )
@@ -2154,10 +2166,11 @@ static int detect_ATR(SCI_CONTROL_BLOCK *sci)
 		memset(sci->read_buf, 0, SCI_BUFFER_SIZE);
 		smartcard_clock_config( sci, 625 );
                 
-		if(sci->id==0)
+		if(sci->id==0) {
 			set_reg(sci, BASE_ADDRESS_ASC0, ASC0_BAUDRATE, 0x271, 0xFFFF);
-		else if(sci->id==1)
+		} else if(sci->id==1) {
 			set_reg(sci, BASE_ADDRESS_ASC1, ASC1_BAUDRATE, 0x271, 0xFFFF);
+		}
 
 		sci->sci_parameters.ETU = 372;
 
@@ -2167,7 +2180,7 @@ static int detect_ATR(SCI_CONTROL_BLOCK *sci)
 			rc = -1;
 		//mdelay(750);
 		//change to non Busy-Waiting
-		msleep(750);
+		msleep(200);
 	}
 
 	return (rc);
@@ -2229,10 +2242,12 @@ int sci_ioctl(struct inode *inode,
 				if(sci_id==0)
 				{
 					set_reg(sci, BASE_ADDRESS_ASC0, ASC0_CTRL, PARITY_ODD, 0);
+					dprintk(1, "ioctl IOCTL_SET_RESET: invert\n");
 				}
 				else if(sci_id==1)
 				{
 					set_reg(sci, BASE_ADDRESS_ASC1, ASC1_CTRL, PARITY_ODD, 0);
+					dprintk(1, "ioctl IOCTL_SET_RESET: invert\n");
 				}
 			}
 			else if (sci->byte_invert==UNINVERT)
@@ -2240,10 +2255,12 @@ int sci_ioctl(struct inode *inode,
 				if(sci_id==0)
 				{
 					set_reg(sci, BASE_ADDRESS_ASC0, ASC0_CTRL, 0, PARITY_ODD);
+					dprintk(1, "ioctl IOCTL_SET_RESET: uninver\n");
 				}
 				else if(sci_id==1)
 				{
 					set_reg(sci, BASE_ADDRESS_ASC1, ASC1_CTRL, 0, PARITY_ODD);
+					dprintk(1, "ioctl IOCTL_SET_RESET: uninver\n");
 				}
 			}
 			if(rc || !sci->WWT)
