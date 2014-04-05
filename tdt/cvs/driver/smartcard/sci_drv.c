@@ -504,6 +504,7 @@ INT smartcard_voltage_config(SCI_CONTROL_BLOCK *sci, UINT vcc)
 
     if (sci->id == 0)
     {
+	#if 0
         if (vcc == SCI_VCC_3)
         {
             sci->sci_atr_class=SCI_CLASS_B;
@@ -533,9 +534,12 @@ INT smartcard_voltage_config(SCI_CONTROL_BLOCK *sci, UINT vcc)
 #endif
             return SCI_ERROR_VCC_INVALID;
         }
+	#endif
+	sci->sci_atr_class=SCI_CLASS_AB;
     }
     else if (sci->id == 1)
     {
+	#if 0
         if (vcc == SCI_VCC_3)
         {
 			sci->sci_atr_class=SCI_CLASS_B;
@@ -566,6 +570,8 @@ INT smartcard_voltage_config(SCI_CONTROL_BLOCK *sci, UINT vcc)
 #endif
             return SCI_ERROR_VCC_INVALID;
         }
+	#endif
+	sci->sci_atr_class=SCI_CLASS_AB;
     }
     else
     {
@@ -1977,7 +1983,7 @@ static ssize_t sci_read(struct file *file, char *buffer, size_t length, loff_t *
 		}
 		//mdelay(57);
 		//change to non Busy-Waiting
-		//msleep(57);
+		msleep(57);
 	}
 
 	if(sci->card_detect!=SCI_CARD_PRESENT)
@@ -1993,12 +1999,13 @@ static ssize_t sci_read(struct file *file, char *buffer, size_t length, loff_t *
 			do{
 				//mdelay(10);
 				//change to non Busy-Waiting
-				//msleep(10);
+				msleep(10);
 				cnt_tmp++;
 				real_num_bytes=sci->rx_rptr - sci->rx_wptr;
 			}while ( (real_num_bytes<length) && (cnt_tmp<100) );	/* Wait a second */
 		}
 	}
+
 
 	if (real_num_bytes>length)
 		real_num_bytes=length;
@@ -2015,7 +2022,7 @@ static ssize_t sci_read(struct file *file, char *buffer, size_t length, loff_t *
 		sci->rx_rptr=0;
 		//mdelay(3);   /*Hellmaster1024: on Atevio we seem to have some timing probs without that delay */
 		//change to non Busy-Waiting
-		msleep(3);
+		//msleep(3);
 
 	}
 	return (ssize_t) real_num_bytes;

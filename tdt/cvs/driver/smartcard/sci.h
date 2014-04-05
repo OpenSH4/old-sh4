@@ -72,12 +72,12 @@
 
 #define SCI_UNKNOWN_CLASS			0           /**  */
 
-#define SCI_CLASS_A                 1           /**< Not used: only 5V Vcc to SC */
-#define SCI_CLASS_B                 2           /**< Not used: only 3V Vcc to SC */
-#define SCI_CLASS_AB                3           /**< Not used: 5V or 3V Vcc to SC */
+#define SCI_CLASS_A                 1    //1       /**< Not used: only 5V Vcc to SC */
+#define SCI_CLASS_B                 2    //2       /**< Not used: only 3V Vcc to SC */
+#define SCI_CLASS_AB                3    //3       /**< Not used: 5V or 3V Vcc to SC */ <-use only this
 
-#define SCI_VCC_3                   3           /**< 3V to SC */
-#define SCI_VCC_5                   5           /**< 3V to SC */
+#define SCI_VCC_3                   3  //3          /**< 3V to SC */
+#define SCI_VCC_5                   5  //5         /**< 3V to SC */
 
 #define SCI_PROC_FILENAME           "sc"
 
@@ -292,7 +292,7 @@ typedef struct
 } SCI_PARAMETERS;
 
 /**************************************/
-#define	HW_FIFO_SIZE			16
+#define	HW_FIFO_SIZE			16 // 16
 /* Used in exclusive mode */
 #define	RX_FULL_IRQ			0x01
 #define	TX_EMPTY_IRQ			0x02
