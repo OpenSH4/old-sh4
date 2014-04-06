@@ -83,14 +83,15 @@ struct stpio_pin*	module_pin[2];
 #endif
 
 /* konfetti: EMI ************************* */
-unsigned long reg_config = 0;
-unsigned long reg_buffer = 0;
+//unsigned long reg_config = 0;
+//unsigned long reg_buffer = 0;
 #if defined(TF7700)
 static unsigned short *slot_membase[2];
 #elif defined(FORTIS_HDBOX) || defined(OCTAGON1008)
 static unsigned char *slot_membase[2];
 #elif defined(HL101) || defined(VIP1_V2) || defined(CLASSIC)
 static unsigned long reg_ci_base;
+#define ARGUS_CI_BASE 0xa2c00000 /*0xa2c00000*/
 #else
 unsigned long reg_bank3 = 0;
 unsigned long reg_bank4 = 0;
@@ -125,10 +126,11 @@ unsigned long reg_bank4 = 0;
 #define EMI_DATA2_BEE1_WRITE(a)		(a<<4)
 #define EMI_DATA2_BEE2_WRITE(a)		(a<<0)
 
-#define EMIConfigBaseAddress 0x1A100000
+//#define EMIConfigBaseAddress 0x1A100000
 
-#define EMIBufferBaseAddress 0x1A100800
+//#define EMIBufferBaseAddress 0x1A100200
 
+#if 0
 #define EMIBank0 0x100
 #define EMIBank1 0x140
 #define EMIBank2 0x180
@@ -153,6 +155,7 @@ unsigned long reg_bank4 = 0;
 /* ConfigBase */
 #define EMI_STA_CFG	0x0010
 #define EMI_STA_LCK 	0x0018
+#endif
 #define EMI_LCK 	0x0020
 /* general purpose config register
  * 32Bit, R/W, reset=0x00
@@ -173,7 +176,7 @@ unsigned long reg_bank4 = 0;
 #define EMI_CFG_DATA2	0x0010
 #define EMI_CFG_DATA3	0x0018
 
-
+#if 0
 /* **************************** */
 /* EMIBufferBaseAddress + Offset*/
 /* **************************** */
@@ -196,6 +199,7 @@ unsigned long reg_bank4 = 0;
  * Enable/Disable the banks
  */
 #define EMIB_BANK_EN 	0x0060
+#endif
 
 static struct cimax_core ci_core;
 static struct cimax_state ci_state;
@@ -823,14 +827,12 @@ static int cimax_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
 	{
 	   /* das read back der register ist gleichzeitig unser sleep! */	
 	   int result = cimax_readreg(state, 0x00);
-	   
-#if !defined(FORTIS_HDBOX) && !defined(OCTAGON1008)
-	   cimax_writereg(state, 0x00, 0x23);
-	   
-	   printk("%s: writing 0x%x\n", __func__, 0x23);
-#elif !defined(OCTAGON1008)
-	   cimax_writereg(state, 0x00, result | 0x20);
-#else
+
+/* FIXME: diese Funktions beim write auf 0x20, 0x21, 0x23 Crasht das Bild 
+	  wenn das CI Modul Steckt, ist das deaktiviert wird das Modul und 
+          Karte erkannt, hab aber kein Kanal freigeschalten bekommen.
+	  Bitte Testen und FIXEN auf koreckte Adresse, so ist Bildcrash FIXED */
+#if 0
 	   cimax_writereg(state, 0x00, result | 0x21);
 #endif
 	   
@@ -849,12 +851,11 @@ static int cimax_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
 	{
 	   int result = cimax_readreg(state, 0x09);
 
-#if !defined(FORTIS_HDBOX) && !defined(OCTAGON1008)
-	   cimax_writereg(state, 0x09, 0x23);
-	   printk("%s: writing 0x%x\n", __func__, 0x23);
-#elif !defined(OCTAGON1008)
-	   cimax_writereg(state, 0x09, result | 0x20);
-#else
+/* FIXME: diese Funktions beim write auf 0x20, 0x21, 0x23 Crasht das Bild 
+	  wenn das CI Modul Steckt, ist das deaktiviert wird das Modul und 
+          Karte erkannt, hab aber kein Kanal freigeschalten bekommen.
+	  Bitte Testen und FIXEN auf koreckte Adresse, so ist Bildcrash FIXED */
+#if 0
 	   cimax_writereg(state, 0x09, result | 0x21);
 #endif
 
@@ -917,11 +918,11 @@ int init_ci_controller(struct dvb_adapter* dvb_adap)
     state->module_status[0] = SLOTSTATUS_NONE;
     state->module_status[1] = SLOTSTATUS_NONE;
 
-	reg_config = (unsigned long) ioremap(EMIConfigBaseAddress, 0x7ff);
-	reg_buffer = (unsigned long) ioremap(EMIBufferBaseAddress, 0x40);
+	//reg_config = (unsigned long) ioremap(EMIConfigBaseAddress, 0x100);
+	//reg_buffer = (unsigned long) ioremap(EMIBufferBaseAddress, 0x40);
 
-	dprintk (KERN_ERR "ioremap 0x%.8x -> 0x%.8lx\n", EMIConfigBaseAddress, reg_config);	
-	dprintk (KERN_ERR "ioremap 0x%.8x -> 0x%.8lx\n", EMIBufferBaseAddress, reg_buffer);	
+	//dprintk (KERN_ERR "ioremap 0x%.8x -> 0x%.8lx\n", EMIConfigBaseAddress, reg_config);	
+	//dprintk (KERN_ERR "ioremap 0x%.8x -> 0x%.8lx\n", EMIBufferBaseAddress, reg_buffer);	
 
 #if defined(FORTIS_HDBOX) || defined(OCTAGON1008)
 
@@ -1036,7 +1037,7 @@ int init_ci_controller(struct dvb_adapter* dvb_adap)
 	cimax_writereg(state, 0x1d, 0x00);
 
 	/* Auto select mask high external  */
-	cimax_writereg(state, 0x12, 0x00);
+	//cimax_writereg(state, 0x12, 0x00);
 #endif
 
 	/* Auto select mask high module a */
@@ -1101,8 +1102,8 @@ int init_ci_controller(struct dvb_adapter* dvb_adap)
 	cimax_writereg(state, 0x18, 0x01);
 #endif
 
-	ctrl_outl(0x0, reg_config + EMI_LCK);
-	ctrl_outl(0x0, reg_config + EMI_GEN_CFG);
+	//ctrl_outl(0x0, reg_config + EMI_LCK);
+	//ctrl_outl(0x0, reg_config + EMI_GEN_CFG);
 #if defined(TF7700)
 	ctrl_outl(	EMI_DATA0_WE_USE_OE(0x0) 	|
 			EMI_DATA0_WAIT_POL(0x0)		|
@@ -1162,7 +1163,7 @@ int init_ci_controller(struct dvb_adapter* dvb_adap)
 
 	ctrl_outl(0x2, reg_config + EMI_FLASH_CLK_SEL);
 #endif
-	ctrl_outl(0x1, reg_config + EMI_CLK_EN);
+	//ctrl_outl(0x1, reg_config + EMI_CLK_EN);
 
 #if defined(TF7700)  || defined(FORTIS_HDBOX) || defined(OCTAGON1008)
 
@@ -1200,7 +1201,7 @@ int init_ci_controller(struct dvb_adapter* dvb_adap)
  * For now I know the mapped address and use it directly.
  */
  #if defined(HL101) || defined(VIP1_V2) || defined(CLASSIC)
-	reg_ci_base = (unsigned long) 0xa2c00000;
+	reg_ci_base = (unsigned long) ARGUS_CI_BASE;
  #else
 	reg_bank4 = (unsigned long) 0xa3000000;
  #endif
@@ -1210,7 +1211,7 @@ int init_ci_controller(struct dvb_adapter* dvb_adap)
 
 #endif
 
-	ctrl_outl(0x1F,reg_config + EMI_LCK);
+	//ctrl_outl(0x1F,reg_config + EMI_LCK);
 
 	dprintk("init_cimax: call dvb_ca_en50221_init\n");
 
