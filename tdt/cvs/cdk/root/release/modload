@@ -115,7 +115,7 @@ elif [ "$1" = "Stmfb-firmware" ]; then
        MODE=`cat /etc/enigma2/settings | grep Scart`
        if [ "$MODE" = "config.av.videoport=Scart" ]; then
 		echo "Scart Ausgang Aktviert"
-       		modprobe stmfb.ko display0=720x576-32@60:12m:3m:pal:yuv:yuv;
+       		modprobe stmfb.ko display0=720x576-32@60:12m:pal:yuv:yuv;
        else
 		echo "HDMI Ausgang Aktviert"
        		modprobe stmfb.ko display0=1280x720-32@60:12m:pal:yuv:yuv
@@ -302,11 +302,11 @@ elif [ "$1" = "Smartcard" ]; then
 	echo "no Smartcard Aktiv"
     else
 	if [ "$BOXTYPE" = "vip1" ]; then
-       		modprobe smartcard.ko debug=100
+	       	modprobe smartcard boxtype=vip1
 	elif [ "$BOXTYPE" = "vip1v2" ]; then
-       		modprobe smartcard.ko debug=100
+	       	modprobe smartcard boxtype=vip1
 	else
-       		modprobe smartcard-vip2.ko debug=100
+       		modprobe smartcard boxtype=vip2
 	fi
     fi
 elif [ "$1" = "Cec" ]; then
