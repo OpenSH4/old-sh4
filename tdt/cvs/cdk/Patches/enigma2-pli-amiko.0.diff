@@ -22,7 +22,21 @@ diff -Nur '--exclude=.git' '--exclude=tuxtxt' enigma2-nightly.org/lib/driver/vfd
  
  evfd* evfd::instance = NULL;
  
-@@ -86,46 +85,9 @@
+@@ -62,13 +61,6 @@
+ 	file_vfd = 0;
+ 	memset ( chars, ' ', 63 );
+ 	vfd_type=8;
+-	FILE *vfd_proc = fopen ("/proc/aotom/display_type", "r");
+-	if (vfd_proc)
+-	{	char buf[2];
+-		fread(&buf,sizeof(buf),1,vfd_proc);
+-		vfd_type=atoi(&buf[0]);
+-		fclose (vfd_proc);	    
+-	}
+ }
+ 
+ void evfd::init()
+@@ -86,47 +78,11 @@
  {
  	evfd vfd;
  	blocked = true;
@@ -70,9 +84,11 @@ diff -Nur '--exclude=.git' '--exclude=tuxtxt' enigma2-nightly.org/lib/driver/vfd
 +	vfd.vfd_set_brightness(7);
 +	vfd.vfd_on_all(1);
  	blocked = false;
++        vfd.vfd_set_icon( (tvfd_icon) 41, ICON_OFF, true);
  	return NULL;
  }
-@@ -193,60 +155,40 @@
+ 
+@@ -193,60 +149,40 @@
  
  void evfd::vfd_set_icon(tvfd_icon id, bool onoff)
  {
@@ -136,7 +152,7 @@ diff -Nur '--exclude=.git' '--exclude=tuxtxt' enigma2-nightly.org/lib/driver/vfd
  	struct vfd_ioctl_data data;
  
  	memset(&data, 0, sizeof(struct vfd_ioctl_data));
-@@ -257,7 +199,6 @@
+@@ -257,7 +193,6 @@
  	file_vfd = open (VFD_DEVICE, O_WRONLY);
  	ioctl ( file_vfd, VFDBRIGHTNESS, &data );
  	close (file_vfd);
@@ -144,7 +160,7 @@ diff -Nur '--exclude=.git' '--exclude=tuxtxt' enigma2-nightly.org/lib/driver/vfd
      return;
  }
  
-@@ -280,6 +221,25 @@
+@@ -280,6 +215,25 @@
  	return;
  }
  
@@ -194,4 +210,59 @@ diff -Nur '--exclude=.git' '--exclude=tuxtxt' enigma2-nightly.org/lib/dvb/pmt.cp
  			eDVBTSTools tstools;
  			bool b = source || !tstools.openFile(ref.path.c_str(), 1);
 
-
+--- enigma2-nightly.org/lib/dvb/demux.cpp	2013-11-08 13:29:06.309052000 +0100
++++ enigma2-nightly.patched/lib/dvb/demux.cpp	2014-04-17 14:06:46.338085000 +0200
+@@ -19,11 +19,11 @@
+ 	unsigned int megabytes = si.totalram >> 20;
+ 	int result;
+ 	if (megabytes > 200)
+-		result = 20; // 512MB systems: Use 4MB IO buffers (et9x00, vuultimo, ...)
++		result = 16; // old 20 , 512MB systems: Use 4MB IO buffers (et9x00, vuultimo, ...)
+ 	else if (megabytes > 100)
+-		result = 16; // 256MB systems: Use 3MB demux buffers (dm8000, et5x00, vuduo)
++		result = 16; // old 16, 256MB systems: Use 3MB demux buffers (dm8000, et5x00, vuduo, Argus)
+ 	else
+-		result = 8; // Smaller boxes: Use 1.5MB buffer (dm7025)
++		result = 16; // Smaller boxes: Use 1.5MB buffer (dm7025)
+ 	return result;
+ }
+ 
+@@ -251,7 +251,7 @@
+ 	memcpy(sct.filter.filter, mask.data, DMX_FILTER_SIZE);
+ 	memcpy(sct.filter.mask, mask.mask, DMX_FILTER_SIZE);
+ 	memcpy(sct.filter.mode, mask.mode, DMX_FILTER_SIZE);
+-	setBufferSize(8192*8);
++	setBufferSize(8192*6); // *8 = 65536
+ 
+ 	res = ::ioctl(fd, DMX_SET_FILTER, &sct);
+ 	if (!res)
+@@ -283,9 +283,9 @@
+ {
+ 	while (1)
+ 	{
+-		__u8 buffer[16384];
++		__u8 buffer[16384]; //16384
+ 		int r;
+-		r = ::read(m_fd, buffer, 16384);
++		r = ::read(m_fd, buffer, 16384); // 16384
+ 		if (!r)
+ 			return;
+ 		if(r < 0)
+@@ -300,7 +300,7 @@
+ 			m_read(buffer, r);
+ 		else
+ 			eWarning("PES reader not active");
+-		if (r != 16384)
++		if (r != 16384) // 16384
+ 			break;
+ 	}
+ }
+@@ -310,7 +310,7 @@
+ 	m_fd = m_demux->openDemux();
+ 	if (m_fd >= 0)
+ 	{
+-		setBufferSize(64*1024);
++		setBufferSize(48*1024); // 64*1024
+ 		::fcntl(m_fd, F_SETFL, O_NONBLOCK);
+ 		m_notifier = eSocketNotifier::create(context, m_fd, eSocketNotifier::Read, false);
+ 		CONNECT(m_notifier->activated, eDVBPESReader::data);
