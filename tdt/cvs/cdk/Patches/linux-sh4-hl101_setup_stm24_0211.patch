@@ -253,3 +253,23 @@
  
  
  struct stx7100_lirc_config {
+--- linux-sh4-2.6.32.28_stm24_0211/drivers/stm/stx7100_clock.c	2014-04-18 14:12:31.000000000 +0200
++++ linux-sh4/drivers/stm/stx7100_clock-org.c	2014-04-21 17:21:34.589712000 +0200
+@@ -21,13 +21,14 @@
+ 	/* alias not required because already registered as "emi_clk" */
+ 
+ 	/* fdmas clocks */
+-	clk_add_alias("fdma_slim_clk", NULL, "slim_clk", NULL);
++	clk_add_alias("fdma_slim_clk", NULL, "ic_100_clk"/*"slim_clk"*/, NULL);
+ 	clk_add_alias("fdma_hi_clk", NULL, "ic_100_clk",  NULL);
+ 	clk_add_alias("fdma_low_clk", NULL, "ic_clk", NULL);
+ 	clk_add_alias("fdma_ic_clk", NULL, "ic_100_clk", NULL);
+ 
+-	/* USB clocks */
+-	clk_add_alias("usb_ic_clk", NULL, "ic_100_clk", NULL);
++	/* USB clocks to 200mhz*/
++	clk_add_alias("usb_ic_clk", NULL, "ic_clk", NULL); 
++
+ 	/* usb_phy_clk generated internally to the wrapped system PLL */
+ 	/* usb_48_clk generated internally to the wrapped system PLL */
+ 
