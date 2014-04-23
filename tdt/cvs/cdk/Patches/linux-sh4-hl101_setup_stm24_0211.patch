@@ -88,7 +88,7 @@
 + 	},
 + 	{
 + 		.name = "NAND-END (RO)",
-+ 		.size =   0x007B0000, // 1.1 MB, End of Nand RO im Bootloader Makiert !!!
++ 		.size =   0x00110000, // 1.1 MB, End of Nand RO im Bootloader Makiert !!!
 + 		.offset = 0x006F0000, // Es gibt noch End Marker die ich hier bewust weglasse
 + 	},			
 +};
