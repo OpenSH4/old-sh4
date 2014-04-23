@@ -71,7 +71,7 @@
 +  A0730000 E RO   A0740000 E RO   A0750000 E RO   A0760000 E RO   A0770000 E RO 
 +  A0780000 E RO   A0790000 E RO   A07A0000 E RO   A07B0000 E RO   A07C0000      
 +  A07D0000        A07E0000        A07F0000 E      A07F2000 E      A07F4000 E    
-+  A07F6000 E      A07F8000 E      A07FA000 E      A07FC000 E      A07FE000 E    
++  A07F6000 E      A07F8000 E      A07FA000 E      A07FC000 E      A07FE000 E  */  
 +/* NAND Partitionen */
 +static struct mtd_partition mtd_parts_table[3] =
 +{
