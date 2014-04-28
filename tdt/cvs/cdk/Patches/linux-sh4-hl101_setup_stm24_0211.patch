@@ -72,9 +72,9 @@
 +  A0730000 E RO   A0740000 E RO   A0750000 E RO   A0760000 E RO   A0770000 E RO 
 +  A0780000 E RO   A0790000 E RO   A07A0000 E RO   A07B0000 E RO   A07C0000      
 +  A07D0000        A07E0000        A07F0000 E      A07F2000 E      A07F4000 E    
-+  A07F6000 E      A07F8000 E      A07FA000 E      A07FC000 E      A07FE000 E    
++  A07F6000 E      A07F8000 E      A07FA000 E      A07FC000 E      A07FE000 E   */ 
 +/* NAND Partitionen */
-+static struct mtd_partition mtd_parts_table[3] =
++static struct mtd_partition mtd_parts_table[4] =
 +{
 + 	{
 + 		.name = "Bootloader (Nicht löschen oder beschreiben)",
@@ -83,14 +83,14 @@
 + 		mask_flags: 0
 + 	},
 + 	{
-+ 		.name = "jffs2 (RW)",	// jffs2 Partition mit 5.9MB Free NAND Memory
-+ 		.size =   0x005E0000,	// Devices : /dev/mtd1 & /dev/mtdblock1 (Maximum)
++ 		.name = "jffs2 (RW)",	// jffs2 Partition mit 6.4MB Free NAND Memory
++ 		.size =   0x00660000,	// Devices : /dev/mtd1 & /dev/mtdblock1 (Maximum)
 + 		.offset = 0x00040000,	// Mehr Infos mit "cat /proc/mtd" und "cat /usr/class/mtd/..."
 + 	},
 + 	{
 + 		.name = "NAND-END (Nicht löschen oder beschreiben)",
-+ 		.size =   0x007B0000, // 1.1 MB, End of Nand RO im Bootloader Makiert !!!
-+ 		.offset = 0x006F0000, // Es gibt noch End Marker die ich hier bewust weglasse
++ 		.size =   0x00100000, // 1.1 MB, End of Nand RO im Bootloader Makiert !!!
++ 		.offset = 0x00700000, // Es gibt noch End Marker die ich hier bewust weglasse
 + 	},	
 + 	{
 + 		.name = "Kompletter Nand Flash (RW) - Loeschen ohne neue Firmware - JTAG noetig",
