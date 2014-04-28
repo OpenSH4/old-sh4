@@ -1,6 +1,6 @@
 *** linux-sh4/arch/sh/boards/mach-mb442/setup.c	2013-12-09 11:11:32.685239367 +0100
---- linux-sh4-2.6.32.28_stm24_0211_orig/arch/sh/boards/mach-mb442/setup.c	2013-12-14 13:06:17.000000000 +0100
-@@ -19,32 +19,114 @@
+--- linux-sh4-2.6.32.28_stm24_0207_orig/arch/sh/boards/mach-mb442/setup.c	2013-12-14 13:06:17.000000000 +0100
+@@ -19,32 +19,119 @@
  #include <linux/spi/spi.h>
  #include <linux/mtd/mtd.h>
  #include <linux/mtd/physmap.h>
@@ -19,6 +19,7 @@
 -#define MB442_PIO_STE100P_RESET stm_gpio(2, 4)
 -#define MB442_PIO_SMC91X_RESET stm_gpio(2, 6)
 -#define MB442_PIO_FLASH_VPP stm_gpio(2, 7)
+-
 -
 -
 +/* Memory Map */
@@ -71,28 +72,33 @@
 +  A0730000 E RO   A0740000 E RO   A0750000 E RO   A0760000 E RO   A0770000 E RO 
 +  A0780000 E RO   A0790000 E RO   A07A0000 E RO   A07B0000 E RO   A07C0000      
 +  A07D0000        A07E0000        A07F0000 E      A07F2000 E      A07F4000 E    
-+  A07F6000 E      A07F8000 E      A07FA000 E      A07FC000 E      A07FE000 E  */  
++  A07F6000 E      A07F8000 E      A07FA000 E      A07FC000 E      A07FE000 E    
 +/* NAND Partitionen */
 +static struct mtd_partition mtd_parts_table[3] =
 +{
 + 	{
-+ 		.name = "Boot (RO)",
++ 		.name = "Bootloader (Nicht löschen oder beschreiben)",
 + 		.size =   0x00040000,	//u-boot 0x00000000-0xa005ffff (don't touch) 256k
 + 		.offset = 0x00000000,
 + 		mask_flags: 0
 + 	},
 + 	{
-+ 		.name = "jffs2 (RW)",	// jffs2 Partition mit 6.4MB Free NAND Memory
-+ 		.size =   0x00660000,	// Devices : /dev/mtd1 & /dev/mtdblock1 (Maximum)
++ 		.name = "jffs2 (RW)",	// jffs2 Partition mit 5.9MB Free NAND Memory
++ 		.size =   0x005E0000,	// Devices : /dev/mtd1 & /dev/mtdblock1 (Maximum)
 + 		.offset = 0x00040000,	// Mehr Infos mit "cat /proc/mtd" und "cat /usr/class/mtd/..."
 + 	},
 + 	{
-+ 		.name = "NAND-END (RO)",
-+ 		.size =   0x00100000, // 1.0 MB, End of Nand RO im Bootloader Makiert !!!
-+ 		.offset = 0x00700000, // Es gibt noch End Marker die ich hier bewust weglasse
-+ 	},			
-+};
- 
++ 		.name = "NAND-END (Nicht löschen oder beschreiben)",
++ 		.size =   0x007B0000, // 1.1 MB, End of Nand RO im Bootloader Makiert !!!
++ 		.offset = 0x006F0000, // Es gibt noch End Marker die ich hier bewust weglasse
++ 	},	
++ 	{
++ 		.name = "Kompletter Nand Flash (RW) - Loeschen ohne neue Firmware - JTAG noetig",
++ 		.size =   0x00000000,	// nur fuer die Benutzung eines komplett
++ 		.offset = 0x00800000,	// Flash mit ILTV benutzen, nicht fuer E2, 
++ 	},				// das Loeschen ohne Flashen neuer passender
++};					// Firmware Toetet eure Box und kann NUR mit jtag
++					// rueckgaengig gemacht werden
 +/* Consolen und Memory Map Init */
  void __init mb442_setup(char** cmdline_p)
  {
@@ -123,7 +129,7 @@
  static struct resource mb442_smc91x_resources[] = {
  	[0] = {
  		.start	= 0x02000300,
-@@ -65,25 +147,38 @@
+@@ -65,25 +152,38 @@
  	.resource	= mb442_smc91x_resources,
  };
  
@@ -176,7 +182,7 @@
  static int mb442_phy_reset(void* bus)
  {
  	gpio_set_value(MB442_PIO_STE100P_RESET, 1);
-@@ -95,7 +190,8 @@
+@@ -95,7 +195,8 @@
  	return 1;
  }
  
@@ -186,7 +192,7 @@
  static int stmmac_phy_irqs[PHY_MAX_ADDR] = {
  	[STMMAC_PHY_ADDR] = IRL3_IRQ,
  };
-@@ -106,38 +202,37 @@
+@@ -106,38 +207,37 @@
  	.irqs = stmmac_phy_irqs,
  };
  
@@ -238,7 +244,7 @@
  	gpio_request(MB442_PIO_STE100P_RESET, "STE100P reset");
  	gpio_direction_output(MB442_PIO_STE100P_RESET, 1);
  
-@@ -149,14 +244,6 @@
+@@ -149,14 +249,6 @@
  			.mdio_bus_data = &stmmac_mdio_bus,
  		});
  
@@ -253,9 +259,22 @@
  	return platform_add_devices(mb442_devices,
  			ARRAY_SIZE(mb442_devices));
  }
-*** linux-sh4/drivers/stm/stx7100_comms.c	2013-12-14 13:47:08.887145002 +0100
---- linux-sh4-2.6.32.28_stm24_0211_orig/drivers/stm/stx7100_comms.c	2013-12-14 13:06:18.000000000 +0100
-@@ -226,12 +226,10 @@
+
+*** linux-sh4-2.6.32.28_stm24_0211_orig/drivers/stm/stx7100_comms.c	2013-12-14 13:47:08.887145002 +0100
+--- linux-sh4/drivers/stm/stx7100_comms.c	2013-12-14 13:06:18.000000000 +0100
+@@ -64,6 +64,11 @@
+ 			STM_PAD_PIO_IN_NAMED(5, 2, -1, "CTS"),
+ 			STM_PAD_PIO_OUT_NAMED(5, 3, 1, "RTS"),
+ 		},
++		.sysconfs_num = 1,
++		.sysconfs = (struct stm_pad_sysconf []) {
++			/* SCIF_PIO_OUT_EN = 0 */
++			STM_PAD_SYS_CFG(7, 1, 1, 0), //cec
++		},
+ 	},
+ };
+ 
+@@ -226,12 +231,10 @@
  			STM_PAD_PIO_BIDIR_NAMED(2, 0, 1, "SCL"),
  			STM_PAD_PIO_BIDIR_NAMED(2, 1, 1, "SDA"),
  		},
@@ -269,7 +288,7 @@
  		},
  	},
  	[1] = {
-@@ -334,8 +332,7 @@
+@@ -334,8 +337,7 @@
  
  static int __initdata stx7100_ssc_configured[ARRAY_SIZE(stx7100_ssc_devices)];
  
@@ -279,7 +298,7 @@
  {
  	static int i2c_busnum;
  	struct stm_plat_ssc_data *plat_data;
-@@ -345,13 +342,11 @@
+@@ -345,13 +347,11 @@
  	BUG_ON(stx7100_ssc_configured[ssc]);
  	stx7100_ssc_configured[ssc] = 1;
  
@@ -295,8 +314,8 @@
  	/* I2C bus number reservation (to prevent any hot-plug device
  	 * from using it) */
 
-*** linux-sh4/drivers/net/phy/phy_device.c	2011-08-04 16:27:16.440157990 +0300
---- linux-sh4-2.6.32.28_stm24_0211_orig/drivers/net/phy/phy_device.c	2011-08-05 17:35:37.308158605 +0300
+*** linux-sh4-2.6.32.28_stm24_0211_orig/drivers/net/phy/phy_device.c	2011-08-04 16:27:16.440157990 +0300
+--- linux-sh4/drivers/net/phy/phy_device.c	2011-08-05 17:35:37.308158605 +0300
 ***************
 *** 962,968 ****
   		return retval;
@@ -314,8 +333,8 @@
   
   	return 0;
   }
-*** linux-sh4/drivers/net/stmmac/stmmac_mdio.c	2011-08-04 16:27:14.747157990 +0300
---- linux-sh4-2.6.32.28_stm24_0211_orig/drivers/net/stmmac/stmmac_mdio.c	2011-08-05 17:35:30.704158605 +0300
+*** linux-sh4-2.6.32.28_stm24_0211_orig/drivers/net/stmmac/stmmac_mdio.c	2011-08-04 16:27:14.747157990 +0300
+--- linux-sh4/drivers/net/stmmac/stmmac_mdio.c	2011-08-05 17:35:30.704158605 +0300
 ***************
 *** 191,198 ****
   			 * and no PHY number was provided to the MAC,
@@ -341,43 +360,3 @@
   				priv->plat->phy_addr = addr;
   
   			act = (priv->plat->bus_id == mdio_bus_data->bus_id) &&
---- linux-sh4-2.6.32.28_stm24_0211/include/linux/stm/stx7100.h	2013-03-12 23:25:38.664652895 +0100
-*** linux-sh4/include/linux/stm/stx7100.h	2013-03-09 16:58:47.000000000 +0100
-@@ -35,15 +35,12 @@
- void stx7100_configure_asc(int asc, struct stx7100_asc_config *config);
- 
- 
--struct stx7100_ssc_i2c_config {
--	unsigned int fastmode:1;
--};
- struct stx7100_ssc_spi_config {
- 	void (*chipselect)(struct spi_device *spi, int is_on);
- };
- /* SSC configure functions return I2C/SPI bus number */
--int stx7100_configure_ssc_i2c(int ssc, struct stx7100_ssc_i2c_config *config);
--int stx7100_configure_ssc_spi(int ssc, struct stx7100_ssc_spi_config *config);
-+int stx7100_configure_ssc_i2c(int ssc);
-+int stx7100_configure_ssc_spi(int ssc, struct stx7100_ssc_spi_config *config);
- 
- 
- struct stx7100_lirc_config {
---- linux-sh4-2.6.32.28_stm24_0211/drivers/stm/stx7100_clock.c	2014-04-18 14:12:31.000000000 +0200
-+++ linux-sh4/drivers/stm/stx7100_clock-org.c	2014-04-21 17:21:34.589712000 +0200
-@@ -21,13 +21,14 @@
- 	/* alias not required because already registered as "emi_clk" */
- 
- 	/* fdmas clocks */
--	clk_add_alias("fdma_slim_clk", NULL, "slim_clk", NULL);
-+	clk_add_alias("fdma_slim_clk", NULL, "ic_100_clk"/*"slim_clk"*/, NULL);
- 	clk_add_alias("fdma_hi_clk", NULL, "ic_100_clk",  NULL);
- 	clk_add_alias("fdma_low_clk", NULL, "ic_clk", NULL);
- 	clk_add_alias("fdma_ic_clk", NULL, "ic_100_clk", NULL);
- 
--	/* USB clocks */
--	clk_add_alias("usb_ic_clk", NULL, "ic_100_clk", NULL);
-+	/* USB clocks to 200mhz*/
-+	clk_add_alias("usb_ic_clk", NULL, "ic_clk", NULL); 
-+
- 	/* usb_phy_clk generated internally to the wrapped system PLL */
- 	/* usb_48_clk generated internally to the wrapped system PLL */
- 
