@@ -93,8 +93,8 @@
 + 	},		
 + 	{
 + 		.name = "Kompletter Nand Flash (RW) - Loeschen ohne neue Firmware - JTAG noetig",
-+ 		.size =   0x00000000,	// nur fuer die Benutzung eines komplett
-+ 		.offset = 0x00800000,	// Flash mit ILTV benutzen, nicht fuer E2, 
++ 		.size =   0x00800000,	// nur fuer die Benutzung eines komplett
++ 		.offset = 0x00000000,	// Flash mit ILTV benutzen, nicht fuer E2, 
 + 	},				// das Loeschen ohne Flashen neuer passender
 +};					// Firmware Toetet eure Box und kann NUR mit jtag
 +					// rueckgaengig gemacht werden
