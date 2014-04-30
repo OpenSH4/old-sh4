@@ -924,6 +924,7 @@ class SYSTEM(Screen):
 		list.append((getConfigListEntry(_("Online Update"), "ONLINE", "UPDATE", "46")))
 		list.append((getConfigListEntry(_("Image Version Infomation"), "IMG", "IMGVER", "46")))
 		list.append((getConfigListEntry(_("Letztes FSCK Log Anzeigen"), "FSCK", "LOG", "46")))
+		list.append((getConfigListEntry(_("Nand Speicher Menu"), "NAND", "NANDFS", "46")))
 		
 		Screen.__init__(self, session)
 		self["SYSTEM"] = MenuList(list)
@@ -947,6 +948,9 @@ class SYSTEM(Screen):
 			elif selection[1] == "free":
 				self.prombt("free")
 
+			elif selection[1] == "NAND":
+				self.session.open(NANDMENU)
+
 			elif selection[1] == "ONLINE":
 				self.prombt("/var/config/updatecheck.sh")
 				
@@ -965,6 +969,108 @@ class SYSTEM(Screen):
 		
 	def cancel(self):
 		print "\n[SYSTEM] cancel\n"
+		self.close(None)
+###########################################################################
+
+class NANDMENU(Screen):
+	skin = """
+		<screen position="center,center" size="460,400" title="Nand Menu" >
+			<widget name="NANDMENU" position="10,10" size="420,380" scrollbarMode="showOnDemand" />
+		</screen>"""
+
+	def __init__(self, session):
+		Screen.__init__(self, session)
+		
+		list = []
+		list.append((getConfigListEntry(_("Nand fur Enigma2 verwenden"), "NE2", "NE2", "46")))
+		list.append((getConfigListEntry(_("Nand Backup wieder zurck Spielen"), "NBACK", "NBACK", "46")))
+		list.append((getConfigListEntry(_("Komplett Nand Flash ILTV Vip1,Vip1v2"), "NFV1", "NFV1", "46")))
+		list.append((getConfigListEntry(_("Komplett Nand Flash ILTV Vip2"), "NFV2", "NFV2", "46")))
+		list.append((getConfigListEntry(_("Komplett Nand Flash ILTV Opticum"), "NFVO", "NFVO", "46")))
+		
+		Screen.__init__(self, session)
+		self["NANDMENU"] = MenuList(list)
+		self["myActionMap"] = ActionMap(["SetupActions"],
+
+		{
+			"ok": self.go,
+			"cancel": self.cancel
+		}, -1)
+
+	def go(self):
+		print "okbuttonClick"
+		selection = self["NANDMENU"].getCurrent()
+		
+		if selection is not None:
+			if selection[1] == "NE2":
+				self.prombt("/var/config/system/mtd/mtd1-jffs2.sh")
+					
+			elif selection[1] == "NBACK":
+				self.prombt("/var/config/system/mtd/mtd1-jffs2-backup.sh")
+
+			elif selection[1] == "NFV1":
+				self.prombt("/var/config/system/mtd/mtd3-vip1.sh")
+
+			elif selection[1] == "NFV2":
+				self.prombt("/var/config/system/mtd/mtd3-vip2.sh")
+				
+			elif selection[1] == "NFVO":
+				self.session.open(OPTI)
+		
+			else:
+				print "\n[NANDMENU] cancel\n"
+				self.close(None)
+
+	def prombt(self, com):
+		self.session.open(Console,_("Nand: %s") % (com), ["%s" % com])
+		
+	def cancel(self):
+
+		print "\n[NANDMENU] cancel\n"
+		self.close(None)
+###########################################################################
+
+class OPTI(Screen):
+	skin = """
+		<screen position="center,center" size="460,400" title="Nand Menu Tuner Opticum" >
+			<widget name="OPTI" position="10,10" size="420,380" scrollbarMode="showOnDemand" />
+		</screen>"""
+
+	def __init__(self, session):
+		Screen.__init__(self, session)
+		
+		list = []
+		list.append((getConfigListEntry(_("ILTV fur Opticum mit RB Tuner"), "ILTVRB", "ILTVRB", "46")))
+		list.append((getConfigListEntry(_("ILTV fur Opticum mit ST Tuner"), "ILTVST", "ILTVST", "46")))
+		
+		Screen.__init__(self, session)
+		self["OPTI"] = MenuList(list)
+		self["myActionMap"] = ActionMap(["SetupActions"],
+		{
+			"ok": self.go,
+			"cancel": self.cancel
+		}, -1)
+
+	def go(self):
+		print "okbuttonClick"
+		selection = self["OPTI"].getCurrent()
+		
+		if selection is not None:
+			if selection[1] == "ILTVRB":
+				self.prombt("/var/config/system/mtd/mtd3-opti-rb.sh")
+					
+			elif selection[1] == "ILTVST":
+				self.prombt("/var/config/system/mtd/mtd3-opti-st.sh")
+
+			else:
+				print "\n[OPTI] cancel\n"
+				self.close(None)
+
+	def prombt(self, com):
+		self.session.open(Console,_("Nand: %s") % (com), ["%s" % com])
+		
+	def cancel(self):
+		print "\n[OPTI] cancel\n"
 		self.close(None)
 
 ###########################################################################
