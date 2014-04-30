@@ -65,9 +65,17 @@ if [ ! -e /media/iltv/MD5SUM ]; then
 	echo "Download der MD5SUM Fehlgeschlagen"
 	exit 0
 fi
+# nand umount
+mountcheck=`mount | grep /dev/mtdblock1 | awk '{ print $5 }'`
+if [ "$mountcheck" = "jffs2" ]; then
+	umount /media/nand
+else
+	echo "Nand not mounted"
+fi
 # MD5SUM Check der FILES
 cd /media/iltv/
 md5sum -c MD5SUM > /media/iltv/md5check
+sleep 2
 # set new md5 Status
 iltvmd5=`cat /media/iltv/md5check | grep mtd3-vip2.bin | awk '{ print $2 }'`
 echo "md5 Summe der ILTV Datei = $iltvmd5"
@@ -81,7 +89,7 @@ if [ "$iltvmd5" = "OK" ]; then
 	# vorbereiten des Flashspeichers
 	echo "Flash Löschen ..." > /dev/vfd
 	echo "Lösche Flash Nand"
-	flash_eraseall /dev/mtd3	
+	flash_eraseall /dev/mtd3
 	# Start des Flash vorgangs
 	echo "Flashe ILTV ..." > /dev/vfd
 	echo "Flashen der ILTV Firmware"

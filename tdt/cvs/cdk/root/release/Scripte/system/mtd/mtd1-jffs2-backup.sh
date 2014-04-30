@@ -38,19 +38,25 @@ else
 	fi
 fi
 # nand umount
-umount /media/nand
+mountcheck=`mount | grep /dev/mtdblock1 | awk '{ print $5 }'`
+if [ "$mountcheck" = "jffs2" ]; then
+	umount /media/nand
+else
+	echo "Nand not mounted"
+fi
 # Backupfile Check
 if [ ! -e /media/nanddump-mtd1.bin ]; then
 	echo "Kein Backup gefunden in /media"
 	exit 0
 fi
+sleep 3
 # vorbereiten des Flashspeichers
 echo "Löschen..." > /dev/vfd
 echo "Lösche Flash Nand"
-flash_eraseall /dev/mtd1	
+flash_eraseall /dev/mtd1
 # Start des Flash vorgangs
-echo "Flashe..." > /dev/vfd
 echo "Flashe Nand Backup wieder zurück"
+echo "Flash..." > /dev/vfd
 nandwrite /dev/mtd1 /media/nanddump-mtd1.bin
 # Setzt Status für das System das das device nicht mehr gemountet wird on startup
 echo "not-use" > /var/config/nanduse

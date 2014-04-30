@@ -51,7 +51,7 @@ else
 	fi
 fi
 # Downloading und Check der ILTV + Bootloader"
-wget http://dbs-clan.de/argus/mtdiltv/mtd3-opti-rb.bin -O /media/iltv/mtd3-opti-rb.bin
+wget http://dbs-clan.de/argus/mtdiltv/mtd3-opti-rb.bin -O /media/iltv/
 sleep 2
 # Check ob das file gedownloadet wurde
 if [ ! -e /media/iltv/mtd3-opti-rb.bin ]; then
@@ -59,11 +59,18 @@ if [ ! -e /media/iltv/mtd3-opti-rb.bin ]; then
 	exit 0
 fi
 # Download der MD5SUM aller ILTV Files
-wget http://dbs-clan.de/argus/mtdiltv/MD5SUM -O /media/iltv/MD5SUM
+wget http://dbs-clan.de/argus/mtdiltv/MD5SUM -O /media/iltv/
 # Check ob das file gedownloadet wurde
 if [ ! -e /media/iltv/MD5SUM ]; then
 	echo "Download der MD5SUM Fehlgeschlagen"
 	exit 0
+fi
+# nand umount
+mountcheck=`mount | grep /dev/mtdblock1 | awk '{ print $5 }'`
+if [ "$mountcheck" = "jffs2" ]; then
+	umount /media/nand
+else
+	echo "Nand not mounted"
 fi
 # MD5SUM Check der FILES
 cd /media/iltv/
@@ -81,7 +88,7 @@ if [ "$iltvmd5" = "OK" ]; then
 	# vorbereiten des Flashspeichers
 	echo "Flash Löschen" > /dev/vfd
 	echo "Lösche Flash Nand..."
-	flash_eraseall /dev/mtd3	
+	flash_eraseall /dev/mtd3
 	# Start des Flash vorgangs
 	echo "Flashe ILTV..." > /dev/vfd
 	echo "Flashen der ILTV Firmware"
