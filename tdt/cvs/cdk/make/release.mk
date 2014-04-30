@@ -58,6 +58,13 @@ release_hl101: release_common_utils
 	mkdir $(prefix)/release/var/config
 	mkdir $(prefix)/release/var/config/system
 	mkdir $(prefix)/release/var/config/shutdown
+	mkdir $(prefix)/release/var/config/system/mtd
+	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd1-jffs2-backup.sh $(prefix)/release/var/config/system/mtd/
+	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd1-jffs2.sh $(prefix)/release/var/config/system/mtd/
+	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd3-opti-rb.sh $(prefix)/release/var/config/system/mtd/
+	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd3-opti-st.sh $(prefix)/release/var/config/system/mtd/
+	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd3-vip1.sh $(prefix)/release/var/config/system/mtd/
+	cp -dp $(buildprefix)/oot/release/Scripte/system/mtd/mtd3-vip2.sh $(prefix)/release/var/config/system/mtd/
 	cp -p $(buildprefix)/root/config/shutdown/* $(prefix)/release/var/config/shutdown/
 	rm -f $(prefix)/release/bin/evremote
 	rm -f $(prefix)/release/bin/vdstandby
@@ -258,13 +265,6 @@ release_base:
 	cp -p $(targetprefix)/usr/bin/ffmpeg $(prefix)/release/sbin/ && \
 	cp -p $(targetprefix)/usr/sbin/ethtool $(prefix)/release/usr/sbin/
 	cp -dp $(targetprefix)/sbin/mkfs $(prefix)/release/sbin/
-	mkdir $(prefix)/release/var/config/system/mtd/
-	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd1-jffs2-backup.sh $(prefix)/release/var/config/system/mtd/
-	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd1-jffs2.sh $(prefix)/release/var/config/system/mtd/
-	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd3-opti-rb.sh $(prefix)/release/var/config/system/mtd/
-	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd3-opti-st.sh $(prefix)/release/var/config/system/mtd/
-	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd3-vip1.sh $(prefix)/release/var/config/system/mtd/
-	cp -dp $(buildprefix)/oot/release/Scripte/system/mtd/mtd3-vip2.sh $(prefix)/release/var/config/system/mtd/
 
 #
 # Player
