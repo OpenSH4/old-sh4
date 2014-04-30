@@ -65,7 +65,7 @@ release_ducktrick_hl101: release_ducktrick_common_utils
 	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd3-opti-rb.sh $(prefix)/release_ducktrick/var/config/system/mtd/
 	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd3-opti-st.sh $(prefix)/release_ducktrick/var/config/system/mtd/
 	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd3-vip1.sh $(prefix)/release_ducktrick/var/config/system/mtd/
-	cp -dp $(buildprefix)/oot/release/Scripte/system/mtd/mtd3-vip2.sh $(prefix)/release_ducktrick/var/config/system/mtd/
+	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd3-vip2.sh $(prefix)/release_ducktrick/var/config/system/mtd/
 	cp -p $(buildprefix)/root/config/shutdown/* $(prefix)/release_ducktrick/var/config/shutdown/
 	rm -f $(prefix)/release_ducktrick/bin/evremote
 	rm -f $(prefix)/release_ducktrick/bin/vdstandby

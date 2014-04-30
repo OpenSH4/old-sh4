@@ -69,7 +69,7 @@ release_neutrino_hl101: release_neutrino_common_utils
 	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd3-opti-rb.sh $(prefix)/release_neutrino/var/config/system/mtd/
 	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd3-opti-st.sh $(prefix)/release_neutrino/var/config/system/mtd/
 	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd3-vip1.sh $(prefix)/release_neutrino/var/config/system/mtd/
-	cp -dp $(buildprefix)/oot/release/Scripte/system/mtd/mtd3-vip2.sh $(prefix)/release_neutrino/var/config/system/mtd/
+	cp -dp $(buildprefix)/root/release/Scripte/system/mtd/mtd3-vip2.sh $(prefix)/release_neutrino/var/config/system/mtd/
 	cp -p $(buildprefix)/root/config/shutdown/* $(prefix)/release_neutrino/var/config/shutdown/
 	chmod 755 $(prefix)/release_neutrino/usr/local/bin/dvbtest
 	chmod 755 $(prefix)/release_neutrino/etc/init.d/rcS
