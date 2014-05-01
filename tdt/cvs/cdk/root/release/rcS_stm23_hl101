@@ -1,5 +1,6 @@
     #!/bin/sh
     MODLOAD=/etc/init.d/modload
+    $MODLOAD jffs2
     echo "1" > /var/config/loop
     $MODLOAD Loop &
     echo "Welcome..." > /dev/vfd

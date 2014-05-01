@@ -29,6 +29,15 @@ if [ "$1" = "Filesystem" ]; then
 	modprobe nls_koi8-u.ko
 	modprobe nls_utf8.ko
 	echo "Fertig"
+elif [ "$1" = "jffs2" ]; then
+	echo "Nand mount Check"
+	nandcheck=`cat /var/config/nanduse`
+	if [ "$nandcheck" = "jffs2-nand-e2" ]; then
+		echo "Nand Speicher mounten für E2..."
+		mount -t jffs2 /dev/mtdblock1 /media/nand
+	else
+		echo "Nand ist nicht Formatiert ..."
+	fi 
 elif [ "$1" = "Automount" ]; then
     # start automounter with umount timeout of 5 seconds
     modprobe autofs4.ko
