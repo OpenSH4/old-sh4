@@ -39,7 +39,7 @@ fi
 if [ "$tunertype" = "stb6100" ]; then
 	echo "Tunertype = $tunertype (RB) ... continue"
 else
-	echo "Tunertype = $boxtype (ST)... error"
+	echo "Tunertype = $tunertype (ST)... error"
 	echo "Die gewählte ILTV passt nicht zum Tuner"
 	echo "Wählen Sie bitte die Richtige zum Flashen"
 	echo "des Nand Speichers, anderfalls würde"
