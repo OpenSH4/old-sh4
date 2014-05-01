@@ -1,6 +1,7 @@
 #!/bin/sh
 #set dummys
 iltvmd5="error"
+boxtype=`cat /var/config/system/tunerboxtype`
 #Check auf nand tools vorhanden
 if [ -e /sbin/flash_eraseall ]; then
 	if [ ! -e /sbin/nandwrite ]; then
@@ -34,7 +35,19 @@ else
 	      exit 0
 	fi
 fi
-
+# Checkt Boxtype
+if [ "$boxtype" = "vip1" ]; then
+	echo "Boxtype = $boxtype ... continue"
+elif [ "$boxtype" = "vip1v2" ]; then
+	echo "Boxtype = $boxtype ... continue"
+else
+	echo "Boxtype = $boxtype ... error"
+	echo "Die gewählte ILTV passt nicht zum Boxtype"
+	echo "Wählen Sie bitte die Richtige zum Flashen"
+	echo "des Nand Speichers, anderfalls würde"
+	echo "die Box nach dem Flashvorgang nicht mehr starten."
+	exit 0
+fi
 # Check ob das Arbeitsverzeichniss vorhanden ist
 if [ -e /media/iltv ]; then
 	echo "Arbeitsverzeichniss vorhanden"

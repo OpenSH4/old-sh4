@@ -1,6 +1,7 @@
 #!/bin/sh
 #set dummys
 iltvmd5="error"
+tunertype=`cat /var/keys/Benutzerdaten/.system/tuner1`
 #Check auf nand tools vorhanden
 if [ -e /sbin/flash_eraseall ]; then
 	if [ ! -e /sbin/nandwrite ]; then
@@ -34,7 +35,17 @@ else
 	      exit 0
 	fi
 fi
-
+# Checkt Tunertype
+if [ "$tunertype" = "stb6110x" ]; then
+	echo "Tunertype = $tunertype (ST) ... continue"
+else
+	echo "Tunertype = $boxtype (RB)... error"
+	echo "Die gewählte ILTV passt nicht zum Tuner"
+	echo "Wählen Sie bitte die Richtige zum Flashen"
+	echo "des Nand Speichers, anderfalls würde"
+	echo "die Box nach dem Flashvorgang nicht mehr starten."
+	exit 0
+fi
 # Check ob das Arbeitsverzeichniss vorhanden ist
 if [ -e /media/iltv ]; then
 	echo "Arbeitsverzeichniss vorhanden"
