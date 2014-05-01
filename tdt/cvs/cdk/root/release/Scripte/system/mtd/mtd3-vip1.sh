@@ -51,7 +51,7 @@ else
 	fi
 fi
 # Downloading und Check der ILTV + Bootloader"
-wget http://dbs-clan.de/argus/mtdiltv/mtd3-vip1.bin -O /media/iltv/
+wget http://dbs-clan.de/argus/mtdiltv/mtd3-vip1.bin -O /media/iltv/mtd3-vip1.bin
 sleep 2
 # Check ob das file gedownloadet wurde
 if [ ! -e /media/iltv/mtd3-vip1.bin ]; then
@@ -59,7 +59,7 @@ if [ ! -e /media/iltv/mtd3-vip1.bin ]; then
 	exit 0
 fi
 # Download der MD5SUM aller ILTV Files
-wget http://dbs-clan.de/argus/mtdiltv/MD5SUM -O /media/iltv/
+wget http://dbs-clan.de/argus/mtdiltv/MD5SUM -O /media/iltv/MD5SUM
 # Check ob das file gedownloadet wurde
 if [ ! -e /media/iltv/MD5SUM ]; then
 	echo "Download der MD5SUM Fehlgeschlagen"
