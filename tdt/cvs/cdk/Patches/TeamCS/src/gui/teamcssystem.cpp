@@ -37,6 +37,7 @@
 #include <driver/screen_max.h>
 
 #include "teamcssystem.h"
+#include "teamcsnand.h"
 
 ////////////////////////////// Extra Menu ANFANG ////////////////////////////////////
 
@@ -84,6 +85,7 @@ int teamcssystem::exec(CMenuTarget* parent, const std::string &actionKey)
       teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_IMG, true, "", this, "img", CRCInput::RC_blue, NEUTRINO_ICON_BUTTON_BLUE, "nix", LOCALE_HELPTEXT_NIX));
       teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_UPDATE, true, "", this, "update", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
       teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_FSCK, true, "", this, "fsck", CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
+	  teamcssystem->addItem( new CMenuForwarderItemMenuIcon(LOCALE_TEAMCSSYSTEM_NAND, true, "", new teamcsnand(), NULL, CRCInput::convertDigitToKey(shortcutTeamCS++), NULL, "nix", LOCALE_HELPTEXT_NIX));
 
       teamcssystem->exec (NULL, "");
       teamcssystem->hide ();
