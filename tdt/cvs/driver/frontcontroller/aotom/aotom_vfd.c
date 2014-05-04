@@ -2184,9 +2184,6 @@ static int YWPANEL_VFD_ShowTimeOff_Unknown(void)
 
 int YWPANEL_VFD_SetBrightness_StandBy(int level)
 {
-//#if 1 // Doesn't work currently. Disabled to avoid side effects. --martii
-//	return 0;
-//#else
 	int 		ST_ErrCode = 0;
 	YWPANEL_FPData_t	data;
 	if (down_interruptible(&vfd_sem))
@@ -2200,7 +2197,7 @@ int YWPANEL_VFD_SetBrightness_StandBy(int level)
 		level = 7;
 	data.dataType = YWPANEL_DATATYPE_VFD;
 	data.data.vfdData.type = YWPANEL_VFD_SETTING;
-	data.data.vfdData.setValue = level | 0x78;
+	data.data.vfdData.setValue = level | 0x88;
 	if(YWPANEL_FP_SendData(&data) != true)
 	{
 		ywtrace_print(TRACE_ERROR,"SetBrightness wrong!!\n");
@@ -2208,14 +2205,10 @@ int YWPANEL_VFD_SetBrightness_StandBy(int level)
 	}
 	up(&vfd_sem);
 	return ST_ErrCode;
-//#endif
 }
 
 static int YWPANEL_VFD_SetBrightness_Common(int level)
 {
-//#if 1 // Doesn't work currently. Disabled to avoid side effects. --martii
-//	return 0;
-//#else
 	int 		ST_ErrCode = 0;
 	if(level < 0)
 		level = 0;
@@ -2223,10 +2216,9 @@ static int YWPANEL_VFD_SetBrightness_Common(int level)
 		level = 7;
 
 	VFD_CS_CLR();
-	YWPANEL_VFD_WR(0x78 | level);
+	YWPANEL_VFD_WR(0x88+level);
 	VFD_CS_SET();
 	return ST_ErrCode;
-//#endif
 }
 
 static int YWPANEL_VFD_SetBrightness_Unknown(int level)
