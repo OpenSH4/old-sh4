@@ -6,7 +6,7 @@
  
 +teamcs_sources =teamcs.cpp teamcsemu.cpp teamcsuhr.cpp teamcswlan.cpp teamcssystem.cpp \
 +		teamcstuner.cpp teamcsfb.cpp teamcsupnp.cpp teamcssamba.cpp teamcsswap.cpp \
-+		teamcsoverclock.cpp teamcsmac.cpp teamcsbackup.cpp teamcsusbserial.cpp
++		teamcsoverclock.cpp teamcsmac.cpp teamcsbackup.cpp teamcsusbserial.cpp teamcsnand.cpp
 +
  noinst_HEADERS = svn_version.h
  
@@ -23,7 +23,7 @@
  libneutrino_gui2_a_SOURCES += cam_menu.cpp
 --- neutrino-hd2-exp/data/locale/deutsch.locale	2014-02-09 17:01:06.500376757 +0100
 +++ neutrino-hd2-exp/data/locale/deutsch.locale	2014-02-22 16:57:28.629062596 +0100
-@@ -1624,6 +1624,142 @@
+@@ -1624,6 +1624,150 @@
  
  audiomenu.volumebar_audiosteps Lautstärke Schrittweite
  
@@ -94,6 +94,7 @@
 +teamcssystem.img Image Version Infomation
 +teamcssystem.update Online Update
 +teamcssystem.fsck Letztes FSCK Log Anzeigen
++teamcssystem.nand NAND Menue
 +	
 +teamcstuner.sttuner ST-Tuner Opti,VIP1,VIP2
 +teamcstuner.rbtuner RB-Tuner Opti,VIP1
@@ -163,12 +164,19 @@
 +teamcsbackup.conf_ch_install Configs/Sender-Backup installieren
 +teamcsbackup.ch_download Piloten Kanallisten Download
 +
++teamcsnand.nande2 Nand fuer E2/NHD2 verwenden
++teamcsnand.nandback Backup zurueck Spielen
++teamcsnand.nandvip1 Flash ILTV Vip1,Vip1v2
++teamcsnand.nandvip2 Flash ILTV Vip2
++teamcsnand.nandoptirb Flash ILTV Opticum RB-Tuner
++teamcsnand.nandoptist Flash ILTV Opticum ST-Tuner
++
  webtv.head WebTV
  webtvchannellist.nonefound Es wurden keine WebTV Kanäle gefunden!
  webtv.user User Bouquet
 --- neutrino-hd2-exp/data/locale/english.locale	2014-02-09 17:01:06.500376757 +0100
 +++ neutrino-hd2-exp/data/locale/english.locale	2014-02-22 16:57:28.629062596 +0100
-@@ -1623,6 +1623,141 @@
+@@ -1623,6 +1623,149 @@
  
  audiomenu.volumebar_audiosteps Volume Step Size
  
@@ -239,6 +247,7 @@
 +teamcssystem.img Image Version Infomation
 +teamcssystem.update Online Update
 +teamcssystem.fsck Show last FSCK Log
++teamcssystem.nand NAND Menu
 +	
 +teamcstuner.sttuner ST-Tuner Opti,VIP1,VIP2
 +teamcstuner.rbtuner RB-Tuner Opti,VIP1
@@ -307,6 +316,13 @@
 +teamcsbackup.conf_ch_install Install Configs/Channel from Backup
 +teamcsbackup.ch_download Piloten Channellist Download
 +
++teamcsnand.nande2 Use NAND for E2/NHD2
++teamcsnand.nandback Flash NAND-Backup
++teamcsnand.nandvip1 Flash ILTV Vip1,Vip1v2
++teamcsnand.nandvip2 Flash ILTV Vip2
++teamcsnand.nandoptirb Flash ILTV Opticum RB-Tuner
++teamcsnand.nandoptist Flash ILTV Opticum ST-Tuner
++
  webtv.head WebTV
  webtvchannellist.nonefound No WebTV channels were found!
  webtv.user User bouquet
@@ -330,7 +346,7 @@
  	
  	LOCALE_MISCSETTINGS_LOGOSDIR,
  	LOCALE_MISCSETTINGS_RECORDING_SCREENSHOT,
-@@ -1636,6 +1640,136 @@
+@@ -1636,6 +1640,144 @@
  	
  	LOCALE_AUDIOMENU_VOLUMEBAR_AUDIOSTEPS,
  	
@@ -362,7 +378,7 @@
 +	LOCALE_TEAMCSEMU_MBOX2,
 +	LOCALE_TEAMCSEMU_INCUBUS2,
 +	LOCALE_TEAMCSEMU_CAMD32,
-+       LOCALE_TEAMCSEMU_KeyUpdate,
++  LOCALE_TEAMCSEMU_KeyUpdate,
 +
 +	LOCALE_TEAMCSUHR_DISPLAYRESET,
 +	LOCALE_TEAMCSUHR_UHRAN,
@@ -396,6 +412,7 @@
 +	LOCALE_TEAMCSSYSTEM_IMG,
 +	LOCALE_TEAMCSSYSTEM_UPDATE,
 +	LOCALE_TEAMCSSYSTEM_FSCK,
++	LOCALE_TEAMCSSYSTEM_NAND,
 +	
 +	LOCALE_TEAMCSTUNER_STTUNER,
 +	LOCALE_TEAMCSTUNER_RBTUNER,
@@ -409,7 +426,7 @@
 +	LOCALE_TEAMCSTUNER_VIP2_KABELLG2,
 +	LOCALE_TEAMCSTUNER_VIP2_LGKABEL_DVBT,
 +	LOCALE_TEAMCSTUNER_VIP2_DVBS2SHARP_DVBT,
-+       LOCALE_TEAMCSTUNER_AUTOTUNER,
++  LOCALE_TEAMCSTUNER_AUTOTUNER,
 +
 +	LOCALE_TEAMCSFB_REMOTEHEAD,	
 +	LOCALE_TEAMCSFB_VIPNEU,
@@ -464,6 +481,13 @@
 +	LOCALE_TEAMCSBACKUP_CONF_CH_INSTALL,
 +	LOCALE_TEAMCSBACKUP_CH_DOWNLOAD,
 +
++	LOCALE_TEAMCSNAND_NANDE2,
++	LOCALE_TEAMCSNAND_NANDBACK,
++	LOCALE_TEAMCSNAND_NANDVIP1,
++	LOCALE_TEAMCSNAND_NANDVIP2,
++	LOCALE_TEAMCSNAND_NANDOPTIRB,
++	LOCALE_TEAMCSNAND_NANDOPTIST,
++
  	LOCALE_WEBTV_HEAD,
  	LOCALE_WEBTVCHANNELLIST_NONEFOUND,
  	LOCALE_WEBTV_USER,
@@ -487,7 +511,7 @@
  	
  	"miscsettings.logosdir",
  	"miscsettings.recording_screenshot",
-@@ -1636,6 +1640,136 @@
+@@ -1636,6 +1640,144 @@
  	
  	"audiomenu.volumebar_audiosteps",
  	
@@ -553,6 +577,7 @@
 +	"teamcssystem.img",
 +	"teamcssystem.update",
 +	"teamcssystem.fsck",
++	"teamcssystem.nand",
 +	
 +	"teamcstuner.sttuner",
 +	"teamcstuner.rbtuner",
@@ -620,7 +645,14 @@
 +	"teamcsbackup.conf_ch_save",
 +	"teamcsbackup.conf_ch_install",
 +	"teamcsbackup.ch_download",
-+	
++ 
++	"teamcsnand.nande2",	
++	"teamcsnand.nandback",
++	"teamcsnand.nandvip1",
++	"teamcsnand.nandvip2",
++	"teamcsnand.nandoptirb",
++	"teamcsnand.nandoptist",
++ 
  	"webtv.head",
  	"webtvchannellist.nonefound",
  	"webtv.user",
