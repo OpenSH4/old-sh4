@@ -44,6 +44,9 @@
 #include <linux/time.h>
 #include <linux/poll.h>
 #include <linux/workqueue.h>
+#include <linux/stm/pio.h>
+#include <linux/ioport.h>
+#include <asm/io.h>
 
 #include "aotom_main.h"
 #include "utf.h"
@@ -86,6 +89,12 @@ typedef struct {
 	struct task_struct *led_task;
 	struct semaphore led_sem;
 } tLedState;
+
+/* Power Pios*/
+//struct stpio_pin* cap;
+//struct stpio_pin* com;
+struct stpio_pin* pwm0;
+//#define POWERBASEADDRESS		0x18010000
 
 static tLedState led_state[LASTLED];
 
@@ -417,6 +426,7 @@ int aotomSetIcon(int which, int on)
 	return res;
 }
 
+
 /* export for later use in e2_proc */
 EXPORT_SYMBOL(aotomSetIcon);
 
@@ -545,6 +555,7 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 	int icon_nr = 0;
 	static int mode = 0;
 	int res = -EINVAL;
+
 	dprintk(5, "%s > 0x%.8x\n", __func__, cmd);
 
 	if(down_interruptible (&write_sem))
@@ -565,19 +576,11 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 		mode = aotom_data.u.mode.compat;
 		break;
 	case VFDSETLED:
-#if defined(SPARK) || defined(SPARK7162)
-		if (aotom_data.u.led.led_nr > -1 && aotom_data.u.led.led_nr < LED_MAX) {
-			switch (aotom_data.u.led.on) {
-			case LOG_OFF:
-			case LOG_ON:
-				res = YWPANEL_VFD_SetLed(aotom_data.u.led.led_nr, aotom_data.u.led.on);
-				led_state[aotom_data.u.led.led_nr].state = aotom_data.u.led.on;
-				break;
-			default: // toggle (for aotom_data.u.led.on * 10) ms
-				flashLED(aotom_data.u.led.led_nr, aotom_data.u.led.on * 10);
-			}
-		}
-#endif
+		if (aotom_data.u.onoff.level < 0)
+			aotom_data.u.onoff.level = 0;
+		else if (aotom_data.u.onoff.level > 1)
+			aotom_data.u.onoff.level = 1;
+		res = aotomPOWER(aotom_data.u.onoff.level);
 		break;
 	case VFDBRIGHTNESS:
 		if (aotom_data.u.brightness.level < 0)
@@ -665,37 +668,6 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 	}
 	case VFDSTANDBY:
 	{
-#if defined(SPARK) || defined(SPARK7162)
-		u32 uTime = 0;
-		//u32 uStandByKey = 0;
-		//u32 uPowerOnTime = 0;
-		get_user(uTime, (int *) arg);
-		//printk("uTime = %d\n", uTime);
-
-		//uPowerOnTime = YWPANEL_FP_GetPowerOnTime();
-		//printk("1uPowerOnTime = %d\n", uPowerOnTime);
-
-		YWPANEL_FP_SetPowerOnTime(uTime);
-
-		//uPowerOnTime = YWPANEL_FP_GetPowerOnTime();
-		//printk("2uPowerOnTime = %d\n", uPowerOnTime);
-		#if 0
-		uStandByKey = YWPANEL_FP_GetStandByKey(0);
-		printk("uStandByKey = %d\n", uStandByKey);
-		uStandByKey = YWPANEL_FP_GetStandByKey(1);
-		printk("uStandByKey = %d\n", uStandByKey);
-		uStandByKey = YWPANEL_FP_GetStandByKey(2);
-		printk("uStandByKey = %d\n", uStandByKey);
-		uStandByKey = YWPANEL_FP_GetStandByKey(3);
-		printk("uStandByKey = %d\n", uStandByKey);
-		uStandByKey = YWPANEL_FP_GetStandByKey(4);
-		printk("uStandByKey = %d\n", uStandByKey);
-		#endif
-		clear_display();
-		YWPANEL_FP_ControlTimer(true);
-		YWPANEL_FP_SetCpuStatus(YWPANEL_CPUSTATE_STANDBY);
-		res = 0;
-#endif
 		break;
 	}
 	case VFDSETTIME2:
@@ -929,14 +901,14 @@ static int __init aotom_init_module(void)
 	dprintk(5, "%s >\n", __func__);
 
 	printk("Fulan front panel driver\n");
-
+	
 	if(YWPANEL_VFD_Init()) {
 		printk("unable to init module\n");
 		return -1;
 	}
 
 	VFD_clr();
-	
+
 	if(button_dev_init() != 0)
 		return -1;
 

@@ -355,19 +355,19 @@ void processCommand (Context_t * context, int argc, char* argv[])
 			}
 			else if ((strcmp(argv[i], "-l") == 0) || (strcmp(argv[i], "--setLed") == 0))
 			{
-				if (i + 2 <= argc)
+				if (i + 1/*2*/ <= argc)
 				{
-					int which, on;
+					int which/*, on*/;
 
 					which = atoi(argv[i + 1]);
-					on = atoi(argv[i + 2]);
+					//on = atoi(argv[i + 2]);
 					i+=2;
 
 					/* set display led */
 					if (((Model_t*)context->m)->SetLed)
-					   ((Model_t*)context->m)->SetLed(context, which, on);
+					   ((Model_t*)context->m)->SetLed(context, which/*, on*/);
 				}
-				i += 2;
+				i += 1/*2*/;
 			}
 			else if ((strcmp(argv[i], "-i") == 0) || (strcmp(argv[i], "--setIcon") == 0))
 			{

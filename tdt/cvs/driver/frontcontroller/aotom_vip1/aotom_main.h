@@ -53,6 +53,14 @@ typedef unsigned long u64;
 #define	I2C_BUS_NUM      1
 #define	I2C_BUS_ADD      (0x50>>1)  //this is important not 0x50
 
+static struct stpio_pin *pio_scl;
+static struct stpio_pin *pio_sda;
+static struct stpio_pin *pio_cs;
+
+
+#define VFD_CS_CLR() {udelay(10);stpio_set_pin(pio_cs, 0);}
+#define VFD_CS_SET() {udelay(10);stpio_set_pin(pio_cs, 1);}
+
 typedef unsigned int     YWOS_ClockMsec;
 
 #define LOG_OFF     0
@@ -61,6 +69,10 @@ typedef unsigned int     YWOS_ClockMsec;
 
 struct set_brightness_s {
 	int level;
+};
+
+struct set_onoff_s {
+int level;
 };
 
 struct set_icon_s {
@@ -104,6 +116,7 @@ struct aotom_ioctl_data {
 		struct set_mode_s mode;
 		struct set_standby_s standby;
 		struct set_time_s time;
+		struct set_onoff_s onoff;
 	} u;
 };
 
@@ -665,6 +678,8 @@ extern int (*YWPANEL_VFD_ShowTimeOff)(void);
 extern int (*YWPANEL_VFD_SetBrightness)(int);
 extern u8 (*YWPANEL_VFD_ScanKeyboard)(void);
 extern int (*YWPANEL_VFD_ShowString)(char *);
+extern int (YWPANEL_VFD_WR)(u8 data);
+extern int (aotomPOWER)(int);
 
 extern int YWPANEL_width;
 

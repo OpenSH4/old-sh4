@@ -54,10 +54,6 @@ static YWPANEL_FP_DispType_t	panel_disp_type = YWPANEL_FP_DISPTYPE_UNKNOWN;
 
 static u8 lbdValue = 0;
 
-static struct stpio_pin *pio_scl;
-static struct stpio_pin *pio_sda;
-static struct stpio_pin *pio_cs;
-
 #define KEN_NUM_NEW		50
 static const u8	key_table_new[KEN_NUM_NEW][2] = {
 							  {POWER_KEY, 	0x08},
@@ -384,8 +380,6 @@ enum YWPANL_WRITE_INSTR_e
 };
 
 #define YWPANEL_FP_I2C_TIMEOUT			200
-#define VFD_CS_CLR() {udelay(10);stpio_set_pin(pio_cs, 0);}
-#define VFD_CS_SET() {udelay(10);stpio_set_pin(pio_cs, 1);}
 
 static SegAddrVal_T VfdSegAddr[15];
 static struct i2c_adapter*	panel_i2c_adapter;
@@ -1511,7 +1505,7 @@ int YWPANEL_FP_GetStartUpState(YWPANEL_STARTUPSTATE_t *State)
 
 YWPANEL_CPUSTATE_t YWPANEL_FP_GetCpuStatus(void)
 {
-	YWPANEL_FPData_t   data;
+YWPANEL_FPData_t   data;
 
 	memset(&data, 0, sizeof(YWPANEL_FPData_t));
 	data.dataType = YWPANEL_DATATYPE_GETCPUSTATE;
@@ -2129,6 +2123,27 @@ static int YWPANEL_VFD_ShowTime_StandBy(u8 hh,u8 mm)
 	}
 	up(&vfd_sem);
 	return ErrorCode;
+}
+
+int aotomPOWER(int onoff)
+{
+	printk( "LED level = %d\n", onoff);
+	if(onoff == 0)
+	{
+    	/* set Display Off */
+		VFD_CS_CLR();
+		YWPANEL_VFD_WR(0x87);
+		VFD_CS_SET();
+	}
+	else if(onoff == 1)
+	{
+    	/* set Display On */
+		VFD_CS_CLR();
+		YWPANEL_VFD_WR(0x8F);
+		VFD_CS_SET();
+		return YWPANEL_VFD_ShowString("ON...");
+	}
+	return 0;
 }
 
 static int YWPANEL_VFD_ShowTime_Common(u8 hh,u8 mm)
@@ -2750,7 +2765,7 @@ static int YWPANEL_VFD_Init_Common(void)
 	pio_sda = stpio_request_pin(3,2, "pio_sda", STPIO_OUT);
 	pio_scl = stpio_request_pin(3,4, "pio_scl", STPIO_OUT);
 	pio_cs  = stpio_request_pin(3,5, "pio_cs",  STPIO_OUT);
-	if (!pio_sda || !pio_scl || !pio_cs )
+	if (!pio_sda || !pio_scl || !pio_cs)
 	{
 		ywtrace_print(TRACE_ERROR, "%s: stpio_request failed @%d\n", __FUNCTION__, __LINE__);
 		return -ENODEV;
@@ -2766,7 +2781,7 @@ static int YWPANEL_VFD_Init_Common(void)
 	YWPANEL_Seg_Addr_Init();
 	YWPANEL_VFD_ClearAll();
 	//YWPANEL_VFD_ShowContent();
-	YWPANEL_VFD_ShowString("welcome!");
+	//YWPANEL_VFD_ShowString("welcome!");
 
 	return ErrorCode;
  }

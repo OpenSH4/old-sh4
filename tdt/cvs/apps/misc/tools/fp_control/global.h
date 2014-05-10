@@ -58,7 +58,7 @@ typedef struct Model_s {
 	int     (* Reboot)         (Context_t* context, time_t* rebootTimeGMT);
 	int     (* Sleep)          (Context_t* context, time_t* wakeUpGMT);
 	int     (* SetText)        (Context_t* context, char* theText);
-	int     (* SetLed)         (Context_t* context, int which, int on);
+	int     (* SetLed)         (Context_t* context, int which/*, int on*/);
 	int     (* SetIcon)        (Context_t* context, int which, int on);
 	int     (* SetBrightness)  (Context_t* context, int brightness);
 	int     (* SetPwrLed)  	   (Context_t* context, int pwrled); /* added by zeroone; set PowerLed Brightness on HDBOX*/
