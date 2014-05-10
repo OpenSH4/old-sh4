@@ -56,7 +56,7 @@ typedef unsigned long u64;
 static struct stpio_pin *pio_scl;
 static struct stpio_pin *pio_sda;
 static struct stpio_pin *pio_cs;
-
+static struct stpio_pin *pio_hdmi;
 
 #define VFD_CS_CLR() {udelay(10);stpio_set_pin(pio_cs, 0);}
 #define VFD_CS_SET() {udelay(10);stpio_set_pin(pio_cs, 1);}
@@ -680,6 +680,7 @@ extern u8 (*YWPANEL_VFD_ScanKeyboard)(void);
 extern int (*YWPANEL_VFD_ShowString)(char *);
 extern int (YWPANEL_VFD_WR)(u8 data);
 extern int (aotomPOWER)(int);
+extern int (aotomPOWERDOWN)(void);
 
 extern int YWPANEL_width;
 

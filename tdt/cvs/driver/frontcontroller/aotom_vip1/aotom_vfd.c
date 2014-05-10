@@ -2141,8 +2141,16 @@ int aotomPOWER(int onoff)
 		VFD_CS_CLR();
 		YWPANEL_VFD_WR(0x8F);
 		VFD_CS_SET();
-		return YWPANEL_VFD_ShowString("ON...");
 	}
+	return 0;
+}
+
+int aotomPOWERDOWN(void)
+{
+	down_read(&vfd_rws);
+	/* This Pio Disable HDMI Power by 0 */
+	stpio_set_pin(pio_hdmi, 0);
+	up_read(&vfd_rws);
 	return 0;
 }
 
@@ -2686,60 +2694,10 @@ static int YWPANEL_VFD_DETECT(void)
 	/* use i2c write to detect */
 	ret = i2c_transfer(panel_i2c_adapter, &i2c_msg, 1);
 
-	/* Vip1v1 benötigt den BUS zwar jedoch nicht um einen String zu erzeugen, die antwort wäre Fehlerhaft und wird umgangen */
-	//if (ret < 0 ) {
-		/* oops - no Frontcontroller at given Busnum:Addr??? */
-	/*	printk("%s: error %d - no Frontcontroller? @%d\n", __FUNCTION__, ret, __LINE__);
-		return -ENODEV;
-	}*/
-
 	YWVFD_INFO.vfd_type = (ret == 1) ? YWVFD_STAND_BY : YWVFD_COMMON;
 	ywtrace_print(TRACE_INFO,"%s: result=%d, vfd_type=%d\n", __FUNCTION__, ret, YWVFD_INFO.vfd_type );
 	
 	return 0;		/* success */
-}
-#endif
-
-#if 0
-// Not used anyway, and dangerous due to lack of bounds checking
-// --martii
-
-int YWPANEL_VFD_GetRevision(char * version)
-{
-	int ErrorCode = 0 ;
-	char *DispType = "VFD";	// VFD default
-
-	switch (YWVFD_INFO.vfd_type)
-	{
-		case YWVFD_STAND_BY:
-		{
-			switch(panel_disp_type) {
-			case YWPANEL_FP_DISPTYPE_VFD:
-				DispType = "VFD";
-				break;
-			case YWPANEL_FP_DISPTYPE_LCD:
-				DispType = "LCD";
-				break;
-			case YWPANEL_FP_DISPTYPE_LED:
-				DispType = "LED";
-				break;
-			case YWPANEL_FP_DISPTYPE_LBD:
-				DispType = "LBD";
-				break;
-			default:
-				break;
-			}
-			sprintf(version, "%s Type:StandBy-%s", Revision, DispType);
-			break;
-		}
-		case YWVFD_COMMON:
-			sprintf(version, "%s Type:Common", Revision);
-			break;
-		default:
-			ErrorCode = -ENODEV;
-			break;
-	}
-	return ErrorCode;
 }
 #endif
 
@@ -2753,8 +2711,6 @@ static int YWPANEL_VFD_Init_StandBy(void)
 	int ErrorCode = 0 ;
 
 	YWPANEL_Seg_Addr_Init();
-	//YWPANEL_VFD_ShowString("welcome");
-	//YWPANEL_VFD_ShowString("bbbb");
 	return ErrorCode;
  }
 
@@ -2765,13 +2721,15 @@ static int YWPANEL_VFD_Init_Common(void)
 	pio_sda = stpio_request_pin(3,2, "pio_sda", STPIO_OUT);
 	pio_scl = stpio_request_pin(3,4, "pio_scl", STPIO_OUT);
 	pio_cs  = stpio_request_pin(3,5, "pio_cs",  STPIO_OUT);
-	if (!pio_sda || !pio_scl || !pio_cs)
+	pio_hdmi  = stpio_request_pin(5,4, "pio_cs",  STPIO_OUT);
+	if (!pio_sda || !pio_scl || !pio_cs || !pio_hdmi)
 	{
 		ywtrace_print(TRACE_ERROR, "%s: stpio_request failed @%d\n", __FUNCTION__, __LINE__);
 		return -ENODEV;
 	}
 	stpio_set_pin(pio_scl, 1);
 	stpio_set_pin(pio_cs,  1);
+	stpio_set_pin(pio_hdmi, 1);
 
 	VFD_CS_CLR();
 	ErrorCode = YWPANEL_VFD_WR(0x0C);
@@ -2780,8 +2738,6 @@ static int YWPANEL_VFD_Init_Common(void)
 	ErrorCode = YWPANEL_VFD_SetMode(VFDWRITEMODE);
 	YWPANEL_Seg_Addr_Init();
 	YWPANEL_VFD_ClearAll();
-	//YWPANEL_VFD_ShowContent();
-	//YWPANEL_VFD_ShowString("welcome!");
 
 	return ErrorCode;
  }

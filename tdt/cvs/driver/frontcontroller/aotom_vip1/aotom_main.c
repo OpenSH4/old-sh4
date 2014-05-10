@@ -393,9 +393,6 @@ int aotomSetTime(char* time)
 	dprintk(5, "%s time: %02d:%02d\n", __func__, time[2], time[3]);
 
 	res = VFD_Show_Time(time[2], time[3]);
-#if defined(SPARK) || defined(SPARK7162)
-	YWPANEL_FP_ControlTimer(true);
-#endif
 	dprintk(5, "%s <\n", __func__);
 	return res;
 }
@@ -591,25 +588,7 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 		break;
 	case VFDICONDISPLAYONOFF:
 	{
-#if defined(SPARK)
-		switch (aotom_data.u.icon.icon_nr) {
-		case 0:
-			res = YWPANEL_VFD_SetLed(LED_RED, aotom_data.u.icon.on);
-			led_state[LED_RED].state = aotom_data.u.icon.on;
-			break;
-		case 35:
-			res = YWPANEL_VFD_SetLed(LED_GREEN, aotom_data.u.icon.on);
-			led_state[LED_GREEN].state = aotom_data.u.icon.on;
-			break;
-		default:
-			break;
-		}
-#endif
-//#if defined(HL101) 
-/* Hier verwenden wir wie der Sparks die Icons die durchaus Funktionieren */
 		icon_nr = aotom_data.u.icon.icon_nr;
-		//e2 icons workarround
-		//printk("icon_nr = %d\n", icon_nr);
 		if (icon_nr >= 256) {
 			icon_nr = icon_nr / 256;
 			switch (icon_nr) {
@@ -661,13 +640,13 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 			default:
 				break;
 			}
-		}
-//#endif		
+		}		
 		mode = 0;
 		break;
 	}
 	case VFDSTANDBY:
 	{
+		aotomPOWERDOWN();
 		break;
 	}
 	case VFDSETTIME2:
