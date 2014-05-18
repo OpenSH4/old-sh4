@@ -63,6 +63,10 @@ struct set_brightness_s {
 	int level;
 };
 
+struct set_onoff_s {
+int level;
+};
+
 struct set_icon_s {
 	int icon_nr;
 	int on;
@@ -104,6 +108,7 @@ struct aotom_ioctl_data {
 		struct set_mode_s mode;
 		struct set_standby_s standby;
 		struct set_time_s time;
+		struct set_onoff_s onoff;
 	} u;
 };
 
@@ -664,6 +669,7 @@ extern int (*YWPANEL_VFD_ShowTimeOff)(void);
 extern int (*YWPANEL_VFD_SetBrightness)(int);
 extern u8 (*YWPANEL_VFD_ScanKeyboard)(void);
 extern int (*YWPANEL_VFD_ShowString)(char *);
+extern int (aotomPOWER)(int);
 
 extern int YWPANEL_width;
 

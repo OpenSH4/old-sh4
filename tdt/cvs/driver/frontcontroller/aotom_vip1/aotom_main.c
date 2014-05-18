@@ -582,8 +582,8 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 	case VFDBRIGHTNESS:
 		if (aotom_data.u.brightness.level < 0)
 			aotom_data.u.brightness.level = 0;
-		else if (aotom_data.u.brightness.level > 7)
-			aotom_data.u.brightness.level = 7;
+		else if (aotom_data.u.brightness.level > 3)
+			aotom_data.u.brightness.level = 3;
 		res = YWPANEL_VFD_SetBrightness(aotom_data.u.brightness.level);
 		break;
 	case VFDICONDISPLAYONOFF:

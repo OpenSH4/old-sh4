@@ -2130,6 +2130,26 @@ static int YWPANEL_VFD_ShowTime_StandBy(u8 hh,u8 mm)
 	return ErrorCode;
 }
 
+int aotomPOWER(int onoff)
+{
+	printk( "LED level = %d\n", onoff);
+	if(onoff == 0)
+	{
+    	/* set Display Off */
+		VFD_CS_CLR();
+		YWPANEL_VFD_WR(0x87);
+		VFD_CS_SET();
+	}
+	else if(onoff == 1)
+	{
+    	/* set Display On */
+		VFD_CS_CLR();
+		YWPANEL_VFD_WR(0x8F);
+		VFD_CS_SET();
+	}
+	return 0;
+}
+
 static int YWPANEL_VFD_ShowTime_Common(u8 hh,u8 mm)
 {
 	int  ErrorCode = 0;

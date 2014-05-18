@@ -559,25 +559,17 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 		mode = aotom_data.u.mode.compat;
 		break;
 	case VFDSETLED:
-#if defined(SPARK) || defined(SPARK7162)
-		if (aotom_data.u.led.led_nr > -1 && aotom_data.u.led.led_nr < LED_MAX) {
-			switch (aotom_data.u.led.on) {
-			case LOG_OFF:
-			case LOG_ON:
-				res = YWPANEL_VFD_SetLed(aotom_data.u.led.led_nr, aotom_data.u.led.on);
-				led_state[aotom_data.u.led.led_nr].state = aotom_data.u.led.on;
-				break;
-			default: // toggle (for aotom_data.u.led.on * 10) ms
-				flashLED(aotom_data.u.led.led_nr, aotom_data.u.led.on * 10);
-			}
-		}
-#endif
+		if (aotom_data.u.onoff.level < 0)
+			aotom_data.u.onoff.level = 0;
+		else if (aotom_data.u.onoff.level > 1)
+			aotom_data.u.onoff.level = 1;
+		res = aotomPOWER(aotom_data.u.onoff.level);
 		break;
 	case VFDBRIGHTNESS:
 		if (aotom_data.u.brightness.level < 0)
 			aotom_data.u.brightness.level = 0;
-		else if (aotom_data.u.brightness.level > 7)
-			aotom_data.u.brightness.level = 7;
+		else if (aotom_data.u.brightness.level > 3)
+			aotom_data.u.brightness.level = 3;
 		res = YWPANEL_VFD_SetBrightness(aotom_data.u.brightness.level);
 		break;
 	case VFDICONDISPLAYONOFF:
