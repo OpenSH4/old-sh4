@@ -2132,6 +2132,8 @@ static int YWPANEL_VFD_ShowTime_StandBy(u8 hh,u8 mm)
 
 int aotomPOWER(int onoff)
 {
+// Das bringt den Vip2 aotom beim setzen zu nen Segment fault ?!
+#if 0
 	printk( "LED level = %d\n", onoff);
 	if(onoff == 0)
 	{
@@ -2147,6 +2149,7 @@ int aotomPOWER(int onoff)
 		YWPANEL_VFD_WR(0x8F);
 		VFD_CS_SET();
 	}
+#endif
 	return 0;
 }
 
