@@ -375,12 +375,11 @@ static int setText(Context_t* context, char* theText)
    return 0;
 }
 
-static int setLed(Context_t* context, int which/*, int on*/)
+static int setLed(Context_t* context, int which)
 {
    struct proton_ioctl_data vData;
 
    vData.u.led.led_nr = which;
-   //vData.u.led.on = on;
 
    if (ioctl(context->fd, VFDSETLED, &vData) < 0)
    {

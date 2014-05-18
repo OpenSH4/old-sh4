@@ -20,7 +20,6 @@ struct set_icon_s {
 
 struct set_led_s {
 	int led_nr;
-	int on;
 };
 
 /* time must be given as follows:
