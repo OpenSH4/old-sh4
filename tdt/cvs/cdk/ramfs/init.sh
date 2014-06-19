@@ -86,7 +86,12 @@ mount "${root}" /rootfs
 if [ -e /rootfs/install ]; then
 	cd /install
 	./install.sh
-elif [ -e /rootfs/update ]; then
+fi
+if [ -e /rootfs/online ]; then
+	cd /install
+	./online.sh
+fi
+if [ -e /rootfs/update ]; then
 	cd /install
 	./update.sh
 fi

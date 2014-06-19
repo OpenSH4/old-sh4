@@ -2,15 +2,27 @@ dir /proc 					755 0 0
 dir /rootfs 					755 0 0
 dir /sys 					755 0 0
 dir /mnt 					755 0 0
+dir /tmp 					755 0 0
 dir /etc 					755 0 0
+dir /etc/network				755 0 0
+dir /etc/network/if-down.d			755 0 0
+dir /etc/network/if-post-down.d			755 0 0
+dir /etc/network/if-pre-up.d			755 0 0
+dir /etc/network/if-up.d			755 0 0
 dir /usr					0777 0 0
 dir /usr/bin					0777 0 0
 dir /usr/sbin					0777 0 0
+dir /usr/share					0777 0 0
+dir /usr/share/udhcpc				0777 0 0
+dir /var					0777 0 0
+dir /var/run					0777 0 0
 dir /sbin					755 1000 1000
 dir /bin 					755 1000 1000
 dir /dev 					755 0 0
 dir /drvko 					755 0 0
 dir /install 					755 0 0
+dir /sda1 					755 0 0
+dir /sda2 					755 0 0
 dir /install/devs 					755 0 0
 dir /install/backup 				755 0 0
 dir /update 					755 0 0
@@ -34,10 +46,15 @@ file  /sbin/tune2fs	../ramfs/bin/tune2fs 	0755 0 0
 file  /sbin/mke2fs	../ramfs/bin/mke2fs 	0755 0 0
 file  /sbin/sfdisk	../ramfs/bin/sfdisk 	0755 0 0
 file  /install/install.sh	../ramfs/install.sh 	0755 0 0
+file  /install/online.sh	../ramfs/online.sh 	0755 0 0
 file  /install/update.sh	../ramfs/update.sh 	0755 0 0
+file  /usr/share/udhcpc/default.script ../ramfs/default.script		0777 0 0
+file  /etc/resolv.conf		../ramfs/resolv.conf 	0777 0 0
 # Das sind nodebug Kernel p0211 Module zum Aktuellen Kernel
 file /drvko/aotom.ko		../ramfs/aotom.ko	0755 0 0
 file /drvko/aotom_vip1.ko	../ramfs/aotom_vip1.ko	0755 0 0
+file /etc/network/interfaces	../ramfs/interfaces	0755 0 0
+file /etc/network/options	../ramfs/options	0755 0 0
 slink /bin/sh busybox 				777 0 0
 slink /bin/echo		/bin/busybox		0777 0 0
 slink /bin/ash		/bin/busybox		0777 0 0
