@@ -1990,16 +1990,16 @@ class MerlinDownloadBrowser(Screen):
 		self.remainingdata = ""
 		if self.run == 0:
 			self.run = 1
-			self.container.execute("opkg list-installed enigma2-*")
+			self.container.execute("opkg list-installed")
 		elif self.run == 1:
 			self.run = 2
-			self.container.execute("opkg list enigma2-*")
+			self.container.execute("opkg list")
 		elif self.run == 2:
 			if len(self.pluginlist) > 0:
 				self.updateList()
 				self["list"].instance.show()
 			else:
-				self["text"].setText("Neue Plugins gefunden...")
+				self["text"].setText("Keine Plugins gefunden...\n\nNetzwerk Pruefen ...")
 
 	def dataAvail(self, str):
 		#prepend any remaining data from the previous call
@@ -2032,6 +2032,12 @@ class MerlinDownloadBrowser(Screen):
 				if flagStatus != -1:
 					self.pluginlist.append(AddOn(name = plugin[0], version = plugin[1], description = plugin[2], status = flagStatus))
 
+	def callMsg(self, result):
+		if result:
+			self.session.openWithCallback(self.startRun, Console, cmdlist = ["opkg upgrade"])
+		else:
+			pass
+
 	def updateList(self):
 		self.list = []
 		expandableIcon = LoadPixmap(resolveFilename(SCOPE_PLUGINS, "Extensions/TeamCS/icons/green_plus.png"))
@@ -2048,13 +2054,20 @@ class MerlinDownloadBrowser(Screen):
 				temp = x.name[8:]
 			elif x.name.startswith('enigma2-plugin-'):
 				temp = x.name[15:]
+			elif x.name.startswith('autonews') or x.name.startswith('nfs-kernel-server') or x.name.startswith('ffmpeg') or x.name.startswith('mtd_utils'):
+				# uebergibt name ab stelle 0
+				temp = x.name[0:]
 			else:
 				continue
-			split = temp.split('-')
+			
+			if x.name.startswith('autonews') or x.name.startswith('nfs-kernel-server') or x.name.startswith('ffmpeg') or x.name.startswith('mtd_utils'):
+				# macht kein split aber uebergibt den namen um nach updates zu pruefen
+				split = temp
+			else:
+				split = temp.split('-')
+			
 			if len(split) < 2:
 				continue
-			if split[0] == "skin":
-				split[0] = "skins" # manuelle Korrektur, damit ich die CVS Skins nicht neu erstellen muss...
 			if not self.plugins.has_key(split[0]):
 				self.plugins[split[0]] = []
 			if x.status == 0:			
@@ -2062,17 +2075,29 @@ class MerlinDownloadBrowser(Screen):
 			elif x.status == 1:
 				pngstatus = installedIcon
 			elif x.status == 2:
+				self.session.openWithCallback(self.callMsg, MessageBox, _("Es sind Updates verfuegbar !!!\nWollen Sie alle Installierten Plugins Updaten\nsofern Updates fuer diese Verfuegbar sind ?\n\nAnschliessend ist ein Gui Neustart noetig um die Plugins neu zu laden !!!\n"), MessageBox.TYPE_YESNO)
 				pngstatus = updateIcon
 			else:
 				pngstatus = None
-			self.plugins[split[0]].append((AddOnDescriptor(name = x.name, what = split[0], description = x.description, icon = verticallineIcon, status = x.status, version = x.version, statusicon = pngstatus), split[1]))
+			# sorgt dafuer das die Plugins nicht in der liste stehen
+			if x.name.startswith('autonews') or x.name.startswith('nfs-kernel-server') or x.name.startswith('ffmpeg') or x.name.startswith('mtd_utils'):
+				continue
+			else:
+				self.plugins[split[0]].append((AddOnDescriptor(name = x.name, what = split[0], description = x.description, icon = verticallineIcon, status = x.status, version = x.version, statusicon = pngstatus), split[1]))
+
 		for x in self.plugins.keys():
 			if x in self.expanded:
-				self.list.append(AddOnCategoryComponent(x, expandedIcon))
-				for plugin in self.plugins[x]:
-					self.list.append(AddOnDownloadComponent(plugin[0], plugin[1]))
+				if x == "a" or x == "n" or x == "f" or x == "m":
+					continue
+				else:
+					self.list.append(AddOnCategoryComponent(x, expandedIcon))
+					for plugin in self.plugins[x]:
+						self.list.append(AddOnDownloadComponent(plugin[0], plugin[1]))
 			else:
-				self.list.append(AddOnCategoryComponent(x, expandableIcon))
+				if x == "a" or x == "n" or x == "f" or x == "m":
+					continue
+				else:
+					self.list.append(AddOnCategoryComponent(x, expandableIcon))
 		self["list"].l.setList(self.list)
 
 class DialogUpdateDelete(Screen):
