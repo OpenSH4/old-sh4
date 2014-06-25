@@ -1894,6 +1894,7 @@ class MerlinDownloadBrowser(Screen):
 		self.expanded = []
 		self.addoninstalled = []
 		self.found = 0
+		self.msgstate = 1
 		
 		self["text"] = Label(_("Downloading Addon Information. Bitte Warten..."))
 		
@@ -2034,9 +2035,16 @@ class MerlinDownloadBrowser(Screen):
 
 	def callMsg(self, result):
 		if result:
+			self.msgstate = 2
 			self.session.openWithCallback(self.startRun, Console, cmdlist = ["opkg upgrade"])
 		else:
-			pass
+			self.msgstate = 0
+
+	def callMsgReboot(self, result):
+		if result:
+			os.system("/var/config/system/gui.sh &")
+		else:
+			self.msgstate = 0
 
 	def updateList(self):
 		self.list = []
@@ -2070,12 +2078,18 @@ class MerlinDownloadBrowser(Screen):
 				continue
 			if not self.plugins.has_key(split[0]):
 				self.plugins[split[0]] = []
+			if self.msgstate == 2:
+				# stellt frage fuer Gui reboot
+				self.msgstate = 0
+				self.session.openWithCallback(self.callMsgReboot, MessageBox, _("Updates wurden Installiert\n\nGui Reboot notwendig, jetzt Durchfuehren ?"), MessageBox.TYPE_YESNO)
 			if x.status == 0:			
 				pngstatus = notinstalledIcon
 			elif x.status == 1:
 				pngstatus = installedIcon
 			elif x.status == 2:
-				self.session.openWithCallback(self.callMsg, MessageBox, _("Es sind Updates verfuegbar !!!\nWollen Sie alle Installierten Plugins Updaten\nsofern Updates fuer diese Verfuegbar sind ?\n\nAnschliessend ist ein Gui Neustart noetig um die Plugins neu zu laden !!!\n"), MessageBox.TYPE_YESNO)
+				if self.msgstate == 1:
+					self.msgstate = 0
+					self.session.openWithCallback(self.callMsg, MessageBox, _("Es sind Updates verfuegbar !!!\nWollen Sie alle Installierten Plugins Updaten\nsofern Updates fuer diese Verfuegbar sind ?\n\nAnschliessend ist ein Gui Neustart noetig um die Plugins neu zu laden !!!\n"), MessageBox.TYPE_YESNO)
 				pngstatus = updateIcon
 			else:
 				pngstatus = None

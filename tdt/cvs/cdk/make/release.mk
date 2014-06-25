@@ -112,6 +112,7 @@ release_hl101: release_common_utils
 	cp -R $(buildprefix)/root/release/Scripte/emu $(prefix)/release/var/config/
 	cp -R $(buildprefix)/root/release/Scripte/system $(prefix)/release/var/config/
 	cp -R $(buildprefix)/root/release/Scripte/tools $(prefix)/release/var/config/
+	cp -R $(buildprefix)/root/var/config/system/* $(prefix)/release/var/config/system/
 	cp -f $(prefix)/cdkroot/usr/bin/djmount $(prefix)/release/usr/bin/
 	cp -f $(buildprefix)/root/release/font/* $(prefix)/release/usr/share/fonts/
 	cp -f $(buildprefix)/root/release/converter/*.py $(prefix)/release/usr/lib/enigma2/python/Components/Converter/
