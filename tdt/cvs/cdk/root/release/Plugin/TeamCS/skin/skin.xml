@@ -1,0 +1,368 @@
+<skin>
+  <output id="0">
+    <resolution bpp="32" xres="1280" yres="720"/>
+  </output>
+		<!-- Backup Screen -->
+		<screen position="center,center" size="650,400" title="BackUp Menu" name="BACKUP" >
+			<widget source="BACKUP" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/backup.png" position="470,10" render="Pixmap" size="150,150" source="BACKUP">
+      				<convert type="MenuEntryCompare">sback</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<screen position="center,center" size="460,400" title="System Backup" name="SYSBACKUP" >
+			<widget name="myText" position="10,10" size="400,300" valign="center" halign="center" zPosition="2"  foregroundColor="white" font="Regular;22"/>
+
+			<widget name="myRedBtn" position="10,340" size="100,40" backgroundColor="red" valign="center" halign="center" zPosition="2"  foregroundColor="white" font="Regular;20"/>
+			<widget name="myGreenBtn" position="120,340" size="100,40" backgroundColor="green" valign="center" halign="center" zPosition="2"  foregroundColor="white" font="Regular;20"/>
+		</screen>
+		<screen position="center,center" size="460,400" title="System Backup" name="SYSINSTALLBACKUP">
+			<widget name="myText" position="10,10" size="400,300" valign="center" halign="center" zPosition="2"  foregroundColor="white" font="Regular;22"/>
+			<widget name="myRedBtn" position="10,340" size="100,40" backgroundColor="red" valign="center" halign="center" zPosition="2"  foregroundColor="white" font="Regular;20"/>
+			<widget name="myGreenBtn" position="120,340" size="100,40" backgroundColor="green" valign="center" halign="center" zPosition="2"  foregroundColor="white" font="Regular;20"/>
+		</screen>
+		<!-- System information Screen -->
+		<screen position="center,center" size="650,400" title="System Information" name="SYSTEM" >
+			<widget source="SYSTEM" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/sysinfo.png" position="470,10" render="Pixmap" size="150,150" source="SYSTEM">
+      				<convert type="MenuEntryCompare">sysinfo</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<screen position="center,center" size="650,400" title="Nand Speicher Menu" name="NANDMENU" >
+			<widget source="NANDMENU" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/sysinfo.png" position="470,10" render="Pixmap" size="150,150" source="NANDMENU">
+      				<convert type="MenuEntryCompare">sysinfo</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<screen position="center,center" size="650,400" title="Nand Menu Tuner Opticum" name="OPTI" >
+			<widget source="OPTI" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/sysinfo.png" position="470,10" render="Pixmap" size="150,150" source="OPTI">
+      				<convert type="MenuEntryCompare">sysinfo</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<!-- Benutzer Screen -->
+		<screen position="center,center" size="650,400" title="Benutzerdaten Menu" name="BENUTZER" >
+			<widget source="BENUTZER" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/user.png" position="470,10" render="Pixmap" size="150,150" source="BENUTZER">
+      				<convert type="MenuEntryCompare">user</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<screen position="center,center" size="650,400" title="Fernbedienung Menu" name="FERNB" >
+			<widget source="FERNB" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/user.png" position="470,10" render="Pixmap" size="150,150" source="FERNB">
+      				<convert type="MenuEntryCompare">user</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<screen position="center,center" size="460,150" title="Benutzername Setzen" name="USER" >
+			<widget name="USER" position="10,60" size="200,40" font="Regular;20"/>
+		</screen>
+		<screen position="center,center" size="460,150" title="Password Setzen" name="PASS" >
+			<widget name="PASS" position="10,60" size="200,40" font="Regular;20"/>
+		</screen>
+		<screen position="center,center" size="460,150" title="IP DNS Setzen" name="DYN" >
+			<widget name="DYN" position="10,60" size="200,40" font="Regular;20"/>
+		</screen>
+		<screen position="center,center" size="650,400" title="Client Menu" name="SERVER" >
+			<widget source="SERVER" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/user.png" position="470,10" render="Pixmap" size="150,150" source="SERVER">
+      				<convert type="MenuEntryCompare">user</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<screen position="center,center" size="460,150" title="CCcam Port Setzen" name="CCPORT" >
+			<widget name="CCPORT" position="10,60" size="200,40" font="Regular;20"/>
+		</screen>
+		<screen position="center,center" size="460,150" title="MG-Camd Port1 Setzen" name="MGPORT" >
+			<widget name="MGPORT" position="10,60" size="200,40" font="Regular;20"/>
+		</screen>
+		<screen position="center,center" size="460,150" title="MG-Camd Port2 Setzen" name="MGPORT1" >
+			<widget name="MGPORT1" position="10,60" size="200,40" font="Regular;20"/>
+		</screen>
+		<screen position="center,center" size="460,150" title="Camd3 Port Setzen" name="CAMD3" >
+			<widget name="CAMD3" position="10,60" size="200,40" font="Regular;20"/>
+		</screen>
+		<!-- Emu Menu Screen -->
+		<screen position="center,center" size="650,400" title="Emu Menu" name="EMU" >
+			<widget source="EMU" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/cam.png" position="470,10" render="Pixmap" size="150,150" source="EMU">
+      				<convert type="MenuEntryCompare">dual</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<screen position="center,center" size="650,400" title="Emu Dual Menu" name="EMUDUAL" >
+			<widget source="EMUDUAL" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/cam.png" position="470,10" render="Pixmap" size="150,150" source="EMUDUAL">
+      				<convert type="MenuEntryCompare">dual</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<!-- UPNP Screen -->
+		<screen position="center,center" size="650,400" title="UPNP Menu" name="UPNPSET" >
+			<widget source="UPNPSET" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/upnp.png" position="470,10" render="Pixmap" size="150,150" source="UPNPSET">
+      				<convert type="MenuEntryCompare">upnp</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<!-- Mac Screen -->
+		<screen position="center,center" size="650,400" title="Mac Switch Menu" name="ETHMAC" >
+			<widget source="ETHMAC" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/macswitch.png" position="470,10" render="Pixmap" size="150,150" source="ETHMAC">
+      				<convert type="MenuEntryCompare">mac</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<!-- Openvpn Screen -->
+		<screen position="center,center" size="650,400" title="OPENVPN Menu" name="OPENSET" >
+			<widget source="OPENSET" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/openvpn.png" position="470,10" render="Pixmap" size="150,150" source="OPENSET">
+      				<convert type="MenuEntryCompare">openvpn</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<!-- Overclock Screen -->
+		<screen position="center,center" size="650,400" title="Overclock Menu" name="OVERCLOCK" >
+			<widget source="OVERCLOCK" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/overclock.png" position="470,10" render="Pixmap" size="150,150" source="OVERCLOCK">
+      				<convert type="MenuEntryCompare">over</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<!-- Main Menu Screen -->
+		<screen position="center,center" size="650,400" title="TeamCS Menu" name="MyMenu" >
+			<widget source="menu" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/cam.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">EMUMANAGER</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/addon.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">addonmanager</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/backup.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">BACKUPINSTALL</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/clock.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">timer</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/wlan.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">wlansettings</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/usbserial.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">usbtoserial</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/sysinfo.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">SYSINFO</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/tuner.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">tuners</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/user.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">setbenutzer</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/wol.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">woltimer</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/upnp.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">upnpms</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/openvpn.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">openvpn</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/samba.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">sambamenu</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/overclock.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">CPUOVER</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/swap.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">swappart</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/macswitch.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">eth0mac</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/nhd2.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">subsystem</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<!-- Samba Menu Screen -->
+		<screen position="center,center" size="650,400" title="Samba Menu" name="SAMBASET" >
+			<widget source="SAMBASET" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/samba.png" position="470,10" render="Pixmap" size="150,150" source="SAMBASET">
+      				<convert type="MenuEntryCompare">samba</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<!-- Swap Menu Screen -->
+		<screen position="center,center" size="650,400" title="Swap Menu" name="SWAPPART" >
+			<widget source="SWAPPART" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/swap.png" position="470,10" render="Pixmap" size="150,150" source="SWAPPART">
+      				<convert type="MenuEntryCompare">swap</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<!-- Display Uhr Screen -->
+		<screen position="center,center" size="650,400" title="Uhr Einstellung" name="TIMESET" >
+			<widget source="TIMESET" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/clock.png" position="470,10" render="Pixmap" size="150,150" source="TIMESET">
+      				<convert type="MenuEntryCompare">timer</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<screen position="center,center" size="650,400" title="Uhr Einstellung" name="TIMESHUTDOWN" >
+			<widget source="TIMESHUTDOWN" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/clock.png" position="470,10" render="Pixmap" size="150,150" source="TIMESHUTDOWN">
+      				<convert type="MenuEntryCompare">timer</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<!-- Tuner selection Screen -->
+		<screen position="center,center" size="650,400" title="Tuner Menu" name="TUNER" >
+			<widget source="TUNER" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/tuner.png" position="470,10" render="Pixmap" size="150,150" source="TUNER">
+      				<convert type="MenuEntryCompare">tuner</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<!-- USBSerial Screen -->
+		<screen position="center,center" size="650,400" title="Usb zu Serial Menu" name="USBSERIAL" >
+			<widget source="USBSERIAL" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/usbserial.png" position="470,10" render="Pixmap" size="150,150" source="USBSERIAL">
+      				<convert type="MenuEntryCompare">usbserial</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<!-- Wlan Screen -->
+		<screen position="center,center" size="650,400" title="Wlan Treiber Laden" name="WLAN" >
+			<widget source="WLAN" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/wlan.png" position="470,10" render="Pixmap" size="150,150" source="WLAN">
+      				<convert type="MenuEntryCompare">wlan</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<!-- Wol Screen -->
+		<screen position="center,center" size="650,400" title="WakeOnLan Menu" name="WOLSET" >
+			<widget source="WOLSET" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/wol.png" position="470,10" render="Pixmap" size="150,150" source="WOLSET">
+      				<convert type="MenuEntryCompare">wol</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<screen position="center,center" size="460,150" title="WOL TIME" name="WOLTIMESET" >
+			<widget name="WOLTIMESET" position="10,60" size="200,40" font="Regular;20"/>
+		</screen>
+		<screen position="center,center" size="460,150" title="WOL PORT" name="WOLPORT" >
+			<widget name="WOLPORT" position="10,60" size="200,40" font="Regular;20"/>
+		</screen>
+		<screen position="center,center" size="460,150" title="MAC Adresse" name="MAC" >
+			<widget name="MAC" position="10,60" size="200,40" font="Regular;20"/>
+		</screen>
+		<!-- Addon Screen -->
+		<screen name="MerlinDownloadBrowser" position="center,center" size="560,420" title="AddOnManager">
+			<widget name="text" position="0,0" zPosition="1" size="560,430" font="Regular;20" halign="center" valign="center" />
+			<widget name="list" position="10,10" zPosition="2" size="540,405" scrollbarMode="showOnDemand" />
+		</screen>
+		<screen name="DialogUpdateDelete" position="60,245" size="600,10" title="AddOnManager">
+		<widget name="text" position="65,8" size="520,0" font="Regular;21" />
+		<widget name="QuestionPixmap" pixmap="skin_default/icons/input_question.png" position="5,5" size="53,53" alphatest="on" />
+		<widget name="list" position="100,100" size="480,375" />
+		<applet type="onLayoutFinish">
+# this should be factored out into some helper code, but currently demonstrates applets.
+from enigma import eSize, ePoint
+
+orgwidth = self.instance.size().width()
+orgpos = self.instance.position()
+textsize = self[&quot;text&quot;].getSize()
+
+# y size still must be fixed in font stuff...
+textsize = (textsize[0] + 50, textsize[1] + 50)
+offset = 0
+offset = 60
+wsizex = textsize[0] + 60
+wsizey = textsize[1] + offset
+if (280 &gt; wsizex):
+	wsizex = 280
+wsize = (wsizex, wsizey)
+
+
+# resize
+self.instance.resize(eSize(*wsize))
+
+# resize label
+self[&quot;text&quot;].instance.resize(eSize(*textsize))
+
+# move list
+listsize = (wsizex, 50)
+self[&quot;list&quot;].instance.move(ePoint(0, textsize[1]))
+self[&quot;list&quot;].instance.resize(eSize(*listsize))
+
+# center window
+newwidth = wsize[0]
+self.instance.move(ePoint(orgpos.x() + (orgwidth - newwidth)/2, orgpos.y()))
+		</applet>
+	</screen>
+</skin>
