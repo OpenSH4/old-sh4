@@ -21,11 +21,6 @@ from Components.Sources.StaticText import StaticText
 from Components.Sources.List import List
 
 class EMU(Screen):
-	skin = """
-		<screen position="center,center" size="460,400" title="Emu Menu" >
-			<widget name="EMU" position="10,10" size="420,380" scrollbarMode="showOnDemand" />
-		</screen>"""
-
 	def __init__(self, session):
 		Screen.__init__(self, session)
 		
