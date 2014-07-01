@@ -38,6 +38,7 @@ from Samba import *
 from Swap import *
 from OverClock import *
 from Mac_Switch import *
+from Config import *
 
 ###########################################################################
 
@@ -66,11 +67,16 @@ class MyMenu(Screen):
 
 		self["menu"] = List(list)
 
-		self["myActionMap"] = ActionMap(["WizardActions"],
+		self["myActionMap"] = ActionMap(["MinuteInputActions", "MenuActions"],
 		{
 			"ok": self.go,
-			"back": self.cancel
+			"cancel": self.cancel,
+			"menu": self.config
 		}, -1)
+
+	def config(self):
+		print "Open Configuration"
+		self.session.open(Config)
 
 	def go(self):
 		print "okbuttonClick"
@@ -146,13 +152,55 @@ def main(session, **kwargs):
 	print "\n[MyMenu] start\n"	
 	session.open(MyMenu)
 
+def mainemu(session, **kwargs):
+	print "\n[Addon] start\n"	
+	session.open(EMU)
+
+def mainsys(session, **kwargs):
+	print "\n[Addon] start\n"	
+	session.open(SYSTEM)
+
+def mainaddon(session, **kwargs):
+	print "\n[Addon] start\n"	
+	session.open(MerlinDownloadBrowser)
+
 ###########################################################################
 def menu(menuid, **kwargs):
 	if menuid == "mainmenu":
-		return [(_("TeamCS Menu"), main, "MyMenu", 46)]
+	  	if config.plugins.TeamCS_globalsettings.showemu.value == True and config.plugins.TeamCS_globalsettings.showsysinfo.value == True and config.plugins.TeamCS_globalsettings.showaddon.value == True:
+			return [(_("TeamCS Menu"), main, "MyMenu", 46),
+				(_("Emu Menu"), mainemu, "EMU", 46),
+				(_("Addon Manager"), mainaddon, "MerlinDownloadBrowser", 46),
+				(_("System Information"), mainsys, "SYSTEM", 46)]		  
+		elif config.plugins.TeamCS_globalsettings.showemu.value == True and config.plugins.TeamCS_globalsettings.showsysinfo.value == True:
+			return [(_("TeamCS Menu"), main, "MyMenu", 46),
+				(_("Emu Menu"), mainemu, "EMU", 46),
+				(_("System Information"), mainsys, "SYSTEM", 46)]
+		elif config.plugins.TeamCS_globalsettings.showemu.value == True and config.plugins.TeamCS_globalsettings.showaddon.value == True:
+			return [(_("TeamCS Menu"), main, "MyMenu", 46),
+				(_("Emu Menu"), mainemu, "EMU", 46),
+				(_("Addon Manager"), mainaddon, "MerlinDownloadBrowser", 46)]
+		elif config.plugins.TeamCS_globalsettings.showaddon.value == True and config.plugins.TeamCS_globalsettings.showsysinfo.value == True:
+			return [(_("TeamCS Menu"), main, "MyMenu", 46),
+				(_("Addon Manager"), mainaddon, "MerlinDownloadBrowser", 46),
+				(_("System Information"), mainsys, "SYSTEM", 46)]
+		elif config.plugins.TeamCS_globalsettings.showsysinfo.value == True:
+			return [(_("TeamCS Menu"), main, "MyMenu", 46),
+				(_("System Information"), mainsys, "SYSTEM", 46)]
+		elif config.plugins.TeamCS_globalsettings.showemu.value == True:
+			return [(_("TeamCS Menu"), main, "MyMenu", 46),
+				(_("Emu Menu"), mainemu, "EMU", 46)]
+		elif config.plugins.TeamCS_globalsettings.showaddon.value == True:
+			return [(_("TeamCS Menu"), main, "MyMenu", 46),
+				(_("Addon Manager"), mainaddon, "MerlinDownloadBrowser", 46)]
+		else:
+			return [(_("TeamCS Menu"), main, "MyMenu", 46)]
 	return []
 
 def Plugins(**kwargs):
 	return [
+		PluginDescriptor(name="Emu Menu", description="Emu Menu", where = PluginDescriptor.WHERE_MENU, fnc=menu),
+		PluginDescriptor(name="Addon Manager", description="Addon Manager", where = PluginDescriptor.WHERE_MENU, fnc=menu),
 		PluginDescriptor(name="TeamCS Menu", description="Das TeamCS Menu", where = PluginDescriptor.WHERE_PLUGINMENU, icon="../ihad_tut.png", fnc=main),
-		PluginDescriptor(name="TeamCS Menu", description="TeamCS Multi Menu", where = PluginDescriptor.WHERE_MENU, fnc=menu)]
+		PluginDescriptor(name="TeamCS Menu", description="TeamCS Multi Menu", where = PluginDescriptor.WHERE_MENU, fnc=menu),
+		PluginDescriptor(name="System Information", description="SystemInfo", where = PluginDescriptor.WHERE_MENU, fnc=menu)]

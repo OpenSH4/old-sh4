@@ -19,6 +19,7 @@ from Tools.LoadPixmap import LoadPixmap
 from Components.Pixmap import Pixmap
 from Components.Sources.StaticText import StaticText
 from Components.Sources.List import List
+from Screens.Standby import TryQuitMainloop
 
 def AddOnCategoryComponent(name, png):
 	res = [ name ]
@@ -239,7 +240,8 @@ class MerlinDownloadBrowser(Screen):
 
 	def callMsgReboot(self, result):
 		if result:
-			os.system("/var/config/system/gui.sh &")
+			self.session.open(TryQuitMainloop, 3)
+			#os.system("/var/config/system/gui.sh &")
 		else:
 			self.msgstate = 0
 
@@ -353,4 +355,3 @@ class DialogUpdateDelete(Screen):
 		self["list"].instance.moveSelection(direction)
 	def __repr__(self):
 		return str(type(self)) + "(" + self.text + ")"
-

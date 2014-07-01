@@ -161,6 +161,9 @@
 		</screen>
 		<!-- Main Menu Screen -->
 		<screen position="center,center" size="650,400" title="TeamCS Menu" name="MyMenu" >
+			<ePixmap position="480,350" zPosition="2" size="30,29" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/key_ok.png" transparent="1" alphatest="on" />
+			<ePixmap position="520,350" zPosition="2" size="30,29" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/key_menu.png" transparent="1" alphatest="on" />
+			<ePixmap position="560,350" zPosition="2" size="30,29" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/key_exit.png" transparent="1" alphatest="on" />
 			<widget source="menu" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
 				<convert type="StringList" />
 			</widget>
@@ -364,5 +367,11 @@ self[&quot;list&quot;].instance.resize(eSize(*listsize))
 newwidth = wsize[0]
 self.instance.move(ePoint(orgpos.x() + (orgwidth - newwidth)/2, orgpos.y()))
 		</applet>
-	</screen>
+		</screen>
+		<!-- Config Screen -->
+		<screen position="160,220" size="500,150" title="Global Settings" name="Config">
+			<widget name="configlist" position="10,10" size="450,100" />
+			<widget name="key_green" position="10,108" zPosition="1" size="130,30" valign="center" halign="center" font="Regular;20" transparent="1" />
+			<ePixmap position="10,111" zPosition="2" size="130,3" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/green.png" transparent="1" alphatest="on" />
+		</screen>
 </skin>
