@@ -40,7 +40,7 @@ class Config(Screen):
 		self["key_green"] = Label(_("Save"))
 		
 		self.list = []
-		self.list.append(getConfigListEntry(_("Zeige EmuMenu in Hauptmenu"), config.plugins.TeamCS_globalsettings.showemu))
+		self.list.append(getConfigListEntry(_("Zeige Emu Menu in Hauptmenu"), config.plugins.TeamCS_globalsettings.showemu))
 		self.list.append(getConfigListEntry(_("Zeige Addon Manager in Hauptmenu"), config.plugins.TeamCS_globalsettings.showaddon))
 		self.list.append(getConfigListEntry(_("Zeige SystemInfo in Hauptmenu"), config.plugins.TeamCS_globalsettings.showsysinfo))
 		self["configlist"] = ConfigList(self.list)
