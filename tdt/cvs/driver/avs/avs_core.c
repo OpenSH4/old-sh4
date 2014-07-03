@@ -121,11 +121,11 @@ static struct i2c_client *avs_client = NULL;
 static int avs_newprobe(struct i2c_client *client, const struct i2c_device_id *id)
 {
 	if (avs_client) {
-		dprintk("[AVS]: failure, client already registered\n");
+		printk("[AVS]: failure, client already registered\n");
 		return -ENODEV;
 	}
 
-	dprintk("[AVS]: chip found @ 0x%x\n", client->addr);
+	printk("[AVS]: chip found @ 0x%x\n", client->addr);
 
 	switch(devType)
 	{
@@ -145,7 +145,7 @@ static int avs_newprobe(struct i2c_client *client, const struct i2c_device_id *i
 static int avs_remove(struct i2c_client *client)
 {
 	avs_client = NULL;
-	dprintk("[AVS]: remove\n");
+	printk("[AVS]: remove\n");
 	return 0;
 }
 
@@ -155,10 +155,10 @@ static int avs_attach(struct i2c_adapter *adap, int addr, int kind)
 	struct i2c_client *client;
 	int err;
 
-	dprintk("[AVS]: attach\n");
+	printk("[AVS]: attach\n");
 
 	if (!(client = kzalloc(sizeof(struct i2c_client), GFP_KERNEL))) {
-		dprintk("[AVS]: attach nomem 1\n");
+		printk("[AVS]: attach nomem 1\n");
 		return -ENOMEM;
 	}
 
@@ -175,9 +175,9 @@ static int avs_attach(struct i2c_adapter *adap, int addr, int kind)
 		return err;
 	}
 
-	dprintk("[AVS]: attach final\n");
+	printk("[AVS]: attach final\n");
 	i2c_attach_client(client);
-	dprintk("[AVS]: attach final ok\n");
+	printk("[AVS]: attach final ok\n");
 
 	return 0;
 }
@@ -187,9 +187,9 @@ static int avs_probe(struct i2c_adapter *adap)
 	int ret = 0;
 
 #if !defined(CUBEREVO_MINI_FTA) && !defined(CUBEREVO_250HD) && !defined(IPBOX55)
-	dprintk("[AVS]: probe\n");
+	printk("[AVS]: probe\n");
 	ret = i2c_probe(adap, &addr_data, avs_attach);
-	dprintk("[AVS]: probe end %d\n",ret);
+	printk("[AVS]: probe end %d\n",ret);
 #endif
 
 	return ret;
@@ -216,11 +216,11 @@ static int avs_command_ioctl(struct i2c_client *client, unsigned int cmd, void *
 	int err = 0;
 
 #if !defined(VIP1_V2) && !defined(VIP2_V1) && !defined(SPARK) && !defined(SPARK7162)  && !defined(HS7810A) && !defined(HS7110) && !defined(WHITEBOX) // none i2c avs !!!
-	if (!client)
-		return -1;
+	//if (!client)
+	//	return -1;
 #endif
 
-	dprintk("[AVS]: %s (%u)\n", __func__, cmd);
+	printk("[AVS]: %s (%u)\n", __func__, cmd);
 
 	switch(devType)
 	{
@@ -245,11 +245,11 @@ int avs_command_kernel(unsigned int cmd, void *arg)
 
 #if !defined(VIP1_V2) && !defined(VIP2_V1) && !defined(SPARK) && !defined(SPARK7162) && !defined(HS7810A) && !defined(HS7110) && !defined(WHITEBOX)// i2c avs !!!
 	struct i2c_client *client = avs_client;
-	if (!client)
-		return -1;
+	//if (!client)
+	//	return -1;
 #endif
 
-	dprintk("[AVS]: %s (%u)\n", __func__, cmd);
+	printk("[AVS]: %s (%u)\n", __func__, cmd);
 
 	switch(devType)
 	{
@@ -276,7 +276,7 @@ EXPORT_SYMBOL(avs_command_kernel);
 
 static int avs_ioctl(struct inode *inode, struct file *file, unsigned int cmd, unsigned long arg)
 {
-	dprintk("[AVS]: IOCTL\n");
+	printk("[AVS]: IOCTL\n");
 	return avs_command_ioctl(avs_client, cmd, (void *) arg);
 }
 
@@ -413,13 +413,13 @@ int __init avs_init(void)
 		return err;
 	}
 
-	dprintk("[AVS]: A/V switch handling for %s\n", name);
+	printk("[AVS]: A/V switch handling for %s\n", name);
 
 #if !defined(CUBEREVO_MINI_FTA) && !defined(CUBEREVO_250HD)
 	if ((devType != FAKE_AVS) && (devType != AVS_NONE) && (devType != VIP2_AVS)
 		&& (devType != VIP1_AVS) && (devType != AVS_PIO)) {
 		if ((res = i2c_add_driver(&avs_i2c_driver))) {
-			dprintk("[AVS]: i2c add driver failed\n");
+			printk("[AVS]: i2c add driver failed\n");
 			return res;
 		}
 

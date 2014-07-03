@@ -53,14 +53,14 @@ static unsigned char ft_stnby=0;
 static unsigned char fctl=0;
 
 enum scart_ctl {
-	SCART_MUTE 		= 0,
-	SCART_STANDBY	= 1,
-	SCART_WSS		= 2,
-	SCART_CVBS_RGB	= 3,
-	SCART_TV_SAT	= 4,
-	SCART_0_12V		= 5,
-	FAN_VCCEN1		= 6, // ist das FAN ? oder nicht
-	HDD_VCCEN2		= 7, // ist das HDD ? oder nicht
+	SCART_AUDHI 		= 0, // 1 = LOW(Leiser Sound) | 0 = HI(Lauter Sound) | Aber nicht Mute !!!
+	SCART_STANDBY		= 1, // OK = Standby
+	SCART_WSS		= 2, // OK = 16:9 by 1
+	SCART_CVBS_RGB		= 3, // OK = CVBS/RGB
+	SCART_TV_SAT		= 4, // OK Encoder On by 1
+	SCART_0_12V		= 5, // ? 12V kommen immer egal ob 1 oder 0
+	FAN_VCCEN1		= 6, // ? FAN POWER ? 
+	HDD_VCCEN2		= 7, // ? HDD POWER ?
 };
 
 static struct stpio_pin*	srclk; // shift clock
@@ -117,11 +117,7 @@ void vip2_avs_hc595_out(unsigned char ctls, int state)
 
 int vip2_avs_src_sel(int src)
 {
-	if(src == SAA_SRC_ENC)
-		vip2_avs_hc595_out(SCART_TV_SAT, 1);
-	else if(src == SAA_SRC_SCART)
-		vip2_avs_hc595_out(SCART_TV_SAT, 0);
-	
+	printk("[AVS]: Not Supported (vip2_avs_src_sel) \n");
 	return 0;
 }
 
@@ -130,6 +126,7 @@ inline int vip2_avs_standby(int type)
 
 	if ((type<0) || (type>1))
 	{
+		printk("[AVS]: ft_stnby error type\n");
 		return -EINVAL;
 	}
  
@@ -137,25 +134,24 @@ inline int vip2_avs_standby(int type)
 	{
 		if (ft_stnby == 0)
 		{
-			// Aktivieren der Scart 12V Funktion wenn wir mit dem Stable Aktiv Test erfolg haben 
-			// ( steht im init ), anschliessend können wir dies hier im Standby aktivieren oder deaktivieren
-			// je nach Standby Mode
+			printk("[AVS]: ft_stnby 0\n");
 			vip2_avs_hc595_out(SCART_STANDBY, !ft_stnby);
-			//vip2_avs_hc595_out(SCART_0_12V, 0); //Disable Scart 12V Output by Standby
 			ft_stnby = 1;
 		}
 		else
+			printk("[AVS]: ft_stnby error\n");
 			return -EINVAL;		
 	}
 	else
 	{
 		if (ft_stnby == 1)
 		{
+			printk("[AVS]: ft_stnby 1\n");
 			vip2_avs_hc595_out(SCART_STANDBY, !ft_stnby);
-			//vip2_avs_hc595_out(SCART_0_12V, 1); // Reaktiviert 12V Output after Standby
 			ft_stnby = 0;
 		}
 		else
+			printk("[AVS]: ft_stnby error\n");
 			return -EINVAL;
 	}
 
@@ -164,23 +160,22 @@ inline int vip2_avs_standby(int type)
  
 int vip2_avs_set_volume(int vol)
 {
-	int c=0;
+	int c;
  
-	dprintk("[AVS]: %s (%d)\n", __func__, vol);
+	printk("[AVS]: %s (%d)\n", __func__, vol);
 	c = vol;
-
-	if(c==63)
-		c=62;
-	if(c==0)
-		c=1; 
  
 	if (c > 63 || c < 0)
-		return -EINVAL;
+		printk("[AVS]: %s - out off range (%d)\n", __func__, c);
+		if (c > 63 )
+			c = 62;
+		else
+			c = 1;
  
 	c = 63 - c;
- 
-	c=c/2;
- 
+
+	printk("[AVS]: %s: c = (%d)\n", __func__, c);
+	msleep(50);
 	t_vol = c;
  
 	return 0;
@@ -192,17 +187,21 @@ inline int vip2_avs_set_mute(int type)
 	{
 		return -EINVAL;
 	}
- 
+	
 	if (type==AVS_MUTE) 
 	{
+		printk("[AVS]: type Mute 1 (SCART_AUDHI=1 Zappen OK aber zu leise)\n");
 		t_mute = 1;
 	}
 	else
 	{
+		printk("[AVS]: type Mute 0 (SCART_AUDHI=0 Kackt beim Zappen)\n");
 		t_mute = 0;
 	}
 
-	vip2_avs_hc595_out(SCART_MUTE, t_mute); 
+	printk("[AVS]: %s: t_mute = (%d)\n", __func__, t_mute);
+	vip2_avs_hc595_out(SCART_AUDHI, t_mute);
+	printk("[AVS]: Hier Knackt es wenn SCART_AUDHI auf 0 gestellt wird für lauteren Sound...");
 	return 0;
 }
  
@@ -225,12 +224,15 @@ int vip2_avs_set_mode(int vol)
 	switch(vol)
 	{
 	case	SAA_MODE_RGB:
+		printk("[AVS]: vip2_avs_set_mode RGB 1\n");
 		vip2_avs_hc595_out(SCART_CVBS_RGB, 1);
 		break;
 	case	SAA_MODE_FBAS:
+		printk("[AVS]: vip2_avs_set_mode CVBS 1\n");
 		vip2_avs_hc595_out(SCART_CVBS_RGB, 0);
 		break;
 	default:
+		printk("[AVS]: vip2_avs_set_mode error\n");
 		break;
 
 	}
@@ -240,27 +242,34 @@ int vip2_avs_set_mode(int vol)
  
 int vip2_avs_set_encoder(int vol)
 {
+	vip2_avs_hc595_out(SCART_TV_SAT, 1); // set encoder
+	printk("[AVS]: Set Encoder = (1)ON\n");
+	/* set Audio Low by Boot (kein knacken bei Bootlogo) */
+	vip2_avs_hc595_out(SCART_AUDHI, 1);
 	return 0;
 }
  
 int vip2_avs_set_wss(int vol)
 {
-	dprintk("[AVS]: %s\n", __func__);
+	printk("[AVS]: %s\n", __func__);
 
 	if (vol == SAA_WSS_43F)
 	{
+		printk("[AVS]: avs_set_wss SAA_WSS_43F (0)\n");
 		vip2_avs_hc595_out(SCART_WSS, 0);
 	}
 	else if (vol == SAA_WSS_169F)
 	{
+		printk("[AVS]: avs_set_wss SAA_WSS_169F = (1)\n");
 		vip2_avs_hc595_out(SCART_WSS, 1);
 	}
 	else if (vol == SAA_WSS_OFF)
 	{
-		vip2_avs_hc595_out(SCART_WSS, 1);
+		printk("[AVS]: Not supportet\n");
 	}
 	else
 	{
+		printk("[AVS]: avs_set_wss error\n");
 		return  -EINVAL;
 	}
  
@@ -271,25 +280,30 @@ int vip2_avs_command(unsigned int cmd, void *arg )
 {
 	int val=0;
 
-	dprintk("[AVS]: %s(%d)\n", __func__, cmd);
+	printk("[AVS]: %s(%d)\n", __func__, cmd);
 
 	if (cmd & AVSIOSET)
 	{
 		if ( copy_from_user(&val,arg,sizeof(val)) )
 		{
+			printk("[AVS]: command copy error\n");
 			return -EFAULT;
 		}
 
 		switch (cmd)
 		{
 			case AVSIOSVOL:
+				printk("[AVS]: vip2_avs_command AVSIOSVOL\n");
 				return vip2_avs_set_volume(val);
 			case AVSIOSMUTE:
+				printk("[AVS]: vip2_avs_command AVSIOSMUTE\n");
 				return vip2_avs_set_mute(val);
 			case AVSIOSTANDBY:
+				printk("[AVS]: vip2_avs_command AVSIOSTANDBY\n");
 				return vip2_avs_standby(val);
 			default:
-				return -EINVAL;
+				printk("[AVS]: vip2_avs_command error\n");
+				break;
 		}
 	}
 	else if (cmd & AVSIOGET)
@@ -297,39 +311,47 @@ int vip2_avs_command(unsigned int cmd, void *arg )
 		switch (cmd)
 		{
 			case AVSIOGVOL:
+				printk("[AVS]: vip2_avs_command AVSIOGET volume\n");
 				val = vip2_avs_get_volume();
 				break;
 			case AVSIOGMUTE:
+				printk("[AVS]: vip2_avs_command AVSIOGET mute\n");
 				val = vip2_avs_get_mute();
 				break;
 			default:
-				return -EINVAL;
+				printk("[AVS]: vip2_avs_command AVSIOGET error\n");
+				break;
 		}
 
 		return put_user(val,(int*)arg);
 	}
 	else
 	{
-		dprintk("[AVS]: %s: SAA command\n", __func__);
+		printk("[AVS]: %s: SAA command\n", __func__);
 
 		/* an SAA command */
 		if ( copy_from_user(&val,arg,sizeof(val)) )
 		{
+			printk("[AVS]: %s: SAA command - Copy from User error\n", __func__);
 			return -EFAULT;
 		}
 
 		switch(cmd)
 		{
 		case SAAIOSMODE:
-           		 return vip2_avs_set_mode(val);
+			printk("[AVS]: vip2_avs_command SAAIOSMODE set mode\n");
+           		return vip2_avs_set_mode(val);
  	        case SAAIOSENC:
-        		 return vip2_avs_set_encoder(val);
+			printk("[AVS]: vip2_avs_command SAAIOSMODE set encoder\n");
+        		return vip2_avs_set_encoder(val);
 		case SAAIOSWSS:
+			printk("[AVS]: vip2_avs_command SAAIOSMODE set wss\n");
 			return vip2_avs_set_wss(val);
 		case SAAIOSSRCSEL:
+			printk("[AVS]: vip2_avs_command SAAIOSMODE src sel\n");
         		return vip2_avs_src_sel(val);
 		default:
-			dprintk("[AVS]: %s: SAA command not supported\n", __func__);
+			printk("[AVS]: %s: SAA command not supported\n", __func__);
 			return -EINVAL;
 		}
 	}
@@ -345,33 +367,40 @@ int vip2_avs_command_kernel(unsigned int cmd, void *arg)
 	{
 		val = (int) arg;
 
-      	dprintk("[AVS]: %s: AVSIOSET command\n", __func__);
+      	printk("[AVS]: %s: AVSIOSET command\n", __func__);
 
 		switch (cmd)
 		{
 			case AVSIOSVOL:
+			    printk("[AVS]: vip2_avs_command_kernel AVSIOSVOL set volume\n");
 		            return vip2_avs_set_volume(val);
 		        case AVSIOSMUTE:
+			    printk("[AVS]: vip2_avs_command_kernel AVSIOSVOL set mute\n");
 		            return vip2_avs_set_mute(val);
 		        case AVSIOSTANDBY:
+			    printk("[AVS]: vip2_avs_command_kernel AVSIOSVOL standby\n");
 		            return vip2_avs_standby(val);
 			default:
+				printk("[AVS]: %s: AVSIOSET command not supported\n", __func__);
 				return -EINVAL;
 		}
 	}
 	else if (cmd & AVSIOGET)
 	{
-		dprintk("[AVS]: %s: AVSIOGET command\n", __func__);
+		printk("[AVS]: %s: AVSIOGET command\n", __func__);
 
 		switch (cmd)
 		{
 			case AVSIOGVOL:
+			    printk("[AVS]: vip2_avs_command_kernel AVSIOGVOL volume\n");
 			    val = vip2_avs_get_volume();
 			    break;
 			case AVSIOGMUTE:
+			    printk("[AVS]: vip2_avs_command_kernel AVSIOGVOL mute\n");
 			    val = vip2_avs_get_mute();
 			    break;
 			default:
+				printk("[AVS]: %s: AVSIOGET command not supported\n", __func__);
 				return -EINVAL;
 		}
 
@@ -380,22 +409,26 @@ int vip2_avs_command_kernel(unsigned int cmd, void *arg)
 	}
 	else
 	{
-		dprintk("[AVS]: %s: SAA command (%d)\n", __func__, cmd);
+		printk("[AVS]: %s: SAA command (%d)\n", __func__, cmd);
 
 		val = (int) arg;
 
 		switch(cmd)
 		{
 		case SAAIOSMODE:
+			 printk("[AVS]: vip2_avs_command_kernel SAAIOSMODE set mode\n");
            		 return vip2_avs_set_mode(val);
  	        case SAAIOSENC:
+			 printk("[AVS]: vip2_avs_command_kernel SAAIOSMODE set encode\n");
         		 return vip2_avs_set_encoder(val);
 		case SAAIOSWSS:
+			 printk("[AVS]: vip2_avs_command_kernel SAAIOSMODE set wss\n");
 			return vip2_avs_set_wss(val);
 		case SAAIOSSRCSEL:
+			 printk("[AVS]: vip2_avs_command_kernel SAAIOSMODE src sel\n");
         		return vip2_avs_src_sel(val);
 		default:
-			dprintk("[AVS]: %s: SAA command not supported\n", __func__);
+			printk("[AVS]: %s: SAA command not supported\n", __func__);
 			return -EINVAL;
 		}
 	}
@@ -414,26 +447,22 @@ int vip2_avs_init(void)
 		if(srclk != NULL)
 			stpio_free_pin (srclk);
 		else
-			dprintk("[AVS]: srclk error\n");
+			printk("[AVS]: srclk error\n");
 
 		if(rclk != NULL)
 			stpio_free_pin (rclk);
 		else
-			dprintk("[AVS]: rclk error\n");
+			printk("[AVS]: rclk error\n");
 
 		if(sda != NULL)
 			stpio_free_pin(sda);
 		else
-			dprintk("[AVS]: sda error\n");
+			printk("[AVS]: sda error\n");
 
 		return -1;
 	}
 
-	vip2_avs_hc595_out(SCART_TV_SAT, 1); 	// set encoder
-	vip2_avs_hc595_out(SCART_0_12V, 1); 	// Enable 12V Scart Output bei Init
-
-
 	printk("[AVS]: init success\n");
 
-  return 0;
+  return vip2_avs_set_encoder(1);
 }
