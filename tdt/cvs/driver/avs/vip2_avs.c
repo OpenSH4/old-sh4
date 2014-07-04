@@ -66,6 +66,7 @@ enum scart_ctl {
 static struct stpio_pin*	srclk; // shift clock
 static struct stpio_pin*	rclk;  // latch clock
 static struct stpio_pin*	sda;   // serial data
+static struct stpio_pin*	mute;  // Dieser Pin war vom Tuner belegt, ist aber MUTE bei allen ARGUS
 
 #define SRCLK_CLR() {stpio_set_pin(srclk, 0);}
 #define SRCLK_SET() {stpio_set_pin(srclk, 1);}
@@ -92,7 +93,6 @@ void vip2_avs_hc595_out(unsigned char ctls, int state)
 
 	SDA_CLR();
 	SRCLK_CLR();
-    //udelay(10);
 
     for(i = 7; i >=0; i--)
 	{
@@ -105,13 +105,10 @@ void vip2_avs_hc595_out(unsigned char ctls, int state)
 		{
 			SDA_CLR();
 		}
-		udelay(1);
 		SRCLK_SET();
-		udelay(1);
 	}
 
     RCLK_CLR();
-    udelay(1);
     RCLK_SET();
 }
 
@@ -200,7 +197,8 @@ inline int vip2_avs_set_mute(int type)
 	}
 
 	printk("[AVS]: %s: t_mute = (%d)\n", __func__, t_mute);
-	vip2_avs_hc595_out(SCART_AUDHI, t_mute);
+	//vip2_avs_hc595_out(SCART_AUDHI, t_mute);
+	stpio_set_pin(mute, t_mute);
 	printk("[AVS]: Hier Knackt es wenn SCART_AUDHI auf 0 gestellt wird für lauteren Sound...");
 	return 0;
 }
@@ -245,7 +243,7 @@ int vip2_avs_set_encoder(int vol)
 	vip2_avs_hc595_out(SCART_TV_SAT, 1); // set encoder
 	printk("[AVS]: Set Encoder = (1)ON\n");
 	/* set Audio Low by Boot (kein knacken bei Bootlogo) */
-	vip2_avs_hc595_out(SCART_AUDHI, 1);
+	vip2_avs_hc595_out(SCART_AUDHI, 0);
 	return 0;
 }
  
@@ -438,11 +436,13 @@ int vip2_avs_command_kernel(unsigned int cmd, void *arg)
 
 int vip2_avs_init(void)
 {
+  
+	mute = stpio_request_pin (2, 2, "AVS_MUTE", STPIO_OUT);
 	srclk= stpio_request_pin (2, 5, "AVS_HC595_SRCLK", STPIO_OUT);
 	rclk = stpio_request_pin (2, 6, "AVS_HC595_RCLK", STPIO_OUT);
 	sda  = stpio_request_pin (2, 7, "AVS_HC595_SDA", STPIO_OUT);
 
-	if ((srclk == NULL) || (rclk == NULL) || (sda == NULL))
+	if ((srclk == NULL) || (rclk == NULL) || (sda == NULL) || (mute == NULL))
 	{
 		if(srclk != NULL)
 			stpio_free_pin (srclk);
@@ -458,6 +458,11 @@ int vip2_avs_init(void)
 			stpio_free_pin(sda);
 		else
 			printk("[AVS]: sda error\n");
+		
+		if(mute != NULL)
+			stpio_free_pin(mute);
+		else
+			printk("[AVS]: mute error\n");
 
 		return -1;
 	}

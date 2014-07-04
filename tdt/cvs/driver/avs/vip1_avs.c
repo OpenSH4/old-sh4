@@ -343,7 +343,7 @@ int vip1_avs_init(void)
 	scart_vcr_det	= stpio_request_pin (5, 5, "scart_vcr_det", STPIO_IN);
 	scart_cvbs_rgb	= stpio_request_pin (5, 2, "scart_cvbs_rgb", STPIO_OUT);
 	scart_169_43	= stpio_request_pin (2, 4, "scart_169_43", STPIO_OUT);
-	scart_mute		= stpio_request_pin (2, 2, "scart_mute", STPIO_OUT);
+	scart_mute	= stpio_request_pin (2, 2, "scart_mute", STPIO_OUT);
 	scart_standby	= stpio_request_pin (2, 6, "scart_standby", STPIO_OUT);
 
 

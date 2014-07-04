@@ -73,6 +73,24 @@
 #define AVSIOGSCARTPIN8	(36|AVSIOGET)
 #define AVSIOSTANDBY    (99|AVSIOSET)
  
+/* Test Input */
+#define DAS1			1
+#define DAS2			2
+#define DAS3			3
+#define DAS6			6
+#define DAS7			7
+#define DAS8			8
+#define DAS9			9
+#define DAS12			12
+#define DAS13			13
+#define DAS14			14
+#define DAS15			15
+#define DAS16			16
+#define DAS17			17
+#define DAS18			18
+#define DAS19			19
+#define DAS20			20
+
 #define SAAIOSENC               4 /* set encoder (pal/ntsc)             */
 #define SAAIOSMODE              5 /* set mode (rgb/fbas/svideo/component) */
 #define SAAIOSWSS              10 /* set wide screen signaling data */

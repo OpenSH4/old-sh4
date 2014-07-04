@@ -39,74 +39,35 @@
 #include <asm/string.h>
 
 #include "avs_core.h"
-#include "ak4705.h"
-#include "stv6412.h"
-#include "stv6417.h"
 #include "stv6418.h"
-#include "cxa2161.h"
 #include "vip2_avs.h"
 #include "vip1_avs.h"
-#include "fake_avs.h"
-#include "avs_pio.h"
-#include "avs_none.h"
 
 enum
 {
-	AK4705,
-	STV6412,
-	STV6417,
 	STV6418,
-	CXA2161,
 	VIP2_AVS,
 	VIP1_AVS,
-	FAKE_AVS,
-	SPARK_AVS,
-	SPARK7162_AVS,
-	AVS_PIO,
-	AVS_NONE,
 };
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,30)
 static const struct i2c_device_id avs_id[] = {
-        { "ak4705", AK4705 },
-        { "stv6412", STV6412 },
-        { "stv6417", STV6417 },
         { "stv6418", STV6418 },
-        { "cxa2161", CXA2161 },
         { "vip2_avs", VIP2_AVS },
-		{ "vip1_avs", VIP1_AVS },
-        { "fake_avs", FAKE_AVS },
-        { "avs_pio", AVS_PIO },
-        { "avs_none", AVS_NONE },
+	{ "vip1_avs", VIP1_AVS },
         { }
 };
 MODULE_DEVICE_TABLE(i2c, avs_id);
 #endif
 
 static int devType;
-static char *type = "ak4705";
+static char *type = "stv6418";
 
 /*
  * Addresses to scan
  */
 static unsigned short normal_i2c[] = {
-#if defined(HOMECAST5101)
-	I2C_ADDRESS_CXA2161, /* cxa2161, 0x48 */
-#elif defined(UFS922) || defined(CUBEREVO) \
-   || defined(CUBEREVO_MINI) || defined(CUBEREVO_MINI2) || defined(CUBEREVO_9500HD) || defined(CUBEREVO_2000HD)
-	0x4a, /* stv6412" */
-#elif defined(FORTIS_HDBOX) || defined(TF7700) || defined(UFS912) || defined(UFS913) || defined(ATEVIO7500) || defined(IPBOX9900) || defined(IPBOX99) || defined(ADB_BOX) || defined(HL101)
 	0x4b, /* stv6412 / stv6417 / stv6418 */
-#elif defined(VIP1_2) || defined(CLASSIC)
-	0x58, /* stv6418 = Vip1 Vip1v2 Opticum9500HD use all 0x58 */
-#elif defined(CUBEREVO_MINI_FTA) || defined(CUBEREVO_250HD) || defined(IPBOX55) || defined(HS7810A) || defined(HS7110) || defined(WHITEBOX) || defined(VIP2_1)
-	/* CUBEREVO_MINI_FTA does not register */
-	/* CUBEREVO_250HD seems to use fake_avs, but does not register */
-	/* VIP2 USE PIO VIP2_AVS PIO MODE */
-	0,
-#else /* default */
-	0x11, /* ak4705 */
-#endif
 	I2C_CLIENT_END
 };
 I2C_CLIENT_INSMOD;
@@ -129,13 +90,7 @@ static int avs_newprobe(struct i2c_client *client, const struct i2c_device_id *i
 
 	switch(devType)
 	{
-	case AK4705:   ak4705_init(client);   break;
-	case STV6412:  stv6412_init(client);  break;
-	case STV6417:  stv6417_init(client);  break;
 	case STV6418:  stv6418_init(client);  break;
-	case CXA2161:  cxa2161_init(client);  break;
-	case FAKE_AVS: fake_avs_init(client); break;
-	case AVS_NONE: avs_none_init(client); break;
 	default: return -ENODEV;
 	}
 	avs_client = client;
@@ -186,11 +141,9 @@ static int avs_probe(struct i2c_adapter *adap)
 {
 	int ret = 0;
 
-#if !defined(CUBEREVO_MINI_FTA) && !defined(CUBEREVO_250HD) && !defined(IPBOX55)
 	printk("[AVS]: probe\n");
 	ret = i2c_probe(adap, &addr_data, avs_attach);
 	printk("[AVS]: probe end %d\n",ret);
-#endif
 
 	return ret;
 }
@@ -215,26 +168,25 @@ static int avs_command_ioctl(struct i2c_client *client, unsigned int cmd, void *
 {
 	int err = 0;
 
-#if !defined(VIP1_V2) && !defined(VIP2_V1) && !defined(SPARK) && !defined(SPARK7162)  && !defined(HS7810A) && !defined(HS7110) && !defined(WHITEBOX) // none i2c avs !!!
-	//if (!client)
-	//	return -1;
-#endif
+	/* ist STV6418 gewählt so wird der i2c Client gecheckt
+	 * bei allen anderen (vip1v2 und Vip2) gibt es keinen 
+	 * I2C Client aber abbrechen wollen wir auch nciht 
+	 */
+	if (devType == STV6418)
+	{
+		if (!client)
+			return -1;
+	}
+
 
 	printk("[AVS]: %s (%u)\n", __func__, cmd);
 
 	switch(devType)
 	{
-	case AK4705:   err = ak4705_command(client, cmd, arg);   break;
-	case STV6412:  err = stv6412_command(client, cmd, arg);  break;
-	case STV6417:  err = stv6417_command(client, cmd, arg);  break;
 	case STV6418:  err = stv6418_command(client, cmd, arg);  break;
-	case CXA2161:  err = cxa2161_command(client, cmd, arg);  break;
-	case FAKE_AVS: err = fake_avs_command(client, cmd, arg); break;
-	case AVS_NONE: err = avs_none_command(client, cmd, arg); break;
 	/* none i2c avs */
 	case VIP2_AVS: 		err = vip2_avs_command(cmd, arg); 	 break;
 	case VIP1_AVS: 		err = vip1_avs_command(cmd, arg);	 break;
-	case AVS_PIO:		err = avs_pio_command(cmd, arg); 	 break;
 	}
 	return err;
 }
@@ -243,31 +195,24 @@ int avs_command_kernel(unsigned int cmd, void *arg)
 {
 	int err = 0;
 
-#if !defined(VIP1_V2) && !defined(VIP2_V1) && !defined(SPARK) && !defined(SPARK7162) && !defined(HS7810A) && !defined(HS7110) && !defined(WHITEBOX)// i2c avs !!!
 	struct i2c_client *client = avs_client;
-	//if (!client)
-	//	return -1;
-#endif
-
+	/* ist STV6418 gewählt so wird der i2c Client gecheckt
+	 * bei allen anderen (vip1v2 und Vip2) gibt es keinen 
+	 * I2C Client aber abbrechen wollen wir auch nciht 
+	 */
+	if (devType == STV6418)
+	{
+		if (!client)
+			return -1;
+	}
+	
 	printk("[AVS]: %s (%u)\n", __func__, cmd);
 
 	switch(devType)
 	{
-#if defined(VIP1_V2) || defined(VIP2_V1) || defined(SPARK) || defined(SPARK7162) || defined(HS7810A) || defined(HS7110) || defined(WHITEBOX) || defined(HL101)// none i2c avs !!!
-	case AVS_PIO: 		err = avs_pio_command_kernel(cmd, arg); 	break;
 	case VIP2_AVS: 		err = vip2_avs_command_kernel(cmd, arg); 	break;
 	case VIP1_AVS: 		err = vip1_avs_command_kernel(cmd, arg); 	break;
 	case STV6418:  		err = stv6418_command_kernel(client, cmd, arg);  break;
-	case FAKE_AVS: 		err = fake_avs_command_kernel(client, cmd, arg); break;
-#else
-	case AK4705:   err = ak4705_command_kernel(client, cmd, arg);   break;
-	case STV6412:  err = stv6412_command_kernel(client, cmd, arg);  break;
-	case STV6417:  err = stv6417_command_kernel(client, cmd, arg);  break;
-	case STV6418:  err = stv6418_command_kernel(client, cmd, arg);  break;
-	case CXA2161:  err = cxa2161_command_kernel(client, cmd, arg);  break;
-	case FAKE_AVS: err = fake_avs_command_kernel(client, cmd, arg); break;
-	case AVS_NONE: err = avs_none_command_kernel(client, cmd, arg); break;
-#endif
 	}
 	return err;
 }
@@ -313,45 +258,24 @@ static int avs_detect(struct i2c_client *client, int kind, struct i2c_board_info
 
     /* Default to an ak4705 if forced */
     if (kind == 0) {
-    	name = "ak4705";
-    	kind = AK4705;
+    	name = "stv6418";
+    	kind = STV6418;
     }
 
 	if (kind < 0) { /* detection and identification */
-		if (!type || !strcmp("ak4705", type))
-			kind = AK4705;
-		else if (!strcmp("stv6412", type))
-			kind = STV6412;
-		else if(!strcmp("stv6417", type))
-			kind = STV6417;
-		else if(!strcmp("stv6418", type))
+		if (!type || !strcmp("stv6418", type))
 			kind = STV6418;
-		else if(!strcmp("cxa2161", type))
-			kind = CXA2161;
 		else if(!strcmp("vip2_avs", type))
 			kind = VIP2_AVS;
 		else if(!strcmp("vip1_avs", type))
 			kind = VIP1_AVS;
-		else if(!strcmp("fake_avs", type))
-			kind = FAKE_AVS;
-		else if(!strcmp("avs_pio", type))
-			kind = AVS_PIO;
-		else if(!strcmp("avs_none", type))
-			kind = AVS_NONE;
 		else
 			return -ENODEV;
 	}
 	switch (kind) {
-	case AK4705:   		name = "ak4705";   		break;
-	case STV6412:  		name = "stv6412";  		break;
-	case STV6417:  		name = "stv6417";  		break;
 	case STV6418:  		name = "stv6418";  		break;
-	case CXA2161:  		name = "cxa2161";  		break;
 	case VIP2_AVS: 		name = "vip2_avs"; 		break;
 	case VIP1_AVS: 		name = "vip1_avs"; 		break;
-	case FAKE_AVS: 		name = "fake_avs"; 		break;
-	case AVS_PIO: 		name = "avs_pio"; 		break;
-	case AVS_NONE: 		name = "avs_none"; 		break;
 	default: return -ENODEV;
 	}
 	devType = kind;
@@ -415,9 +339,7 @@ int __init avs_init(void)
 
 	printk("[AVS]: A/V switch handling for %s\n", name);
 
-#if !defined(CUBEREVO_MINI_FTA) && !defined(CUBEREVO_250HD)
-	if ((devType != FAKE_AVS) && (devType != AVS_NONE) && (devType != VIP2_AVS)
-		&& (devType != VIP1_AVS) && (devType != AVS_PIO)) {
+	if ((devType != VIP2_AVS) && (devType != VIP1_AVS)) {
 		if ((res = i2c_add_driver(&avs_i2c_driver))) {
 			printk("[AVS]: i2c add driver failed\n");
 			return res;
@@ -426,12 +348,6 @@ int __init avs_init(void)
 		if (!avs_client){
 			printk("[AVS]: no client found\n");
 			i2c_del_driver(&avs_i2c_driver);
-			return -EIO;
-		}
-	}else if (devType == AVS_PIO){
-		if(avs_pio_init() != 0)
-		{
-			printk("[AVS]: init pio avs faild!\n");
 			return -EIO;
 		}
 	}else if (devType == VIP2_AVS){
@@ -447,7 +363,6 @@ int __init avs_init(void)
 			return -EIO;
 		}
 	}
-#endif
 
 	if (misc_register(&avs_dev)<0){
 		printk("[AVS]: unable to register device\n");
@@ -461,8 +376,6 @@ void __exit avs_exit(void)
 {
 	misc_deregister(&avs_dev);
 	i2c_del_driver(&avs_i2c_driver);
-	if(devType == AVS_PIO )
-		avs_pio_exit();
 }
 
 module_init(avs_init);
@@ -473,5 +386,5 @@ MODULE_DESCRIPTION("Multiplatform A/V scart switch driver");
 MODULE_LICENSE("GPL");
 
 module_param(type,charp,0);
-MODULE_PARM_DESC(type, "device type (ak4705, stv6412, cxa2161, stv6417, stv6418, vip2_avs, vip1_avs, fake_avs, avs_pio, avs_none)");
+MODULE_PARM_DESC(type, "device type (stv6418, vip2_avs, vip1_avs)");
 
