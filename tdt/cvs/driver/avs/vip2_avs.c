@@ -63,7 +63,6 @@ enum scart_ctl {
 	HDD_VCCEN2		= 7, // ? HDD POWER ?
 };
 
-static struct stpio_pin*	srclk; // shift clock
 static struct stpio_pin*	rclk;  // latch clock
 static struct stpio_pin*	sda;   // serial data
 static struct stpio_pin*	mute;  // Dieser Pin war vom Tuner belegt, ist aber MUTE bei allen ARGUS
@@ -197,8 +196,7 @@ inline int vip2_avs_set_mute(int type)
 	}
 
 	printk("[AVS]: %s: t_mute = (%d)\n", __func__, t_mute);
-	//vip2_avs_hc595_out(SCART_AUDHI, t_mute);
-	stpio_set_pin(mute, t_mute);
+	vip2_avs_hc595_out(SCART_AUDHI, t_mute);
 	printk("[AVS]: Hier Knackt es wenn SCART_AUDHI auf 0 gestellt wird für lauteren Sound...");
 	return 0;
 }
@@ -437,12 +435,11 @@ int vip2_avs_command_kernel(unsigned int cmd, void *arg)
 int vip2_avs_init(void)
 {
   
-	mute = stpio_request_pin (2, 2, "AVS_MUTE", STPIO_OUT);
 	srclk= stpio_request_pin (2, 5, "AVS_HC595_SRCLK", STPIO_OUT);
 	rclk = stpio_request_pin (2, 6, "AVS_HC595_RCLK", STPIO_OUT);
 	sda  = stpio_request_pin (2, 7, "AVS_HC595_SDA", STPIO_OUT);
 
-	if ((srclk == NULL) || (rclk == NULL) || (sda == NULL) || (mute == NULL))
+	if ((srclk == NULL) || (rclk == NULL) || (sda == NULL))
 	{
 		if(srclk != NULL)
 			stpio_free_pin (srclk);
@@ -459,11 +456,6 @@ int vip2_avs_init(void)
 		else
 			printk("[AVS]: sda error\n");
 		
-		if(mute != NULL)
-			stpio_free_pin(mute);
-		else
-			printk("[AVS]: mute error\n");
-
 		return -1;
 	}
 
