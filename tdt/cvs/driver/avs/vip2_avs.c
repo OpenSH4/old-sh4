@@ -63,9 +63,9 @@ enum scart_ctl {
 	HDD_VCCEN2		= 7, // ? HDD POWER ?
 };
 
+static struct stpio_pin*	srclk; // shift clock
 static struct stpio_pin*	rclk;  // latch clock
 static struct stpio_pin*	sda;   // serial data
-static struct stpio_pin*	mute;  // Dieser Pin war vom Tuner belegt, ist aber MUTE bei allen ARGUS
 
 #define SRCLK_CLR() {stpio_set_pin(srclk, 0);}
 #define SRCLK_SET() {stpio_set_pin(srclk, 1);}
