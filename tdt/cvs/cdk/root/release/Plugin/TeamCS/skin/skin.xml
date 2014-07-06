@@ -183,10 +183,6 @@
       				<convert type="MenuEntryCompare">timer</convert>
   				<convert type="ConditionalShowHide"/>
   			</widget>
-    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/wlan.png" position="470,10" render="Pixmap" size="150,150" source="menu">
-      				<convert type="MenuEntryCompare">wlansettings</convert>
-  				<convert type="ConditionalShowHide"/>
-  			</widget>
     			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/usbserial.png" position="470,10" render="Pixmap" size="150,150" source="menu">
       				<convert type="MenuEntryCompare">usbtoserial</convert>
   				<convert type="ConditionalShowHide"/>
@@ -203,22 +199,6 @@
       				<convert type="MenuEntryCompare">setbenutzer</convert>
   				<convert type="ConditionalShowHide"/>
   			</widget>
-    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/wol.png" position="470,10" render="Pixmap" size="150,150" source="menu">
-      				<convert type="MenuEntryCompare">woltimer</convert>
-  				<convert type="ConditionalShowHide"/>
-  			</widget>
-    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/upnp.png" position="470,10" render="Pixmap" size="150,150" source="menu">
-      				<convert type="MenuEntryCompare">upnpms</convert>
-  				<convert type="ConditionalShowHide"/>
-  			</widget>
-    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/openvpn.png" position="470,10" render="Pixmap" size="150,150" source="menu">
-      				<convert type="MenuEntryCompare">openvpn</convert>
-  				<convert type="ConditionalShowHide"/>
-  			</widget>
-    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/samba.png" position="470,10" render="Pixmap" size="150,150" source="menu">
-      				<convert type="MenuEntryCompare">sambamenu</convert>
-  				<convert type="ConditionalShowHide"/>
-  			</widget>
     			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/overclock.png" position="470,10" render="Pixmap" size="150,150" source="menu">
       				<convert type="MenuEntryCompare">CPUOVER</convert>
   				<convert type="ConditionalShowHide"/>
@@ -227,12 +207,46 @@
       				<convert type="MenuEntryCompare">swappart</convert>
   				<convert type="ConditionalShowHide"/>
   			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/nhd2.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">subsystem</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
     			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/macswitch.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">NETZ</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/update.png" position="470,10" render="Pixmap" size="150,150" source="menu">
+      				<convert type="MenuEntryCompare">update</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+		</screen>
+		<!-- Network Screen -->
+		<screen position="center,center" size="650,400" title="Network Menu" name="network" >
+			<widget source="network" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
+				<convert type="StringList" />
+			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/macswitch.png" position="470,10" render="Pixmap" size="150,150" source="network">
       				<convert type="MenuEntryCompare">eth0mac</convert>
   				<convert type="ConditionalShowHide"/>
   			</widget>
-    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/nhd2.png" position="470,10" render="Pixmap" size="150,150" source="menu">
-      				<convert type="MenuEntryCompare">subsystem</convert>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/wol.png" position="470,10" render="Pixmap" size="150,150" source="network">
+      				<convert type="MenuEntryCompare">woltimer</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/upnp.png" position="470,10" render="Pixmap" size="150,150" source="network">
+      				<convert type="MenuEntryCompare">upnpms</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/openvpn.png" position="470,10" render="Pixmap" size="150,150" source="network">
+      				<convert type="MenuEntryCompare">openvpn</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/samba.png" position="470,10" render="Pixmap" size="150,150" source="network">
+      				<convert type="MenuEntryCompare">sambamenu</convert>
+  				<convert type="ConditionalShowHide"/>
+  			</widget>
+    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/wlan.png" position="470,10" render="Pixmap" size="150,150" source="network">
+      				<convert type="MenuEntryCompare">wlansettings</convert>
   				<convert type="ConditionalShowHide"/>
   			</widget>
 		</screen>

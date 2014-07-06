@@ -39,6 +39,7 @@ from Swap import *
 from OverClock import *
 from Mac_Switch import *
 from Config import *
+from network import *
 
 ###########################################################################
 
@@ -50,19 +51,15 @@ class MyMenu(Screen):
 		list.append(("Emu Menu", "EMU", "EMUMANAGER", "46"))
 		list.append(("Addon Manager", "addon", "addonmanager", "46"))
 		list.append(("Display Uhr Einstellen", "time", "timer", "46"))
-		list.append(("W-Lan Einstellungen", "wlan", "wlansettings", "46"))
 		list.append(("USB zu Serial Treiber", "usbtoserial", "usbtoserial", "46"))
 		list.append(("Backup, Install Menu", "BACKUP", "BACKUPINSTALL", "46"))
 		list.append(("System Information", "SYSTEM", "SYSINFO", "46"))
+		list.append(("Online Update", "ONLINE", "update", "46"))
+		list.append(("Network Menu", "network", "NETZ", "46"))
 		list.append(("Tuner Waehlen", "tuner", "tuners", "46"))
 		list.append(("Benutzerdaten Einstellen", "benutzerdaten", "setbenutzer", "46"))
-		list.append(("WakeOnLan Einstellen", "wol", "woltimer", "46"))
-		list.append(("UPNP Media-Server-Client", "upnp", "upnpms", "46"))
-		list.append(("OpenVPN Client", "ovpn", "openvpn", "46"))
-		list.append(("Samba Menu", "samba", "sambamenu", "46"))
 		list.append(("Swap Einrichten", "swap", "swappart", "46"))
 		list.append(("CPU Overclocking", "CPUO", "CPUOVER", "46"))
-		list.append(("ETH0 MAC Switcher", "MACSWITCH", "eth0mac", "46"))
 		list.append(("NeutrinoHD2 Subsystem Switch", "NHD2", "subsystem", "46"))		
 
 		self["menu"] = List(list)
@@ -88,11 +85,14 @@ class MyMenu(Screen):
 			elif selection[1] == "addon":
 				self.session.open(MerlinDownloadBrowser)
 
+			elif selection[1] == "ONLINE":
+				self.prombt("/var/config/updatecheck.sh")
+
 			elif selection[1] == "SYSTEM":
 				self.session.open(SYSTEM)
 
-			elif selection[1] == "MACSWITCH":
-				self.session.open(ETHMAC)
+			elif selection[1] == "network":
+				self.session.open(network)
 
 			elif selection[1] == "swap":
 				self.session.open(SWAPPART)
@@ -100,20 +100,11 @@ class MyMenu(Screen):
 			elif selection[1] == "BACKUP":
 				self.session.open(BACKUP)
 
-			elif selection[1] == "time":
-				self.session.open(TIMESET)
+			elif selection[1] == "network":
+				self.session.open(network)
 			
 			elif selection[1] == "wol":
 				self.session.open(WOLSET)
-				
-			elif selection[1] == "ovpn":
-				self.session.open(OPENSET)			
-
-			elif selection[1] == "upnp":
-				self.session.open(UPNPSET)
-				
-			elif selection[1] == "samba":
-				self.session.open(SAMBASET)
 
 			elif selection[1] == "benutzerdaten":
 				self.session.open(BENUTZER)	
@@ -127,9 +118,6 @@ class MyMenu(Screen):
 			elif selection[1] == "NHD2":
 				self.session.open(MessageBox,_("Enigma2 wird beendet, NeutrinoHD2 wird gestartet... Bitte warten"), MessageBox.TYPE_INFO)
 				os.system("/var/config/system/nhd_switch.sh &")				
-
-			elif selection[1] == "wlan":
-				self.session.open(WLAN)
 
 			elif selection[1] == "usbtoserial":
 				self.session.open(USBSERIAL)

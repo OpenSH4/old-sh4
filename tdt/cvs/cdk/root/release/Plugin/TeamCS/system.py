@@ -28,7 +28,6 @@ class SYSTEM(Screen):
 		list.append(("Netzwerk Infos", "netstat", "sysinfo", "46"))
 		list.append(("Geladen Module Anzeigen", "lsmod", "sysinfo", "46"))
 		list.append(("Freier Speicher", "free", "sysinfo", "46"))
-		list.append(("Online Update", "ONLINE", "sysinfo", "46"))
 		list.append(("Image Version Infomation", "IMG", "sysinfo", "46"))
 		list.append(("Letztes FSCK Log Anzeigen", "FSCK", "sysinfo", "46"))
 		list.append(("Nand Speicher Menu", "NAND", "sysinfo", "46"))
@@ -56,9 +55,6 @@ class SYSTEM(Screen):
 
 			elif selection[1] == "NAND":
 				self.session.open(NANDMENU)
-
-			elif selection[1] == "ONLINE":
-				self.prombt("/var/config/updatecheck.sh")
 				
 			elif selection[1] == "IMG":
 				self.prombt("/var/config/sysversion.sh")
