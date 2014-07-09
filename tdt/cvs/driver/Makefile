@@ -38,6 +38,7 @@ obj-y += e2_proc/
 obj-y += frontends/
 obj-y += frontcontroller/
 obj-y += wireless/
+obj-y += detect/
 
 ifeq (,$(wildcard $(DRIVER_TOPDIR)/pti_np ))
 obj-y += pti/
