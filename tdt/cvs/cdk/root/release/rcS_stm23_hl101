@@ -3,22 +3,26 @@
     $MODLOAD jffs2
     echo "1" > /var/config/loop
     $MODLOAD Loop &
+    /sbin/syslogd -f /etc/syslog.conf &
+    /sbin/klogd -c5 &
     echo "Welcome..." > /dev/vfd
 
     if [ ! -e /dev/hdmi_cec ]; then
        mknod -m 644 /dev/hdmi_cec c 149 0
     fi
 
+    $MODLOAD Filesystem 
     $MODLOAD Virtfs
     $MODLOAD Bootlog
     $MODLOAD Overclock &
     $MODLOAD E2_proc
     $MODLOAD Mac 
-    $MODLOAD Filesystem 
     $MODLOAD Automount &
     $MODLOAD Telnet &
     $MODLOAD Stmfb-firmware
-    $MODLOAD Embx    
+    $MODLOAD Embx
+    $MODLOAD detect 
+    $MODLOAD Cimax
     $MODLOAD Avs
 
     if [ -e /var/config/system/tunerboxtype ]; then
@@ -38,18 +42,8 @@
     fi
 
     $MODLOAD Player2-stuff
-    
-if [ -e /var/etc/firstboot ]; then
-    $MODLOAD Firstboot step1
-fi
-
     $MODLOAD Tuner
-    $MODLOAD Cimax
     $MODLOAD Tuner-stuff
-    
-if [ -e /var/etc/firstboot ]; then
-    $MODLOAD Firstboot step2 
-fi
 
     $MODLOAD Player2
     $MODLOAD Swap &
@@ -174,6 +168,7 @@ fi
                  init 4;;
               3) echo "3"
                  echo "E2 RESTART"
+                 /var/config/system/gui_neustart.sh &
                  echo "0" > /proc/progress
             echo "DONE";;
               *) echo "*"

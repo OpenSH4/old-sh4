@@ -12,7 +12,7 @@ if [ "$1" = "Filesystem" ]; then
 	modprobe vfat.ko
 	modprobe cifs.ko
 	modprobe cachefiles.ko
-	modprobe ext3.ko
+	#modprobe ext3.ko
 	modprobe jbd.ko
 	modprobe nls_ascii.ko
 	modprobe nls_cp1250.ko
@@ -38,6 +38,8 @@ elif [ "$1" = "jffs2" ]; then
 	else
 		echo "Nand ist nicht Formatiert ..."
 	fi 
+elif [ "$1" = "detect" ]; then
+	modprobe detect.ko
 elif [ "$1" = "Automount" ]; then
     # start automounter with umount timeout of 5 seconds
     modprobe autofs4.ko
@@ -141,14 +143,9 @@ elif [ "$1" = "Stmfb-firmware" ]; then
        echo "load v firmware"
        /bin/ustslave /dev/st231-0 /boot/video.elf
 elif [ "$1" = "Avs" ]; then
-       BOXTYPE=`cat /var/config/system/tunerboxtype`
+       BOXTYPE=`cat /proc/Boxtype`
        echo "init AVS"
-       if [ -e /var/etc/firstboot ]; then
-		echo "Load Fake AVS - Firstboot"
-		modprobe avs.ko type=fake_avs
-       else
-       sleep 1
-       if [ $BOXTYPE = vip2 ]; then
+       if [ $BOXTYPE = Vip2 ]; then
           echo "AVS Aktiviert -- VIP2"
         if [ -e /var/config/deepstandby ]; then
            DEEPSTANDBY=`cat /var/config/deepstandby`
@@ -169,7 +166,7 @@ elif [ "$1" = "Avs" ]; then
         fi
         modprobe avs.ko type=vip2_avs
         dual=yes
-       elif [ $BOXTYPE = vip1 ]; then
+       elif [ $BOXTYPE = Vip1 ]; then
           echo "AVS Aktiviert -- VIP1"
           if [ -e /var/config/deepstandby ]; then
                DEEPSTANDBY=`cat /var/config/deepstandby`
@@ -187,9 +184,9 @@ elif [ "$1" = "Avs" ]; then
           else
                echo "vip" > /var/config/deepstandby
 	       echo "proton" > /var/config/fp_control
-        fi
+          fi
                modprobe avs.ko type=stv6418
-        elif [ $BOXTYPE = vip1v2 ]; then
+        elif [ $BOXTYPE = Vip1v2 ]; then
              echo "AVS Aktiviert -- VIP1v2"
              if [ -e /var/config/deepstandby ]; then
                 DEEPSTANDBY=`cat /var/config/deepstandby`
@@ -210,7 +207,6 @@ elif [ "$1" = "Avs" ]; then
          fi
                 modprobe avs.ko type=vip1_avs
         fi
-	fi
 elif [ "$1" = "Player2-stuff" ]; then
        player=`cat /proc/stb/player/version`
        player=`cat /proc/stb/player/version | awk '{ print substr( $0, length($0) - 2, length($0) ) }'`
@@ -230,31 +226,58 @@ elif [ "$1" = "Player2-stuff" ]; then
        fi
        modprobe pseudocard.ko bpa2_partition=LMI_VID
 elif [ "$1" = "Tuner" ]; then
-       BOXTYPE=`cat /var/config/system/tunerboxtype`
+       BOXTYPE=`cat /proc/Boxtype`
        echo "init frontends"
        ### Laed den Gesetzten Tuner Treiber
-       if [ $BOXTYPE = vip1 ]; then
-            DEMOD1=`cat /var/keys/Benutzerdaten/.system/demod1`
-            TUNER1=`cat /var/keys/Benutzerdaten/.system/tuner1`
-	    sleep 1
-            modprobe fe-core.ko demod=$DEMOD1 tuner=$TUNER1 ;
-       elif [ $BOXTYPE = vip1v2 ]; then
-            DEMOD1=`cat /var/keys/Benutzerdaten/.system/demod1`
-            TUNER1=`cat /var/keys/Benutzerdaten/.system/tuner1`
-	    sleep 1
-            modprobe fe-core-vip1v2.ko demod=$DEMOD1 tuner=$TUNER1 ;
-       elif [ $BOXTYPE = vip2 ]; then
-            TUNER1=`cat /var/keys/Benutzerdaten/.system/tuner1`
-       	    TUNER2=`cat /var/keys/Benutzerdaten/.system/tuner2`
-            DEMOD1=`cat /var/keys/Benutzerdaten/.system/demod1`
-            DEMOD2=`cat /var/keys/Benutzerdaten/.system/demod2`
-	    sleep 1
-	    modprobe fe-core-vip2.ko demod1=$DEMOD1 tuner1=$TUNER1 demod2=$DEMOD2 tuner2=$TUNER2 ;
+       if [ $BOXTYPE = Vip1 ]; then
+		TUNERTYPE=`cat /proc/Tunertype`		
+            	if [ $TUNERTYPE = "stb6100" ]; then
+            		modprobe fe-core.ko demod=stb0899 tuner=stb6100 ;
+            	elif [ $TUNERTYPE = "stb6110x" ]; then
+            		modprobe fe-core.ko demod=stv090x tuner=stb6110x ;
+            	elif [ $TUNERTYPE = "lg031" ]; then
+            		modprobe fe-core.ko demod=tda10023 tuner=lg031 ;
+            	elif [ $TUNERTYPE = "sharp6465" ]; then
+            		modprobe fe-core.ko demod=ce6353 tuner=sharp6465 ;
+		fi
+       elif [ $BOXTYPE = "Vip1v2" ]; then
+		TUNERTYPE=`cat /proc/Tunertype`		
+            	if [ $TUNERTYPE = "sharp7306" ]; then
+            		modprobe fe-core-vip1v2.ko demod=stv090x tuner=sharp7306 ;
+            	elif [ $TUNERTYPE = "lg031" ]; then
+            		modprobe fe-core-vip1v2.ko demod=tda10023 tuner=lg031 ;
+            	elif [ $TUNERTYPE = "sharp6465" ]; then
+            		modprobe fe-core-vip1v2.ko demod=ce6353 tuner=sharp6465 ;
+		fi
+       elif [ $BOXTYPE = Vip2 ]; then
+		TUNERTYPE=`cat /proc/Tunertype`		
+            	if [ $TUNERTYPE = "sharp7306" ]; then
+            		DEMOD1="stv090x"
+			TUNER1="sharp7306"
+            	elif [ $TUNERTYPE = "lg031" ]; then
+            		DEMOD1="tda10023"
+			TUNER1="lg031"
+            	elif [ $TUNERTYPE = "sharp6465" ]; then
+            		DEMOD1="ce6353"
+			TUNER1="sharp6465"
+		fi
+		TUNERTYPE2=`cat /proc/Tunertype2`		
+            	if [ $TUNERTYPE2 = "sharp7306" ]; then
+            		DEMOD2="stv090x"
+			TUNER2="sharp7306"
+            	elif [ $TUNERTYPE2 = "lg031" ]; then
+            		DEMOD2="tda10023"
+			TUNER2="lg031"
+            	elif [ $TUNERTYPE2 = "sharp6465" ]; then
+            		DEMOD2="ce6353"
+			TUNER2="sharp6465"
+		fi
+	    	modprobe fe-core-vip2.ko demod1=$DEMOD1 tuner1=$TUNER1 demod2=$DEMOD2 tuner2=$TUNER2 ;
        fi
 elif [ "$1" = "Cimax" ]; then
        echo "init drivers"
        # Cimax Modul für Vip2 ohne CI Module laden
-       BOXTYPE=`cat /var/config/system/tunerboxtype`
+       BOXTYPE=`cat /proc/Boxtype`
        if [ $BOXTYPE = vip2 ]; then
 	       echo "Load Vip2 no CI Modul Treiber"
 	       modprobe cimax_vip2.ko
@@ -586,37 +609,37 @@ elif [ "$1" = "Loopoff" ]; then
       	if [ "$SYSTEM" = "Neutrino" ]; then
 		sleep 20
 		echo "0" > /var/config/loop
-		fp_control -i 38 0
-		fp_control -i 39 0
-		fp_control -i 40 0
-		fp_control -i 41 0
+		fp_control -i 38 0 > /dev/null
+		fp_control -i 39 0 > /dev/null
+		fp_control -i 40 0 > /dev/null
+		fp_control -i 41 0 > /dev/null
 	else
 		sleep 80
 		echo "0" > /var/config/loop
-		fp_control -i 38 0
-		fp_control -i 39 0
-		fp_control -i 40 0
-		fp_control -i 41 0	
+		fp_control -i 38 0 > /dev/null
+		fp_control -i 39 0 > /dev/null
+		fp_control -i 40 0 > /dev/null
+		fp_control -i 41 0 > /dev/null
 	fi
 elif [ "$1" = "Loop" ]; then
 LOOP=`cat /var/config/loop`
 if [ "$LOOP" = "1" ]; then
-	fp_control -i 41 1
-	fp_control -i 38 1
+	fp_control -i 41 1 > /dev/null
+	fp_control -i 38 1 > /dev/null
 else
-	fp_control -i 38 0
-	fp_control -i 39 0
-	fp_control -i 40 0
-	fp_control -i 41 0
+	fp_control -i 38 0 > /dev/null
+	fp_control -i 39 0 > /dev/null
+	fp_control -i 40 0 > /dev/null
+	fp_control -i 41 0 > /dev/null
 fi
 while [ "$LOOP" = "1" ]
 do
-	fp_control -i 40 1
+	fp_control -i 40 1 > /dev/null
 	sleep 1
-	fp_control -i 39 1
+	fp_control -i 39 1 > /dev/null
 	sleep 1
-	fp_control -i 40 0
-	fp_control -i 39 0
+	fp_control -i 40 0 > /dev/null
+	fp_control -i 39 0 > /dev/null
 	LOOP=`cat /var/config/loop`
 done
 elif [ "$1" = "Firstboot" ]; then
