@@ -191,10 +191,6 @@
       				<convert type="MenuEntryCompare">SYSINFO</convert>
   				<convert type="ConditionalShowHide"/>
   			</widget>
-    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/tuner.png" position="470,10" render="Pixmap" size="150,150" source="menu">
-      				<convert type="MenuEntryCompare">tuners</convert>
-  				<convert type="ConditionalShowHide"/>
-  			</widget>
     			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/user.png" position="470,10" render="Pixmap" size="150,150" source="menu">
       				<convert type="MenuEntryCompare">setbenutzer</convert>
   				<convert type="ConditionalShowHide"/>
@@ -286,16 +282,6 @@
 			</widget>
     			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/clock.png" position="470,10" render="Pixmap" size="150,150" source="TIMESHUTDOWN">
       				<convert type="MenuEntryCompare">timer</convert>
-  				<convert type="ConditionalShowHide"/>
-  			</widget>
-		</screen>
-		<!-- Tuner selection Screen -->
-		<screen position="center,center" size="650,400" title="Tuner Menu" name="TUNER" >
-			<widget source="TUNER" render="Listbox" zPosition="2" transparent="1" position="10,10" size="420,380" scrollbarMode="showOnDemand" foregroundColor="#FFFFFF" foregroundColorSelected="#FFFFFF" >
-				<convert type="StringList" />
-			</widget>
-    			<widget alphatest="blend" pixmap="/usr/lib/enigma2/python/Plugins/Extensions/TeamCS/skin/pic/tuner.png" position="470,10" render="Pixmap" size="150,150" source="TUNER">
-      				<convert type="MenuEntryCompare">tuner</convert>
   				<convert type="ConditionalShowHide"/>
   			</widget>
 		</screen>
