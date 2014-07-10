@@ -29,8 +29,6 @@ static int Boxtype;
 static int Tunertype;
 static int Tunertype2;
 
-// Proc
-#define MAX_LEN       4096
 int read_info( char *page, char **start, off_t off,int count, int *eof, void *data );
 ssize_t write_info( struct file *filp, const char __user *buff,unsigned long len, void *data );
 
@@ -41,11 +39,6 @@ static struct proc_dir_entry *proc_entry_tuner2;
 static char *info;
 static int write_index;
 static int read_index;
-
-/* wir benoetigen die Pins zum Aktivieren der Buse */
-struct stpio_pin*	detect1;   // dieser Pin ist bei allen Boxen gleich...
-struct stpio_pin*	detect2;   // dieser Pin ist bei allen Boxen gleich...
-struct stpio_pin*	detect3;   // dieser Pin ist bei allen Boxen gleich...
 
 // -------------------------------------------------------------
 
@@ -70,15 +63,6 @@ static int i2c_autodetect (struct i2c_adapter *adapter, unsigned char i2c_addr, 
 int TunerScan(char *Boxtype)
 {
 	struct i2c_adapter *adap;
-	int rb_tuner = 0;
-	int st_tuner = 0;
-	int sharps2_tuner = 0;
-	int lg_tuner = 0;
-	int sharp_tuner = 0;
-	/* Dual */
-	int sharps2_tuner2 = 0;
-	int lg_tuner2 = 0;
-	int sharp_tuner2 = 0;
 	
 	/* Check I2CBus and Tuner Address */
 	if(Boxtype == "Vip1") 
@@ -88,16 +72,16 @@ int TunerScan(char *Boxtype)
 			return 0;
 		}
 		if(i2c_autodetect(adap, RBTuner, 0x0) != -1 ) {
-			rb_tuner = 1;
+			Tunertype = "stb6100";
 		}
 		if(i2c_autodetect(adap, STTuner, 0x0) != -1 ) {
-			st_tuner = 1;
+			Tunertype = "stb6110x";
 		}
 		if(i2c_autodetect(adap, LGCabel, 0x0) != -1 ) {
-			lg_tuner = 1;
+			Tunertype = "lg031";
 		}
 		if(i2c_autodetect(adap, Sharpdvbt, 0x0) != -1 ) {
-			sharp_tuner = 1;
+			Tunertype = "sharp6465";
 		}
 	}
 	if(Boxtype == "Vip1v2") 
@@ -107,13 +91,13 @@ int TunerScan(char *Boxtype)
 			return 0;
 		}
 		if(i2c_autodetect(adap, LGCabel, 0x0) != -1 ) {
-			lg_tuner = 1;
+			Tunertype = "lg031";
 		}
 		if(i2c_autodetect(adap, Sharpdvbt, 0x0) != -1 ) {
-			sharp_tuner = 1;
+			Tunertype = "sharp6465";
 		}
 		if(i2c_autodetect(adap, SharpS2, 0x0) != -1 ) {
-			sharps2_tuner = 1;
+			Tunertype = "sharp7306";
 		}
 	}
 	if(Boxtype == "Vip2") 
@@ -124,13 +108,13 @@ int TunerScan(char *Boxtype)
 			return 0;
 		}
 		if(i2c_autodetect(adap, LGCabel, 0x0) != -1 ) {
-			lg_tuner = 1;
+			Tunertype = "lg031";
 		}
 		if(i2c_autodetect(adap, Sharpdvbt, 0x0) != -1 ) {
-			sharp_tuner = 1;
+			Tunertype = "sharp6465";
 		}
 		if(i2c_autodetect(adap, SharpS2, 0x0) != -1 ) {
-			sharps2_tuner = 1;
+			Tunertype = "sharp7306";
 		}
 		/* Bus 1 Check */
 		if((adap = i2c_get_adapter(I2C_TUNERBUS1)) == NULL) {
@@ -138,58 +122,13 @@ int TunerScan(char *Boxtype)
 			return 0;
 		}
 		if(i2c_autodetect(adap, LGCabel, 0x0) != -1 ) {
-			lg_tuner2 = 1;
-		}
-		if(i2c_autodetect(adap, Sharpdvbt, 0x0) != -1 ) {
-			sharp_tuner2 = 1;
-		}
-		if(i2c_autodetect(adap, SharpS2, 0x0) != -1 ) {
-			sharps2_tuner2 = 1;
-		}
-	}
-	if(Boxtype == "Vip1") {
-		if(rb_tuner == 1) {
-			Tunertype = "stb6100";
-		}
-		if(st_tuner == 1) {
-			Tunertype = "stb6110x";
-		}
-		if(lg_tuner == 1) {
-			Tunertype = "lg031";
-		}
-		if(sharp_tuner == 1) {
-			Tunertype = "sharp6465";
-		}
-	}
-	if(Boxtype == "Vip1v2") {
-		if(sharps2_tuner == 1) {
-			Tunertype = "sharp7306";
-		}
-		if(lg_tuner == 1) {
-			Tunertype = "lg031";
-		}
-		if(sharp_tuner == 1) {
-			Tunertype = "sharp6465";
-		}
-	}
-	if(Boxtype == "Vip2") {
-		if(sharps2_tuner == 1) {
-			Tunertype = "sharp7306";
-		}
-		if(lg_tuner == 1) {
-			Tunertype = "lg031";
-		}
-		if(sharp_tuner == 1) {
-			Tunertype = "sharp6465";
-		}
-		if(sharps2_tuner2 == 1) {
 			Tunertype2 = "sharp7306";
 		}
-		if(lg_tuner2 == 1) {
+		if(i2c_autodetect(adap, Sharpdvbt, 0x0) != -1 ) {
 			Tunertype2 = "lg031";
 		}
-		if(sharp_tuner2 == 1) {
-			Tunertype2 = "sharp6465";
+		if(i2c_autodetect(adap, SharpS2, 0x0) != -1 ) {
+			Tunertype2 = "sharp7306";
 		}
 	}
 	

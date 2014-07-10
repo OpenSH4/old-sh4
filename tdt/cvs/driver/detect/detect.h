@@ -1,7 +1,13 @@
 #ifndef _DETECT_H
 #define _DETECT_H
 
-#define PROC_FILENAME           "boxtypes"
+// Proc
+#define MAX_LEN       4096
+
+/* wir benoetigen die Pins zum Aktivieren der Buse */
+struct stpio_pin*	detect1;   // dieser Pin ist bei allen Boxen gleich...
+struct stpio_pin*	detect2;   // dieser Pin ist bei allen Boxen gleich...
+struct stpio_pin*	detect3;   // dieser Pin ist bei allen Boxen gleich...
 
 /* I2C Check Address of Bus 2 for Boxtype */
 #define I2C_BUS2		2
