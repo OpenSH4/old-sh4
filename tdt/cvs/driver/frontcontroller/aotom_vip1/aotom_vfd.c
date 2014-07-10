@@ -2721,7 +2721,7 @@ static int YWPANEL_VFD_Init_Common(void)
 	pio_sda = stpio_request_pin(3,2, "pio_sda", STPIO_OUT);
 	pio_scl = stpio_request_pin(3,4, "pio_scl", STPIO_OUT);
 	pio_cs  = stpio_request_pin(3,5, "pio_cs",  STPIO_OUT);
-	pio_hdmi  = stpio_request_pin(5,4, "pio_cs",  STPIO_OUT);
+	pio_hdmi  = stpio_request_pin(5,4, "HDMI_Power",  STPIO_OUT);
 	if (!pio_sda || !pio_scl || !pio_cs || !pio_hdmi)
 	{
 		ywtrace_print(TRACE_ERROR, "%s: stpio_request failed @%d\n", __FUNCTION__, __LINE__);
