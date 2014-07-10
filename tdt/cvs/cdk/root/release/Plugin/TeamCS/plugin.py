@@ -26,7 +26,6 @@ from Addon import *
 from wlan import *
 from Benutzer import *
 from usbserial import *
-from Tuner import *
 from system import *
 from emu import *
 from time import *
@@ -56,7 +55,6 @@ class MyMenu(Screen):
 		list.append(("System Information", "SYSTEM", "SYSINFO", "46"))
 		list.append(("Online Update", "ONLINE", "update", "46"))
 		list.append(("Network Menu", "network", "NETZ", "46"))
-		list.append(("Tuner Waehlen", "tuner", "tuners", "46"))
 		list.append(("Benutzerdaten Einstellen", "benutzerdaten", "setbenutzer", "46"))
 		list.append(("Swap Einrichten", "swap", "swappart", "46"))
 		list.append(("CPU Overclocking", "CPUO", "CPUOVER", "46"))
@@ -108,9 +106,6 @@ class MyMenu(Screen):
 
 			elif selection[1] == "benutzerdaten":
 				self.session.open(BENUTZER)	
-
-			elif selection[1] == "tuner":
-				self.session.open(TUNER)
 
 			elif selection[1] == "CPUO":
 				self.session.open(OVERCLOCK)
