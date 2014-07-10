@@ -25,9 +25,9 @@
 #include "detect.h"
 
 static int detected_boxid;
-static int Boxtype;
-static int Tunertype;
-static int Tunertype2;
+static char *Boxtype;
+static char *Tunertype;
+static char *Tunertype2;
 
 int read_info( char *page, char **start, off_t off,int count, int *eof, void *data );
 ssize_t write_info( struct file *filp, const char __user *buff,unsigned long len, void *data );
@@ -145,7 +145,6 @@ int TunerScan(char *Boxtype)
 static int detect_boxid(void)
 {
 	struct i2c_adapter *adap;
-    	int ret = 0;
 	int i2c40 = 0;
 	int i2c28 = 0;
 
