@@ -12,7 +12,6 @@ if [ "$1" = "Filesystem" ]; then
 	modprobe vfat.ko
 	modprobe cifs.ko
 	modprobe cachefiles.ko
-	#modprobe ext3.ko
 	modprobe jbd.ko
 	modprobe nls_ascii.ko
 	modprobe nls_cp1250.ko
@@ -48,7 +47,6 @@ elif [ "$1" = "Automount" ]; then
 elif [ "$1" = "Embx" ]; then
        echo "init embx"
        modprobe embxshell.ko
-       #modprobe embxmailbox.ko mailbox0=0xb9211000:136:set2 mailbox1=0xb9212000:0 ;
        modprobe embxmailbox.ko mailbox0=0xb9211000:136:set2 mailbox1=0xb9212000:137:set2 ;
        modprobe embxshm.ko mailbox0=shm:0:7:0x60000000:0:512:512:0:1024:0xa4000000:0x10000000 ;
        modprobe mme_host.ko transport0=shm
@@ -146,66 +144,14 @@ elif [ "$1" = "Avs" ]; then
        BOXTYPE=`cat /proc/Boxtype`
        echo "init AVS"
        if [ $BOXTYPE = Vip2 ]; then
-          echo "AVS Aktiviert -- VIP2"
-        if [ -e /var/config/deepstandby ]; then
-           DEEPSTANDBY=`cat /var/config/deepstandby`
-	   TIMESET=`cat /var/config/fp_control`
-                if [ "$DEEPSTANDBY" = "vip2" ]; then
-             		echo "Deepstandby OK"
-           	else
-             		echo "vip2" > /var/config/deepstandby
-                fi
-		if [ "$TIMESET" = "aotom" ]; then
-             		echo "Timeset OK"
-           	else
-             		echo "aotom" > /var/config/fp_control
-          	fi
-        else
-           echo "vip2" > /var/config/deepstandby
-	   echo "aotom" > /var/config/fp_control
-        fi
-        modprobe avs.ko type=vip2_avs
-        dual=yes
+	    modprobe avs.ko type=vip2_avs
+	    dual=yes
        elif [ $BOXTYPE = Vip1 ]; then
-          echo "AVS Aktiviert -- VIP1"
-          if [ -e /var/config/deepstandby ]; then
-               DEEPSTANDBY=`cat /var/config/deepstandby`
-	       TIMESET=`cat /var/config/fp_control`
-               if [ "$DEEPSTANDBY" = "vip" ]; then
-                     echo "Deepstandby OK"
-               else
-                     echo "vip" > /var/config/deepstandby
-               fi
-	       if [ "$TIMESET" = "proton" ]; then
-             	     echo "Timeset OK"
-               else
-             	     echo "proton" > /var/config/fp_control
-               fi
-          else
-               echo "vip" > /var/config/deepstandby
-	       echo "proton" > /var/config/fp_control
-          fi
-               modprobe avs.ko type=stv6418
+	    echo "AVS Aktiviert -- VIP1"
+	    modprobe avs.ko type=stv6418
         elif [ $BOXTYPE = Vip1v2 ]; then
              echo "AVS Aktiviert -- VIP1v2"
-             if [ -e /var/config/deepstandby ]; then
-                DEEPSTANDBY=`cat /var/config/deepstandby`
-	        TIMESET=`cat /var/config/fp_control`
-                if [ "$DEEPSTANDBY" = "vip2" ]; then
-             		echo "Deepstandby OK"
-           	else
-             		echo "vip2" > /var/config/deepstandby
-          	fi
-		if [ "$TIMESET" = "aotom" ]; then
-             		echo "Timeset OK"
-           	else
-             		echo "aotom" > /var/config/fp_control
-          	fi
-         else
-                echo "vip2" > /var/config/deepstandby
-	        echo "aotom" > /var/config/fp_control
-         fi
-                modprobe avs.ko type=vip1_avs
+             modprobe avs.ko type=vip1_avs
         fi
 elif [ "$1" = "Player2-stuff" ]; then
        player=`cat /proc/stb/player/version`
@@ -289,7 +235,6 @@ elif [ "$1" = "Tuner-stuff" ]; then
        echo "np-PTI Laden..."
        modprobe pti.ko videoMem=2048 waitMS=20
        echo "NP- Fertig"
-
        player=`cat /proc/stb/player/version`
        player=`cat /proc/stb/player/version | awk '{ print substr( $0, length($0) - 2, length($0) ) }'`
        if [ $player -gt 131 ]; then
@@ -328,18 +273,14 @@ elif [ "$1" = "Smartcard" ]; then
 	mknod /dev/sci0 c 169 0
  	mknod /dev/sci1 c 169 1
     fi
-       BOXTYPE=`cat /var/config/system/tunerboxtype`
-       echo "Kartenslots Aktivieren ..."
-    if [ -e /var/etc/firstboot ]; then
-	echo "no Smartcard Aktiv"
+    BOXTYPE=`cat /proc/Boxtype`
+    echo "Kartenslots Aktivieren ..."
+    if [ "$BOXTYPE" = "Vip1" ]; then
+	modprobe smartcard boxtype=vip1
+    elif [ "$BOXTYPE" = "Vip1v2" ]; then
+	modprobe smartcard boxtype=vip1
     else
-	if [ "$BOXTYPE" = "vip1" ]; then
-	       	modprobe smartcard boxtype=vip1
-	elif [ "$BOXTYPE" = "vip1v2" ]; then
-	       	modprobe smartcard boxtype=vip1
-	else
-       		modprobe smartcard boxtype=vip2
-	fi
+    	modprobe smartcard boxtype=vip2
     fi
 elif [ "$1" = "Cec" ]; then
     modprobe cec.ko activemode=1
@@ -462,12 +403,12 @@ elif [ "$1" = "Lirc" ]; then
     else
     if [ -e /var/keys/Benutzerdaten/.system/fernbedienung ]; then
     fb=`cat /var/keys/Benutzerdaten/.system/fernbedienung`
-    DEEPSTANDBY=`cat /var/config/system/tunerboxtype`
-       if [ "$DEEPSTANDBY" = "vip2" ]; then
+    DEEPSTANDBY=`cat /proc/Boxtype`
+       if [ "$DEEPSTANDBY" = "Vip2" ]; then
 		SETS="-s"
-       elif [ "$DEEPSTANDBY" = "vip1v2" ]; then
+       elif [ "$DEEPSTANDBY" = "Vip1v2" ]; then
 		SETS="-s"
-       elif [ "$DEEPSTANDBY" = "vip1" ]; then
+       elif [ "$DEEPSTANDBY" = "Vip1" ]; then
 		SETS="-x"
        fi
        if [ "$fb" = "neu" ]; then
@@ -644,31 +585,12 @@ do
 done
 elif [ "$1" = "Firstboot" ]; then
 	if [ "$2" = "step1" ]; then
-    		if [ -e /var/etc/firstboot ]; then
-       			echo "Load CI Modul Treiber"
-       			# wir ladn das Cimax im Firstboot früher um pin 2.5 Tuner und I2C 0x40 zu Aktivieren
-       			modprobe cimax.ko
-       			sleep 3
-       			# Boxtype Check für Vip2 um Tuner zu Finden
-       			/bin/autoswitch -b
-    		fi
-	elif [ "$2" = "step2" ]; then
-    		if [ -e /var/etc/firstboot ]; then
-       			# Tuner Scan
-       			echo "Scan Tuner" > /dev/vfd
-       			/bin/autoswitch -t
-    		fi
-	elif [ "$2" = "step3" ]; then
     		# ADD AutoFB Switch
     		if [ -e /var/etc/firstboot ]; then
 			/bin/autoswitch -r
 			sleep 3
    	 		# ADD Scart/HDMI Switch
 			/bin/autoswitch -v
-			echo "Reboot..." > /dev/vfd
-        		echo "reboot" > /var/config/shutdown/reboot
-        		sleep 2
-        		init 4
     		fi
 	fi
 fi

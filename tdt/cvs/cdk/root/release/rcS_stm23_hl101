@@ -56,7 +56,7 @@
     $MODLOAD Netapps 
     
 if [ -e /var/etc/firstboot ]; then
-    $MODLOAD Firstboot step3
+    $MODLOAD Firstboot step1
 fi
 
     $MODLOAD Mountswap 
