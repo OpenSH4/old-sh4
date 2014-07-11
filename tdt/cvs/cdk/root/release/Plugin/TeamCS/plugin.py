@@ -23,20 +23,14 @@ from enigma import eConsoleAppContainer, loadPNG, ePicLoad, eListboxPythonString
 
 # include Submenues
 from Addon import *
-from wlan import *
 from Benutzer import *
 from usbserial import *
 from system import *
 from emu import *
 from time import *
 from Backup import *
-from wol import *
-from upnp import *
-from OpenVPN import *
-from Samba import *
 from Swap import *
 from OverClock import *
-from Mac_Switch import *
 from Config import *
 from network import *
 
@@ -88,6 +82,9 @@ class MyMenu(Screen):
 
 			elif selection[1] == "SYSTEM":
 				self.session.open(SYSTEM)
+
+			elif selection[1] == "time":
+				self.session.open(TIMESET)
 
 			elif selection[1] == "network":
 				self.session.open(network)

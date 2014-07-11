@@ -20,6 +20,13 @@ from Components.Pixmap import Pixmap
 from Components.Sources.StaticText import StaticText
 from Components.Sources.List import List
 
+from wlan import *
+from wol import *
+from upnp import *
+from OpenVPN import *
+from Samba import *
+from Mac_Switch import *
+
 class network(Screen):
 	def __init__(self, session):
 		Screen.__init__(self, session)
