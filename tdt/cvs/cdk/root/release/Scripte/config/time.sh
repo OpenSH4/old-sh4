@@ -52,6 +52,13 @@ if [ $STBY = scart ]; then # Hier beginnt die Anzeige wenn Box im standby
 	# Clear Display and Icons
 	if [ $stats = 0 ];then
 		fp_control -c > /dev/null
+		# Disable HDD
+		sdparm --flexible --command=stop /dev/sdb
+		# Clear Memory in standby
+		echo "Clear Memory ..."
+		/var/config/system/ram_free.sh &
+		# Deaktiviert den HDMI im Standby
+		/bin/stfbcontrol hd
 		stats=1
 	fi
 	fp_control -i 34 1 > /dev/null
@@ -59,8 +66,6 @@ if [ $STBY = scart ]; then # Hier beginnt die Anzeige wenn Box im standby
 	fp_control -s $hour:$minute:$second $day-$month-$year > /dev/null
 	fp_control -t "$day-$month" > /dev/null # Das ist die Display anzeige Monat und Tag
 	standby=1
-	# Deaktiviert den HDMI im Standby
-	/bin/stfbcontrol hd
 	if [ $MODE = BLANK ]; then
 		# set Display OFF
 		fp_control -l 0 > /dev/null
@@ -84,6 +89,9 @@ else # Hier beginnt die anzeige im Betrieb, nicht ändern
 		/bin/stfbcontrol he
 		####### OnScreen Update Message #######
 		/var/config/system/updatecheck.sh &
+		# Clear Memory after standby ;)
+		echo "Clear Memory ..."
+		/var/config/system/ram_free.sh &
 		# Aktiviert das dauer OC nach dem Standby wieder
 		if [ -e /var/keys/Benutzerdaten/.system/overclock ]; then
        			OVERCLOCK=`cat /var/keys/Benutzerdaten/.system/overclock`
@@ -132,6 +140,10 @@ if [ $BOXOFF = OFF ]; then # Hier beginnt die Anzeige wenn Box Heruntergefahren 
 	else
 	if [ $stats = 0 ];then
 		fp_control -c > /dev/null
+		# HDD Standby
+		sdparm --flexible --command=stop /dev/sdb
+		# Deaktiviert den HDMI im Standby
+		/bin/stfbcontrol hd
 		stats=1
 	fi
 	echo "give Time String"
@@ -139,8 +151,6 @@ if [ $BOXOFF = OFF ]; then # Hier beginnt die Anzeige wenn Box Heruntergefahren 
 	fp_control -i 36 1
 	fp_control -s $hour:$minute:$second $day-$month-$year > /dev/null
 	fp_control -t "Turn OFF" #> /dev/null # Hier wird wenn die runtergefahren ist Turn OFf im Display gezeigt
-	# Deaktiviert den HDMI im Standby
-	/bin/stfbcontrol hd
 	fi
 elif [ $BOXOFF = BLANK ]; then
 	fp_control -c #Schalltet alle schriftzüge aus Im Display und bleibt dunkel
@@ -148,9 +158,14 @@ elif [ $BOXOFF = BLANK ]; then
 	fp_control -c > /dev/null
 	fp_control -i 36 1 > /dev/null
 	fp_control -i 34 1 > /dev/null
-	# Deaktiviert den HDMI im Standby
-	/bin/stfbcontrol hd
 	fp_control -l 0 > /dev/null
+	if [ $stats = 0 ];then
+		# HDD Standby
+		sdparm --flexible --command=stop /dev/sdb
+		# Deaktiviert den HDMI im Standby
+		/bin/stfbcontrol hd
+		stats=1
+	fi
 elif [ $BOXOFF = DATE ]; then
 	CLEAR=`cat /var/config/time`
 	if [ $CLEAR = anders ]; then
@@ -179,14 +194,16 @@ elif [ $BOXOFF = DATE ]; then
 	# Clear Display and Icons
 	if [ $stats = 0 ];then
 		fp_control -c > /dev/null
+		# HDD Standby
+		sdparm --flexible --command=stop /dev/sdb
+		# Deaktiviert den HDMI im Standby
+		/bin/stfbcontrol hd
 		stats=1
 	fi
 	fp_control -s $hour:$minute:$second $day-$month-$year > /dev/null
 	fp_control -i 34 1 > /dev/null
 	fp_control -i 36 1 > /dev/null
 	fp_control -t "$day-$month" > /dev/null # Hier wird wenn die Box runtergefahren ist Datum Uhr angezeigt im Display
-	# Deaktiviert den HDMI im Standby
-	/bin/stfbcontrol hd
 	fi
 elif [ $BOXOFF = DATEPLUS ]; then
 	CLEAR=`cat /var/config/time`
@@ -216,6 +233,10 @@ elif [ $BOXOFF = DATEPLUS ]; then
 	# Clear Display and Icons
 	if [ $stats = 0 ];then
 		fp_control -c > /dev/null
+		#HDD Standby
+		sdparm --flexible --command=stop /dev/sdb1
+		# Deaktiviert den HDMI im Standby
+		/bin/stfbcontrol hd
 		stats=1
 	fi
 	fp_control -i 34 1 > /dev/null
@@ -224,8 +245,6 @@ elif [ $BOXOFF = DATEPLUS ]; then
 	fp_control -t "$day-$month" > /dev/null # Hier wird wenn die box runtergefahren ist das Datum und Turn OFF im Display als Wechselschrift angezeigt
 	sleep 30
 	fp_control -t "Turn OFF" > /dev/null
-	# Deaktiviert den HDMI im Standby
-	/bin/stfbcontrol hd
 	fi
 fi
 done

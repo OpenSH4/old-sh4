@@ -18,11 +18,13 @@ fi
 sleep 3
 
 # wenn kein VIP2 FB starten
-if [ -e /var/config/deepstandby ]; then
-	DEEPSTANDBY=`cat /var/config/deepstandby`
-fi
+DEEPSTANDBY=`cat /proc/Boxtype`
 
-if [ "$DEEPSTANDBY" = "vip2" ]; then
+if [ "$DEEPSTANDBY" = "Vip2" ]; then
+	sync
+	sleep 1
+	fp_control -d
+elif [ "$DEEPSTANDBY" = "Vip1v2" ]; then
 	sync
 	sleep 1
 	fp_control -d
@@ -30,8 +32,18 @@ else
 	# Aktiviere Display Uhr anzeige für Box OFF
 	/var/config/time.sh &
 
+	# Disable HDMI
+	fp_control -d
+
 	echo "remount /ram as rw"
 	mount -t ramfs ramfs /ram -o size=65%
+
+	# nandcheck, ist keys ausgelagert muss nand gemounted sein
+	nandcheck=`cat /var/config/nanduse`
+	if [ "$nandcheck" = "jffs2-nand-e2" ]; then
+		echo "Nand Speicher mounten für E2..."
+		mount -t jffs2 /dev/mtdblock1 /media/nand
+	fi 
 
 	#start remote control for Vip1 & Opti for wake up
 	/usr/bin/lircd -P /ram/lircd.pid -o /ram/lircd
@@ -46,10 +58,14 @@ else
 	elif [ "$fb" = "Pungolux" ]; then
 		/bin/evremote2 -x Pingolux &
 	fi
+	# Set HDD Spindown
+	if [ `fdisk -l | grep -c "/dev/sdb1" | awk '{ print $1 }'` = 1 ]; then
+		sdparm --command=stop /dev/sdb
+	fi
 
 	rm /ram/autoswitch.tmp
 
-	sleep 3
+	sleep 1
 
 	# start the loop
 
@@ -58,9 +74,7 @@ else
 	file="/ram/autoswitch.tmp"
 	if [ -e $file ]; then
 		echo "Neustart" > /dev/vfd
-		sleep 2
 		swapoff /dev/sda3
-		sleep 2
 		sync
 		sleep 2
 		init 6
