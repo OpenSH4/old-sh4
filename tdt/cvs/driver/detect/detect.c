@@ -333,15 +333,21 @@ int __init detect_init(void)
 	detect4 = stpio_request_pin (2, 4, "detect4", STPIO_OUT); // need Vip2
 	detect3 = stpio_request_pin (2, 5, "detect3", STPIO_OUT);
 	
-	if ((detect2 == NULL) || (detect3 == NULL))
+	if ((detect1 == NULL) || (detect2 == NULL) || (detect3 == NULL) || (detect4 == NULL))
 	{
 	    printk ("[DETECT] -> Allocate Pio: failed to allocate IO resources\n");
+	    
+	    if(detect1 != NULL)
+		stpio_free_pin (detect1);
 	    
 	    if(detect2 != NULL)
 		stpio_free_pin (detect2);
 	    
 	    if(detect3 != NULL)
 		stpio_free_pin (detect3);
+	    
+	    if(detect4 != NULL)
+		stpio_free_pin (detect4);
 
 	    return;
 	}
