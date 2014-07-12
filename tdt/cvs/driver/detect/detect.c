@@ -24,6 +24,51 @@
 
 #include "detect.h"
 
+/* Tuner register Vip2 reset for Tuner Scan 
+   This use only by Boxtype = Vip2 detect  */
+static unsigned char fctl = 0;
+
+#define SRCLK_CLR() {stpio_set_pin(detect1, 0);}
+#define SRCLK_SET() {stpio_set_pin(detect1, 1);}
+
+#define RCLK_CLR() {stpio_set_pin(detect2, 0);}
+#define RCLK_SET() {stpio_set_pin(detect2, 1);}
+
+#define SDA_CLR() {stpio_set_pin(detect4, 0);}
+#define SDA_SET() {stpio_set_pin(detect4, 1);}
+
+void hc595_out(unsigned char ctls, int state)
+{
+	int i;
+
+	if(state)
+		fctl |= 1 << ctls;
+	else
+		fctl &= ~(1 << ctls);
+
+	SDA_CLR();
+	SRCLK_CLR();
+
+    for(i = 7; i >=0; i--)
+	{
+    	SRCLK_CLR();
+		if(fctl & (1<<i))
+		{
+			SDA_SET();
+		}
+		else
+		{
+			SDA_CLR();
+		}
+		SRCLK_SET();
+	}
+
+    RCLK_CLR();
+    RCLK_SET();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
 static int detected_boxid;
 static char *Boxtype;
 static char *Tunertype;
@@ -139,7 +184,8 @@ int TunerScan(char *Boxtype)
 		printk("[DETECT] -> Boxtype = %s \n[DETECT] -> Tuner = %s \n", Boxtype, Tunertype);
 	if(Boxtype == "Vip2")
 		printk("[DETECT] -> Boxtype = %s \n[DETECT] -> Tuner1 = %s \n[DETECT] -> Tuner2 = %s \n", Boxtype, Tunertype, Tunertype2);
-
+	
+	return 0;
 }
 
 static int detect_boxid(void)
@@ -147,8 +193,6 @@ static int detect_boxid(void)
 	struct i2c_adapter *adap;
 	int i2c40 = 0;
 	int i2c28 = 0;
-
-	printk("[DETECT] -> Start Boxtype Scan\n");
 
 	if((adap = i2c_get_adapter(I2C_BUS2)) == NULL) {
 		printk("[DETECT] -> Autodetection failed. I2C bus error\n");
@@ -183,6 +227,16 @@ static int detect_boxid(void)
 			printk("[DETECT] -> error \n[DETECT] -> i2c40 = %d \n[DETECT] -> i2c28 = %d\n", i2c40, i2c28);
 			printk("[DETECT] -> Kein Boxtype erkannt\n");
 		}
+	}
+
+	/* we need reset Tuner by Shift register for Vip2 
+	   4 = Tuner A Reset Pin on hc595
+	   1 = Tuner B Reset Pin on hc595		*/
+	if(Boxtype == "Vip2") {
+		hc595_out (4, 0);
+  		hc595_out (1, 0);
+		hc595_out (4, 1);
+  		hc595_out (1, 1);
 	}
 
 	return TunerScan(Boxtype);
@@ -273,16 +327,15 @@ int __init detect_init(void)
 	 * reset erfolgen, anschliessen koennen wir alles
 	 * vor dem init der avs (Boxtype) und des fe_core ermitteln
 	 */
-	detect1 = stpio_request_pin (2, 2, "detect1", STPIO_OUT);
+
+	detect1 = stpio_request_pin (2, 2, "detect1", STPIO_OUT); // need Vip2
 	detect2 = stpio_request_pin (2, 3, "detect2", STPIO_OUT);
+	detect4 = stpio_request_pin (2, 4, "detect4", STPIO_OUT); // need Vip2
 	detect3 = stpio_request_pin (2, 5, "detect3", STPIO_OUT);
 	
-	if ((detect1 == NULL) || (detect2 == NULL) || (detect3 == NULL))
+	if ((detect2 == NULL) || (detect3 == NULL))
 	{
 	    printk ("[DETECT] -> Allocate Pio: failed to allocate IO resources\n");
-
-	    if(detect1 != NULL)
-		stpio_free_pin (detect1);
 	    
 	    if(detect2 != NULL)
 		stpio_free_pin (detect2);
@@ -296,13 +349,28 @@ int __init detect_init(void)
 	/* Aktivate Tuner durch Reset
 	 * das ermöglicht uns den Tuner zur Reaktion
 	 * zu swingen worauf hin wir ihn peer i2c
-	 * finden koennen und spaeter koreckt laden
+	 * finden können und später koreckt laden
+	 * Das benötigen nur Vip1 und Vip1v2, Vip2 Reset
+	 * Erfolgt über das Shift register beim Boxtype detect.
 	 */
 	stpio_set_pin(detect2, 0);
 	stpio_set_pin(detect2, 1);
 	
+	/* startet Boxtype und tuner Check */
 	detected_boxid = detect_boxid();
 
+	/* da wir nun alles ermittelt haben muessen wir
+	 * hier die Pios wieder Freimachen da sonnst Treiber
+	 * wie AVS Cimax und fe-core (Tuner) nicht geladen werden können.
+	 * Danach gehts wie gehabt beim Boot weiter !!!
+	 */
+
+	stpio_free_pin (detect1);
+	stpio_free_pin (detect2);
+	stpio_free_pin (detect3);
+	stpio_free_pin (detect4);
+		
+	/* make /proc */
     	info = (char *)vmalloc( MAX_LEN );
     	memset( info, 0, MAX_LEN );
     	proc_entry = create_proc_entry( "Boxtype", 0644, NULL );
@@ -352,16 +420,7 @@ int __init detect_init(void)
    		}
 	}
 	
-	/* da wir nun alles ermittelt haben muessen wir
-	 * hier die Pios wieder Freimachen da sonnst Treiber
-	 * wie AVS Cimax und fe-core (Tuner) nicht geladenw erden können.
-	 * Danach gehts wie gehabt beim Boot weiter !!!
-	 */
-	stpio_free_pin (detect1);
-	stpio_free_pin (detect2);
-	stpio_free_pin (detect3);
-		
-	return ret;
+	return 0;
 }
 
 void __exit detect_exit(void)
