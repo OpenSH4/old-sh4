@@ -167,10 +167,10 @@ int TunerScan(char *Boxtype)
 			return 0;
 		}
 		if(i2c_autodetect(adap, LGCabel, 0x0) != -1 ) {
-			Tunertype2 = "sharp7306";
+			Tunertype2 = "lg031";
 		}
 		if(i2c_autodetect(adap, Sharpdvbt, 0x0) != -1 ) {
-			Tunertype2 = "lg031";
+			Tunertype2 = "sharp6465";
 		}
 		if(i2c_autodetect(adap, SharpS2, 0x0) != -1 ) {
 			Tunertype2 = "sharp7306";
