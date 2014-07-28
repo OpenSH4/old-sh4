@@ -159,11 +159,11 @@ elif [ "$1" = "Player2-stuff" ]; then
        echo "init player $player"
 
        modprobe mmelog.ko
-       modprobe mpeg2hw.ko mmeName=MPEG2_TRANSFORMER1
+       modprobe mpeg2hw.ko mmeName=MPEG2_TRANSFORMER0
        modprobe ksound.ko
        modprobe kreplay.ko
        modprobe silencegen.ko
-       modprobe pcm_transcoder.ko
+       modprobe pcm_transcoder.ko TransformerName=PCM_TRANSFORMER0
        modprobe p2div64.ko
        modprobe stm_v4l2.ko
        if [ $player -gt 131 ]; then
@@ -175,27 +175,34 @@ elif [ "$1" = "Tuner" ]; then
        BOXTYPE=`cat /proc/Boxtype`
        echo "init frontends"
        ### Laed den Gesetzten Tuner Treiber
-       if [ $BOXTYPE = Vip1 ]; then
+       if [ $BOXTYPE = "Vip1" ]; then
 		TUNERTYPE=`cat /proc/Tunertype`		
             	if [ $TUNERTYPE = "stb6100" ]; then
+            		#modprobe fe-core.ko Boxtype=$BOXTYPE demod1=stb0899 tuner1=stb6100 ;
             		modprobe fe-core.ko demod=stb0899 tuner=stb6100 ;
             	elif [ $TUNERTYPE = "stb6110x" ]; then
+            		#modprobe fe-core.ko Boxtype=$BOXTYPE demod1=stv090x tuner1=stb6110x ;
             		modprobe fe-core.ko demod=stv090x tuner=stb6110x ;
             	elif [ $TUNERTYPE = "lg031" ]; then
+            		#modprobe fe-core.ko Boxtype=$BOXTYPE demod1=tda10023 tuner1=lg031 ;
             		modprobe fe-core.ko demod=tda10023 tuner=lg031 ;
             	elif [ $TUNERTYPE = "sharp6465" ]; then
+            		#modprobe fe-core.ko Boxtype=$BOXTYPE demod1=ce6353 tuner1=sharp6465 ;
             		modprobe fe-core.ko demod=ce6353 tuner=sharp6465 ;
 		fi
        elif [ $BOXTYPE = "Vip1v2" ]; then
 		TUNERTYPE=`cat /proc/Tunertype`		
             	if [ $TUNERTYPE = "sharp7306" ]; then
             		modprobe fe-core-vip1v2.ko demod=stv090x tuner=sharp7306 ;
+            		#modprobe fe-core.ko box=$BOXTYPE demod1=stv090x tuner1=sharp7306 ;
             	elif [ $TUNERTYPE = "lg031" ]; then
             		modprobe fe-core-vip1v2.ko demod=tda10023 tuner=lg031 ;
+            		#modprobe fe-core.ko box=$BOXTYPE demod1=tda10023 tuner1=lg031 ;
             	elif [ $TUNERTYPE = "sharp6465" ]; then
             		modprobe fe-core-vip1v2.ko demod=ce6353 tuner=sharp6465 ;
+            		#modprobe fe-core.ko box=$BOXTYPE demod1=ce6353 tuner1=sharp6465 ;
 		fi
-       elif [ $BOXTYPE = Vip2 ]; then
+       elif [ $BOXTYPE = "Vip2" ]; then
 		TUNERTYPE=`cat /proc/Tunertype`		
             	if [ $TUNERTYPE = "sharp7306" ]; then
             		DEMOD1="stv090x"
@@ -224,7 +231,7 @@ elif [ "$1" = "Cimax" ]; then
        echo "init drivers"
        # Cimax Modul für Vip2 ohne CI Module laden
        BOXTYPE=`cat /proc/Boxtype`
-       if [ $BOXTYPE = vip2 ]; then
+       if [ $BOXTYPE = Vip2 ]; then
 	       echo "Load Vip2 no CI Modul Treiber"
 	       modprobe cimax_vip2.ko
        else
@@ -240,14 +247,14 @@ elif [ "$1" = "Tuner-stuff" ]; then
        if [ $player -gt 131 ]; then
        modprobe stm_monitor.ko
        modprobe stmsysfs.ko
-           modprobe stmdvb.ko
+           modprobe stmdvb.ko reset_tsm=0
        else
-       modprobe stmdvb.ko
+       modprobe stmdvb.ko reset_tsm=0
        modprobe stm_monitor.ko
        fi   
 elif [ "$1" = "Player2" ]; then
      echo "player2"
-       modprobe player2.ko discardlateframe=0 noaudiosync=0 useoldaudiofw=1
+       modprobe player2.ko discardlateframe=0 noaudiosync=0 useoldaudiofw=0
      echo "player fertig"
        modprobe sth264pp.ko
        modprobe stmalloc.ko
