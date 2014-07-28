@@ -1257,7 +1257,7 @@ void Manifestor_AudioKsound_c::HandleAnticipatedOutputTiming(
     TimeForSamplesAlreadyPlayedInSeconds	/=  StreamBuffer[BufferIndex].AudioOutputTiming->SystemClockAdjustment;
 
     StreamBuffer[BufferIndex].AudioOutputTiming->ActualSystemPlaybackTime =
-            DisplayTimeOfNextCommit + IntegerPart( 1000000 * TimeForSamplesAlreadyPlayedInSeconds );
+            DisplayTimeOfNextCommit + IntegerPart( 4000000 * TimeForSamplesAlreadyPlayedInSeconds );
 
     MANIFESTOR_DEBUG("ActualPlaybackTime %llu (delta %llu) @ offset %u\n",
                      StreamBuffer[BufferIndex].AudioOutputTiming->ActualSystemPlaybackTime,

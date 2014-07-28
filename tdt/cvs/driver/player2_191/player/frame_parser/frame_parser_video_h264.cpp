@@ -2327,7 +2327,9 @@ unsigned int		  slice_type;
     Assert( inrange(Header->pic_parameter_set_id, 0, H264_STANDARD_MAX_PICTURE_PARAMETER_SETS) );
     if( PictureParameterSetTable[Header->pic_parameter_set_id].Buffer == NULL )
     {
+#ifdef DUMP_HEADERS
 	report( severity_error, "FrameParser_VideoH264_c::ReadNalSliceHeader - Appropriate picture parameter set not found (%d).\n", Header->pic_parameter_set_id );
+#endif
 	return FrameParserError;
     }
 

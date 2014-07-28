@@ -167,7 +167,7 @@ OutputTimerStatus_t   OutputTimer_Audio_c::InitializeConfiguration(  void )
     //
 
 #ifdef __TDT__
-    Configuration.SynchronizationErrorThreshold                 = 200000;
+    Configuration.SynchronizationErrorThreshold                 = 400000; // old 200000
 #else
     Configuration.SynchronizationErrorThreshold			= 1000;
 #endif

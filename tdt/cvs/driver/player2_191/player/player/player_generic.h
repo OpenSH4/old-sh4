@@ -62,7 +62,7 @@ Date        Modification                                    Name
 #define PLAYER_MAX_DISCARDED_FRAMES			64
 
 #define PLAYER_MAX_RING_SIZE				1024
-#define PLAYER_LIMIT_ON_OUT_OF_ORDER_DECODES		14	// Limit on the number of out of order decodes, this is applied
+#define PLAYER_LIMIT_ON_OUT_OF_ORDER_DECODES		16	// Limit on the number of out of order decodes, this is applied
 								// because some streams (H264) limit the ref frame count, and the standard
 								// calculations can then leave us with a potential for deadlock I have set 
 								// it to 16 - the number of frames that can be in the manifestor
@@ -85,7 +85,7 @@ Date        Modification                                    Name
 
 #define PLAYER_AUDIO_DEFAULT_CODED_FRAME_COUNT		256	// These default values are derived from the maximum existing values in the specific codecs
 #define PLAYER_AUDIO_DEFAULT_CODED_MEMORY_SIZE		PLAYER2_AUDIO_DEFAULT_CODED_MEMORY_SIZE /* 0x400000 */
-#define PLAYER_AUDIO_DEFAULT_CODED_FRAME_MAXIMUM_SIZE	0x50000 //0x40000
+#define PLAYER_AUDIO_DEFAULT_CODED_FRAME_MAXIMUM_SIZE	0x40000 //0x40000
 #if defined(__TDT__) && (defined(UFS910) || defined(FORTIS_HDBOX) || \
     defined(OCTAGON1008) || defined(HL101) || defined(TF7700) || defined(CUBEREVO) || \
     defined(CUBEREVO_MINI2) || defined(CUBEREVO_MINI) || defined(CUBEREVO_250HD) || \
@@ -96,7 +96,7 @@ Date        Modification                                    Name
 #endif
 
 #ifdef __TDT__
-#define PLAYER_VIDEO_DEFAULT_CODED_FRAME_COUNT		512 // 256
+#define PLAYER_VIDEO_DEFAULT_CODED_FRAME_COUNT		256
 #else
 #define PLAYER_VIDEO_DEFAULT_CODED_FRAME_COUNT		1024
 #endif
