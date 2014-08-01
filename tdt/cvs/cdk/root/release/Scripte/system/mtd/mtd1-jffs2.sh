@@ -47,17 +47,49 @@ if [ ! -e /media/nand ]; then
 		echo "Bitte dateisystem Prüfen"
 	fi
 fi
-echo "erstelle Backup"
+echo ""
+echo "Erstelle Backup..."
 echo "Backup..." > /dev/vfd
-nanddump -f /media/nanddump-mtd1.bin /dev/mtd1
+echo ""
+dd if=/dev/mtd1 of=/media/nanddump-mtd1.bin bs=1024
+#nanddump -f /media/nanddump-mtd1.bin /dev/mtd1
 # vorbereiten des Flashspeichers
+echo ""
 echo "Löschen..." > /dev/vfd
 echo "Lösche Flash Nand"
+echo ""
 flash_eraseall -j /dev/mtd1	
 # Start des Flash vorgangs
+echo ""
 echo "Mount..." > /dev/vfd
 echo "Mounte Nand Speicher"
+echo ""
 mount -t jffs2 /dev/mtdblock1 /media/nand
+sleep 2
+mountcheck=`mount | grep /dev/mtdblock1 | awk '{ print $5 }'`
+if [ "$mountcheck" = "jffs2" ]; then
+	echo "Auslagern von E2 Daten" 
+	echo "Kopiere /etc/enigma2 auf /media/nand"
+	echo "Enigma2" > /dev/vfd
+	mv /etc/enigma2 /media/nand/enigma2
+	ln -s /media/nand/enigma2 /etc/enigma2
+	echo "Kopiere /var/emu auf /media/nand"
+	echo "Emu" > /dev/vfd
+	mv /var/emu /media/nand/emu
+	ln -s /media/nand/emu /var/emu
+	echo "Kopiere /var/keys auf /media/nand"
+	echo "Keys" > /dev/vfd
+	mv /var/keys /media/nand/keys
+	ln -s /media/nand/keys /var/keys
+	echo "Kopiere /lib/modules auf /media/nand"
+	echo "Treiber" > /dev/vfd
+	mv /lib/modules /media/nand/modules
+	ln -s /media/nand/modules /lib/modules
+else
+	echo "nand nicht gemountet, kein auslagern möglich"
+	echo "ERROR - NO Mount" > /dev/vfd
+	exit 0
+fi
 # Setzt den nand status für das system zum automount on boot up
 echo "jffs2-nand-e2" > /var/config/nanduse
 

@@ -90,12 +90,18 @@ md5sum -c MD5SUM > /media/iltv/md5check
 iltvmd5=`cat /media/iltv/md5check | grep mtd3-opti-rb.bin | awk '{ print $2 }'`
 echo "md5 Summe der ILTV Datei = $iltvmd5"
 if [ "$iltvmd5" = "OK" ]; then
+echo ""
+echo ""
+echo ""
 	echo "Alle Vorrausetzungen zum Flashen der ILTV sind erfüllt"
-	echo "Start des Flashvorgangs in 5 sec"
+	echo "Start des Flashvorgangs in 10 sec"
 	echo "Dieser Vorgang kann  bis zu 20 Minuten dauern..."
 	echo "Trennen sie den Receiver auf keinen Fall vom Strom oder"
 	echo "Starten ihn neu bevor der Vorgang abgeschlossen wurde"
-	sleep 5
+echo ""
+echo ""
+echo ""
+	sleep 10
 	# vorbereiten des Flashspeichers
 	echo "Flash Löschen" > /dev/vfd
 	echo "Lösche Flash Nand..."
@@ -103,7 +109,8 @@ if [ "$iltvmd5" = "OK" ]; then
 	# Start des Flash vorgangs
 	echo "Flashe ILTV..." > /dev/vfd
 	echo "Flashen der ILTV Firmware"
-	nandwrite /dev/mtd3 /media/iltv/mtd3-opti-rb.bin
+	dd if=/media/iltv/mtd3-opti-rb.bin of=/dev/mtdblock3 bs=1024
+	#nandwrite /dev/mtd3 /media/iltv/mtd3-opti-rb.bin
 else
 	echo "MD5 Der ILTV Datei Fehlerhaft"
 	echo "Neustart des Vorgangs zum erneuten Download erforderlich"
