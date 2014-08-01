@@ -106,6 +106,8 @@ echo ""
 	echo "Flash Löschen" > /dev/vfd
 	echo "Lösche Flash Nand..."
 	flash_eraseall /dev/mtd3
+	#we wait a moment of the Flashchip	
+	sleep 5
 	# Start des Flash vorgangs
 	echo "Flashe ILTV..." > /dev/vfd
 	echo "Flashen der ILTV Firmware"

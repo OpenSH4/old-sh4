@@ -73,6 +73,8 @@ echo "Löschen..." > /dev/vfd
 echo "Lösche Flash Nand"
 echo ""
 flash_eraseall /dev/mtd1
+# we wait a moment
+sleep 5
 # Start des Flash vorgangs
 echo ""
 echo "Flashe Nand Backup wieder zurück"

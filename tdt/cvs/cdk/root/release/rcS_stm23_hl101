@@ -154,6 +154,7 @@ fi
             echo "DONE";;
               1) echo "1"
                  echo "SHUTDOWN"
+                 echo "SHUTDOWN" > /dev/vfd
                  MODE=`cat /var/config/mode`
                  echo "$MODE" > /var/config/boxoff
                  echo "shutdown" > /var/config/shutdown/reboot

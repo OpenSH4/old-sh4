@@ -58,7 +58,9 @@ echo ""
 echo "Löschen..." > /dev/vfd
 echo "Lösche Flash Nand"
 echo ""
-flash_eraseall -j /dev/mtd1	
+flash_eraseall -j /dev/mtd1
+#we wait a moment of the Flashchip	
+sleep 5
 # Start des Flash vorgangs
 echo ""
 echo "Mount..." > /dev/vfd
