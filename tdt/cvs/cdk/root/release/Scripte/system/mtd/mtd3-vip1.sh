@@ -78,13 +78,6 @@ if [ ! -e /media/iltv/MD5SUM ]; then
 	echo "Download der MD5SUM Fehlgeschlagen"
 	exit 0
 fi
-# nand umount
-mountcheck=`mount | grep /dev/mtdblock1 | awk '{ print $5 }'`
-if [ "$mountcheck" = "jffs2" ]; then
-	umount /media/nand
-else
-	echo "Nand not mounted"
-fi
 # MD5SUM Check der FILES
 cd /media/iltv/
 md5sum -c MD5SUM > /media/iltv/md5check
@@ -92,24 +85,69 @@ md5sum -c MD5SUM > /media/iltv/md5check
 iltvmd5=`cat /media/iltv/md5check | grep mtd3-vip1.bin | awk '{ print $2 }'`
 echo "md5 Summe der ILTV Datei = $iltvmd5"
 if [ "$iltvmd5" = "OK" ]; then
-echo ""
-echo ""
-echo ""
+# nand umount
+mountcheck=`mount | grep /dev/mtdblock1 | awk '{ print $5 }'`
+if [ "$mountcheck" = "jffs2" ]; then
+	echo "Nand ist mountet"
+	echo "Check des FileSystems"
+	if [ -e /media/nand/enigma2 ]; then
+		echo "Nand Daten gefunden..."
+		echo "Kopiere Files zurück auf SDA"
+		echo "" 
+		echo "Kopiere /media/nand/enigma2 nach /etc/enigma2"
+		echo "Enigma2" > /dev/vfd
+		rm /etc/enigma2
+		mv /media/nand/enigma2 /etc/enigma2
+	fi
+	if [ -e /media/nand/emu ]; then
+		echo "Kopiere /media/nand nach /var/emu"
+		echo "Emu" > /dev/vfd
+		rm /var/emu
+		mv /media/nand/emu /var/emu
+	fi
+	if [ -e /media/nand/keys ]; then
+		echo "Kopiere /media/nand nach /var/keys"
+		echo "Keys" > /dev/vfd
+		rm /var/keys
+		mv /media/nand/keys /var/keys
+	fi
+	if [ -e /media/nand/modules ]; then
+		echo "Kopiere /media/nand nach /lib/modules"
+		echo "Treiber" > /dev/vfd
+		rm /lib/modules
+		mv /media/nand/modules /lib/modules
+	fi
+	echo ""
+	echo "Nand ist mountet und kann so nicht beschrieben werden"
+	echo "Bitte starten Sie die Box neu und wiederhollen Sie dann"
+	echo "den Vorgang erneut um das Flashen der ILTV fortzusetzen"
+	echo ""
+	echo "not-use" > /var/config/nanduse
+	echo "Aufräumen..." > /dev/vfd
+	rm -rf /media/iltv/
+	exit 0
+else
+	echo "Nand not mounted"
+fi
+	clear
+	echo ""
+	echo ""
+	echo ""
 	echo "Alle Vorrausetzungen zum Flashen der ILTV sind erfüllt"
 	echo "Start des Flashvorgangs in 10 sec"
-	echo "Dieser Vorgang kann  bis zu 20 Minuten dauern..."
+	echo "Dieser Vorgang kann  bis zu 10 Minuten dauern..."
 	echo "Trennen sie den Receiver auf keinen Fall vom Strom oder"
 	echo "Starten ihn neu bevor der Vorgang abgeschlossen wurde"
-echo ""
-echo ""
-echo ""
+	echo ""
+	echo ""
+	echo ""
 	sleep 10
 	# vorbereiten des Flashspeichers
 	echo "Flash Löschen ..." > /dev/vfd
 	echo "Lösche Flash Nand"
 	flash_eraseall /dev/mtd3
 	#we wait a moment of the Flashchip	
-	sleep 5
+	sleep 10
 	# Start des Flash vorgangs
 	echo "Flashe ILTV ..." > /dev/vfd
 	echo "Flashen der ILTV Firmware"

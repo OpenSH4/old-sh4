@@ -67,6 +67,16 @@ if [ ! -e /media/nanddump-mtd1.bin ]; then
 	exit 0
 fi
 sleep 3
+mountcheck=`mount | grep /dev/mtdblock1 | awk '{ print $5 }'`
+if [ "$mountcheck" = "jffs2" ]; then
+	echo ""
+	echo "Nand ist mountet und kann so nicht beschrieben werden"
+	echo "Bitte starten Sie die Box neu und wiederhollen Sie dann"
+	echo "den Vorgang erneut um das Backup wieder einzuspielen"
+	echo ""
+	echo "not-use" > /var/config/nanduse
+	exit 0
+fi
 # vorbereiten des Flashspeichers
 echo ""
 echo "Löschen..." > /dev/vfd
