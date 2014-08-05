@@ -32,6 +32,14 @@ if [ $INSTALLED = $AKTUELL ]; then
 	fi
 	# Setzt das Update State auf 0 für Updatecheck in Enigma2/NeutrinoHD
 	echo "0" > /update/var/config/update/state
+	if [-e /update/var/config/nanduse ]; then
+		USED=`cat var/config/nanduse`
+		if [ $USED = "jffs2-nand-e2" ]; then
+			echo "create old symlink for modules"
+			rm /update/lib/modules
+			mv /update/lib/modules.bak /update/lib/modules
+		fi
+	fi
 	echo "Fertig...." > /dev/vfd
 	sleep 3
 	sync
@@ -48,6 +56,24 @@ else
 	# Entpackt das Updates
 	cd /update
 	sleep 1
+	if [-e /update/var/config/nanduse ]; then
+		USED=`cat /update/var/config/nanduse`
+		if [ $USED = "jffs2-nand-e2" ]; then
+			mountcheck=`mount | grep /dev/mtdblock1 | awk '{ print $5 }'`
+			if [ "$mountcheck" = "jffs2" ]; then
+				echo "Nand Mounted"
+			else
+				mount -t jffs2 /dev/mtdblock1 /update/media/nand
+				echo "nand already mounted, create Symlinks for Modules now"
+				mv /update/lib/modules /update/lib/modules.bak
+				ln -s /update/media/nand/modules /update/lib/modules
+			fi
+		else
+			echo "Nand not USED for E2"
+		fi
+	else
+		echo "no nanduse File found"
+	fi
 	tar -xf update-$NEWVERSION.tar.gz
 	echo "done... Grundfile"
 	# entpacke Update
