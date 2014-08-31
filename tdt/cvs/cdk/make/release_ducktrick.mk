@@ -1,3 +1,11 @@
+if ENABLE_P0211
+KVER=2.6.32.59_stm24_0211
+endif
+
+if ENABLE_P0215
+KVER=2.6.32.61_stm24_0215
+endif
+
 #
 # auxiliary targets for model-specific builds
 #
@@ -188,9 +196,9 @@ release_ducktrick_hl101: release_ducktrick_common_utils
 #	TODO: Channellist ....
 	cp -aR $(buildprefix)/root/usr/local/share/config/* $(prefix)/release_ducktrick/var/tuxbox/config/
 	cp -aR $(targetprefix)/usr/share/tuxbox/neutrino $(prefix)/release_ducktrick/usr/local/share/
-	mkdir $(prefix)/release_ducktrick/lib/modules/2.6.32.59_stm24_0211/
-	cp -aR $(buildprefix)/root/release/lib/modules/2.6.32.59_stm24_0211/modules.dep $(prefix)/release_ducktrick/lib/modules/2.6.32.59_stm24_0211/
-	cp $(prefix)/release_ducktrick/lib/modules/*.ko $(prefix)/release_ducktrick/lib/modules/2.6.32.59_stm24_0211
+	mkdir $(prefix)/release_ducktrick/lib/modules/$(KVER)/
+	cp -aR $(buildprefix)/root/release/lib/modules/$(KVER)/modules.dep $(prefix)/release_ducktrick/lib/modules/$(KVER)/
+	cp $(prefix)/release_ducktrick/lib/modules/*.ko $(prefix)/release_ducktrick/lib/modules/$(KVER)
 	rm $(prefix)/release_ducktrick/lib/modules/*.ko
 	mkdir $(prefix)/release_ducktrick/usr/share/tuxbox
 	cd $(prefix)/release_ducktrick/usr/share/tuxbox && \

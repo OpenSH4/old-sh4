@@ -43,9 +43,27 @@ host_alias=`echo ${host_alias} | sed -e "s/suse/${VENDOR}/"`
 # And add it to the config parameters.
 CONFIGPARAM="${CONFIGPARAM} --host=${host_alias} --build=${host_alias}"
 
+echo -e "\nKernel:"
+echo "   1) STM 24 P0211 (recommended)"
+echo "   2) STM 24 P0215 (experimental)"
+case $2 in
+        [1-4]) REPLY=$2
+        echo -e "\nSelected kernel: $REPLY\n"
+        ;;
+        *)
+        read -p "Select kernel (1-2)? ";;
+esac
+
+case "$REPLY" in
+        2)  KERNEL="--enable-stm24 --enable-p0211";STMFB="stm24";PKERNEL=P0211;;
+        4)  KERNEL="--enable-stm24 --enable-p0215";STMFB="stm24";PKERNEL=P0215;;
+        *)  KERNEL="--enable-stm24 --enable-p0211";STMFB="stm24";PKERNEL=P0211;;
+esac
+CONFIGPARAM="$CONFIGPARAM $KERNEL"
+
 ##############################################
 CONFIGPARAM="$CONFIGPARAM --enable-hl101 --with-boxtype=hl101"
-CONFIGPARAM="$CONFIGPARAM --enable-stm24 --enable-p0211"
+#CONFIGPARAM="$CONFIGPARAM --enable-stm24 --enable-p0215"
 ##############################################
 
 echo -e "\nKernel debug:"
@@ -139,7 +157,7 @@ echo "Your build enivroment is ready :-)"
 echo "Aktiv Settings"
 echo "*********************"
 echo "Player 191"
-echo "Kernel p0211"
+echo "Kernel $PKERNEL"
 echo "Debug=$REPLY"
 echo "Multicom324"
 echo "GraphLCD"

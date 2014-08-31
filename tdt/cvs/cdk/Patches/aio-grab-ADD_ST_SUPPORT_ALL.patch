@@ -50,12 +50,12 @@
  void (*resize)(const unsigned char *source, unsigned char *dest, int xsource, int ysource, int xdest, int ydest, int colors);
  void combine(unsigned char *output, const unsigned char *video, const unsigned char *osd, int vleft, int vtop, int vwidth, int vheight, int xres, int yres);
  
--static enum {UNKNOWN, PALLAS, VULCAN, XILLEON, BRCM7400, BRCM7401, BRCM7405, BRCM7325, BRCM7335, BRCM7358, BRCM7241, BRCM7356, BRCM7424, BRCM7425} stb_type = UNKNOWN;
-+static enum {UNKNOWN, PALLAS, VULCAN, XILLEON, BRCM7400, BRCM7401, BRCM7405, BRCM7325, BRCM7335, BRCM7358, BRCM7241, BRCM7356, BRCM7424, BRCM7425, ST} stb_type = UNKNOWN;
+-static enum {UNKNOWN, PALLAS, VULCAN, XILLEON, BRCM7400, BRCM7401, BRCM7405, BRCM7325, BRCM7335, BRCM7358, BRCM7362, BRCM7241, BRCM7356, BRCM7424, BRCM7425} stb_type = UNKNOWN;
++static enum {UNKNOWN, PALLAS, VULCAN, XILLEON, BRCM7400, BRCM7401, BRCM7405, BRCM7325, BRCM7335, BRCM7358, BRCM7362, BRCM7241, BRCM7356, BRCM7424, BRCM7425, ST} stb_type = UNKNOWN;
  
  static int chr_luma_stride = 0x40;
  static int chr_luma_register_offset = 0;
-@@ -125,6 +164,7 @@
+@@ -126,6 +165,7 @@
  		if (strcasestr(buf,"VULCAN")) stb_type=VULCAN;
  		if (strcasestr(buf,"PALLAS")) stb_type=PALLAS;
  		if (strcasestr(buf,"XILLEON")) stb_type=XILLEON;
@@ -63,7 +63,7 @@
  	}
  	fclose(fp);
  
-@@ -709,7 +749,221 @@
+@@ -731,7 +771,221 @@
  	char buf[256];
  	FILE *fp;
  
@@ -286,7 +286,7 @@
  	{
  		// grab bcm pic from decoder memory
  		const unsigned char* data = (unsigned char*)mmap(0, 100, PROT_READ, MAP_SHARED, mem_fd, registeroffset);
-@@ -1110,12 +1364,14 @@
+@@ -1131,12 +1385,14 @@
  			// now we do 4 pixels on each iteration this is more code but much faster
  			int Y=yuv2rgbtable_y[luma[pos]];
  
@@ -301,7 +301,7 @@
  			video[out1+rgbstride]=CLAMP((Y + RU)>>16);
  			video[out1+1+rgbstride]=CLAMP((Y - GV - GU)>>16);
  			video[out1+2+rgbstride]=CLAMP((Y + BV)>>16);
-@@ -1125,12 +1381,14 @@
+@@ -1146,12 +1402,14 @@
  
  			Y=yuv2rgbtable_y[luma[pos]];
  

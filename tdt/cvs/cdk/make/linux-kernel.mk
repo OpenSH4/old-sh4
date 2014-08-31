@@ -9,6 +9,9 @@
 if ENABLE_P0211
 PATCH_STR=_0211
 endif
+if ENABLE_P0215
+PATCH_STR=_0215
+endif
 
 STM24_DVB_PATCH = linux-sh4-linuxdvb_stm24$(PATCH_STR).patch
 
@@ -25,7 +28,7 @@ COMMONPATCHES_24 = \
 		linux-sh4-lzma-fix_stm24$(PATCH_STR).patch \
 		linux-tune_stm24.patch \
 		linux-sh4-mmap_stm24.patch \
-		linux-sh4-remove_pcm_reader_stm24.patch
+		$(if $(P0211),linux-sh4-remove_pcm_reader_stm24.patch)
 
 HL101_PATCHES_24 = $(COMMONPATCHES_24) \
 		linux-sh4-hl101_setup_stm24$(PATCH_STR).patch \
@@ -54,8 +57,12 @@ KERNELHEADERS := linux-kernel-headers
 
 if ENABLE_P0211
 KERNELHEADERS_VERSION := 2.6.32.46-45
-else
-KERNELHEADERS_VERSION := 2.6.32.10_stm24_0201-42
+#else
+#KERNELHEADERS_VERSION := 2.6.32.10_stm24_0201-42
+endif
+
+if ENABLE_P0215
+KERNELHEADERS_VERSION := 2.6.32.46-45
 endif
 
 KERNELHEADERS_SPEC := stm-target-kernel-headers-kbuild.spec
@@ -95,7 +102,13 @@ endif !DEBUG
 
 HOST_KERNEL := host-kernel
 
+if ENABLE_P0211
 HOST_KERNEL_VERSION := 2.6.32.59$(KERNELSTMLABEL)-$(KERNELLABEL)
+endif
+
+if ENABLE_P0215
+HOST_KERNEL_VERSION = 2.6.32.61$(KERNELSTMLABEL)-$(KERNELLABEL)
+endif
 
 
 HOST_KERNEL_SPEC := stm-$(HOST_KERNEL)-sh4.spec
