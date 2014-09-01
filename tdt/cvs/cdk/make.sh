@@ -47,7 +47,7 @@ echo -e "\nKernel:"
 echo "   1) STM 24 P0211 (recommended)"
 echo "   2) STM 24 P0215 (experimental)"
 case $2 in
-        [1-4]) REPLY=$2
+        [1-2]) REPLY=$2
         echo -e "\nSelected kernel: $REPLY\n"
         ;;
         *)
@@ -55,8 +55,8 @@ case $2 in
 esac
 
 case "$REPLY" in
-        2)  KERNEL="--enable-stm24 --enable-p0211";STMFB="stm24";PKERNEL=P0211;;
-        4)  KERNEL="--enable-stm24 --enable-p0215";STMFB="stm24";PKERNEL=P0215;;
+        1)  KERNEL="--enable-stm24 --enable-p0211";STMFB="stm24";PKERNEL=P0211;;
+        2)  KERNEL="--enable-stm24 --enable-p0215";STMFB="stm24";PKERNEL=P0215;;
         *)  KERNEL="--enable-stm24 --enable-p0211";STMFB="stm24";PKERNEL=P0211;;
 esac
 CONFIGPARAM="$CONFIGPARAM $KERNEL"
