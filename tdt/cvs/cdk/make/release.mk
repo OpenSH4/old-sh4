@@ -118,7 +118,6 @@ release_hl101: release_common_utils
 	cp -f $(buildprefix)/root/release/converter/*.py $(prefix)/release/usr/lib/enigma2/python/Components/Converter/
 	cp -f $(buildprefix)/root/release/switchoff $(prefix)/release/etc/init.d/
 	cp -f $(buildprefix)/root/release/converter/render/*.py $(prefix)/release/usr/lib/enigma2/python/Components/Renderer/
-	cp -f $(prefix)/cdkroot/usr/bin/grab $(prefix)/release/usr/bin/ && \
 	mkdir $(prefix)/release/var/keys
 	mkdir $(prefix)/release/var/keys/Benutzerdaten
 	mkdir $(prefix)/release/var/keys/Benutzerdaten/.emu
@@ -128,9 +127,9 @@ release_hl101: release_common_utils
 	ln -s $(prefix)/release/etc/init.d/sendsigs $(prefix)/release/etc/rc.d/rc4.d/S20sendsigs
 	ln -s $(prefix)/release/etc/init.d/umountfs $(prefix)/release/etc/rc.d/rc4.d/S40umountfs
 	ln -s $(prefix)/release/etc/init.d/switchoff $(prefix)/release/etc/rc.d/rc4.d/S60switchoff
-	mkdir $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/
-	cp -a $(buildprefix)/root/release/lib/modules/2.6.32.59_stm24_0211/modules.dep $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/
-	cp $(prefix)/release/lib/modules/*.ko $(prefix)/release/lib/modules/2.6.32.59_stm24_0211/
+	mkdir $(prefix)/release/lib/modules/$(KERNELVERSION)/
+	cp -a $(buildprefix)/root/release/lib/modules/$(KERNELVERSION)/modules.dep $(prefix)/release/lib/modules/$(KERNELVERSION)/
+	cp $(prefix)/release/lib/modules/*.ko $(prefix)/release/lib/modules/$(KERNELVERSION)/
 	rm $(prefix)/release/lib/modules/*.ko
 	cp -f $(buildprefix)/root/release/autoswitch $(prefix)/release/bin/autoswitch
 	cp -f $(targetprefix)/usr/local/sbin/i2cdetect $(prefix)/release/bin/
@@ -320,6 +319,7 @@ release_base:
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/simu_button/simu_button.ko $(prefix)/release/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmfb.ko $(prefix)/release/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cic/*.ko $(prefix)/release/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/detect/*.ko $(prefix)/release/lib/modules/
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/button/button.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/button/button.ko $(prefix)/release/lib/modules || true
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cec/cec.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cec/cec.ko $(prefix)/release/lib/modules || true
 	[ -e $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cpu_frequ/cpu_frequ.ko ] && cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/cpu_frequ/cpu_frequ.ko $(prefix)/release/lib/modules || true
