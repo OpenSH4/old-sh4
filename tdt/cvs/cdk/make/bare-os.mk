@@ -229,11 +229,20 @@ GCC := gcc
 if GCC47
 GCC_VERSION := 4.7.2-119
 else
+if GCC48
+GCC_VERSION := 4.8.2-137
+else
 GCC_VERSION := 4.6.3-115
 endif
+endif
 GCC_SPEC := stm-target-$(GCC).spec
+if NEWOS
+GCC_SPEC_PATCH := $(GCC_SPEC).$(GCC_VERSION)-newos.diff
+GCC_PATCHES := stm-target-$(GCC).$(GCC_VERSION)-newos.diff
+else
 GCC_SPEC_PATCH := $(GCC_SPEC).$(GCC_VERSION).diff
 GCC_PATCHES := stm-target-$(GCC).$(GCC_VERSION).diff
+endif
 
 GCC_RPM := RPMS/sh4/$(STLINUX)-sh4-$(GCC)-$(GCC_VERSION).sh4.rpm
 LIBSTDC_RPM := RPMS/sh4/$(STLINUX)-sh4-$(LIBSTDC)-$(GCC_VERSION).sh4.rpm

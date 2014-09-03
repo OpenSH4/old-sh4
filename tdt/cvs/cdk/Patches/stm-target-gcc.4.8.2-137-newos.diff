@@ -1,0 +1,37 @@
+--- gcc-4.6.3.org/gcc/real.h	2010-04-20 15:00:36.000000000 +0200
++++ gcc-4.6.3/gcc/real.h	2012-04-12 18:15:28.000000000 +0200
+@@ -32,11 +32,11 @@
+   rvc_nan
+ };
+ 
+-#define SIGNIFICAND_BITS	(128 + HOST_BITS_PER_LONG)
++#define SIGNIFICAND_BITS	(128 + HOST_BITS_PER_WIDE_INT)
+ #define EXP_BITS		(32 - 6)
+ #define MAX_EXP			((1 << (EXP_BITS - 1)) - 1)
+-#define SIGSZ			(SIGNIFICAND_BITS / HOST_BITS_PER_LONG)
+-#define SIG_MSB			((unsigned long)1 << (HOST_BITS_PER_LONG - 1))
++#define SIGSZ				(SIGNIFICAND_BITS / HOST_BITS_PER_WIDE_INT)
++#define SIG_MSB			((unsigned HOST_WIDE_INT)1 << (HOST_BITS_PER_WIDE_INT - 1))
+ 
+ struct GTY(()) real_value {
+   /* Use the same underlying type for all bit-fields, so as to make
+@@ -48,7 +48,7 @@
+   unsigned int signalling : 1;
+   unsigned int canonical : 1;
+   unsigned int uexp : EXP_BITS;
+-  unsigned long sig[SIGSZ];
++  unsigned HOST_WIDE_INT sig[SIGSZ];
+ };
+ 
+ #define REAL_EXP(REAL) \
+--- gcc-4.8.2/gcc/Makefile.in.orig	2014-01-22 07:51:02.237793726 +0200
++++ gcc-4.8.2/gcc/Makefile.in	2014-01-22 07:59:09.444209656 +0200
+@@ -4627,7 +4627,7 @@
+ # We keep the directory structure for files in config or c-family and .def
+ # files. All other files are flattened to a single directory.
+ 	$(mkinstalldirs) $(DESTDIR)$(plugin_includedir)
+-	headers=`echo $(PLUGIN_HEADERS) | tr ' ' '\012' | sort -u`; \
++	headers="$(sort $(PLUGIN_HEADERS))"; \
+ 	srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`; \
+ 	for file in $$headers; do \
+ 	  if [ -f $$file ] ; then \
