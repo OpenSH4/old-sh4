@@ -67,8 +67,13 @@ BINUTILS := binutils
 BINUTILS_DEV := binutils-dev
 BINUTILS_VERSION = 2.22-68
 BINUTILS_SPEC := stm-target-$(BINUTILS).spec
+if NEWOS
+BINUTILS_SPEC_PATCH := $(BINUTILS_SPEC).$(BINUTILS_VERSION)-newos.diff
+BINUTILS_PATCHES := stm-target-$(BINUTILS).$(BINUTILS_VERSION)-newos.diff
+else
 BINUTILS_SPEC_PATCH := $(BINUTILS_SPEC).$(BINUTILS_VERSION).diff
 BINUTILS_PATCHES :=
+endif
 
 BINUTILS_RPM := RPMS/sh4/$(STLINUX)-sh4-$(BINUTILS)-$(BINUTILS_VERSION).sh4.rpm
 BINUTILS_DEV_RPM := RPMS/sh4/$(STLINUX)-sh4-$(BINUTILS_DEV)-$(BINUTILS_VERSION).sh4.rpm
@@ -98,7 +103,7 @@ GMP := gmp
 GMP_VERSION := 5.1.0-7
 GMP_SPEC := stm-target-$(GMP).spec
 if NEWOS
-MP_SPEC_PATCH := stm-target-gmp.spec.diff
+GMP_SPEC_PATCH := stm-target-gmp.spec-newos.diff
 GMP_PATCHES := 
 else
 GMP_SPEC_PATCH :=
