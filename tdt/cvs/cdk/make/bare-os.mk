@@ -97,8 +97,13 @@ $(DEPDIR)/$(BINUTILS_DEV): $(BINUTILS_DEV_RPM)
 GMP := gmp
 GMP_VERSION := 5.1.0-7
 GMP_SPEC := stm-target-$(GMP).spec
+if NEWOS
+MP_SPEC_PATCH := stm-target-gmp.spec.diff
+GMP_PATCHES := 
+else
 GMP_SPEC_PATCH :=
 GMP_PATCHES :=
+endif
 
 GMP_RPM := RPMS/sh4/$(STLINUX)-sh4-$(GMP)-$(GMP_VERSION).sh4.rpm
 

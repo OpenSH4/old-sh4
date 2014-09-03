@@ -34,6 +34,14 @@ AC_ARG_ENABLE(gcc47,
 	AS_HELP_STRING(--enable-gcc47, compile image stm24 using gcc 4.7),
 	,[enable_gcc47=no])
 AM_CONDITIONAL(GCC47,test "$enable_gcc47" = "yes")
+AC_ARG_ENABLE(gcc48,
+        AS_HELP_STRING(--enable-gcc48, compile image stm24 using gcc 4.8),
+        ,[enable_gcc48=no])
+AM_CONDITIONAL(GCC48,test "$enable_gcc48" = "yes")
+AC_ARG_ENABLE(newos,
+        AS_HELP_STRING(--enable-newos, compile image stm24 using newer OperatingSystem like Ubuntu 14.04),
+        ,[enable_newos=no])
+AM_CONDITIONAL(NEWOS,test "$enable_newos" = "yes")
 
 AC_ARG_ENABLE(lirc,
 	AS_HELP_STRING(--enable-lirc, include lirc in yadds and images),
@@ -170,6 +178,13 @@ AC_ARG_ENABLE(p0215,
         esac], [enable_p0215=no])
 AM_CONDITIONAL(ENABLE_P0215,test "$enable_p0215" = "yes")
 AC_SUBST(P0215)
+AC_ARG_ENABLE(p0308,
+        AS_HELP_STRING(--enable-p0308, set up the CDK to use the STLinux 2.4 with patchlevel 0308),
+        [case "${enableval}" in
+                yes) P0308=p0308 ;;
+        esac], [enable_p0308=no])
+AM_CONDITIONAL(ENABLE_P0308,test "$enable_p0308" = "yes")
+AC_SUBST(P0308)
 
 AC_ARG_WITH(cpu,
 	[  --with-cpu=MODEL    cpu model [[sh4]]],
@@ -742,6 +757,7 @@ TUXBOX_RULES_MAKE(linuxp0209)
 TUXBOX_RULES_MAKE(linuxp0210)
 TUXBOX_RULES_MAKE(linuxp0211)
 TUXBOX_RULES_MAKE(linuxp0215)
+TUXBOX_RULES_MAKE(linuxp0308)
 
 if test "$enable_stm24" = "yes"; then
 	if test "$enable_p0207" == "yes"; then
@@ -764,6 +780,10 @@ if test "$enable_stm24" = "yes"; then
                 KERNELVERSION=${VERSION_linuxp0215}
                 KERNELSTMLABEL="_${VERSION_linuxp0215#*_}"
                 KERNELLABEL="215"
+        elif test "$enable_p0308" == "yes"; then
+                KERNELVERSION=${VERSION_linuxp0308}
+                KERNELSTMLABEL="_${VERSION_linuxp0308#*_}"
+                KERNELLABEL="308"
 	fi
 fi
 
@@ -1106,7 +1126,9 @@ linux kernel                : ${KERNELVERSION%.*}
 kernelversion               : $KERNELVERSION
 localversion                : $KERNELSTMLABEL
 STLinux 2.4                 : $enable_stm24
-GCC 4.7.2                   : $enable_gcc472
+GCC 4.7                     : $enable_gcc47
+GCC 4.8                     : $enable_gcc48
+New OS			    : $enable_newos
 Patchlevel P0207            : $enable_p0207
 Patchlevel P0209            : $enable_p0209
 Patchlevel P0210            : $enable_p0210

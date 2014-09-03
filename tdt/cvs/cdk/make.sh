@@ -46,24 +46,26 @@ CONFIGPARAM="${CONFIGPARAM} --host=${host_alias} --build=${host_alias}"
 echo -e "\nKernel:"
 echo "   1) STM 24 P0211 (recommended)"
 echo "   2) STM 24 P0215 (experimental)"
+#echo "   3) STM 24 P0308 (experimental)"
 case $2 in
-        [1-2]) REPLY=$2
+        [1-3]) REPLY=$2
         echo -e "\nSelected kernel: $REPLY\n"
         ;;
         *)
-        read -p "Select kernel (1-2)? ";;
+        read -p "Select kernel (1-3)? ";;
 esac
 
 case "$REPLY" in
         1)  KERNEL="--enable-stm24 --enable-p0211";STMFB="stm24";PKERNEL=P0211;;
         2)  KERNEL="--enable-stm24 --enable-p0215";STMFB="stm24";PKERNEL=P0215;;
+	3)  KERNEL="--enable-stm24 --enable-p0308";STMFB="stm24";PKERNEL=P0308;;
         *)  KERNEL="--enable-stm24 --enable-p0211";STMFB="stm24";PKERNEL=P0211;;
 esac
 CONFIGPARAM="$CONFIGPARAM $KERNEL"
 
 ##############################################
 CONFIGPARAM="$CONFIGPARAM --enable-hl101 --with-boxtype=hl101"
-#CONFIGPARAM="$CONFIGPARAM --enable-stm24 --enable-p0215"
+#CONFIGPARAM="$CONFIGPARAM --enable-stm24 --enable-p0211"
 ##############################################
 
 echo -e "\nKernel debug:"
@@ -124,9 +126,36 @@ fi
 		cd - &>/dev/null
 
 ##############################################
+echo -e "\nDo you use newer OS? (e.g. Ubunut 14.04)"
+if [ "$3" ]; then
+        REPLY="$3"
+        echo "Activate NewOS (y/N)? "
+        echo -e "\nSelected option: $REPLY\n"
+else
+        REPLY=N
+        read -p "Activate NewOS (y/N)? "
+fi
+[ "$REPLY" == "y" -o "$REPLY" == "Y" ] && CONFIGPARAM="$CONFIGPARAM --enable-newos";newos=Yes
+##############################################
+echo -e "\nGCC-Version:"
+echo "   1) GCC 4.6 (recommended)"
+echo "   2) GCC 4.7 (experimental)"
+echo "   3) GCC 4.8 (experimental & NewOS only)"
+case $2 in
+        [1-3]) REPLY=$2
+        echo -e "\nSelected Version: $REPLY\n"
+        ;;
+        *)
+        read -p "Select Version (1-3)? ";;
+esac
 
-# Check this option if you want to use the version of GCC.
-#CONFIGPARAM="$CONFIGPARAM --enable-gcc47"
+case "$REPLY" in
+        1)  GCC_VER="";GCC=4.6;;
+        2)  GCC_VER="--enable-gcc47";GCC=4.7;;
+        3)  GCC_VER="--enable-gcc48";GCC=4.8;;
+        *)  GCC_VER="";GCC=4.6;;
+esac
+CONFIGPARAM="$CONFIGPARAM $GCC_VER"
 
 ##############################################
 
@@ -162,6 +191,8 @@ echo "Debug=$REPLY"
 echo "Multicom324"
 echo "GraphLCD"
 echo "Framebuffer"
+echo "GCC=$GCC"
+echo "NewOS=$newos"
 echo "*********************"
 echo "Your next step could be:"
 echo "----------------------------------------"
