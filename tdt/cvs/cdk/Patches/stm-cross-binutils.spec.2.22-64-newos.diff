@@ -4,7 +4,7 @@
  Patch100: binutils-2.22-stm-130107.patch
  Patch101: binutils-2.22-dt-needed.patch
  Patch102: binutils-2.22-unitialized.patch
-+Patch103: stm-cross-binutils.%{version}-%{release}.diff
++Patch103: stm-cross-binutils.%{version}-%{release}-newos.diff
  
  # ST200 patches
  Patch200: binutils-2.21.51-st200-7.03-6-0-0-B-111108.patch
