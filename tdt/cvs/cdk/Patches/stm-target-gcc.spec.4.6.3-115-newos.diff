@@ -1,6 +1,6 @@
---- stm-target-gcc-orig.spec	2013-04-13 18:54:10.984915000 +0200
-+++ stm-target-gcc.spec	2013-04-13 20:05:20.534087491 +0200
-@@ -4,11 +4,11 @@
+--- stm-target-gcc.spec.org	2012-10-29 15:10:41.000000000 +0100
++++ stm-target-gcc.spec	2014-09-04 22:13:11.042761929 +0200
+@@ -4,17 +4,18 @@
  Version: 4.6.3
  %else
  %if_target_cpu arm
@@ -15,7 +15,39 @@
  
  Release: 115
  
-@@ -306,14 +306,14 @@
+ Source0: ftp://gcc.gnu.org/pub/gcc/releases/gcc-%{version}/gcc-%{version}.tar.bz2
+ Source1: gcc-protoize.1
+ 
++Patch0: stm-target-gcc.%{version}-%{release}-newos.diff
+ Patch1: gcc-4.2.4-multilibpath.patch
+ Patch3: gcc-4.5.0-autoconf.patch
+ 
+@@ -168,6 +169,7 @@
+ 
+ %prep
+ %setup -n gcc-%{version} -q
++%patch0 -p1
+ 
+ # Common patches
+ %if "%{_stm_target_cpu}" != "arm"
+@@ -251,8 +253,6 @@
+ export CFLAGS="-Os"
+ export CXXFLAGS="-Os"
+ 
+-export CC_FOR_BUILD="gcc -m32"
+-export CXX_FOR_BUILD="g++ -m32"
+ 
+ # When cross compiling this fails because it needs to run code
+ export ac_cv_header_stdc=yes
+@@ -269,6 +269,7 @@
+ 	--enable-long-long \
+ 	--with-system-zlib \
+ 	--enable-shared \
++	MAKEINFO=missing \
+ %if "%{_stm_target_arch}" != "armv7" && "%{_stm_target_arch}" != "armv7_uclibc"
+ 	--disable-libgomp \
+ %endif
+@@ -306,14 +307,14 @@
  %if_target_arch_no_uclibc
          --with-tls=gnu2 \
  %endif
@@ -32,7 +64,16 @@
  
  # This package is NOT pmake safe
  %pmake
-@@ -520,7 +520,7 @@
+@@ -388,6 +389,8 @@
+ rm -r %{buildroot}%{_stm_cross_target_dir}%{_stm_target_man_dir}/man7
+ rm -r %{buildroot}%{_gccdir}/install-tools
+ rm -r %{buildroot}%{_stm_cross_target_dir}%{_stm_target_libexec_dir}/gcc/%{_stm_target_config}/%{version}/install-tools
++rm -rf %{buildroot}%{_gccdir}/include/ssl
++rm -rf %{buildroot}%{_gccdir}/include/xulrunner-1.9.2.17/nss
+ 
+ %unfixincludes %{buildroot}%{_gccdir}
+ 
+@@ -518,7 +521,7 @@
  %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libgomp.spec
  %{_stm_cross_target_dir}/%{_stm_target_info_dir}/libgomp.info.gz
  %endif

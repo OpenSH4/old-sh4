@@ -25,6 +25,14 @@
  %description
  This is the GNU C compiler, a fairly portable optimizing compiler which
  supports multiple languages.  This package includes support for C, and
+@@ -212,6 +217,7 @@
+        --enable-target-optspace \
+         --enable-languages=c,c++ \
+         --enable-threads=posix \
++       MAKEINFO=missing \
+ %if_target_cpu arm
+        --disable-multilib \
+ %endif
 @@ -242,7 +245,7 @@
          --with-gmp=%{_stm_cross_dir} \
          --with-mpfr=%{_stm_cross_dir} \

@@ -52,7 +52,7 @@ case $2 in
         echo -e "\nSelected kernel: $REPLY\n"
         ;;
         *)
-        read -p "Select kernel (1-3)? ";;
+        read -p "Select kernel (1-2)? ";;
 esac
 
 case "$REPLY" in
@@ -68,6 +68,7 @@ CONFIGPARAM="$CONFIGPARAM --enable-hl101 --with-boxtype=hl101"
 #CONFIGPARAM="$CONFIGPARAM --enable-stm24 --enable-p0211"
 ##############################################
 
+DEBUG=No
 echo -e "\nKernel debug:"
 if [ "$3" ]; then
 	REPLY="$3"
@@ -77,7 +78,7 @@ else
 	REPLY=N
 	read -p "Activate debug (y/N)? "
 fi
-[ "$REPLY" == "y" -o "$REPLY" == "Y" ] && CONFIGPARAM="$CONFIGPARAM --enable-debug"
+[ "$REPLY" == "y" -o "$REPLY" == "Y" ] && CONFIGPARAM="$CONFIGPARAM --enable-debug && DEBUG=Yes"
 
 ##############################################
 
@@ -139,10 +140,9 @@ fi
 ##############################################
 echo -e "\nGCC-Version:"
 echo "   1) GCC 4.6 (recommended)"
-echo "   2) GCC 4.7 (experimental)"
-echo "   3) GCC 4.8 (experimental & NewOS only)"
+echo "   2) GCC 4.8 (experimental & NewOS only)"
 case $2 in
-        [1-3]) REPLY=$2
+        [1-2]) REPLY=$2
         echo -e "\nSelected Version: $REPLY\n"
         ;;
         *)
@@ -151,11 +151,33 @@ esac
 
 case "$REPLY" in
         1)  GCC_VER="";GCC=4.6;;
-        2)  GCC_VER="--enable-gcc47";GCC=4.7;;
-        3)  GCC_VER="--enable-gcc48";GCC=4.8;;
+        2)  GCC_VER="--enable-gcc48";GCC=4.8;;
         *)  GCC_VER="";GCC=4.6;;
 esac
 CONFIGPARAM="$CONFIGPARAM $GCC_VER"
+
+SYS_GCC_48=$(gcc --version | grep 4.8 >/dev/null 2>/dev/null)$?
+if [ $GCC="4.6" ] && [ $SYS_GCC_48 -eq 0 ]; then
+echo -e \
+"\n \
+\\033[31;1m
+\nYou've choosen GCC-4.6 as Cross-Compiler, \
+\nbut your System is using GCC-4.8. This can \
+\ncause a Segmentation fault while building \
+\nCROSS-GCC-4.6. \
+\n \
+\nIf this is happening please install GCC-4.7 on your System. \
+\nAnd if you are on 64Bit-System, please make sure you will install \
+\nthe 32-Compatible- / Multilib-Version of GCC-4.7. \
+\n \
+\nExample for Ubunut(x64): \
+\nsudo apt-get install gcc-4.7-multilib && \\\
+\nsudo rm /usr/bin/gcc && \\\
+\nsudo ln -s /usr/bin/gcc-4.7 /usr/bin/gcc \
+\n \
+\033[0m"
+read -p "Press [Enter] key to continue..."
+fi
 
 ##############################################
 
@@ -187,7 +209,7 @@ echo "Aktiv Settings"
 echo "*********************"
 echo "Player 191"
 echo "Kernel $PKERNEL"
-echo "Debug=$REPLY"
+echo "Debug=$DEBUG"
 echo "Multicom324"
 echo "GraphLCD"
 echo "Framebuffer"
