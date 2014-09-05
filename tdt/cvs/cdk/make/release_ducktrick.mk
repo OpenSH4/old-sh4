@@ -1,11 +1,3 @@
-if ENABLE_P0211
-KVER=2.6.32.59_stm24_0211
-endif
-
-if ENABLE_P0215
-KVER=2.6.32.61_stm24_0215
-endif
-
 #
 # auxiliary targets for model-specific builds
 #
@@ -42,10 +34,12 @@ release_ducktrick_hl101: release_ducktrick_common_utils
 	echo "ArgusVIP" > $(prefix)/release_ducktrick/etc/hostname
 	cp $(buildprefix)/root/release/halt_hl101 $(prefix)/release_ducktrick/etc/init.d/halt
 	chmod 755 $(prefix)/release_ducktrick/etc/init.d/halt
+	chmod 755 $(targetprefix)/bin/bashbug
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom/aotom.ko $(prefix)/release_ducktrick/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontcontroller/aotom_vip1/aotom_vip1.ko $(prefix)/release_ducktrick/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/frontends/*.ko $(prefix)/release_ducktrick/lib/modules/
 	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/stgfb/stmfb/stmcore-display-stx7109c3.ko $(prefix)/release_ducktrick/lib/modules/
+	cp $(targetprefix)/lib/modules/$(KERNELVERSION)/extra/detect/*.ko $(prefix)/release_ducktrick/lib/modules/
 	cp -p $(buildprefix)/root/bootscreen/video.elf $(prefix)/release_ducktrick/boot/video.elf
 	cp -p $(buildprefix)/root/bootscreen/audio.elf $(prefix)/release_ducktrick/boot/audio.elf
 	cp $(targetprefix)/lib/firmware/dvb-fe-avl2108.fw $(prefix)/release_ducktrick/lib/firmware/
@@ -143,6 +137,7 @@ release_ducktrick_hl101: release_ducktrick_common_utils
 	mkdir -p $(prefix)/release_ducktrick/usr/local/share
 	ln -sf /var/tuxbox/config $(prefix)/release_ducktrick/usr/local/share/config
 	mkdir -p $(prefix)/release_ducktrick/var/share/icons
+	chmod 755 $(prefix)/release_ducktrick/bin/bashbug
 	cp -a $(targetprefix)/bin/* $(prefix)/release_ducktrick/bin/
 	cp -dp $(targetprefix)/bin/hotplug $(prefix)/release_ducktrick/sbin/
 	cp -dp $(targetprefix)/usr/bin/sdparm $(prefix)/release_ducktrick/sbin/
@@ -196,9 +191,9 @@ release_ducktrick_hl101: release_ducktrick_common_utils
 #	TODO: Channellist ....
 	cp -aR $(buildprefix)/root/usr/local/share/config/* $(prefix)/release_ducktrick/var/tuxbox/config/
 	cp -aR $(targetprefix)/usr/share/tuxbox/neutrino $(prefix)/release_ducktrick/usr/local/share/
-	mkdir $(prefix)/release_ducktrick/lib/modules/$(KVER)/
-	cp -aR $(buildprefix)/root/release/lib/modules/$(KVER)/modules.dep $(prefix)/release_ducktrick/lib/modules/$(KVER)/
-	cp $(prefix)/release_ducktrick/lib/modules/*.ko $(prefix)/release_ducktrick/lib/modules/$(KVER)
+	mkdir $(prefix)/release_ducktrick/lib/modules/$(KERNELVERSION)/
+	cp -aR $(buildprefix)/root/release/lib/modules/$(KERNELVERSION)/modules.dep $(prefix)/release_ducktrick/lib/modules/$(KERNELVERSION)/
+	cp $(prefix)/release_ducktrick/lib/modules/*.ko $(prefix)/release_ducktrick/lib/modules/$(KERNELVERSION)/
 	rm $(prefix)/release_ducktrick/lib/modules/*.ko
 	mkdir $(prefix)/release_ducktrick/usr/share/tuxbox
 	cd $(prefix)/release_ducktrick/usr/share/tuxbox && \
