@@ -64,15 +64,26 @@
  
  # This package is NOT pmake safe
  %pmake
-@@ -388,6 +389,8 @@
+@@ -381,13 +382,15 @@
+ rm -rf %{buildroot}%{_stm_cross_target_dir}%{_stm_target_lib_dir}/m4-nofpu
+
+ # Remove installed files we don't distribute, to keep rpm happy
+-rm  %{buildroot}%{_stm_cross_target_dir}%{_stm_target_lib_dir}/libiberty.a
+-rm  %{buildroot}%{_stm_cross_target_dir}%{_stm_target_info_dir}/cppinternals.info.gz
+-rm  %{buildroot}%{_stm_cross_target_dir}%{_stm_target_info_dir}/gccint.info.gz
+-rm  %{buildroot}%{_stm_cross_target_dir}%{_stm_target_info_dir}/gccinstall.info.gz
++rm -f %{buildroot}%{_stm_cross_target_dir}%{_stm_target_lib_dir}/libiberty.a
++rm -f %{buildroot}%{_stm_cross_target_dir}%{_stm_target_info_dir}/cppinternals.info.gz
++rm -f %{buildroot}%{_stm_cross_target_dir}%{_stm_target_info_dir}/gccint.info.gz
++rm -f %{buildroot}%{_stm_cross_target_dir}%{_stm_target_info_dir}/gccinstall.info.gz
  rm -r %{buildroot}%{_stm_cross_target_dir}%{_stm_target_man_dir}/man7
  rm -r %{buildroot}%{_gccdir}/install-tools
  rm -r %{buildroot}%{_stm_cross_target_dir}%{_stm_target_libexec_dir}/gcc/%{_stm_target_config}/%{version}/install-tools
 +rm -rf %{buildroot}%{_gccdir}/include/ssl
 +rm -rf %{buildroot}%{_gccdir}/include/xulrunner-1.9.2.17/nss
- 
+
  %unfixincludes %{buildroot}%{_gccdir}
- 
+
 @@ -518,7 +521,7 @@
  %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libgomp.spec
  %{_stm_cross_target_dir}/%{_stm_target_info_dir}/libgomp.info.gz
@@ -82,3 +93,48 @@
  
  %{_gccdir}/include/stdfix.h
  %{_gccdir}/include/stdint-gcc.h
+@@ -697,11 +700,6 @@
+ %{_stm_cross_target_dir}/lib/cpp
+ %doc %{_stm_cross_target_dir}%{_stm_target_man_dir}/man1/cpp.1.gz
+ 
+-%files -n %{_cpp_pkgname}-doc
+-%defattr(-,root,root)
+-%doc %{_stm_cross_target_dir}%{_stm_target_info_dir}/cpp.info*
+-%{_stm_cross_target_dir}%{_stm_target_sharedstate_dir}/doc/*
+-
+ %files -n %{_gpp_pkgname}
+ %defattr(-,root,root)
+ %{_stm_cross_target_dir}%{_stm_target_bin_dir}/c++
+@@ -738,32 +736,12 @@
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libsupc++.la
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libstdc++.so
+ 
+-%files -n %{_gcc_pkgname}-doc
+-%defattr(-,root,root)
+-%doc %{_stm_cross_target_dir}%{_stm_target_info_dir}/gcc.info*
+-
+ %files -n %{_libgcc_pkgname}
+ %defattr(-,root,root)
+ %{_stm_cross_target_dir}/lib/libgcc_s-%{version}.so.1
+ %{_stm_cross_target_dir}/lib/libgcc_s.so.1
+ %{_gccdir}/libgcc_s.so
+ 
+-%post -n %{_cpp_pkgname}-doc
+-install-info --quiet --dir-file=%{_stm_cross_target_dir}%{_stm_target_info_dir}/dir \
+-	%{_stm_cross_target_dir}%{_stm_target_info_dir}/cpp.info
+-
+-%preun -n %{_cpp_pkgname}-doc
+-install-info --quiet --dir-file=%{_stm_cross_target_dir}%{_stm_target_info_dir}/dir --remove \
+-	%{_stm_cross_target_dir}%{_stm_target_info_dir}/cpp.info
+-
+-%post -n %{_gcc_pkgname}-doc
+-install-info --quiet --dir-file=%{_stm_cross_target_dir}%{_stm_target_info_dir}/dir \
+-	%{_stm_cross_target_dir}%{_stm_target_info_dir}/gcc.info
+-
+-%preun -n %{_gcc_pkgname}-doc
+-install-info --quiet --dir-file=%{_stm_cross_target_dir}%{_stm_target_info_dir}/dir --remove \
+-	%{_stm_cross_target_dir}%{_stm_target_info_dir}/gcc.info
+-
+ ##############################################################################
+ 
+ %changelog
