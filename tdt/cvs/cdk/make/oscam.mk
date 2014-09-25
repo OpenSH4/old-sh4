@@ -1,4 +1,4 @@
-$(DEPDIR)/oscam:
+$(DEPDIR)/oscam: libusb2 libusb
 	svn checkout http://www.streamboard.tv/svn/oscam/trunk $(archivedir)/oscam-svn && \
 	cd $(archivedir)/oscam-svn && \
                 $(BUILDENV) && \
