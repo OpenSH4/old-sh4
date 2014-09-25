@@ -1,0 +1,140 @@
+--- stm-target-gcc.spec.org	2012-10-29 15:10:41.000000000 +0100
++++ stm-target-gcc.spec	2014-09-04 22:13:11.042761929 +0200
+@@ -4,17 +4,18 @@
+ Version: 4.6.3
+ %else
+ %if_target_cpu arm
+-Version: 4.6.3
+-%else
++
++
+ Version: 4.2.4
+ %endif
+-%endif
++
+ 
+ Release: 115
+ 
+ Source0: ftp://gcc.gnu.org/pub/gcc/releases/gcc-%{version}/gcc-%{version}.tar.bz2
+ Source1: gcc-protoize.1
+ 
++Patch0: stm-target-gcc.%{version}-%{release}-newos.diff
+ Patch1: gcc-4.2.4-multilibpath.patch
+ Patch3: gcc-4.5.0-autoconf.patch
+ 
+@@ -168,6 +169,7 @@
+ 
+ %prep
+ %setup -n gcc-%{version} -q
++%patch0 -p1
+ 
+ # Common patches
+ %if "%{_stm_target_cpu}" != "arm"
+@@ -251,8 +253,6 @@
+ export CFLAGS="-Os"
+ export CXXFLAGS="-Os"
+ 
+-export CC_FOR_BUILD="gcc -m32"
+-export CXX_FOR_BUILD="g++ -m32"
+ 
+ # When cross compiling this fails because it needs to run code
+ export ac_cv_header_stdc=yes
+@@ -269,6 +269,7 @@
+ 	--enable-long-long \
+ 	--with-system-zlib \
+ 	--enable-shared \
++	MAKEINFO=missing \
+ %if "%{_stm_target_arch}" != "armv7" && "%{_stm_target_arch}" != "armv7_uclibc"
+ 	--disable-libgomp \
+ %endif
+@@ -306,14 +307,14 @@
+ %if_target_arch_no_uclibc
+         --with-tls=gnu2 \
+ %endif
+-%endif
++
+ %if "%{_stm_target_cpu_id}" != "%%%%{_stm_target_cpu_id}"
+ 	--with-cpu=%{_stm_target_cpu_id} \
+ %endif
+ %if "%{_stm_target_gcc_config}" != "%%%%{_stm_target_gcc_config}"
+ 	%{_stm_target_gcc_config} \
+ %endif
+-        && true
++         true
+ 
+ # This package is NOT pmake safe
+ %pmake
+@@ -381,13 +382,15 @@
+ rm -rf %{buildroot}%{_stm_cross_target_dir}%{_stm_target_lib_dir}/m4-nofpu
+
+ # Remove installed files we don't distribute, to keep rpm happy
+-rm  %{buildroot}%{_stm_cross_target_dir}%{_stm_target_lib_dir}/libiberty.a
+-rm  %{buildroot}%{_stm_cross_target_dir}%{_stm_target_info_dir}/cppinternals.info.gz
+-rm  %{buildroot}%{_stm_cross_target_dir}%{_stm_target_info_dir}/gccint.info.gz
+-rm  %{buildroot}%{_stm_cross_target_dir}%{_stm_target_info_dir}/gccinstall.info.gz
++rm -f %{buildroot}%{_stm_cross_target_dir}%{_stm_target_lib_dir}/libiberty.a
++rm -f %{buildroot}%{_stm_cross_target_dir}%{_stm_target_info_dir}/cppinternals.info.gz
++rm -f %{buildroot}%{_stm_cross_target_dir}%{_stm_target_info_dir}/gccint.info.gz
++rm -f %{buildroot}%{_stm_cross_target_dir}%{_stm_target_info_dir}/gccinstall.info.gz
+ rm -r %{buildroot}%{_stm_cross_target_dir}%{_stm_target_man_dir}/man7
+ rm -r %{buildroot}%{_gccdir}/install-tools
+ rm -r %{buildroot}%{_stm_cross_target_dir}%{_stm_target_libexec_dir}/gcc/%{_stm_target_config}/%{version}/install-tools
++rm -rf %{buildroot}%{_gccdir}/include/ssl
++rm -rf %{buildroot}%{_gccdir}/include/xulrunner-1.9.2.17/nss
+
+ %unfixincludes %{buildroot}%{_gccdir}
+
+@@ -518,7 +521,7 @@
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libgomp.spec
+ %{_stm_cross_target_dir}/%{_stm_target_info_dir}/libgomp.info.gz
+ %endif
+-%endif
++
+ 
+ %{_gccdir}/include/stdfix.h
+ %{_gccdir}/include/stdint-gcc.h
+@@ -697,11 +700,6 @@
+ %{_stm_cross_target_dir}/lib/cpp
+ %doc %{_stm_cross_target_dir}%{_stm_target_man_dir}/man1/cpp.1.gz
+ 
+-%files -n %{_cpp_pkgname}-doc
+-%defattr(-,root,root)
+-%doc %{_stm_cross_target_dir}%{_stm_target_info_dir}/cpp.info*
+-%{_stm_cross_target_dir}%{_stm_target_sharedstate_dir}/doc/*
+-
+ %files -n %{_gpp_pkgname}
+ %defattr(-,root,root)
+ %{_stm_cross_target_dir}%{_stm_target_bin_dir}/c++
+@@ -738,32 +736,12 @@
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libsupc++.la
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libstdc++.so
+ 
+-%files -n %{_gcc_pkgname}-doc
+-%defattr(-,root,root)
+-%doc %{_stm_cross_target_dir}%{_stm_target_info_dir}/gcc.info*
+-
+ %files -n %{_libgcc_pkgname}
+ %defattr(-,root,root)
+ %{_stm_cross_target_dir}/lib/libgcc_s-%{version}.so.1
+ %{_stm_cross_target_dir}/lib/libgcc_s.so.1
+ %{_gccdir}/libgcc_s.so
+ 
+-%post -n %{_cpp_pkgname}-doc
+-install-info --quiet --dir-file=%{_stm_cross_target_dir}%{_stm_target_info_dir}/dir \
+-	%{_stm_cross_target_dir}%{_stm_target_info_dir}/cpp.info
+-
+-%preun -n %{_cpp_pkgname}-doc
+-install-info --quiet --dir-file=%{_stm_cross_target_dir}%{_stm_target_info_dir}/dir --remove \
+-	%{_stm_cross_target_dir}%{_stm_target_info_dir}/cpp.info
+-
+-%post -n %{_gcc_pkgname}-doc
+-install-info --quiet --dir-file=%{_stm_cross_target_dir}%{_stm_target_info_dir}/dir \
+-	%{_stm_cross_target_dir}%{_stm_target_info_dir}/gcc.info
+-
+-%preun -n %{_gcc_pkgname}-doc
+-install-info --quiet --dir-file=%{_stm_cross_target_dir}%{_stm_target_info_dir}/dir --remove \
+-	%{_stm_cross_target_dir}%{_stm_target_info_dir}/gcc.info
+-
+ ##############################################################################
+ 
+ %changelog

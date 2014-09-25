@@ -184,6 +184,7 @@ $(DEPDIR)/grep.do_compile: $(DEPDIR)/grep.do_prepare
 	cd @DIR_grep@ && \
 		$(BUILDENV) \
 		./configure \
+			MAKEINFO=echo \
 			--build=$(build) \
 			--host=$(target) \
 			--disable-nls \

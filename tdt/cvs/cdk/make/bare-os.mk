@@ -67,8 +67,13 @@ BINUTILS := binutils
 BINUTILS_DEV := binutils-dev
 BINUTILS_VERSION = 2.22-68
 BINUTILS_SPEC := stm-target-$(BINUTILS).spec
+if NEWOS
+BINUTILS_SPEC_PATCH := $(BINUTILS_SPEC).$(BINUTILS_VERSION)-newos.diff
+BINUTILS_PATCHES := stm-target-$(BINUTILS).$(BINUTILS_VERSION)-newos.diff
+else
 BINUTILS_SPEC_PATCH := $(BINUTILS_SPEC).$(BINUTILS_VERSION).diff
 BINUTILS_PATCHES :=
+endif
 
 BINUTILS_RPM := RPMS/sh4/$(STLINUX)-sh4-$(BINUTILS)-$(BINUTILS_VERSION).sh4.rpm
 BINUTILS_DEV_RPM := RPMS/sh4/$(STLINUX)-sh4-$(BINUTILS_DEV)-$(BINUTILS_VERSION).sh4.rpm
@@ -97,8 +102,13 @@ $(DEPDIR)/$(BINUTILS_DEV): $(BINUTILS_DEV_RPM)
 GMP := gmp
 GMP_VERSION := 5.1.0-7
 GMP_SPEC := stm-target-$(GMP).spec
+if NEWOS
+GMP_SPEC_PATCH := stm-target-gmp.spec-newos.diff
+GMP_PATCHES := 
+else
 GMP_SPEC_PATCH :=
 GMP_PATCHES :=
+endif
 
 GMP_RPM := RPMS/sh4/$(STLINUX)-sh4-$(GMP)-$(GMP_VERSION).sh4.rpm
 
@@ -219,11 +229,20 @@ GCC := gcc
 if GCC47
 GCC_VERSION := 4.7.2-119
 else
+if GCC48
+GCC_VERSION := 4.8.2-137
+else
 GCC_VERSION := 4.6.3-115
 endif
+endif
 GCC_SPEC := stm-target-$(GCC).spec
+if NEWOS
+GCC_SPEC_PATCH := $(GCC_SPEC).$(GCC_VERSION)-newos.diff
+GCC_PATCHES := stm-target-$(GCC).$(GCC_VERSION)-newos.diff
+else
 GCC_SPEC_PATCH := $(GCC_SPEC).$(GCC_VERSION).diff
 GCC_PATCHES := stm-target-$(GCC).$(GCC_VERSION).diff
+endif
 
 GCC_RPM := RPMS/sh4/$(STLINUX)-sh4-$(GCC)-$(GCC_VERSION).sh4.rpm
 LIBSTDC_RPM := RPMS/sh4/$(STLINUX)-sh4-$(LIBSTDC)-$(GCC_VERSION).sh4.rpm

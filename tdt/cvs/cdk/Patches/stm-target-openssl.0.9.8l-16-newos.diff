@@ -1,0 +1,44 @@
+--- SPECS/stm-target-openssl.spec.orig	2014-09-05 15:51:28.416455302 +0200
++++ SPECS/stm-target-openssl.spec	2014-09-05 15:59:56.838976433 +0200
+@@ -122,7 +122,7 @@
+ 	INSTALL_PREFIX=%{buildroot}%{_stm_cross_target_dir} \
+ 	MANSUFFIX=ssl \
+ 	MANDIR=%{_stm_target_man_dir} \
+-	install
++	install_sw
+ 
+ # Make backwards-compatibility symlink to ssleay
+ cd %{buildroot}%{_stm_cross_target_dir}%{_stm_target_bin_dir}
+@@ -137,14 +137,12 @@
+ 
+ %files -n %{_pkgname}
+ %defattr(0644,root,root,0755)
+-%doc CHANGES CHANGES.SSLeay LICENSE NEWS README
+ 
+ %attr(0755,root,root) %{_stm_cross_target_dir}%{_stm_target_bin_dir}/*
+ %attr(0755,root,root) %{_stm_cross_target_dir}%{_stm_target_lib_dir}/*.so.*
+ %attr(0755,root,root) %{_stm_cross_target_dir}%{_stm_target_lib_dir}/engines/*.so
+ %attr(0755,root,root) %{_stm_cross_target_dir}%{_stm_target_pkgconfig_dir}/*.pc
+ %attr(0755,root,root) %{_stm_cross_target_dir}%{openssldir}/misc/*
+-%doc %attr(0644,root,root) %{_stm_cross_target_dir}%{_stm_target_man_dir}/man[157]/*
+ 
+ %config %attr(0644,root,root) %{_stm_cross_target_dir}%{openssldir}/openssl.cnf 
+ %dir %attr(0755,root,root) %{_stm_cross_target_dir}%{openssldir}/certs
+@@ -153,17 +151,10 @@
+ 
+ %files -n %{_pkgname}-dev
+ %defattr(0644,root,root,0755)
+-%doc CHANGES CHANGES.SSLeay LICENSE NEWS README
+ 
+ %attr(0755,root,root) %{_stm_cross_target_dir}%{_stm_target_lib_dir}/*.so
+ %attr(0644,root,root) %{_stm_cross_target_dir}%{_stm_target_lib_dir}/*.a
+ %attr(0644,root,root) %{_stm_cross_target_dir}%{_stm_target_include_dir}/openssl/*
+-%attr(0644,root,root) %{_stm_cross_target_dir}%{_stm_target_man_dir}/man[3]/*
+-
+-%files -n %{_pkgname}-doc
+-%defattr(0644,root,root,0755)
+-%doc CHANGES CHANGES.SSLeay LICENSE NEWS README
+-%doc doc
+ 
+ %changelog
+ * Wed Mar 31 2010 Stuart Menefy <stuart.menefy@st.com> 16

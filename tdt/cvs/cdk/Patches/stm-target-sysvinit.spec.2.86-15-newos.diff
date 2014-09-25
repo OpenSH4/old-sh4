@@ -1,0 +1,11 @@
+--- SPECS/stm-target-sysvinit.spec.org	2014-09-04 12:52:39.932270792 +0200
++++ SPECS/stm-target-sysvinit.spec	2014-09-04 12:51:46.520269282 +0200
+@@ -52,7 +52,7 @@
+ %package -n %{_scripts_pkgname}
+ Summary		: Scripts executed at boot and when the run level changes.
+ Group		: System Environment/Base
+-PreReq		: %{_stm_pkg_prefix}-%{_stm_target_arch}-initdconfig
++Requires(pre)	: %{_stm_pkg_prefix}-%{_stm_target_arch}-initdconfig
+ 
+ %description -n %{_scripts_pkgname}
+ 

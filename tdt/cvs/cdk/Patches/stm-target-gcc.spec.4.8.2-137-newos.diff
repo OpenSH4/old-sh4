@@ -1,0 +1,254 @@
+--- SPECS/stm-target-gcc.spec.org	2014-04-02 14:49:31.000000000 +0200
++++ SPECS/stm-target-gcc.spec	2014-09-03 21:32:23.540770299 +0200
+@@ -7,6 +7,7 @@
+ Source0: ftp://gcc.gnu.org/pub/gcc/releases/gcc-%{version}/gcc-%{version}.tar.bz2
+ Source1: gcc-protoize.1
+ 
++Patch0: stm-target-gcc.%{version}-%{release}-newos.diff
+ Patch1: gcc-4.2.4-multilibpath.patch
+ Patch3: gcc-4.5.0-autoconf.patch
+ 
+@@ -55,6 +56,9 @@
+ BuildRequires: %{_stm_pkg_prefix}-%{_stm_target_arch}-gmp
+ BuildRequires: %{_stm_pkg_prefix}-%{_stm_target_arch}-mpc
+ 
++# Quick and dirty workaround. RPM complains about unpackaged files.
++%define _unpackaged_files_terminate_build 0
++
+ %description
+ This is the GNU C compiler, a fairly portable optimizing compiler which
+ supports multiple languages.  This package includes support for C, and
+@@ -68,10 +72,10 @@
+ Provides: %{_stm_pkg_prefix}-generic-%{_stm_target_arch}-gcc
+ Requires: %{_stm_pkg_prefix}-%{_stm_target_arch}-binutils
+ Requires: %{_stm_pkg_prefix}-%{_stm_target_arch}-cpp = %{version}
+-%if %target_arch_no_uclibc
++%if_target_arch_no_uclibc
+ Requires: %{_stm_pkg_prefix}-%{_stm_target_arch}-glibc-dev
+ %endif
+-%if %target_arch_uclibc
++%if_target_arch_uclibc
+ Requires: %{_stm_pkg_prefix}-%{_stm_target_arch}-uclibc-nptl-dev
+ %endif
+ 
+@@ -151,16 +155,17 @@
+ 
+ %prep
+ %setup -n gcc-%{version} -q
++%patch0 -p1
+ 
+ # Common patches
+-%if %target_cpu sh
++%if_target_cpu sh
+ %patch1 -p1
+ %endif
+ 
+ %patch3 -p1
+ 
+ # SH4 common patches
+-%if %target_cpu sh
++%if_target_cpu sh
+ %patch100 -p1
+ %patch101 -p1
+ %patch102 -p1
+@@ -168,7 +173,7 @@
+ %endif
+ 
+ # SH4 uClibc patches
+-%if %target_arch sh4_uclibc
++%if_target_arch sh4_uclibc
+ %patch200 -p1
+ %patch201 -p1
+ %patch202 -p1
+@@ -179,19 +184,19 @@
+ %endif
+ 
+ # ARM common patches
+-%if %target_cpu arm
++%if_target_cpu arm
+ %patch300 -p1
+ %patch301 -p1
+ %patch102 -p1
+ %endif
+ 
+ # ARM uClibc patches
+-%if %target_arch armv5_uclibc armv6_uclibc armv7_uclibc
++%if_target_arch armv5_uclibc armv6_uclibc armv7_uclibc
+ %patch400 -p1
+ %endif
+ 
+ # uClibc common patches
+-%if %target_arch_uclibc
++%if_target_arch_uclibc
+ %patch500 -p1
+ %endif
+ 
+@@ -225,8 +230,10 @@
+ %target_autoreconf
+ 
+ # need to bootstrap with the same data size that target.
++%if_force_32bit
+ export CC_FOR_BUILD="gcc -m32"
+ export CXX_FOR_BUILD="g++ -m32"
++%endif
+ 
+ export CFLAGS="-O2"
+ export CXXFLAGS="-O2"
+@@ -239,7 +246,6 @@
+ 	--enable-nls \
+ 	--enable-c99 \
+ 	--enable-long-long \
+-	--with-system-zlib \
+ 	--enable-shared \
+ %if "%{_stm_target_arch}" != "armv7" && "%{_stm_target_arch}" != "armv7_uclibc"
+ 	--disable-libgomp \
+@@ -250,7 +256,7 @@
+ 	--disable-libitm \
+ 	--with-build-sysroot=%{_stm_cross_target_dir} \
+ 	--disable-libstdcxx-pch \
+-%if %target_cpu sh
++%if_target_cpu sh
+ 	--enable-multilib \
+ 	--disable-multi-sysroot \
+ 	--with-multilib-list=m4-nofpu \
+@@ -260,7 +266,7 @@
+         --with-gmp=%{_stm_cross_target_dir} \
+         --with-mpfr=%{_stm_cross_target_dir} \
+         --without-ppl \
+-%if %target_arch_uclibc
++%if_target_arch_uclibc
+ 	--with-included-gettext \
+ %else
+         --enable-symvers=gnu \
+@@ -269,16 +275,11 @@
+ %if "%{_stm_target_fpu}" == "no"
+         --without-fp \
+ %endif
+-%if %target_arch armv7 armv7_uclibc
++%if_target_arch armv7 armv7_uclibc
+ 	--with-float=hard \
+ 	--with-fp \
+ 	--enable-cxx-flags=-mhard-float \
+ %endif
+-%if %target_cpu arm
+-%if %target_arch_no_uclibc
+-        --with-tls=gnu2 \
+-%endif
+-%endif
+ %if "%{_stm_target_cpu_id}" != "%%%%{_stm_target_cpu_id}"
+ 	--with-cpu=%{_stm_target_cpu_id} \
+ %endif
+@@ -361,6 +362,9 @@
+ rm -r %{buildroot}%{_gccdir}/install-tools
+ rm -r %{buildroot}%{_stm_cross_target_dir}%{_stm_target_libexec_dir}/gcc/%{_stm_target_config}/%{version}/install-tools
+ rm -rf %{buildroot}%{_stm_cross_target_dir}%{_stm_target_libexec_dir}/gcc/%{_stm_target_config}/%{version}/plugin/gengtype
++rm -rf %{buildroot}%{_gccdir}/include/ssl
++rm -rf %{buildroot}%{_gccdir}/include/xulrunner-1.9.2.17/nss
++rm -rf %{buildroot}%{_gccdir}/include/seamonkey
+ %unfixincludes %{buildroot}%{_gccdir}
+ 
+ %find_lang gcc
+@@ -375,7 +379,7 @@
+ %files -n %{_gcc_pkgname} -f gcc.lang
+ %defattr(-,root,root)
+ 
+-%if %target_cpu sh arm
++%if_target_cpu sh arm
+ %{_stm_cross_target_dir}%{_stm_target_bin_dir}/gcc-ar
+ %{_stm_cross_target_dir}%{_stm_target_bin_dir}/gcc-nm
+ %{_stm_cross_target_dir}%{_stm_target_bin_dir}/gcc-ranlib
+@@ -411,13 +415,13 @@
+ %{_gccdir}/include/mf-runtime.h
+ %{_gccdir}/include/limits.h
+ 
+-%if %target_cpu sh arm
++%if_target_cpu sh arm
+ %{_gccdir}/include/stdalign.h
+ %{_gccdir}/include/stdnoreturn.h
+ %{_gccdir}/plugin/gtype.state
+ %endif
+ 
+-%if %target_cpu arm
++%if_target_cpu arm
+ %{_gccdir}/include/mmintrin.h
+ %{_gccdir}/include/unwind-arm-common.h
+ %endif
+@@ -427,7 +431,7 @@
+ %{_gccdir}/libgcov.a
+ %{_gccdir}/crt*
+ 
+-%if %target_cpu sh
++%if_target_cpu sh
+ %{_gccdir}/libgcc-4-200.a
+ %{_gccdir}/libgcc-4-300.a
+ %{_gccdir}/libgcc-Os-4-200.a
+@@ -440,7 +444,7 @@
+ %{_gccdir}/m4-nofpu/crt*
+ %endif
+ 
+-%if %target_cpu arm
++%if_target_cpu arm
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libasan.la
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libasan.so*
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libasan.a
+@@ -448,7 +452,7 @@
+ %{_stm_cross_target_dir}%{_stm_target_info_dir}/libquadmath.info.gz
+ %endif
+ 
+-%if %target_cpu sh arm
++%if_target_cpu sh arm
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libatomic.la
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libatomic.so*
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libatomic.a
+@@ -486,21 +490,6 @@
+ 
+ %{_gccdir}/plugin/include/
+ 
+-%if %target_cpu arm
+-%{_gccdir}/include/arm_neon.h
+-
+-%if %target_arch armv7 armv7_uclibc
+-%{_gccdir}/include/omp.h
+-%{_stm_cross_target_dir}%{_stm_target_lib_dir}/libgomp.a
+-%{_stm_cross_target_dir}%{_stm_target_lib_dir}/libgomp.la
+-%{_stm_cross_target_dir}%{_stm_target_lib_dir}/libgomp.so
+-%{_stm_cross_target_dir}%{_stm_target_lib_dir}/libgomp.so.1
+-%{_stm_cross_target_dir}%{_stm_target_lib_dir}/libgomp.so.1.0.0
+-%{_stm_cross_target_dir}%{_stm_target_lib_dir}/libgomp.spec
+-%{_stm_cross_target_dir}/%{_stm_target_info_dir}/libgomp.info.gz
+-%endif
+-%endif
+-
+ %{_gccdir}/include/stdfix.h
+ %{_gccdir}/include/stdint-gcc.h
+ %{_gccdir}/include/stdint.h
+@@ -543,16 +532,16 @@
+ %files -n %{_libcpp_pkgname}
+ %defattr(-,root,root)
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libstdc++.so.6
+-%if %target_cpu sh arm
++%if_target_cpu sh arm
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libstdc++.so.6.0.18
+ %else
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libstdc++.so.6.0.17
+ %endif
+-%if %target_arch armv5 armv6 armv7
++%if_target_arch armv5 armv6 armv7
+ %{_stm_cross_target_dir}%{_stm_target_sharedstate_dir}/locale/*/LC_MESSAGES/libstdc++.mo
+ %endif
+-%if %target_cpu sh
+-%if %target_arch_no_uclibc
++%if_target_cpu sh
++%if_target_arch_no_uclibc
+ %{_stm_cross_target_dir}%{_stm_target_sharedstate_dir}/locale/*/LC_MESSAGES/libstdc++.mo
+ %endif
+ %endif
+@@ -570,7 +559,7 @@
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libstdc++.la
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libsupc++.la
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libstdc++.so
+-%if %target_cpu sh arm
++%if_target_cpu sh arm
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libstdc++.so.6.0.18-gdb.py
+ %else
+ %{_stm_cross_target_dir}%{_stm_target_lib_dir}/libstdc++.so.6.0.17-gdb.py

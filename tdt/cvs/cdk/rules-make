@@ -17,6 +17,7 @@ linuxp0209;2.6.32.46_stm24_0209;linux-sh4-2.6.32.46_stm24_0209;stlinux24-host-ke
 linuxp0210;2.6.32.57_stm24_0210;linux-sh4-2.6.32.57_stm24_0210;stlinux24-host-kernel-source-sh4-2.6.32.57_stm24_0210-210.src.rpm
 linuxp0211;2.6.32.59_stm24_0211;linux-sh4-2.6.32.59_stm24_0211;stlinux24-host-kernel-source-sh4-2.6.32.59_stm24_0211-211.src.rpm
 linuxp0215;2.6.32.61_stm24_0215;linux-sh4-2.6.32.61_stm24_0215;stlinux24-host-kernel-source-sh4-2.6.32.61_stm24_0215-215.src.rpm
+linuxp0308;3.4.58_stm24_0308;linux-stm-3.4.58_stm24_0308;stlinux24-host-kernel-source-stm-3.4.58_stm24_0308.src.rpm
 linuxp0302;3.4.7_stm24_0302;linux-stm-3.4.7_stm24_0302;stlinux24-host-kernel-source-stm-3.4.7_stm24_0302-302.src.rpm
 squashfs;3.0;mksquashfs;squashfs3.0.tar.gz:mksquashfs_lzma.diff:lzma442.tar.bz2:lzma_zlib-stream.diff;dircreate:mksquashfs;extract:lzma442.tar.bz2;patch:lzma_zlib-stream.diff;extract:squashfs3.0.tar.gz;patch:mksquashfs_lzma.diff
 squashfs;4.0;mksquashfs;squashfs4.0.tar.gz:squashfs-tools-4.0-lzma.patch:lzma465.tar.bz2;dircreate:mksquashfs;extract:lzma465.tar.bz2;extract:squashfs4.0.tar.gz;patch:squashfs-tools-4.0-lzma.patch
@@ -77,7 +78,8 @@ pngquant;1.1;pngquant-1.1;pngquant-1.1-src.tgz;extract:pngquant-1.1-src.tgz
 mplayer;1.0;mplayer-export-*;mplayer-export-snapshot.tar.bz2;extract:mplayer-export-snapshot.tar.bz2
 mencoder;1.0;mplayer-export-*;mplayer-export-snapshot.tar.bz2;extract:mplayer-export-snapshot.tar.bz2
 jfsutils;1.1.15;jfsutils-1.1.15;jfsutils-1.1.15.tar.gz;extract:jfsutils-1.1.15.tar.gz
-opkg;0.1.8+svnr587;opkg-0.1.8+svnr587;opkg-0.1.8+svnr587.tar.gz;extract:opkg-0.1.8+svnr587.tar.gz;patch:opkg-0.1.8-dont-segfault.diff
+#opkg;0.1.8+svnr587;opkg-0.1.8+svnr587;opkg-0.1.8+svnr587.tar.gz;extract:opkg-0.1.8+svnr587.tar.gz;patch:opkg-0.1.8-dont-segfault.diff
+opkg;0.1.8;opkg-0.1.8;opkg-0.1.8.tar.gz;extract:opkg-0.1.8.tar.gz;patch:opkg-0.1.8-dont-segfault.diff
 sysstat;10.0.4;sysstat-10.0.4;sysstat-10.0.4.tar.gz;extract:sysstat-10.0.4.tar.gz
 hotplug_e2;1.0;hotplug-e2-helper;;
 autofs;4.1.4;autofs-4.1.4;autofs-4.1.4.tar.gz;extract:autofs-4.1.4.tar.gz;patch:autofs-4.1.4-misc-fixes.patch;patch:autofs-4.1.4-multi-parse-fix.patch;patch:autofs-4.1.4-non-replicated-ping.patch;patch:autofs-4.1.4-locking-fix-1.patch;patch:autofs-4.1.4-cross.patch;patch:autofs-4.1.4-Makefile.rules-cross.patch;patch:autofs-4.1.4-install.patch;patch:autofs-4.1.4-auto.net-sort-option-fix.patch;patch:autofs-4.1.4-autofs-additional-distros.patch;patch:autofs-4.1.4-no-bash.patch;patch:autofs-4.1.4-autofs-add-hotplug.patch;patch:autofs-4.1.4-no_man.patch

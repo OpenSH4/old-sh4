@@ -1,0 +1,12 @@
+--- stm-target-gmp-orig.spec	2013-02-15 03:05:03.000000000 +0100
++++ stm-target-gmp.spec	2013-04-13 18:29:46.041651672 +0200
+@@ -60,9 +60,6 @@
+ %else
+ %if_target_cpu sh
+ %target_configure --enable-cxx 
+-%else
+-%target_configure 
+-%endif
+ %endif
+ %pmake
+ 

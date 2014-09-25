@@ -1843,13 +1843,18 @@ $(DEPDIR)/%zope_interface: $(DEPDIR)/zope_interface.do_compile
 #
 # GSTREAMER
 #
+
 $(DEPDIR)/gstreamer.do_prepare: bootstrap glib2 libxml2 @DEPENDS_gstreamer@
 	@PREPARE_gstreamer@
 	touch $@
 
 $(DEPDIR)/gstreamer.do_compile: $(DEPDIR)/gstreamer.do_prepare
+	Bison3=$$(bison --version | grep "3\." >/dev/null 2>/dev/null)$$?; \ 
 	export PATH=$(hostprefix)/bin:$(PATH) && \
 	cd @DIR_gstreamer@ && \
+	if [[ $$Bison3 -eq 0 ]]; then \
+	patch -p1 < $(buildprefix)/Patches/gstreamer-0.10-newos.diff; \
+	fi && \
 	autoreconf --verbose --force --install -I$(hostprefix)/share/aclocal && \
 	$(BUILDENV) \
 	./configure \
