@@ -286,9 +286,13 @@ class MerlinDownloadBrowser(Screen):
 			elif x.status == 1:
 				pngstatus = installedIcon
 			elif x.status == 2:
+				updatelist = []
+				for updatename in self.pluginlist:
+					if updatename.status == 2:
+						updatelist.append(updatename.name + '\n')
 				if self.msgstate == 1:
 					self.msgstate = 0
-					self.session.openWithCallback(self.callMsg, MessageBox, _("Es sind Updates verfuegbar !!!\nWollen Sie alle Installierten Plugins Updaten\nsofern Updates fuer diese Verfuegbar sind ?\n\nAnschliessend ist ein Gui Neustart noetig um die Plugins neu zu laden !!!\n"), MessageBox.TYPE_YESNO)
+					self.session.openWithCallback(self.callMsg, MessageBox, _("Es sind Updates verfuegbar !!!\nWollen Sie alle Installierten Plugins Updaten\nsofern Updates fuer diese Verfuegbar sind ?\nAnschliessend ist ein Gui Neustart noetig um die Plugins neu zu laden !!!\nUpdatebare Plugins:\n%s" % str(updatelist).split('[')[1].split(']')[0].replace(",","").replace("'","").replace(" ","")), MessageBox.TYPE_YESNO)
 				pngstatus = updateIcon
 			else:
 				pngstatus = None
