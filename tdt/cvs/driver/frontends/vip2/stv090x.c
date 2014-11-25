@@ -4557,57 +4557,106 @@ err:
 /* core zum stv090x verursacht ein segment fault ...    */
 /* Die Zahlen 5,7,2 und 0 entsprechen dem Shiftregister */
 
+  /* If config->Tuner_Status 1 = Dual
+   * if config->Tuner_Status 2 = Single Slot A
+   * if config->Tuner_Status 3 = Single Slot B */
+
 enum { VOLTAGE_13 = 1, VOLTAGE_18  = 0 };
 enum { VOLTAGE_ON = 1, VOLTAGE_OFF = 0 };
 
 int stv090x_set_voltage(struct dvb_frontend *fe, fe_sec_voltage_t voltage)
 {
-	switch (voltage) {
-	case SEC_VOLTAGE_13:
-		if (fe->id == 0) {
-			printk("frontend %d: set_voltage_vertical (A) \n", fe->id);
-        		hc595_out (5, VOLTAGE_ON);
-        		hc595_out (7, VOLTAGE_13);
-			break;
-		} else if (fe->id == 1) {
-			printk("frontend %d: set_voltage_vertical (B) \n", fe->id);
-        		hc595_out (2, VOLTAGE_ON);
-        		hc595_out (0, VOLTAGE_13);
-			break;
-		} else {
-			printk("frontend %d: Kann keinen V Switch verwenden \n", fe->id);
-		}
-	case SEC_VOLTAGE_18:
-		if (fe->id == 0) {
-        		printk("frontend %d: set_voltage_horizontal (A) \n", fe->id);
-	        	hc595_out (5, VOLTAGE_ON);
-	        	hc595_out (7, VOLTAGE_18);
-			break;
-		} else if (fe->id == 1) {
-	        	printk("frontend %d: set_voltage_horizontal (B) \n", fe->id);
-	        	hc595_out (2, VOLTAGE_ON);
-	        	hc595_out (0, VOLTAGE_18);
-			break;
-		} else {
-			printk("frontend %d: Kann keinen H Switch verwenden \n", fe->id);
-		}
-	case SEC_VOLTAGE_OFF:
-		if (fe->id == 0) {
-	        	printk("frontend %d: set_voltage_off (A) \n", fe->id);
-	        	hc595_out (5, VOLTAGE_OFF);
-			break;
-		} else if (fe->id == 1) {
-	        	printk("frontend %d: set_voltage_off (B)\n", fe->id);
-	        	hc595_out (2, VOLTAGE_OFF);
-			break;
-		} else {
-			printk("frontend %d: Kann nicht deaktiviert werden \n", fe->id);
-		}
-	default:
-		printk("frontend %d: Set default... \n", fe->id);
-		return -EINVAL;
-	}
+	struct stv090x_state *state = fe->demodulator_priv;
+	const struct stv090x_config *config = state->config;
 
+	printk("------> frontend %d: Tuner_Slot_Status = %d\n", fe->id, config->Tuner_Status);
+	if (config->Tuner_Status == 1) {
+	  	switch (voltage) {
+		case SEC_VOLTAGE_13:
+			if (fe->id == 0) {
+				printk("frontend %d: set_voltage_vertical (A) \n", fe->id);
+				hc595_out (5, VOLTAGE_ON);
+				hc595_out (7, VOLTAGE_13);
+				break;
+			} else if (fe->id == 1) {
+				printk("frontend %d: set_voltage_vertical (B) \n", fe->id);
+				hc595_out (2, VOLTAGE_ON);
+				hc595_out (0, VOLTAGE_13);
+				break;
+			} else {
+				printk("frontend %d: Kann keinen V Switch verwenden \n", fe->id);
+			}
+		case SEC_VOLTAGE_18:
+			if (fe->id == 0) {
+				printk("frontend %d: set_voltage_horizontal (A) \n", fe->id);
+				hc595_out (5, VOLTAGE_ON);
+				hc595_out (7, VOLTAGE_18);
+				break;
+			} else if (fe->id == 1) {
+				printk("frontend %d: set_voltage_horizontal (B) \n", fe->id);
+				hc595_out (2, VOLTAGE_ON);
+				hc595_out (0, VOLTAGE_18);
+				break;
+			} else {
+				printk("frontend %d: Kann keinen H Switch verwenden \n", fe->id);
+			}
+		case SEC_VOLTAGE_OFF:
+			if (fe->id == 0) {
+				printk("frontend %d: set_voltage_off (A) \n", fe->id);
+				hc595_out (5, VOLTAGE_OFF);
+				break;
+			} else if (fe->id == 1) {
+				printk("frontend %d: set_voltage_off (B)\n", fe->id);
+				hc595_out (2, VOLTAGE_OFF);
+				break;
+			} else {
+				printk("frontend %d: Kann nicht deaktiviert werden \n", fe->id);
+			}
+		default:
+			printk("frontend %d: Set default... \n", fe->id);
+			return -EINVAL;
+		}
+	} else if (config->Tuner_Status == 2) {
+	  	switch (voltage) {
+		case SEC_VOLTAGE_13:
+			printk("frontend %d: set_voltage_vertical (A) \n", fe->id);
+			hc595_out (5, VOLTAGE_ON);
+			hc595_out (7, VOLTAGE_13);
+			break;
+		case SEC_VOLTAGE_18:
+			printk("frontend %d: set_voltage_horizontal (A) \n", fe->id);
+			hc595_out (5, VOLTAGE_ON);
+			hc595_out (7, VOLTAGE_18);
+			break;
+		case SEC_VOLTAGE_OFF:
+			printk("frontend %d: set_voltage_off (A) \n", fe->id);
+			hc595_out (5, VOLTAGE_OFF);
+			break;
+		default:
+			printk("frontend %d: Set default... \n", fe->id);
+			return -EINVAL;
+		}
+	} else if (config->Tuner_Status == 3) {
+	  	switch (voltage) {
+		case SEC_VOLTAGE_13:
+			printk("frontend %d: set_voltage_vertical (B) \n", fe->id);
+			hc595_out (2, VOLTAGE_ON);
+			hc595_out (0, VOLTAGE_13);
+			break;
+		case SEC_VOLTAGE_18:
+			printk("frontend %d: set_voltage_horizontal (B) \n", fe->id);
+			hc595_out (2, VOLTAGE_ON);
+			hc595_out (0, VOLTAGE_18);
+			break;
+		case SEC_VOLTAGE_OFF:
+			printk("frontend %d: set_voltage_off (B)\n", fe->id);
+			hc595_out (2, VOLTAGE_OFF);
+			break;
+		default:
+			printk("frontend %d: Set default... \n", fe->id);
+			return -EINVAL;
+		} 
+	}
 	return 0;
 }
 
@@ -5450,6 +5499,7 @@ struct dvb_frontend *stv090x_attach(const struct stv090x_config *config,
 	state->demod_mode 			= config->demod_mode; /* Single or Dual mode */
 	state->device				= config->device;
 	state->rolloff				= STV090x_RO_35; /* default */
+	
 
 	temp_int = find_dev(state->i2c,
 				state->config->address);

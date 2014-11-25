@@ -131,6 +131,8 @@ static struct stv090x_config stv090x_config = {
 	.ts2_mode		= STV090x_TSMODE_DVBCI/*STV090x_TSMODE_PARALLEL_PUNCTURED*//*STV090x_TSMODE_SERIAL_CONTINUOUS*/,
 	.ts1_clk		= 0,
 	.ts2_clk		= 0,
+	
+	.Tuner_Status		= NULL,
 
 	.repeater_level	= STV090x_RPTLEVEL_16,
 	.tuner_init				= NULL,
@@ -202,6 +204,7 @@ static struct dvb_frontend *frontend_get_by_type(struct core_config *cfg, int iD
 							stv090x_config.tuner_set_bandwidth 	= ix7306_set_bandwidth;
 							stv090x_config.tuner_get_bandwidth 	= ix7306_get_bandwidth;
 							stv090x_config.tuner_get_status	  	= ix7306_get_status;
+							stv090x_config.Tuner_Status	  	= cfg->Status;
 						}
 						else
 						{
@@ -323,12 +326,31 @@ static struct dvb_frontend * frontend_init(struct core_config *cfg, int i)
 	return frontend;
 }
 
+static int i2c_tunerdetect (struct i2c_adapter *adapter, unsigned char i2c_addr, unsigned char dev_addr)
+{
+  	unsigned char buf[2] = { 0, 0 };
+  	struct i2c_msg msg[] = { 
+		{ .addr = i2c_addr, .flags = 0, .buf = &dev_addr, .len = 1 },
+		{ .addr = i2c_addr, .flags = I2C_M_RD, .buf = &buf[0], .len = 1 } 
+	};
+  	int b;
+
+  	b = i2c_transfer(adapter,msg,1);
+  	b |= i2c_transfer(adapter,msg+1,1);
+
+  	if (b != 1) 
+		return -1;
+
+  	return buf[0];
+}
+
 static struct dvb_frontend *init_fe_device (struct dvb_adapter *adapter,
                      struct tuner_config *tuner_cfg, int i)
 {
   struct fe_core_state *state;
   struct dvb_frontend *frontend;
   struct core_config *cfg;
+  struct stv090x_config *stv090x_cfg;
 
   printk ("> (bus = %d) %s\n", tuner_cfg->i2c_bus,__FUNCTION__);
 
@@ -363,7 +385,30 @@ static struct dvb_frontend *init_fe_device (struct dvb_adapter *adapter,
   hc595_out (tuner_cfg->fe_rst_tuner_b, 1);
   /* Wait for PLL to stabilize */
   msleep(50);
-
+  
+  /* Ist 0x68 auf Bus 0 vorhanden setzen wir 1 */
+  if(i2c_tunerdetect(cfg->i2c_adap, SharpS2, 0x0) != -1 ) {
+	cfg->Bus0 = 1;
+  } else {
+	cfg->Bus0 = 0;
+  }
+  /* Ist 0x68 auf Bus 1 vorhanden setzen wir 1 
+     If Status 1 = Dual, if Status 2 = Single Slot A
+     if Status 3 = Single Slot B
+  */
+  if(i2c_tunerdetect(cfg->i2c_adap, SharpS2, 0x0) != -1 ) {
+	cfg->Bus1 = 1;
+  } else {
+	cfg->Bus1 = 0;
+  }
+  if ((cfg->Bus0 == 1) && (cfg->Bus1 == 1)) {
+	cfg->Status = 1;
+  } else if ((cfg->Bus0 == 1) && (cfg->Bus1 == 0)) {
+	cfg->Status = 2;
+  } else if ((cfg->Bus0 == 0) && (cfg->Bus1 == 1)) {
+	cfg->Status = 3;
+  }
+  printk ("---------> TunerStatus is Set to %d\n", cfg->Status,__FUNCTION__);
   /*
    * PLL state should be stable now. Ideally, we should check
    * for PLL LOCK status. But well, never mind!
@@ -375,7 +420,7 @@ static struct dvb_frontend *init_fe_device (struct dvb_adapter *adapter,
 	printk("No frontend found !\n");
     return NULL;
   }
-
+  
   printk (KERN_INFO "%s: Call dvb_register_frontend (adapter = 0x%x)\n",
            __FUNCTION__, (unsigned int) adapter);
 

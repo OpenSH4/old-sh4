@@ -31,6 +31,8 @@
 #define MAX_DVB_ADAPTERS 4
 #define MAX_TUNERS_PER_ADAPTER 4
 
+#define SharpS2			0x68	// SharpS2 Tuner I2C Adresse auf Bus 1 und/oder Bus2 (Vip2 und/oder Vip1v2)
+
 struct tuner_config
 {
 	int adapter; /* DVB adapter number */
@@ -62,7 +64,9 @@ struct core_config
 	u8 			addr;     /* i2c address of the tuner */
 	u8			vertical; /* i2c value */
 	u8			horizontal; /* i2c value */
-
+	int 			Bus0;
+	int 			Bus1;
+	u8 			Status;
 };
 
 struct fe_core_state {

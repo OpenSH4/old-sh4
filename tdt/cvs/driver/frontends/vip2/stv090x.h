@@ -77,6 +77,7 @@ struct stv090x_config {
 	u8 ts2_mode;
 	u32 ts1_clk;
 	u32 ts2_clk;
+	u8 Tuner_Status;
 
 	enum stv090x_i2crpt	repeater_level;
 
@@ -96,6 +97,10 @@ struct stv090x_config {
 	int (*tuner_get_bbgain) (struct dvb_frontend *fe, u32 *gain);
 	int (*tuner_set_refclk)  (struct dvb_frontend *fe, u32 refclk);
 	int (*tuner_get_status) (struct dvb_frontend *fe, u32 *status);
+};
+
+struct stv090x_status {
+	u8 NewState
 };
 
 
