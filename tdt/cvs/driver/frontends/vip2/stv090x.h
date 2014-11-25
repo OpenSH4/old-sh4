@@ -99,10 +99,6 @@ struct stv090x_config {
 	int (*tuner_get_status) (struct dvb_frontend *fe, u32 *status);
 };
 
-struct stv090x_status {
-	u8 NewState
-};
-
 
 extern struct dvb_frontend *stv090x_attach(const struct stv090x_config *config,
 					   struct i2c_adapter *i2c,

@@ -350,7 +350,6 @@ static struct dvb_frontend *init_fe_device (struct dvb_adapter *adapter,
   struct fe_core_state *state;
   struct dvb_frontend *frontend;
   struct core_config *cfg;
-  struct stv090x_config *stv090x_cfg;
 
   printk ("> (bus = %d) %s\n", tuner_cfg->i2c_bus,__FUNCTION__);
 
