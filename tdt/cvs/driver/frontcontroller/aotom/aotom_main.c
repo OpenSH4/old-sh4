@@ -45,6 +45,12 @@
 #include <linux/poll.h>
 #include <linux/workqueue.h>
 
+/* for rtc / reboot_notifier hooks */
+#include <linux/notifier.h>
+#include <linux/reboot.h>
+#include <linux/rtc.h>
+#include <linux/platform_device.h>
+
 #include "aotom_main.h"
 #include "utf.h"
 
@@ -64,6 +70,8 @@ if ((paramDebug) && (paramDebug > level)) printk(TAGDEBUG x); \
 #define KEY_PRESS_UP      0
 
 static char *gmt = "+0000";
+
+static int open_count = 0;
 
 short I2C_bus_num = I2C_BUS_NUM;		/* allow override of I2C Bus for Frontcontroller */
 short I2C_bus_add = I2C_BUS_ADD;		/* allow override of I2C Address for Frontcontroller */
@@ -105,6 +113,11 @@ static int receiveCount = 0;
 static struct semaphore 	   write_sem;
 static struct semaphore 	   receive_sem;
 static struct semaphore 	   draw_thread_sem;
+
+#define RTC_NAME "aotom-rtc"
+static struct platform_device *rtc_pdev;
+
+extern YWPANEL_Version_t panel_version;
 
 unsigned char ASCII[48][2] =
 {
@@ -553,18 +566,22 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 		if (copy_from_user(&aotom_data, (void *) arg, sizeof(aotom_data)))
 			return -EFAULT;
 	}
-
 	switch(cmd) {
 	case VFDSETMODE:
 		mode = aotom_data.u.mode.compat;
 		break;
 	case VFDSETLED:
+		vfd_data.length = 0;
+		res = run_draw_thread(&vfd_data);
+		break;
+#if 0
 		if (aotom_data.u.onoff.level < 0)
 			aotom_data.u.onoff.level = 0;
 		else if (aotom_data.u.onoff.level > 1)
 			aotom_data.u.onoff.level = 1;
 		res = aotomPOWER(aotom_data.u.onoff.level);
 		break;
+#endif
 	case VFDBRIGHTNESS:
 		if (aotom_data.u.brightness.level < 0)
 			aotom_data.u.brightness.level = 0;
@@ -574,25 +591,7 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 		break;
 	case VFDICONDISPLAYONOFF:
 	{
-#if defined(SPARK)
-		switch (aotom_data.u.icon.icon_nr) {
-		case 0:
-			res = YWPANEL_VFD_SetLed(LED_RED, aotom_data.u.icon.on);
-			led_state[LED_RED].state = aotom_data.u.icon.on;
-			break;
-		case 35:
-			res = YWPANEL_VFD_SetLed(LED_GREEN, aotom_data.u.icon.on);
-			led_state[LED_GREEN].state = aotom_data.u.icon.on;
-			break;
-		default:
-			break;
-		}
-#endif
-//Use for HL101, this Aktivate Display Icons
-//#if defined(SPARK7162)
 		icon_nr = aotom_data.u.icon.icon_nr;
-		//e2 icons workarround
-		//printk("icon_nr = %d\n", icon_nr);
 		if (icon_nr >= 256) {
 			icon_nr = icon_nr / 256;
 			switch (icon_nr) {
@@ -644,45 +643,20 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 			default:
 				break;
 			}
-		}
-//#endif		
+		}		
 		mode = 0;
 		break;
 	}
 	case VFDSTANDBY:
 	{
-//#if defined(SPARK) || defined(SPARK7162)
 		u32 uTime = 0;
-		//u32 uStandByKey = 0;
-		//u32 uPowerOnTime = 0;
 		get_user(uTime, (int *) arg);
-		//printk("uTime = %d\n", uTime);
-
-		//uPowerOnTime = YWPANEL_FP_GetPowerOnTime();
-		//printk("1uPowerOnTime = %d\n", uPowerOnTime);
-
 		YWPANEL_FP_SetPowerOnTime(uTime);
-
-		//uPowerOnTime = YWPANEL_FP_GetPowerOnTime();
-		//printk("2uPowerOnTime = %d\n", uPowerOnTime);
-		#if 0
-		uStandByKey = YWPANEL_FP_GetStandByKey(0);
-		printk("uStandByKey = %d\n", uStandByKey);
-		uStandByKey = YWPANEL_FP_GetStandByKey(1);
-		printk("uStandByKey = %d\n", uStandByKey);
-		uStandByKey = YWPANEL_FP_GetStandByKey(2);
-		printk("uStandByKey = %d\n", uStandByKey);
-		uStandByKey = YWPANEL_FP_GetStandByKey(3);
-		printk("uStandByKey = %d\n", uStandByKey);
-		uStandByKey = YWPANEL_FP_GetStandByKey(4);
-		printk("uStandByKey = %d\n", uStandByKey);
-		#endif
-		VFD_clear_all_icons();
+		//VFD_clear_all_icons();
 		clear_display();
 		YWPANEL_FP_ControlTimer(true);
 		YWPANEL_FP_SetCpuStatus(YWPANEL_CPUSTATE_STANDBY);
 		res = 0;
-//#endif
 		break;
 	}
 	case VFDSETTIME2:
@@ -701,12 +675,9 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 		break;
 	case VFDGETTIME:
 	{
-//#if defined(SPARK) || defined(SPARK7162)
 		u32 uTime = 0;
 		uTime = YWPANEL_FP_GetTime();
-		//printk("uTime = %d\n", uTime);
 		res = put_user(uTime, (int *) arg);
-//#endif
 		break;
 	}
 	case VFDGETWAKEUPMODE:
@@ -730,16 +701,12 @@ static int AOTOMdev_ioctl(struct inode *Inode, struct file *File, unsigned int c
 		vfd_data.length = 0;
 		res = run_draw_thread(&vfd_data);
 		break;
-#if defined(SPARK)
-	case 0x5305:
-		res = 0;
-		break;
-#endif
 	case 0x5401:
 		res = 0;
 		break;
 	case VFDGETSTARTUPSTATE:
 	{
+		VFD_Show_Ico(DOT2,LOG_ON);
 		YWPANEL_STARTUPSTATE_t State;
 		if (YWPANEL_FP_GetStartUpState(&State))
 			res = put_user(State, (int *) arg);
@@ -908,6 +875,108 @@ void button_dev_exit(void)
 	input_unregister_device(button_dev);
 }
 
+static int aotom_reboot_event(struct notifier_block *nb, unsigned long event, void *ptr)
+{
+	switch(event) {
+		case SYS_POWER_OFF:
+			YWPANEL_VFD_ShowString("POWEROFF");
+			break;
+		case SYS_HALT:
+			YWPANEL_VFD_ShowString("HALT");
+			break;
+		default:
+			YWPANEL_VFD_ShowString("REBOOT");
+			return NOTIFY_DONE;
+	}
+	msleep(1000);
+	clear_display();
+	YWPANEL_FP_ControlTimer(true);
+	YWPANEL_FP_SetCpuStatus(YWPANEL_CPUSTATE_STANDBY);
+	return NOTIFY_DONE;
+};
+
+static struct notifier_block aotom_reboot_block = {
+	.notifier_call = aotom_reboot_event,
+	.priority = INT_MAX,
+};
+
+static int aotom_rtc_read_time(struct device *dev, struct rtc_time *tm)
+{
+	u32 uTime = 0;
+	//printk("%s\n", __func__);
+	uTime = YWPANEL_FP_GetTime();
+	rtc_time_to_tm(uTime, tm);
+	return 0;
+}
+
+static int tm2time(struct rtc_time *tm)
+{
+	return mktime(tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec);
+}
+
+static int aotom_rtc_set_time(struct device *dev, struct rtc_time *tm)
+{
+	int res = 0;
+	//printk("%s\n", __func__);
+	u32 uTime = tm2time(tm);
+	res = YWPANEL_FP_SetTime(uTime);
+	YWPANEL_FP_ControlTimer(true);
+	return res;
+}
+
+static int aotom_rtc_read_alarm(struct device *dev, struct rtc_wkalrm *al)
+{
+	return 0;
+}
+
+static int aotom_rtc_set_alarm(struct device *dev, struct rtc_wkalrm *al)
+{
+	u32 a_time = 0;
+	if (al->enabled)
+		a_time = tm2time(&al->time);
+	printk(KERN_INFO "%s enabled:%d time: %d\n", __func__, al->enabled, a_time);
+	YWPANEL_FP_SetPowerOnTime(a_time);
+	return 0;
+}
+
+static const struct rtc_class_ops aotom_rtc_ops = {
+	.read_time = aotom_rtc_read_time,
+	.set_time = aotom_rtc_set_time,
+	.read_alarm = aotom_rtc_read_alarm,
+	.set_alarm = aotom_rtc_set_alarm,
+};
+
+static int __devinit aotom_rtc_probe(struct platform_device *pdev)
+{
+	struct rtc_device *rtc;
+	/* I have no idea where the pdev comes from, but it needs the can_wakeup = 1
+	* otherwise we don't get the wakealarm sysfs attribute... :-) */
+	pdev->dev.power.can_wakeup = 1;
+	rtc = rtc_device_register("aotom", &pdev->dev, &aotom_rtc_ops, THIS_MODULE);
+	printk(KERN_DEBUG "%s %p\n", __func__, rtc);
+	if (IS_ERR(rtc))
+		return PTR_ERR(rtc);
+	printk(KERN_DEBUG "%s 2\n", __func__);
+	platform_set_drvdata(pdev, rtc);
+	return 0;
+}
+static int __devexit aotom_rtc_remove(struct platform_device *pdev)
+{
+	struct rtc_device *rtc = platform_get_drvdata(pdev);
+	printk(KERN_DEBUG "%s %p\n", __func__, rtc);
+	rtc_device_unregister(rtc);
+	platform_set_drvdata(pdev, NULL);
+	return 0;
+}
+static struct platform_driver aotom_rtc_driver = {
+	.probe = aotom_rtc_probe,
+	.remove = __devexit_p(aotom_rtc_remove),
+	.driver = {
+		.name = RTC_NAME,
+		.owner = THIS_MODULE,
+	},
+};
+
 static int __init aotom_init_module(void)
 {
 	int i;
@@ -946,6 +1015,15 @@ static int __init aotom_init_module(void)
 		led_state[i].led_task = kthread_run(led_thread, (void *) i, "led thread");
 	}
 
+	register_reboot_notifier(&aotom_reboot_block);
+	i = platform_driver_register(&aotom_rtc_driver);
+	if (i)
+		printk(KERN_ERR "%s platform_driver_register failed: %d\n", __func__, i);
+	else
+		rtc_pdev = platform_device_register_simple(RTC_NAME, -1, NULL, 0);
+	
+	if (IS_ERR(rtc_pdev))
+		printk(KERN_ERR "%s platform_device_register_simple failed: %ld\n",__func__, PTR_ERR(rtc_pdev));
 
 	dprintk(5, "%s <\n", __func__);
 
@@ -965,6 +1043,11 @@ static void __exit aotom_cleanup_module(void)
 {
 	int i;
 
+	unregister_reboot_notifier(&aotom_reboot_block);
+	platform_driver_unregister(&aotom_rtc_driver);
+	platform_set_drvdata(rtc_pdev, NULL);
+	platform_device_unregister(rtc_pdev);
+	
 	if(!draw_thread_stop && draw_task)
 		kthread_stop(draw_task);
 
