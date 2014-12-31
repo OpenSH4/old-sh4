@@ -110,7 +110,9 @@ SCI_ERROR sci_set_para(SCI_CONTROL_BLOCK *sci, SCI_PARAMETERS *p_sci_parameters)
         rc = sci_set_para_T    (sci, p_sci_parameters);
         rc = sci_set_para_f    (sci, p_sci_parameters);
         rc = sci_set_para_ETU  (sci, p_sci_parameters);
-        rc = sci_set_para_WWT  (sci, p_sci_parameters);
+	/* Disable set WWT, this break the V14 Card Init ;)
+	 * so works fine :D, FIXED V14 Card INIT */
+        //rc = sci_set_para_WWT  (sci, p_sci_parameters);
         rc = sci_set_para_CWT  (sci, p_sci_parameters);
         rc = sci_set_para_BWT  (sci, p_sci_parameters);
         rc = sci_set_para_EGT  (sci, p_sci_parameters);

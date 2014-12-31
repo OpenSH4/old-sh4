@@ -504,9 +504,9 @@ INT smartcard_voltage_config(SCI_CONTROL_BLOCK *sci, UINT vcc)
 
     if (sci->id == 0)
     {
-	#if 0
         if (vcc == SCI_VCC_3)
         {
+	    printk("vcc = 3 -> Set ClassB");
             sci->sci_atr_class=SCI_CLASS_B;
 #if !defined(SUPPORT_NO_VOLTAGE)
 #if !defined(SPARK) && !defined(HL101) && !defined(ATEVIO7500) && !defined(ADB_BOX) && !defined(VITAMIN_HD5000)  // no votage control
@@ -516,6 +516,7 @@ INT smartcard_voltage_config(SCI_CONTROL_BLOCK *sci, UINT vcc)
         }
         else if (vcc == SCI_VCC_5)
         {
+	    printk("vcc = 5 -> Set ClassA");
             sci->sci_atr_class=SCI_CLASS_A;
 #if !defined(SUPPORT_NO_VOLTAGE)
 #if !defined(SPARK) && !defined(HL101) && !defined(ATEVIO7500) && !defined(ADB_BOX) && !defined(VITAMIN_HD5000)  // no votage control
@@ -525,8 +526,9 @@ INT smartcard_voltage_config(SCI_CONTROL_BLOCK *sci, UINT vcc)
         }
         else
         {
+	    printk("vcc = error -> Set ClassAB");
             PERROR("Invalid Vcc value '%d', set Vcc 5V", vcc);
-            sci->sci_atr_class=SCI_CLASS_A;
+            sci->sci_atr_class=SCI_CLASS_AB;
 #if !defined(SUPPORT_NO_VOLTAGE)
 #if !defined(SPARK) && !defined(HL101) && !defined(ATEVIO7500) && !defined(ADB_BOX) // no votage control
             set_reg_writeonly(sci, BASE_ADDRESS_PIO4, PIO_SET_P4OUT, 0x40);
@@ -534,14 +536,13 @@ INT smartcard_voltage_config(SCI_CONTROL_BLOCK *sci, UINT vcc)
 #endif
             return SCI_ERROR_VCC_INVALID;
         }
-	#endif
-	sci->sci_atr_class=SCI_CLASS_AB;
+//	sci->sci_atr_class=SCI_CLASS_AB;
     }
     else if (sci->id == 1)
     {
-	#if 0
         if (vcc == SCI_VCC_3)
         {
+	  printk("vcc = 3 -> Set ClassB");
 			sci->sci_atr_class=SCI_CLASS_B;
 #if !defined(SUPPORT_NO_VOLTAGE)
 #if !defined(SPARK) && !defined(HL101) && !defined(ATEVIO7500) && !defined(ADB_BOX)  // no votage control
@@ -552,6 +553,7 @@ INT smartcard_voltage_config(SCI_CONTROL_BLOCK *sci, UINT vcc)
         }
         else if (vcc == SCI_VCC_5)
         {
+	    printk("vcc = 5 -> Set ClassA");
 			sci->sci_atr_class=SCI_CLASS_A;
 #if !defined(SUPPORT_NO_VOLTAGE)
 #if !defined(SPARK) && !defined(HL101) && !defined(ATEVIO7500) && !defined(ADB_BOX)  // no votage control
@@ -561,8 +563,9 @@ INT smartcard_voltage_config(SCI_CONTROL_BLOCK *sci, UINT vcc)
         }
         else 
         {
+	  printk("vcc = error -> Set ClassAB");
             PERROR("Invalid Vcc value '%d', set Vcc 5V", vcc);
-            sci->sci_atr_class=SCI_CLASS_A;
+            sci->sci_atr_class=SCI_CLASS_AB;
 #if !defined(SUPPORT_NO_VOLTAGE)
 #if !defined(SPARK) && !defined(HL101) && !defined(ATEVIO7500) && !defined(ADB_BOX)  // no votage control
             set_reg_writeonly(sci, BASE_ADDRESS_PIO3, PIO_CLR_P3OUT, 0x40);
@@ -570,8 +573,7 @@ INT smartcard_voltage_config(SCI_CONTROL_BLOCK *sci, UINT vcc)
 #endif
             return SCI_ERROR_VCC_INVALID;
         }
-	#endif
-	sci->sci_atr_class=SCI_CLASS_AB;
+	//sci->sci_atr_class=SCI_CLASS_AB;
     }
     else
     {
@@ -1269,21 +1271,22 @@ static int SCI_ClockDisable(SCI_CONTROL_BLOCK *sci)
 
 static int SCI_Set_Clock(SCI_CONTROL_BLOCK *sci)
 {
-	dprintk(1, "Setting clock to: %u.%02uMhz\n",
+	printk("Setting clock to: %u.%02uMhz\n",
 		       sci->clk/100, sci->clk % 100);
 
 	U32 val;
 	U32 reg_address;
 
 	U32 clkg = (U32)SCI_CLK_GLOBAL;
-	U32 clkdiv = clkg/(2*10000*(sci->clk-1)); 	//SCI_CLK_GLOBAL/(2*clk)
+	U32 clkdiv = (clkg/(2*10000*(sci->clk-1))); 	//SCI_CLK_GLOBAL/(2*clk)
 
 	if((clkdiv > 0) && (clkdiv < 0x1F))
 		val = clkdiv;
 	else
-		val = 0x0e;  /* 3.578 Mhz */
+		val = 0x0e;  /* 3.578 Mhz <- und/oder 3.69 Mhz*/
 
-	dprintk(2, "clkdiv = 0x%02X\n", val);
+
+	//printk("clkdiv = 0x%02X\n", val);
 
 	reg_address = (U32)checked_ioremap(sci->base_address_sci, 4); // SCI_n_CLK_VAL
 	if(!reg_address)
@@ -2317,7 +2320,7 @@ int sci_ioctl(struct inode *inode,
 
             if (sci_set_parameters(sci, &sci_param) == SCI_ERROR_OK){
                 rc = 0;
-		dprintk(1, "f is set to %lu\n", sci_param.f);
+		printk("f is set to %lu\n", sci_param.f);
 		switch(sci_param.f){
 			case 3:
 				smartcard_clock_config(sci,357);
