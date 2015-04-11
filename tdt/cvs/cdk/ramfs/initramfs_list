@@ -46,15 +46,10 @@ file  /sbin/tune2fs	../ramfs/bin/tune2fs 	0755 0 0
 file  /sbin/mke2fs	../ramfs/bin/mke2fs 	0755 0 0
 file  /sbin/sfdisk	../ramfs/bin/sfdisk 	0755 0 0
 file  /install/install.sh	../ramfs/install.sh 	0755 0 0
-file  /install/online.sh	../ramfs/online.sh 	0755 0 0
 file  /install/update.sh	../ramfs/update.sh 	0755 0 0
-file  /usr/share/udhcpc/default.script ../ramfs/default.script		0777 0 0
-file  /etc/resolv.conf		../ramfs/resolv.conf 	0777 0 0
 # Das sind nodebug Kernel p0211 Module zum Aktuellen Kernel
 file /drvko/aotom.ko		../ramfs/aotom.ko	0755 0 0
 file /drvko/aotom_vip1.ko	../ramfs/aotom_vip1.ko	0755 0 0
-file /etc/network/interfaces	../ramfs/interfaces	0755 0 0
-file /etc/network/options	../ramfs/options	0755 0 0
 slink /bin/sh busybox 				777 0 0
 slink /bin/echo		/bin/busybox		0777 0 0
 slink /bin/ash		/bin/busybox		0777 0 0

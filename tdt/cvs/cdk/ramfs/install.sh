@@ -88,7 +88,7 @@ FORMAT=`cat /rootfs/install`
 	,128,S
 	,,L
 	;
-	EOF
+EOF
 	echo "done"
 	echo "Format ALL" > /dev/vfd
 	echo "Formatiere Partitionen"

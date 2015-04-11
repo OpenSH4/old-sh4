@@ -143,5 +143,5 @@ fi
 
 #This will only be run if the exec above failed
 echo "Failed to switch_root, dropping to a shell"
-echo "Shell_run" > /dev/vfd
+echo "USB ERR" > /dev/vfd
 exec sh
